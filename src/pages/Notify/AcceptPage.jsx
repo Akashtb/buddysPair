@@ -1,8 +1,10 @@
     // src/pages/AcceptPage.js
+
+import Header from '../../components/NotifyComponents/Header';
+import Navbar from '../../components/NotifyComponents/Navbar';
+import UserCard from '../../components/NotifyComponents/UserCard';
 import './AcceptPage.css';
-import Navbar from '../BuddysHome/Navbar';
-import UserCard from '../BuddysHome/UserCard';
-import Header from '../BuddysHome/Header';
+
 
 
 const AcceptPage = () => {

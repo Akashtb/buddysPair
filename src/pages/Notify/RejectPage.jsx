@@ -1,12 +1,12 @@
-// src/pages/ReceivedPage.js
-
-import './ReceivedPage.css';
-import Navbar from '../BuddysHome/Navbar';
-import UserCard from '../BuddysHome/UserCard';
-import Header from '../BuddysHome/Header';
+// src/pages/RejectPage.js
 
 
-const ReceivedPage = () => {
+import Header from '../../components/NotifyComponents/Header';
+import Navbar from '../../components/NotifyComponents/Navbar';
+import UserCard from '../../components/NotifyComponents/UserCard';
+import './RejectPage.css';
+
+const RejectPage = () => {
   const users = [
     { id: 1, name: 'Afrin Sabila', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
     { id: 2, name: 'Adil Adnan', status: 'Be your own hero 💪', avatar: 'assets/Images/propic1.jpg' },
@@ -19,23 +19,16 @@ const ReceivedPage = () => {
 
   return (
     <div className="container">
-           <Navbar />
-      <Header title="Received" />
+         <Navbar />
+      <Header title="Reject" />
       <div className="user-list">
         {users.map(user => (
-          <UserCard
-            key={user.id}
-            user={user}
-            actions={[
-              { className: 'accept-icon', icon: '❤️' },
-              { className: 'remove-icon', icon: '❌' },
-            ]}
-          />
+          <UserCard key={user.id} user={user} actions={[]} />
         ))}
       </div>
- 
+   
     </div>
   );
 };
 
-export default ReceivedPage;
+export default RejectPage;

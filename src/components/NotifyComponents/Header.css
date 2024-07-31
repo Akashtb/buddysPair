@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #66125f; /* Purple background color */
+  background-color:#5b1361; /* Purple background color */
   padding: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

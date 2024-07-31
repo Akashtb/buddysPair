@@ -12,7 +12,8 @@ const Navbar = () => {
             <Link to="/reject" className="navbar-item">Reject</Link>
             <Link to="/received" className="navbar-item">Received</Link>
             <Link to="/sent" className="navbar-item">Sent</Link>
-      <div className="nav-item">👤</div>
+            <Link to="/message" className="navbar-item">💬</Link>
+    
     </nav>
   );
 };

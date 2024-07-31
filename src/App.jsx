@@ -1,11 +1,14 @@
 // src/App.js
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+
 import './App.css';
-import SentPage from './pages/BuddyNotify/SentPage';
-import AcceptPage from './pages/BuddyNotify/AcceptPage';
-import RejectPage from './pages/BuddyNotify/RejectPage';
-import ReceivedPage from './pages/BuddyNotify/ReceivedPage';
+import SentPage from './pages/Notify/SentPage';
+import AcceptPage from './pages/Notify/AcceptPage';
+import RejectPage from './pages/Notify/RejectPage';
+import ReceivedPage from './pages/Notify/ReceivedPage';
+import Messages from './pages/Message/Messages';
+
 
 const App = () => {
   return (
@@ -17,7 +20,7 @@ const App = () => {
           <Route path="/accept" element={<AcceptPage />} />
           <Route path="/reject" element={<RejectPage />} />
           <Route path="/received" element={<ReceivedPage />} />
-      
+          <Route path="/message" element={<Messages />} />
         </Routes>
       </div>
     </Router>

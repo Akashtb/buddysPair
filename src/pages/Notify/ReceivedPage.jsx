@@ -1,11 +1,14 @@
-// src/pages/SentPage.js
+// src/pages/ReceivedPage.js
 
-import Navbar from '../BuddysHome/Navbar';
-import UserCard from '../BuddysHome/UserCard';
-import Header from '../BuddysHome/Header';
-import './SentPage.css';
 
-const SentPage = () => {
+import Header from '../../components/NotifyComponents/Header';
+import Navbar from '../../components/NotifyComponents/Navbar';
+import UserCard from '../../components/NotifyComponents/UserCard';
+import './ReceivedPage.css';
+
+
+
+const ReceivedPage = () => {
   const users = [
     { id: 1, name: 'Afrin Sabila', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
     { id: 2, name: 'Adil Adnan', status: 'Be your own hero 💪', avatar: 'assets/Images/propic1.jpg' },
@@ -18,16 +21,23 @@ const SentPage = () => {
 
   return (
     <div className="container">
-            <Navbar />
-      <Header title="Sent" />
+           <Navbar />
+      <Header title="Received" />
       <div className="user-list">
         {users.map(user => (
-          <UserCard key={user.id} user={user} actions={[{ className: 'remove-icon', icon: '❌' }]} />
+          <UserCard
+            key={user.id}
+            user={user}
+            actions={[
+              { className: 'accept-icon', icon: '❤️' },
+              { className: 'remove-icon', icon: '❌' },
+            ]}
+          />
         ))}
       </div>
-  
+ 
     </div>
   );
 };
 
-export default SentPage;
+export default ReceivedPage;

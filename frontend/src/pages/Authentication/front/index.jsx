@@ -34,7 +34,7 @@ const Front = () => {
             <button className="frontbtn1" onClick={respos}>
               Login with Google
             </button>
-            <img className="img13" src="\google_13170545.png" alt="" />
+            <img className="img13" src="\pages\Assets\AuthenticationImages\google_13170545.png" alt="" />
             <p className="p12">
               Don't have an account?{" "}
               <a href="" className="a1" onClick={Signup}>

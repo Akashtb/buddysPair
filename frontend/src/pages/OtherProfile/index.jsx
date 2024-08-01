@@ -57,7 +57,7 @@ const Other = () => {
       <div className="side4">
         <h1 className="Mypro">Matrimony</h1>
 
-        <img className="propic1" src="\profile3.jpeg" alt="" />
+        <img className="propic1" src="\pages\Assets\AuthenticationImages\profile3.jpeg" alt="" />
         {/* <button onClick={proBtn}>profile</button> */}
         {/* <h3 >Profile</h3> */}
 
@@ -80,8 +80,8 @@ const Other = () => {
       <div className="header4">
         <div className="image6">
           {/* <img className="img4" src="\profile2.jpeg" alt="" /> */}
-          <img className="arrow" src="\arrow1.png" alt="" />
-          <img className="img4" src="\profile5.jpeg" alt="" />
+          <img className="arrow" src="\pages\Assets\AuthenticationImages\arrow1.png" alt="" />
+          <img className="img4" src="\pages\Assets\AuthenticationImages\profile5.jpeg" alt="" />
           <div className="botImg">
             <br />
             <div className="name12">
@@ -89,14 +89,14 @@ const Other = () => {
               <h2> {data.reg && data.reg.age}</h2>
             </div>
             <h3>Location : {data.address}</h3>
-            <img src="/Match Percentage.svg" alt="" />
+            <img src="\pages\Assets\AuthenticationImages\Match Percentage.svg" alt="" />
           </div>
         </div>
         <div className="components">
           {/* <h1>halo</h1> */}
-          <img className="img122" src="\Button2.jpg" alt="" />
+          <img className="img122" src="\pages\Assets\AuthenticationImages\Button2.jpg" alt="" />
           <img src="\Button1.jpg" alt="" />
-          <img onClick={Hombtn} src="\Button.jpg" alt="" />
+          <img onClick={Hombtn} src="\pages\Assets\AuthenticationImages\Button.jpg" alt="" />
           <img
             onClick={() => Chat(data._id)}
             className="msg12"

@@ -17,7 +17,7 @@ const Front = () => {
   return (
     <div className="front">
       <div className="page1">
-        <img className="pageImg1" src="\Group.svg" alt="" />
+        <img className="pageImg1" src="\pages\Assets\AuthenticationImages\Group.svg" alt="" />
 
         <div className="pageBtn">
           {/* <div className="H123"></div> */}

@@ -48,3 +48,27 @@
   display: inline-block;
   font-size: 16px;
 }
+
+.verify {
+  width: 100px;
+  display: flex;
+  gap: 10px;
+}
+.v {
+  padding: 0 20px 0 20px;
+  width: 100px;
+  background-color: #6f6185;
+}
+.v1 {
+  padding: 0 15px 0 15px;
+  width: 200px;
+  background-color: #252329;
+}
+
+.otp {
+  margin-top: 20px;
+  width: 100px;
+  display: flex;
+  gap: 10px;
+  margin-left: -10px;
+}

@@ -3,11 +3,12 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
 import './App.css';
-import SentPage from './pages/Notify/SentPage';
-import AcceptPage from './pages/Notify/AcceptPage';
-import RejectPage from './pages/Notify/RejectPage';
-import ReceivedPage from './pages/Notify/ReceivedPage';
+
 import Messages from './pages/Message/Messages';
+import SentPage from './pages/Sent/SentPage';
+import AcceptPage from './pages/Accept/AcceptPage';
+import RejectPage from './pages/Reject/RejectPage';
+import ReceivedPage from './pages/Recieved/ReceivedPage';
 
 
 const App = () => {

@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './Messages.css';
-import Navbar from '../../components/NotifyComponents/Navbar';
+import Navbar from '../../components/NotifyNavbar/Navbar';
+
 
 const Messages = () => {
   const navigate = useNavigate();
@@ -9,12 +10,6 @@ const Messages = () => {
     navigate(-1); // Go back to the previous page
   };
 
-  const recentMatches = [
-    { id: 1, imgSrc: 'assets/Images/propic1.jpg' },
-    { id: 2, imgSrc: 'assets/Images/propic1.jpg' },
-    { id: 3, imgSrc: 'assets/Images/propic1.jpg' },
-    { id: 4, imgSrc: 'assets/Images/propic1.jpg' },
-  ];
 
   const messages = [
     { id: 1, name: 'Alfredo Calzoni', text: 'What about that new jacket if I ...', time: '09:18', imgSrc: 'assets/Images/propic1.jpg' },
@@ -29,18 +24,9 @@ const Messages = () => {
       <Navbar />
       <header className="messages-header">
         <span className="back-arrow" onClick={handleBack}>&lt;</span>
-        <h2 className="header-title">Messages</h2>
+        <h1 className="header-title">Messages</h1>
       </header>
-      <section className="recent-matches">
-        <h4>Recent Matches</h4>
-        <div className="matches">
-          {recentMatches.map(match => (
-            <div key={match.id} className="match">
-              <img src={match.imgSrc} alt={`Match ${match.id}`} />
-            </div>
-          ))}
-        </div>
-      </section>
+
       <section className="messages-list">
         {messages.map(message => (
           <div key={message.id} className="message-item">

@@ -1,12 +1,10 @@
-// src/pages/SentPage.js
+// src/pages/RejectPage.js
+import Header from '../../components/NotifyHeader/Header';
+import Navbar from '../../components/NotifyNavbar/Navbar';
+import UserCard from '../../components/NotifyUserCard/UserCard';
+import './RejectPage.css';
 
-
-import Header from '../../components/NotifyComponents/Header';
-import Navbar from '../../components/NotifyComponents/Navbar';
-import UserCard from '../../components/NotifyComponents/UserCard';
-import './SentPage.css';
-
-const SentPage = () => {
+const RejectPage = () => {
   const users = [
     { id: 1, name: 'Afrin Sabila', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
     { id: 2, name: 'Adil Adnan', status: 'Be your own hero 💪', avatar: 'assets/Images/propic1.jpg' },
@@ -19,16 +17,16 @@ const SentPage = () => {
 
   return (
     <div className="container">
-            <Navbar />
-      <Header title="Sent" />
+         <Navbar />
+      <Header title="Reject" />
       <div className="user-list">
         {users.map(user => (
-          <UserCard key={user.id} user={user} actions={[{ className: 'remove-icon', icon: '❌' }]} />
+          <UserCard key={user.id} user={user} actions={[]} />
         ))}
       </div>
-  
+   
     </div>
   );
 };
 
-export default SentPage;
+export default RejectPage;

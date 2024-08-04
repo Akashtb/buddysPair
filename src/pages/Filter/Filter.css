@@ -1,7 +1,6 @@
 .filter-container {
   color: #fff;
   background-color: #4B164C;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   margin: 0;

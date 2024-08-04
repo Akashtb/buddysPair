@@ -1,30 +1,4 @@
-// import React from 'react'
 
-// function Notification() {
-
-//     const show=()=>{
-//         console.log('khuh');
-//         <div className='grid grid-cols-1 gap-y-14 mx-11'>
-//             <div>1</div>
-//             <div>1</div>
-//             <div>1</div>
-
-//         </div>
-//     }
-//   return (
-//     <div>
-//       <div className='grid grid-cols-2 ' >
-//         <div></div>
-//         <div className='place-self-center m-20'>
-//             <button onClick={show}>kk</button>
-//         </div>
-
-//       </div>
-//     </div>
-//   )
-// }
-
-// export default Notification
 
 import React, { useState } from 'react';
 
@@ -43,22 +17,22 @@ function Notification() {
   };
 
   return (
-    <div className="p-8">
+    <div className="grid grid-cols-1 place-content-end p-8 mx-7">
       <button
         onClick={handleClick}
-        className="grid grid-cols-1 place-items-end rounded-3xl"
+        className="fa-regular fa-bell ml-96" 
       >
-        {showData ? 'h' : 'S'}
+        {showData ? '' : ''}
         </button>
       {showData && (
         <div className="mt-10 grid grid-cols-1  gap-24">
           {gridData.map((item) => (
             <div
               key={item.id}
-              className="grid grid-cols-1 bg-pink-700"
+              className="grid grid-cols-1 bg-pink-700 rounded-full"
             >
-              <h2 className="text-lg font-semibold mt-5">{item.name}</h2>
-              <p className="text-blue-600">{item.description}</p>
+              <h2 className="text-lg font-semibold mt-5 mx-14 h-12">{item.name}</h2>
+              <p className="text-blue-600 mx-14">{item.description}</p>
             </div>
           ))}
         </div>

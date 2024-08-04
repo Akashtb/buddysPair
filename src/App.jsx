@@ -11,6 +11,8 @@ import RejectPage from './pages/Reject/RejectPage';
 import ReceivedPage from './pages/Recieved/ReceivedPage';
 import Filter from './pages/Filter/Filter';
 import PartnerPreference from './pages/PartnerPreference/PartnerPreference';
+import SubscriptionPlan from './pages/SubscriptionPlan/SubscriptionPlan';
+
 
 
 
@@ -30,6 +32,7 @@ const App = () => {
           <Route path="/message" element={<Messages />} />
           <Route path="/filter" element={<Filter />} />
           <Route path="/preference" element={<PartnerPreference />} />
+          <Route path="/subscription" element={<SubscriptionPlan/>} />
         </Routes>
       </div>
     </Router>

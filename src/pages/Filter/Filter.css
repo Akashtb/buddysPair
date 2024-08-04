@@ -14,7 +14,6 @@
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-
   color: #000000;
   
 }
@@ -90,17 +89,5 @@
     border-top-right-radius: 20px;
   }
 
-  .footer {
-    flex: 1;
-    flex-direction: column;
-    border-top: none;
-
-    padding: 20px;
-
-  }
-
-  .footer-nav {
-    flex-direction: column;
-    gap: 20px;
-  }
+ 
 }

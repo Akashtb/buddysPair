@@ -1,0 +1,93 @@
+.subscription-page {
+    color: #fff;
+    background-color: #4B164C;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+  
+  .subscription-plan {
+    flex: 1;
+  }
+  
+  .subscription-header {
+    padding: 20px;
+    background-color: #4B164C;
+    text-align: center;
+  }
+  
+  .subscription-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    background-color: #050505;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  }
+  .sub-icon-tick{
+    margin-right: 20px;
+  }
+  .plan-card {
+    background-color: #000;
+    border-radius: 15px;
+    padding: 20px;
+    width: 80%;
+    max-width: 400px;
+    text-align: left;
+  }
+  
+  .price {
+    font-size: 2rem;
+    margin: 10px 0;
+  }
+  
+  .limits,
+  .premium-features {
+    text-align: left;
+  }
+  
+  .limits h3,
+  .premium-features h3 {
+    margin-top: 15px;
+  }
+  
+  .subscribe-button {
+    background-color: #575557;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #949191;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: 800;
+    display: block; /* Make it a block element */
+    width: 100%; /* Full width by default */
+  }
+  
+  /* Media query for desktop view */
+  @media (min-width: 768px) {
+    .subscription-page {
+      flex-direction: row;
+    }
+  
+    .subscription-plan {
+      flex: 3;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+    }
+  
+    .subscribe-button {
+      width: auto; /* Auto width for desktop view */
+      display: inline-block; /* Inline-block to allow centering */
+      margin: 20px auto 0; /* Center horizontally */
+    }
+  }
+  
+  hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+  }
+  

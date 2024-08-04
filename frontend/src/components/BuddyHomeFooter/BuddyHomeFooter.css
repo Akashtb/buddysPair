@@ -1,0 +1,118 @@
+.BuddyHomeFooterContainer {
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .BuddyHomeFooterSubContainer {
+    background-color: rgb(240, 235, 235);
+    width: 85%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    color: rgb(199, 60, 60);
+    border-radius: 40px;
+    box-shadow: 8px 0px 40px 0px #75227726;
+  }
+  
+  .icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
+  
+  .Icon,
+  .HomeIcon {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 30px;
+  }
+  
+  .Icon {
+    background-color: #DD88CF;
+  }
+  
+  .HomeIcon {
+    background-color: #762277da;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 2200px) {
+    .BuddyHomeFooterSubContainer {
+      width:55%;
+    }
+
+    .icons {
+        gap: 45px;
+      }
+  
+    .Icon,
+    .HomeIcon {
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+    }
+  }
+  @media (max-width: 600px) {
+    .BuddyHomeFooterSubContainer {
+      width: 75%;
+      padding: 8px;
+      gap: 10px;
+    }
+
+    .icons {
+        gap: 16px;
+      }
+  
+  
+    .Icon,
+    .HomeIcon {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+    }
+  }
+  
+  @media (max-width: 540px) {
+    .BuddyHomeFooterSubContainer {
+      width: 70%;
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .icons {
+        gap: 19px;
+      }
+  
+  
+    .Icon,
+    .HomeIcon {
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+    }
+  }
+  @media (max-width: 400px) {
+    .BuddyHomeFooterSubContainer {
+      width: 83%;
+      padding: 8px;
+      gap: 8px;
+    }
+  
+    .Icon,
+    .HomeIcon {
+      width: 35px;
+      height: 35px;
+      font-size: 20px;
+    }
+  }
+  

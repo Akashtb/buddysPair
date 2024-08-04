@@ -1,0 +1,101 @@
+.MatchProfileListSubContainer {
+    width: 175px;
+    height: 275px;
+    border: 5px rgb(235, 175, 216) solid;
+    border-radius: 25px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+
+}
+
+.MatchProfileListImageConatiner {
+    width: 100%;
+    height: 100%;
+    border-radius: 21px;
+    position: relative;
+}
+
+.MatchProfileListImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 21px;
+}
+
+.MatchPercentage{
+    position: absolute;
+    top: 0px;
+    left: 32px;
+    background-color: rgb(235, 175, 216);
+    color: white;
+    font-size: 13px;
+    padding-top: 1px;
+    padding-left: 18px;
+    padding-right: 18px;
+    padding-bottom: 4px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+
+.matchProfileNameAgePlaceContainer {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    color: rgb(222, 222, 222);
+    text-align: center;
+    z-index: 2;
+}
+
+.MatchProfileAgeNameOnlineTag {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.MatchProfileName {
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.MatchProfileAge {
+    font-size: 18px;
+    margin-left: 5px;
+}
+
+.MatchProfileAgeOnlineTag {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: rgb(74, 222, 74);
+    margin-left: 5px;
+}
+
+.MatchProfilePlace {
+    font-size: 14px;
+    margin-top: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.MatchProfileListSubContainer::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height:40%;
+    background: linear-gradient(180deg, rgba(75, 22, 76, 0) 56.05%, #4B164C 100%);
+    border-radius: 0 0 21px 21px;
+    z-index: 1;
+}

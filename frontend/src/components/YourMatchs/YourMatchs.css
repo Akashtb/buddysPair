@@ -1,0 +1,30 @@
+.YourMatchConatiner{
+    margin-top: 28px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.YourMatchHeading{
+    font-size: 21px;
+    margin-bottom: 24px;
+}
+.ViewedMyProfileHeading{
+    font-size: 24px;
+    color: rgba(244, 171, 210, 0.932);
+    margin-bottom: 24px;
+}
+.YourMatchHeading span{
+    margin-right: 2px;
+    color: rgb(106, 81, 85);
+}
+
+.YourMatchHeading label{
+    color: rgb(211, 158, 167);
+}
+
+.MatchProfileListContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }

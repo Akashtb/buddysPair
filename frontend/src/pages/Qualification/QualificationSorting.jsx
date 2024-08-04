@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import { IoIosNotificationsOutline, IoIosAdd } from "react-icons/io";
-import propic from '../../assets/buddysHome/propic1.jpg';
-import './home.css';
-import BuddysNavbar from '../../components/BuddysNavbar/BuddysNavbar';
-import BuddyTitleAndNotificationBar from '../../components/BuddyTitleBar/BuddyTitleAndNotificationBar';
-import BuddysStory from '../../components/BuddysStory/BuddysStory';
-import ProfileCard from '../../components/SortedProfileCard/SortedProfileCard';
-import { profiles } from '../../components/data.js'; // Adjust the import path as needed
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter.jsx';
+import React, { useState } from 'react'
+import BuddyTitleAndNotificationBar from '../../components/BuddyTitleBar/BuddyTitleAndNotificationBar'
+import BuddysStory from '../../components/BuddysStory/BuddysStory'
+import BuddysNavbar from '../../components/BuddysNavbar/BuddysNavbar'
+import { profiles } from '../../components/data'
+import ProfileCard from '../../components/SortedProfileCard/SortedProfileCard'
+import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter'
 
-const Home = () => {
-  const [navPage, setNavPage] = useState('Near by');
+const QualificationSorting = () => {
+  const [navPage,setNavPage] = useState('Qualification')
   const [showNotifications, setShowNotifications] = useState(false);
 
   const [showProfileOptions, setShowProfileOPtions] = useState(false);
@@ -53,6 +50,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Home;
+export default QualificationSorting

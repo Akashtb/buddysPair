@@ -1,7 +1,6 @@
 // src/pages/SentPage.js
 
 import Header from '../../components/NotifyHeader/Header';
-import Navbar from '../../components/NotifyNavbar/Navbar';
 import UserCard from '../../components/NotifyUserCard/UserCard';
 import './SentPage.css';
 
@@ -18,7 +17,6 @@ const SentPage = () => {
 
   return (
     <div className="container">
-            <Navbar />
       <Header title="Sent" />
       <div className="user-list">
         {users.map(user => (

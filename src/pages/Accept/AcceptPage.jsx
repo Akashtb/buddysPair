@@ -1,6 +1,5 @@
-    // src/pages/AcceptPage.js
+// src/pages/AcceptPage.js
 import Header from '../../components/NotifyHeader/Header';
-import Navbar from '../../components/NotifyNavbar/Navbar';
 import UserCard from '../../components/NotifyUserCard/UserCard';
 import './AcceptPage.css';
 
@@ -13,7 +12,6 @@ const AcceptPage = () => {
 
   return (
     <div className="container">
-        <Navbar />
       <Header title="Accept" />
       <div className="user-list">
         {users.map(user => (
@@ -27,10 +25,8 @@ const AcceptPage = () => {
           />
         ))}
       </div>
-    
     </div>
   );
 };
 
 export default AcceptPage;
-    

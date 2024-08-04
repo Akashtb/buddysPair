@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import './Messages.css';
-import Navbar from '../../components/NotifyNavbar/Navbar';
 
 
 const Messages = () => {
@@ -21,7 +20,6 @@ const Messages = () => {
 
   return (
     <div className="messages-page">
-      <Navbar />
       <header className="messages-header">
         <span className="back-arrow" onClick={handleBack}>&lt;</span>
         <h1 className="header-title">Messages</h1>

@@ -9,6 +9,12 @@ import SentPage from './pages/Sent/SentPage';
 import AcceptPage from './pages/Accept/AcceptPage';
 import RejectPage from './pages/Reject/RejectPage';
 import ReceivedPage from './pages/Recieved/ReceivedPage';
+import Filter from './pages/Filter/Filter';
+import PartnerPreference from './pages/PartnerPreference/PartnerPreference';
+
+
+
+
 
 
 const App = () => {
@@ -22,6 +28,8 @@ const App = () => {
           <Route path="/reject" element={<RejectPage />} />
           <Route path="/received" element={<ReceivedPage />} />
           <Route path="/message" element={<Messages />} />
+          <Route path="/filter" element={<Filter />} />
+          <Route path="/preference" element={<PartnerPreference />} />
         </Routes>
       </div>
     </Router>

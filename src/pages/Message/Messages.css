@@ -1,7 +1,7 @@
 
  .messages-page {
     color: #fff;
-    background-color: #5b1361;
+    background-color: #4B164C; 
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -12,8 +12,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px;
-    background-color: #5b1361;
+    padding: 20px;
+    background-color: #4B164C; 
 }
 
 .back-arrow {
@@ -36,7 +36,7 @@
     color: #333;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    margin-top: -20px; /* Move up to overlap with recent matches */
+  
     overflow-y: scroll;
 }
 

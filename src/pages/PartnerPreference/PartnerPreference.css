@@ -1,0 +1,163 @@
+/* PartnerPreference.css */
+
+.prefer-container {
+  color: #fff;
+  background-color: #4B164C;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+}
+.preference-container{
+  color: #fff;
+  background-color: #4B164C;
+
+  flex-direction: column;
+  margin: 0;
+  width: 100%;
+
+} 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #4B164C;
+}
+
+.preference-section {
+  flex: 1;
+  padding:0px 50px 0 50px;
+  background-color: #fff;
+  color: #050505;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow-y: auto;
+
+}
+.preference-section h2{
+text-align: center;
+}
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #4a4a4a;
+  margin-bottom: 5px;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tags span {
+  background-color: #353434;
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.tags button {
+  background: none;
+  border: none;
+  margin-left: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.range-slider-container {
+  margin-top: 10px;
+}
+
+.range-slider {
+  position: relative;
+  height: 36px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.range-values span {
+  margin-right: 10px;
+}
+
+.range-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.footer {
+  background-color: #4B164C;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  
+}
+
+/* Footer nav styles */
+.footer-nav {
+  display: flex;
+  gap: 50px;
+}
+
+/* Footer nav item styles */
+.footer-nav span {
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Media query for desktop view */
+@media (min-width: 768px) {
+  .prefer-container {
+    flex-direction: row;
+  }
+
+  .preference-section {
+    flex: 3;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .footer {
+    flex: 1;
+    flex-direction: column;
+    border-top: none;
+
+    padding: 20px;
+
+  }
+
+  .footer-nav {
+    flex-direction: column;
+    gap: 20px;
+  }
+}

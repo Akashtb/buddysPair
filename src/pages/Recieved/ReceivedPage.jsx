@@ -1,6 +1,5 @@
 // src/pages/ReceivedPage.js
 import Header from '../../components/NotifyHeader/Header';
-import Navbar from '../../components/NotifyNavbar/Navbar';
 import UserCard from '../../components/NotifyUserCard/UserCard';
 import './ReceivedPage.css';
 
@@ -17,7 +16,7 @@ const ReceivedPage = () => {
 
   return (
     <div className="container">
-           <Navbar />
+
       <Header title="Received" />
       <div className="user-list">
         {users.map(user => (

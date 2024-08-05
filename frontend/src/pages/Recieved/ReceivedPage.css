@@ -1,0 +1,8 @@
+.container{
+    position: relative;
+}
+
+.customFooter{
+    position: absolute;
+    bottom: 41px;
+}

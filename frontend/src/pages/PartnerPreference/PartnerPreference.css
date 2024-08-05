@@ -1,0 +1,140 @@
+/* PartnerPreference.css */
+
+.prefer-container {
+  color: #fff;
+  background-color: #4B164C;
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+}
+
+
+
+.container{
+  position: relative;
+}
+
+.customFooter{
+  position: absolute;
+  bottom: 41px;
+}
+.preference-container{
+  color: #fff;
+  flex-direction: column;
+  margin: 0;
+  width: 100%;
+
+} 
+.header {
+  display: flex;
+  
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #4B164C;
+}
+
+.preference-section {
+  flex: 1;
+  padding:0px 50px 0 50px;
+  background-color: #fff;
+  height: 70vh;
+  color: #050505;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow-y: auto;
+
+}
+.preference-section h2{
+  margin: 20px;
+text-align: center;
+}
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #4a4a4a;
+  margin-bottom: 5px;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tags span {
+  background-color: #353434;
+  border-radius: 15px;
+  padding: 5px 10px;
+  font-size: 14px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.tags button {
+  background: none;
+  border: none;
+  margin-left: 5px;
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.range-slider-container {
+  margin-top: 10px;
+}
+
+.range-slider {
+  position: relative;
+  height: 36px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+
+}
+
+.range-values span {
+  margin-right: 10px;
+}
+
+.range-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+
+/* Media query for desktop view */
+@media (min-width: 768px) {
+  .prefer-container {
+    flex-direction: row;
+  }
+
+  .preference-section {
+    flex: 3;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  
+}

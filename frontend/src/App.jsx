@@ -1,9 +1,6 @@
 // src/App.js
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
-
 import './App.css';
-
 import Messages from './pages/Message/Messages';
 import SentPage from './pages/Sent/SentPage';
 import AcceptPage from './pages/Accept/AcceptPage';

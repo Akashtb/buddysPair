@@ -8,6 +8,17 @@
 
 }
 
+.search{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background-color: pink;
+  padding: 15px;
+  border-radius: 50%;
+  color: white;
+}
+
 .search-bar {
   flex: 1;
   max-width: 20px; /* Adjust the width as needed */

@@ -49,6 +49,12 @@ export const profiles = [
         designation: "Designer, Bangalore",
         image: img8
       },
+      {
+        name: "Neha Sharma",
+        age: "F 29 YRS",
+        designation: "Designer, Bangalore",
+        image: img8
+      },
       
    
   ];

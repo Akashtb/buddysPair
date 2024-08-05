@@ -1,0 +1,46 @@
+.seek {
+  width: 300px;
+  margin: auto;
+  margin-top: 100px;
+  box-shadow: 3px 3px 7px grey;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.seek-input {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* background-color: aqua; */
+  text-align: start;
+  /* align-items: center; */
+}
+.seek select {
+  width: 250px;
+  height: 30px;
+  border-radius: 5px;
+  color: rgb(167, 168, 168);
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+.seek input {
+  box-sizing: border-box;
+  padding-left: 15px;
+  height: 30px;
+  border: 2px solid rgb(173, 171, 171);
+}
+.sel {
+  color: rgb(175, 174, 173);
+}
+
+.seek button {
+  margin-top: 20px;
+  width: 250px;
+  background-color: rgb(40, 39, 39);
+  color: aliceblue;
+  height: 30px;
+  border-radius: 5px;
+}

@@ -1,0 +1,122 @@
+.box {
+  width: 700px;
+  margin: auto;
+  margin-top: 100px;
+}
+.reg {
+  /* background-color: #495056; */
+  background-image: url("src/assets/Authentication/Backround1.jpeg");
+  height: 800px;
+}
+.card1_1_2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 80px;
+  padding: 10px 40px 20px 40px;
+  background-color: white;
+}
+.card1_1_1 {
+  /* border: 1px solid black; */
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 30px;
+  padding-bottom: 80px;
+  box-shadow: 3px 3px 7px grey;
+  background-color: white;
+}
+.card1_1_1 input {
+  box-sizing: border-box;
+  padding-left: 15px;
+}
+.card1_1_1 h3 {
+  background-color: rgb(255, 255, 255);
+  width: 150px;
+  color: #212323;
+  /* font-weight: 500; */
+  margin: auto;
+}
+
+.part1 {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  padding: 20px;
+  align-items: start;
+  text-align: start;
+  gap: 20px;
+}
+.part2 {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  /* border: 1px solid black; */
+  padding: 20px;
+  align-items: start;
+  text-align: start;
+  gap: 20px;
+}
+
+.regbtn {
+  width: 200px;
+  position: absolute;
+  margin-left: -105px;
+
+  background-color: #000000; /* Green */
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.btn-primary {
+  background-color: #6c757d;
+  outline: none;
+  border: 0px;
+  box-shadow: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #495056;
+  outline: none !important;
+  border: none !important;
+  box-shadow: none;
+}
+@media screen and (max-width: 500px) {
+  .box {
+    background-image: url("src/assets/Authentication/Backround2.jpeg");
+    height: 900px;
+    background-size: cover;
+    background-position: -40px -100px;
+    margin-top: 30px;
+    width: 350px;
+  }
+  .reg {
+    background-image: none;
+  }
+  .card1_1_1 {
+    background-color: #ffffff;
+    width: 320px;
+    margin-left: 15px;
+  }
+  .part1 {
+    padding: 0;
+    padding-top: 30px;
+  }
+  .part1 input {
+    width: 240px;
+  }
+  .part2 {
+    margin-top: -60px;
+    padding: 0;
+  }
+  .part2 input {
+    width: 240px;
+  }
+}

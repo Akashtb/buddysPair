@@ -3,9 +3,8 @@
   background-color: #4B164C;
   display: flex;
   flex-direction: column;
-  margin: 0;height: 100vh;
+  height: 100vh;
   position: relative;
-  overflow: hidden;
 }
 
 .customFooter{
@@ -94,12 +93,15 @@
 @media (min-width: 768px) {
   .filter-container {
     flex-direction: row;
+    margin: 0;
   }
+
 
   .filter-section {
     flex: 3;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    margin-top: 20px;
   }
 
  
@@ -127,7 +129,47 @@
     color: #000000;
     
   }
+
+
   
+  .filter-footer {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 30px;
+  }
+ 
+}
+
+@media (min-width: 375px) {
+  .filter-container {
+    height: 100vh;
+    position: relative;
+  }
+  
+  .customFooter{
+    position: absolute;
+    bottom: 41px;
+  }
+  
+  .filter-content {
+    flex: 1;
+    padding:20px 50px 0 50px;
+    background-color: #fff;
+    height: 90vh;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    color: #000000;
+    
+  }
+
+  .filter-section{
+    margin-top: 20px;
+  }
+
+
   
   .filter-footer {
     display: flex;

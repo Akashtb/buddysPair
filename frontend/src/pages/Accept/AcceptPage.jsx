@@ -6,8 +6,8 @@ import './AcceptPage.css';
 
 const AcceptPage = () => {
   const users = [
-    { id: 1, name: 'Team Align', status: 'Today, 09:30 AM', avatar: 'assets/Images/propic1.jpg' },
-    { id: 2, name: 'Jhon Abraham', status: 'Today, 07:30 AM', avatar: 'assets/Images/propic1.jpg' },
+    { id: 1, name: 'Team Align', age:'27yrs',location:'Kochi', avatar: 'assets/Images/propic1.jpg' },
+    { id: 2, name: 'Jhon Abraham', age:'27yrs',location:'Kochi', avatar: 'assets/Images/propic1.jpg' },
     // Add more users as needed
   ];
 

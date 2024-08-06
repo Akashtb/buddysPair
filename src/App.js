@@ -18,15 +18,15 @@ const App = () => {
     <Router>
       <div className="app">
         <Routes>
-          <Route path="/" element={<Messages Se="Messages"/>} />
-          <Route path="/n" element={<Notification />} />
-          <Route path='/s' element={<Settings Se="Settings"/>} />
-          <Route path='/e' element={<Edit Se="Edit My Profile"/>}/>
-          <Route path='/p' element={<Change Se="Change Password"/>}/>
-          <Route path='/c' element={<Contacted Se="Contacted"/>}/>
-          <Route path='/sh' element={<Shortlisted Se="Shortlisted By"/>}/>
+          {/* <Route path="/" element={<Messages Se="Messages"/>} /> */}
+          <Route path="/noti" element={<Notification />} />
+          <Route path='/setting' element={<Settings Se="Settings"/>} />
+          <Route path='/' element={<Edit Se="Edit My Profile"/>}/>
+          <Route path='/pass' element={<Change Se="Change Password"/>}/>
+          <Route path='/contact' element={<Contacted Se="Contacted"/>}/>
+          <Route path='/short' element={<Shortlisted Se="Shortlisted By"/>}/>
           <Route path='/by' element={<Shortlist Se="Shortlist"/>}/>
-          <Route path='/v' element={<Viewed Se="Viewed My Profile"/>}/>
+          <Route path='/view' element={<Viewed Se="Viewed My Profile"/>}/>
 
           </Routes>
       </div>

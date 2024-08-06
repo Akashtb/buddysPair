@@ -1,38 +1,95 @@
-/* src/components/UserCard.css */
 .user-card {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
 
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  flex: 1;
+}
+
+.name {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.age, .location {
+  font-size: 14px;
+}
+
+.content {
+  flex: 2;
+  margin-right: 200px;
+}
+
+.time {
+  color: #666;
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.call-icon, .video-icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Media Query for Mobile View */
+@media (max-width: 768px) {
+  .user-card {
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-  }
-  
+
   .info {
-    flex: 1;
-    margin-left: 10px;
+    margin-left: 0;
   }
-  
+
   .name {
-    font-weight: bold;
+    font-size: 16px;
   }
-  
-  .status {
-    color: #666;
-  }
-  
-  .actions {
-    display: flex;
+
+  .details {
+    flex-direction: row;
     gap: 10px;
   }
-  
-  .call-icon, .video-icon {
-    font-size: 20px;
-    cursor: pointer;
+
+  .age, .location {
+    font-size: 16px;
   }
-  
+
+  .content {
+    margin-right: 0;
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .actions span {
+    margin-right: 10px;
+  }
+}

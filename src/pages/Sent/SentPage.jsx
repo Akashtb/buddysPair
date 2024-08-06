@@ -6,12 +6,12 @@ import './SentPage.css';
 
 const SentPage = () => {
   const users = [
-    { id: 1, name: 'Afrin Sabila', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
-    { id: 2, name: 'Adil Adnan', status: 'Be your own hero 💪', avatar: 'assets/Images/propic1.jpg' },
-    { id: 3, name: 'Bristy Haque', status: 'Keep working ✍️', avatar: 'assets/Images/propic1.jpg' },
-    { id: 4, name: 'John Borino', status: 'Make yourself proud 😊',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 5, name: 'Borsha Akther', status: 'Flowers are beautiful 🌸',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 6, name: 'Sheik Sadi', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
+    { id: 1, name: 'Afrin Sabila',age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 2, name: 'Adil Adnan', age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 3, name: 'Bristy Haque',age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 4, name: 'John Borino',age:'27yrs',location:'Kochi',time: 'Today 5:30pm',  avatar: 'assets/Images/propic1.jpg' },
+    { id: 5, name: 'Borsha Akther',age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 6, name: 'Sheik Sadi', age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
     // Add more users as needed
   ];
 

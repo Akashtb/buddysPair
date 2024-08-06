@@ -5,12 +5,12 @@ import './ReceivedPage.css';
 
 const ReceivedPage = () => {
   const users = [
-    { id: 1, name: 'Afrin Sabila', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
-    { id: 2, name: 'Adil Adnan', status: 'Be your own hero 💪', avatar: 'assets/Images/propic1.jpg' },
-    { id: 3, name: 'Bristy Haque', status: 'Keep working ✍️', avatar: 'assets/Images/propic1.jpg' },
-    { id: 4, name: 'John Borino', status: 'Make yourself proud 😊',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 5, name: 'Borsha Akther', status: 'Flowers are beautiful 🌸',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 6, name: 'Sheik Sadi', status: 'Life is beautiful 👌', avatar: 'assets/Images/propic1.jpg' },
+    { id: 1, name: 'Afrin Sabila', age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 2, name: 'Adil Adnan',age:'27yrs',location:'Kochi', time:'22 July 8:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 3, name: 'Bristy Haque',age:'27yrs',location:'Kochi', time:'20 July 2:30pm', avatar: 'assets/Images/propic1.jpg' },
+    { id: 4, name: 'John Borino', age:'27yrs',location:'Kochi',time: '15 July 4:30pm',  avatar: 'assets/Images/propic1.jpg' },
+    { id: 5, name: 'Borsha Akther',age:'27yrs',location:'Kochi', time: '12 July 9:30pm',  avatar: 'assets/Images/propic1.jpg' },
+    { id: 6, name: 'Sheik Sadi', age:'27yrs',location:'Kochi',time: '7 July 3:30pm', avatar: 'assets/Images/propic1.jpg' },
     // Add more users as needed
   ];
 

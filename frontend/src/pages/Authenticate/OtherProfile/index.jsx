@@ -58,52 +58,33 @@ const Other = () => {
         <i class="fa-solid fa-angle-left"></i>
         <div className="image6">
           {/* <img className="img4" src="\profile2.jpeg" alt="" /> */}
-
           <img
             className="arrow"
             src="../../../src/assets/Authentication/Tag.svg"
             alt=""
           />
           <img
+            className="scroll"
+            src="../../../src/assets/Authentication/Scroll.svg"
+            alt=""
+          />
+          <img
             className="img4"
-            src="src/assets/Authentication/profile5.jpeg"
+            src="../../../src/assets/Authentication/profile5.jpeg"
             alt=""
           />
           <div className="botImg">
             <br />
             <div className="name12">
-              {/* <h2> {data.user && data.user.name}</h2> */}
-              <h2>Anoop V R ,</h2>
+              {/* <h2> {data.user && data.user.name} ,</h2> */}
+              <h2> ABCD,</h2>
               {/* <h2> {data.reg && data.reg.age}</h2> */}
-              <h2> 22</h2>
+              <h2> 45</h2>
             </div>
             {/* <h3>Location : {data.address}</h3> */}
             <h3>Location : Thrissur</h3>
-            <img src="src/assets/Authentication/Match Percentage.svg" alt="" />
-          </div>
-
-          <div className="components">
-            {/* <h1>halo</h1> */}
             <img
-              onClick={Hombtn}
-              className="img122"
-              src="../../../src/assets/Authentication/Button.jpg"
-              alt=""
-            />
-            <img
-              className="img122"
-              src="../../../src/assets/Authentication/Button1.jpg"
-              alt=""
-            />
-            <img
-              className="img122"
-              src="../../../src/assets/Authentication/Button2.jpg"
-              alt=""
-            />
-            <img
-              onClick={() => Chat(data._id)}
-              className="msg12"
-              src="../../../src/assets/Authentication/Message.jpg"
+              src="../../../src/assets/Authentication/Match Percentage.svg"
               alt=""
             />
           </div>
@@ -113,6 +94,7 @@ const Other = () => {
       </div>
 
       <div className="context4">
+        <p className="p3"></p>
         {/* <h1>MyProfile</h1> */}
         {/* <div className="user">
           <h2>User details</h2>
@@ -185,6 +167,31 @@ const Other = () => {
           <h3>Marrital status :{data.marrital}</h3>
           <h3>Mother Tongue :{data.motherTongue}</h3>
         </div>
+      </div>
+      <div className="components">
+        {/* <h1>halo</h1> */}
+        <img
+          onClick={Hombtn}
+          className="img122"
+          src="../../../src/assets/Authentication/Button.jpg"
+          alt=""
+        />
+        <img
+          className="img122"
+          src="../../../src/assets/Authentication/Button1.jpg"
+          alt=""
+        />
+        <img
+          className="img122"
+          src="../../../src/assets/Authentication/Button2.jpg"
+          alt=""
+        />
+        <img
+          onClick={() => Chat(data._id)}
+          className="msg12"
+          src="../../../src/assets/Authentication/Message.jpg"
+          alt=""
+        />
       </div>
     </div>
   );

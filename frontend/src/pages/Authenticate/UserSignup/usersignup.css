@@ -1,7 +1,12 @@
 .usersign {
   background-image: url("src/assets/Authentication/Backround1.jpeg");
-  height: 800px;
+  height: 650px;
   background-position: -100px 0px;
+  padding-top: 100px;
+}
+.data input {
+  border: 2px solid rgb(207, 203, 203);
+  height: 30px;
 }
 
 .data {
@@ -10,7 +15,7 @@
   border-radius: 20px;
   text-align: center;
   margin: auto;
-  margin-top: 100px;
+  /* margin-top: 100px; */
 
   padding-top: 20px;
 
@@ -117,7 +122,7 @@
     width: 290px;
 
     position: relative;
-    margin-top: 40px;
+    /* margin-top: 40px; */
   }
   .usersign img {
     width: 100%;
@@ -126,9 +131,9 @@
     margin-left: 20px;
   }
   .usersign {
-    width: 370px;
+    width: 100%;
     background-image: url("src/assets/Authentication/Backround2.jpeg");
-    height: 700px;
+    height: 600px;
     background-size: cover;
     background-position: 0px -40px;
   }

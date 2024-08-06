@@ -32,6 +32,7 @@ const Front = () => {
           <div className="button1">
             <i class="fa-solid fa-phone-volume"></i>
             <button className="frontbtn" onClick={phone}>
+              {" "}
               Login with Phone
             </button>
             <button className="frontbtn1" onClick={respos}>

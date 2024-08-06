@@ -1,13 +1,23 @@
+.seek12 {
+  /* width: 370px; */
+  background-image: url("../../src/assets/Authentication/Backround1.jpeg");
+  height: 650px;
+  background-size: cover;
+  background-position: -10px -60px;
+  padding-top: 100px;
+}
+
 .seek {
   width: 300px;
   margin: auto;
   margin-top: 100px;
-  box-shadow: 3px 3px 7px grey;
+  box-shadow: 3px 3px 7px rgb(186, 185, 185);
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+  background-color: white;
 }
 .seek-input {
   width: 250px;
@@ -43,4 +53,24 @@
   color: aliceblue;
   height: 30px;
   border-radius: 5px;
+}
+.seek select {
+  border: 2px solid rgb(181, 179, 179);
+}
+
+@media screen and (max-width: 500px) {
+  .seek12 {
+    width: 370px;
+    background-image: url("../../src/assets/Authentication/Backround2.jpeg");
+    height: 700px;
+    background-size: cover;
+    background-position: -10px -60px;
+    padding-top: 100px;
+  }
+  .seek {
+    width: 75%;
+    background-color: white;
+    box-shadow: 1px 1px 6px rgb(185, 184, 184);
+    margin-top: 0;
+  }
 }

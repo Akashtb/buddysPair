@@ -85,9 +85,9 @@ const SignUp = () => {
               Register
             </button>
             <button className="up2">Social media login</button>
-            <p className="p3">
+            <p className="p4">
               Allready have an account?
-              <a className="a3" href="/login">
+              <a className="a3" href="">
                 Log In
               </a>{" "}
             </p>

@@ -129,6 +129,7 @@ const Registration = () => {
                   type="file"
                   name="propic"
                   onChange={onSignup}
+                  className="pp"
                 />
               </label>
 

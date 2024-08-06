@@ -8,6 +8,7 @@ import JobSeeker from "./pages/Authenticate/job/seeker/index.jsx";
 import Employe from "./pages/Authenticate/job/Employe/index.jsx";
 import Other from "./pages/Authenticate/OtherProfile/index.jsx";
 import Payment from "./pages/Authenticate/Payment/index.jsx";
+import Pay2 from "./pages/Authenticate/Payment2/index.jsx";
 import Profile from "./pages/Authenticate/Profilecreation/index.jsx";
 import Registration from "./pages/Authenticate/Registration/index.jsx";
 import Login from "./pages/Authenticate/UserLogin/index.jsx";
@@ -22,6 +23,7 @@ function App() {
       <Route path="/registration/:id" element={<Registration />}></Route>
       <Route path="/profile/:id" element={<Profile />}></Route>
       <Route path="/payment" element={<Payment />}></Route>
+      <Route path="/payment2" element={<Pay2 />}></Route>
       <Route path="/other" element={<Other />}></Route>
       <Route path="job/employe/:id" element={<Employe />}></Route>
       <Route path="job/seeker/:id" element={<JobSeeker />}></Route>

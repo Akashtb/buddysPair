@@ -71,7 +71,7 @@ const Profile = () => {
   return (
     <div className="profile">
       {/* <h1 className="head">Matrimony</h1> */}
-      <button className="skip">Skip {">>"}</button>
+      <button className="skip">Skip </button>
       <div className="box12">
         <div className="card1">
           <h3>personal details</h3>

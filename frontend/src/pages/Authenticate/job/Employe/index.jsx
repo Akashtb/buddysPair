@@ -32,7 +32,7 @@ const Employe = () => {
       `http://localhost:1400/user/job/employee`,
       cred
     );
-    console.log(response);
+    console.log("ksssss", response);
     if (response.data.job) {
       navigate(`/intrest/${response.data.job._id}`);
     } else {

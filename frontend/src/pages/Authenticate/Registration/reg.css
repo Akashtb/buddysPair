@@ -1,12 +1,14 @@
 .box {
   width: 700px;
   margin: auto;
-  margin-top: 100px;
+  /* margin-top: 100px; */
 }
 .reg {
   /* background-color: #495056; */
-  background-image: url("src/assets/Authentication/Backround1.jpeg");
-  height: 800px;
+  background-image: url("../../src/assets/Authentication/Backround1.jpeg");
+  height: 650px;
+  background-position: -60px 0px;
+  padding-top: 100px;
 }
 .card1_1_2 {
   display: flex;
@@ -15,13 +17,17 @@
   padding: 10px 40px 20px 40px;
   background-color: white;
 }
+.card1_1_1 input {
+  border: 2px solid rgb(207, 203, 203);
+  height: 30px;
+}
 .card1_1_1 {
   /* border: 1px solid black; */
   text-align: center;
   margin-top: 30px;
   padding-top: 30px;
   padding-bottom: 80px;
-  box-shadow: 3px 3px 7px grey;
+  box-shadow: 3px 3px 7px rgb(184, 181, 181);
   background-color: white;
 }
 .card1_1_1 input {
@@ -88,22 +94,31 @@
   border: none !important;
   box-shadow: none;
 }
+.pp {
+  padding-left: 20px;
+  /* width: 10px; */
+}
 @media screen and (max-width: 500px) {
   .box {
-    background-image: url("src/assets/Authentication/Backround2.jpeg");
-    height: 900px;
+    /* background-image: url("src/assets/Authentication/Backround2.jpeg"); */
+    height: 700px;
     background-size: cover;
     background-position: -40px -100px;
     margin-top: 30px;
     width: 350px;
   }
   .reg {
-    background-image: none;
+    width: 100%;
+    background-image: url("../../src/assets/Authentication/Backround2.jpeg");
+    height: 700px;
+    background-position: -10px -40px;
   }
   .card1_1_1 {
     background-color: #ffffff;
     width: 320px;
-    margin-left: 15px;
+    margin-left: 20px;
+    margin-top: -20px;
+    /* padding: 0; */
   }
   .part1 {
     padding: 0;

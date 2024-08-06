@@ -6,7 +6,7 @@
   text-align: center;
   padding-bottom: 20px;
   padding-top: 30px;
-  box-shadow: 3px 3px 7px grey;
+  box-shadow: 3px 3px 7px rgb(182, 180, 180);
 }
 .card1_1 {
   padding-top: 30px;
@@ -88,7 +88,7 @@
   text-align: center;
   padding-bottom: 20px;
   padding-top: 30px;
-  box-shadow: 3px 3px 7px grey;
+  box-shadow: 3px 3px 7px rgb(186, 184, 184);
 }
 .card1_6 {
   padding-top: 30px;
@@ -103,6 +103,9 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+}
+.box12 input {
+  border: 2px solid rgb(185, 182, 182);
 }
 textarea {
   width: 250px;
@@ -156,5 +159,21 @@ select {
     width: 360px;
     margin-left: 6px;
     box-shadow: 1px 1px 6px rgb(202, 202, 202);
+  }
+  .skip {
+    margin-left: 70%;
+  }
+  .profile {
+    width: 370px;
+    background-image: url("../../src/assets/Authentication/Backround2.jpeg");
+    height: 700px;
+    background-size: cover;
+    background-position: -10px -60px;
+    padding-top: 100px;
+    overflow: hidden;
+    overflow: scroll;
+  }
+  .box12 div {
+    background-color: white;
   }
 }

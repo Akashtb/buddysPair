@@ -1,6 +1,8 @@
 .job123 {
-  background-image: url("src/assets/Authentication/Backround1.jpeg");
+  background-image: url("../../src/assets/Authentication/Backround1.jpeg");
+  background-position: -40px;
   height: 700px;
+  padding-top: 100px;
 }
 .job {
   display: flex;
@@ -10,7 +12,7 @@
   /* background-color: antiquewhite; */
   width: 400px;
   margin: auto;
-  margin-top: 100px;
+  /* margin-top: 100px; */
   box-shadow: 3px 3px 7px gray;
   padding: 20px;
   padding-bottom: 40px;
@@ -55,11 +57,11 @@
 @media screen and (max-width: 500px) {
   .job123 {
     width: 370px;
-    background-image: url("src/assets/Authentication/Backround2.jpeg");
+    background-image: url("../../src/assets/Authentication/Backround2.jpeg");
     height: 700px;
     background-size: cover;
-    background-position: 10px -100px;
-    background-color: aqua;
+    background-position: -10px -70px;
+    /* background-color: aqua; */
   }
   .job {
     width: 290px;

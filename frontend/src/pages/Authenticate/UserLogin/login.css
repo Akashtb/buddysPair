@@ -5,12 +5,16 @@
   border-radius: 20px;
   text-align: center;
   margin: auto;
-  margin-top: 100px;
+
   padding-bottom: 20px;
   padding-top: 20px;
-  box-shadow: 3px 3px 7px rgb(166, 164, 164);
+  box-shadow: 3px 3px 7px rgb(203, 202, 202);
   background-color: rgb(255, 255, 255);
   /* position: absolute; */
+}
+.inputt input {
+  border: 2px solid rgb(207, 203, 203);
+  height: 30px;
 }
 .login h3 {
   background-color: rgb(255, 255, 255);
@@ -24,6 +28,8 @@
   background-image: url("src/assets/Authentication/Backround1.jpeg");
   height: 630px;
   background-position: -80px 40px;
+  text-align: center;
+  padding-top: 150px;
 
   /* margin-top: -100px; */
 }
@@ -112,14 +118,15 @@ img {
   }
   .full {
     background-image: url("src/assets/Authentication/Backround2.jpeg");
-    height: 800px;
+    height: 500px;
     width: 370px;
     background-size: cover;
-    background-position: 0px -100px;
+    background-position: 10px -80px;
+    margin-top: 50px;
   }
   .login {
     width: 270px;
-    margin-top: 70px;
+    /* margin-top: 70px; */
     padding: 10px;
     background-color: #ffffff;
     position: relative;

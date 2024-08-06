@@ -79,9 +79,7 @@
 
 /* Media query for desktop view */
 @media (min-width: 768px) {
-  .subscription-page {
-    flex-direction: row;
-  }
+  
 
   .subscription-plan {
     flex: 3;

@@ -213,7 +213,7 @@
     height: 130px;
     position: relative; 
     margin: 0;
-    margin-left: 30px;
+    margin-left: 18px;
     margin-bottom: 20px;
   }
 
@@ -296,7 +296,7 @@
     width: 155px;
     height: 130px;
     position: relative;
-   margin-left: 40px;
+   margin-left: 25px;
   }
 
   .profileCardNameAndAge {
@@ -323,7 +323,7 @@
     width: 155px;
     height: 130px;
     position: relative;
-   margin-left: 34px;
+   margin-left: 20px;
   }
 
   .profileCardNameAndAge {
@@ -378,7 +378,7 @@
     width: 150px;
     height: 130px;
     position: relative;
-    margin-left: 30px;
+    margin-left: 27px;
   }
 
   .profileCardNameAndAge {
@@ -406,8 +406,37 @@
     height: 130px;
     position: relative;
     margin-bottom: 20px;
+    margin-right: 13px;
+    margin-left: 2px;
+  }
+
+  .profileCardNameAndAge {
+    gap: 5px;
+  }
+
+  .profileCardIcon {
     margin-right: 2px;
-    margin-left: 20px;
+    margin-bottom: 0;
+  }
+
+  .profileName {
+    font-size: 14px;
+  }
+
+  .profileAgeAndGender,
+  .profileDesignationAndPlace {
+    font-size: 8px;
+  }
+}
+
+@media (max-width: 365px) {
+  .profileCardContainer3{
+    width: 150px;
+    height: 130px;
+    position: relative;
+    margin-bottom: 20px;
+    margin-right: 8px;
+    margin-left: 0px;
   }
 
   .profileCardNameAndAge {

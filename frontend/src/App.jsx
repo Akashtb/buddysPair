@@ -25,6 +25,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/buddysHomePage" element={<Home />} />
+
         <Route path="/QualificationSortedPage" element={<QualificationSorting />} />
         <Route path="/educationSortedPage" element={<EducationSort />} />
         <Route path="/qualificationSorting" element={<QualificationSortingPage/>} />

@@ -1,10 +1,13 @@
 .LikesAndConnectContainer{
-    height: 85px;
+    height: 100px;
+    border-bottom: 1px rgb(243, 242, 242) solid;
 }
 .LikesAndConnectSubContainer {
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    margin-bottom: 20px;
+    z-index: 2;
 }
 
 .likeContainer, .connectContainer {

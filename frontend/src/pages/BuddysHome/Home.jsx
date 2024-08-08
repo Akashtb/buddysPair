@@ -8,6 +8,7 @@ import BuddysStory from '../../components/BuddysStory/BuddysStory';
 import ProfileCard from '../../components/SortedProfileCard/SortedProfileCard';
 import { profiles } from '../../components/data.js'; // Adjust the import path as needed
 import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter.jsx';
+import BuddyHomeSideBar from '../../components/BuddyHomeSideBar/BuddyHomeSideBar.jsx';
 
 const Home = () => {
   const [navPage, setNavPage] = useState('Near by');
@@ -30,29 +31,38 @@ const Home = () => {
   };
 
   return (
-    <div className={`BuddyPairHomeContainer`}>
-      <div className='BuddyPairHomeHeader'>
-        <BuddyTitleAndNotificationBar
-          showNotifications={showNotifications}
-          toggleNotifications={toggleNotifications}
-          showProfileOptions={showProfileOptions}
-          toggleProfileOptions={toggleProfileOptions}
-          showMenu={showMenu}
-          toggleMenu={toggleMenu}
-        />
-        {/* <BuddysStory showNotifications={showNotifications}  showProfileOptions={showProfileOptions}/> */}
-        <BuddysNavbar navPage={navPage} setNavPage={setNavPage} showNotifications={showNotifications}  showProfileOptions={showProfileOptions}/>
-        <div className={`profileCardContainer2 ${showNotifications || showProfileOptions ||showMenu ? 'blur-background' : ''}`}>
-          {profiles.map((profile, index) => (
-            <ProfileCard key={index} profile={profile} />
-          ))}
+    <div className='DummyPageContainer'>
+        <div className="titleAndNotificationBar">
+            <BuddyTitleAndNotificationBar
+                showNotifications={showNotifications}
+                toggleNotifications={toggleNotifications}
+                showProfileOptions={showProfileOptions}
+                toggleProfileOptions={toggleProfileOptions}
+                showMenu={showMenu}
+                toggleMenu={toggleMenu} />
         </div>
-      </div>
-      <div className={`BuddyHomeFooter ${showNotifications || showProfileOptions ||showMenu? 'blur-background' : ''}`}>
-        <BuddyHomeFooter showProfileOptions={showProfileOptions}/>
-      </div>
+
+        <div className='DesktopViewContainer'>
+            <div className='sideBarContainer'>
+                <BuddyHomeSideBar />
+            </div>
+            <div className="buddyHomecontent">
+                <div className='HomeNavbarContainer'>
+                <BuddysNavbar navPage={navPage} setNavPage={setNavPage} showNotifications={showNotifications}  showProfileOptions={showProfileOptions}/>
+                </div>
+                <div className={`profileCardContainer2 ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
+                    {profiles.map((profile, index) => (
+                        <ProfileCard key={index} profile={profile} />
+                    ))}
+                </div>
+            </div>
+
+        </div>
+        <div className='DummyPageContainerFooter'>
+            <BuddyHomeFooter showProfileOptions={showProfileOptions} />
+        </div>
     </div>
-  );
+)
 };
 
 export default Home;

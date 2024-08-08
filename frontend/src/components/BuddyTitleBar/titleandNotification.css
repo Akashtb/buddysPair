@@ -87,8 +87,8 @@
     position: fixed;
     top: 80px;
     left: 0;
-    width: 50%;
-    height: 70%;
+    width: 100%;
+    height: 60%;
     z-index: 20; /* Ensure it overlays the other content */
   }
 
@@ -134,7 +134,49 @@
     border: none;
     cursor: pointer;
   }
+  @media (max-width: 1290px) {
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 80%;
+      z-index: 20; /* Ensure it overlays the other content */
+    } 
+  }
 
+  @media (max-width: 913px) {
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 45%;
+      z-index: 20; /* Ensure it overlays the other content */
+    } 
+  }
+
+  @media (max-width: 541px) {
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      z-index: 20; /* Ensure it overlays the other content */
+    } 
+  }
+
+  @media (max-width: 431px) {
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      z-index: 20; /* Ensure it overlays the other content */
+    } 
+  }
   @media (max-width: 415px) {
     .BuddyPairHomeHeaderTitle{
       font-size: 24px;
@@ -149,6 +191,15 @@
       width: 45px;
       height: 45px;
     }
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      z-index: 20; /* Ensure it overlays the other content */
+    }
+  
   }
 
   @media (max-width: 400px) {
@@ -165,4 +216,26 @@
       width: 40px;
       height: 40px;
     }
+  }
+
+  @media (max-width: 391px) {
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 70%;
+      z-index: 20; /* Ensure it overlays the other content */
+    } 
+  }
+
+  @media (max-width: 345px) {
+    .menuOverlay {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      z-index: 20; /* Ensure it overlays the other content */
+    } 
   }

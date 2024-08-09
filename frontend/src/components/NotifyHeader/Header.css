@@ -1,14 +1,12 @@
-/* src/components/Header.css */
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color:#4B164C; /* Purple background color */
+  background-color: #4B164C;
   padding: 10px;
-
 }
 
-.search{
+.search {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -40,4 +38,38 @@
   flex: 2; /* Adjust flex as needed to balance the space */
   text-align: center;
   margin-right: 15px;
+}
+
+/* Responsive adjustments for screens with a width of 415px */
+@media (max-width: 415px) {
+  .header {
+    padding: 8px;
+  }
+
+  .search {
+    font-size: 24px;
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+    margin-right: 10px;
+  }
+}
+
+/* Responsive adjustments for screens with a width of 375px */
+@media (max-width: 375px) {
+  .header {
+    padding: 6px;
+  }
+
+  .search {
+    font-size: 22px;
+    padding: 8px;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-right: 8px;
+  }
 }

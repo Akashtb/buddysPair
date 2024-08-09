@@ -1,41 +1,51 @@
-.subscription-page {
-  color: #fff;
+.subscription-container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
   background-color: #4B164C;
+  position: relative;
+  width: 100%;
+}
+
+.leftsidebar {
+  flex: 0 0 130px; /* Fixed width for left sidebar */
+}
+
+.subscription-main {
+  padding: 20px;
+  overflow-y: auto;
+  width: 70%;
+  height: 100%;
+  transition: filter 0.3s;
+}
+
+.subscription-main.blur {
+  filter: blur(5px);
+}
+
+.right-sidebar {
+  flex: 0 0 250px; /* Fixed width for right sidebar */
+  transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
-  margin: 0;
-  position: relative;
-  height: 100vh; /* Full viewport height */
-  overflow: hidden; /* Prevent scrolling */
+  background-color: #5b2653;
 }
 
-.customFooter {
-  position: absolute;
-  width: 100%; /* Full width */
+.right-sidebar.open {
+  transform: translateX(0);
 }
 
-.subscription-plan {
-  flex: 1;
-  overflow-x: auto;
-}
-
-.subscription-header {
-  padding: 20px;
-  background-color: #4B164C;
-  text-align: center;
-}
 
 .subscription-content {
   flex: 1;
   display: flex;
   justify-content: center;
-  height: 100%;
   background-color: #0b0b0b;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-  height: calc(100vh - 60px); /* Adjust for header/footer height */
-  overflow-y: auto; /* Allow vertical scrolling only if necessary */
+  color: #ffffff;
+  
 }
 
 .sub-icon-tick {
@@ -45,7 +55,6 @@
 .plan-card {
   border-radius: 15px;
   padding: 20px;
-  width: 80%;
   max-width: 400px;
   text-align: left;
 }
@@ -75,29 +84,88 @@
   cursor: pointer;
   margin-top: 20px;
   font-weight: 800;
-  display: block; /* Make it a block element */
-  width: 100%; /* Full width by default */
-}
-
-/* Media query for desktop view */
-@media (min-width: 768px) {
-  
-
-  .subscription-plan {
-    flex: 3;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-  }
-
-  .subscribe-button {
-    width: auto; /* Auto width for desktop view */
-    display: inline-block; /* Inline-block to allow centering */
-    margin: 20px auto 0; /* Center horizontally */
-  }
+  display: block;
+  width: 100%;
 }
 
 hr {
   border: 0;
   border-top: 1px solid #ddd;
   margin: 20px 0;
+}
+
+/* Media query for mobile view */
+@media (max-width: 768px) {
+  .subscription-container {
+    flex-direction: column;
+  }
+
+  .leftsidebar {
+    order: 2;
+    width: 100%;
+  }
+
+  .right-sidebar {
+    order: 1;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    transform: translateX(100%);
+    background-color: transparent;
+  }
+
+  .subscription-main {
+    order: 0;
+    width: 100%;
+    flex: none;
+    padding: 20px;
+  }
+
+ 
+
+  .right-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .subscription-main.blur {
+    filter: blur(5px);
+  }
+}
+
+@media (max-width: 415px) {
+  .right-sidebar {
+    width: 100%;
+  }
+
+  .subscription-content {
+    height: 100%;
+  }
+
+  .subscription-main {
+    padding: 10px;
+  }
+
+  .sidebar-toggle-button {
+    top: 15px;
+    right: 15px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 375px) {
+  .right-sidebar {
+    width: 100%;
+  }
+
+  .subscription-content {
+  height: 100%;
+  }
+
+  .subscription-main {
+    padding: 10px;
+  }
+
+
 }

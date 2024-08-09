@@ -25,9 +25,8 @@
   width: 100%;
 
 } 
-.header {
+.preference-header {
   display: flex;
-  
   align-items: center;
   justify-content: center;
   padding: 20px;
@@ -38,11 +37,11 @@
   flex: 1;
   padding:0px 50px 0 50px;
   background-color: #fff;
-  height: 70vh;
+  height: 150vh;
   color: #050505;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  overflow-y: auto;
+  overflow-y:hidden;
 
 }
 .preference-section h2{
@@ -137,4 +136,25 @@ text-align: center;
   }
 
   
+}
+@media (width: 430px) {
+ 
+
+  .preference-section {
+    padding: 0px 30px;
+  }
+
+ 
+}
+
+/* Media query for mobile view (min-width: 375px) */
+@media (min-width: 375px) {
+  .preference-header {
+    padding: 30px;
+  }
+
+  .preference-section {
+    padding: 0px 20px;
+    height: 100%;
+  }
 }

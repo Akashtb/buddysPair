@@ -3,6 +3,10 @@ import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
 import Header from '../../components/NotifyHeader/Header';
 import UserCard from '../../components/NotifyUserCard/UserCard';
 import './ReceivedPage.css';
+import { TiTick } from 'react-icons/ti';
+import { RxCross2 } from 'react-icons/rx';
+import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
+import { useState } from 'react';
 
 const ReceivedPage = () => {
   const users = [
@@ -14,10 +18,19 @@ const ReceivedPage = () => {
     { id: 6, name: 'Sheik Sadi', age:'27yrs',location:'Kochi',time: '7 July 3:30pm', avatar: 'assets/Images/propic1.jpg' },
     // Add more users as needed
   ];
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   return (
     <div className="container">
-
+  <div className="sidebar-toggle-button" onClick={toggleSidebar}>
+        ☰
+      </div>
+      <div className="leftsidebar"><BuddyHomeFooter /></div>
+      <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
       <Header title="Received" />
       <div className="user-list">
         {users.map(user => (
@@ -25,15 +38,18 @@ const ReceivedPage = () => {
             key={user.id}
             user={user}
             actions={[
-              { className: 'accept-icon', icon:  '✔️' },
-              { className: 'remove-icon', icon: '❌' },
+              { className: 'accept-icon', icon: <TiTick />},
+              { className: 'remove-icon', icon:<RxCross2 />},
             ]}
           />
         ))}
       </div>
-      <div className='customFooter'> <BuddyHomeFooter/></div>
     </div>
-  );
+    <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+    <RightSideBar />
+  </div>
+</div>
+);
 };
-
+  
 export default ReceivedPage;

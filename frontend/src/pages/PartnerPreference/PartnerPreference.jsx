@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './PartnerPreference.css';
-
 import { Range, getTrackBackground } from "react-range";
-import Footer from '../../components/Footer/Footer';
 import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
 
 const PartnerPreference = () => {
   const [ageRange, setAgeRange] = useState([18, 35]);
@@ -11,6 +10,11 @@ const PartnerPreference = () => {
   const [weightRange, setWeightRange] = useState([40, 150]);
   const [locations, setLocations] = useState(['Kochi', 'Kollam', 'Aluva']);
   const [hobbies, setHobbies] = useState(['yoga', 'jazz', 'cooking']);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
 
   const removeTag = (type, tag) => {
     if (type === 'location') {
@@ -21,104 +25,111 @@ const PartnerPreference = () => {
   };
 
   return (
-    <div className="prefer-container">
-
-      <div className="preference-container">
-        <header className="header">
-          <h2>Privacy & Settings</h2>
-        </header>
-        <div className="preference-section">
-          <h2>Partner Preference</h2>
-          <div className="preference-form">
-            <FormGroup
-              label="Age"
-              values={ageRange}
-              min={18}
-              max={35}
-              onChange={setAgeRange}
-              text=""
-            />
-          </div>
-          <div className="form-group">
-            <label>Gender</label>
-            <select>
-              <option value="">Value</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Locations</label>
-            <div className="tags">
-              {locations.map((location) => (
-                <span key={location}>
-                  {location} <button onClick={() => removeTag('location', location)}>x</button>
-                </span>
-              ))}
+    <div className="container">
+      <div className="leftsidebar"><BuddyHomeFooter /></div>
+      <div className="main-content">
+        <div className="sidebar-toggle-button" onClick={toggleSidebar}>
+          ☰
+        </div>
+        <div className={`preference-container ${isSidebarOpen ? 'blur' : ''}`}>
+          <header className="preference-header">
+            <h2>Privacy & Settings</h2>
+          </header>
+          <div className="preference-section">
+            <h2>Partner Preference</h2>
+            <div className="preference-form">
+              <FormGroup
+                label="Age"
+                values={ageRange}
+                min={18}
+                max={35}
+                onChange={setAgeRange}
+                text=""
+              />
             </div>
-          </div>
-          <div className="form-group">
-            <label>Interests & Hobbies</label>
-            <div className="tags">
-              {hobbies.map((hobby) => (
-                <span key={hobby}>
-                  {hobby} <button onClick={() => removeTag('hobby', hobby)}>x</button>
-                </span>
-              ))}
+            <div className="form-group">
+              <label>Gender</label>
+              <select>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+              </select>
             </div>
-          </div>
-          <div className="form-group">
-            <label>Education Level</label>
-            <select>
-              <option value="">Value</option>
-              <option value="highschool">High School</option>
-              <option value="bachelor">Bachelor's</option>
-              <option value="master">Master's</option>
-              <option value="doctorate">Doctorate</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <RangeGroup
-              label="Height"
-              values={heightRange}
-              text="cm"
-              min={100}
-              max={220}
-              onChange={setHeightRange}
-            />
-            <RangeGroup
-              label="Weight"
-              values={weightRange}
-              text="kg"
-              min={40}
-              max={150}
-              onChange={setWeightRange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Religion</label>
-            <select>
-              <option value="">Value</option>
-              <option value="christianity">Christianity</option>
-              <option value="islam">Islam</option>
-              <option value="hinduism">Hinduism</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Occupation</label>
-            <select>
-              <option value="">Value</option>
-              <option value="student">Student</option>
-              <option value="employed">Employed</option>
-              <option value="self-employed">Self-Employed</option>
-              <option value="unemployed">Unemployed</option>
-            </select>
+            <div className="form-group">
+              <label>Locations</label>
+              <div className="tags">
+                {locations.map((location) => (
+                  <span key={location}>
+                    {location} <button onClick={() => removeTag('location', location)}>x</button>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Interests & Hobbies</label>
+              <div className="tags">
+                {hobbies.map((hobby) => (
+                  <span key={hobby}>
+                    {hobby} <button onClick={() => removeTag('hobby', hobby)}>x</button>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="form-group">
+              <label>Education Level</label>
+              <select>
+                <option value="">Select</option>
+                <option value="highschool">High School</option>
+                <option value="bachelor">Bachelor's</option>
+                <option value="master">Master's</option>
+                <option value="doctorate">Doctorate</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <RangeGroup
+                label="Height"
+                values={heightRange}
+                text="cm"
+                min={100}
+                max={220}
+                onChange={setHeightRange}
+              />
+              <RangeGroup
+                label="Weight"
+                values={weightRange}
+                text="kg"
+                min={40}
+                max={150}
+                onChange={setWeightRange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Religion</label>
+              <select>
+                <option value="">Select</option>
+                <option value="christianity">Christianity</option>
+                <option value="islam">Islam</option>
+                <option value="hinduism">Hinduism</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Occupation</label>
+              <select>
+                <option value="">Select</option>
+                <option value="student">Student</option>
+                <option value="employed">Employed</option>
+                <option value="self-employed">Self-Employed</option>
+                <option value="unemployed">Unemployed</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
-      <div className='customFooter'> <BuddyHomeFooter/></div>
+      <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <RightSideBar />
+      </div>
     </div>
   );
 };

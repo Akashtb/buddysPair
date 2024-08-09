@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import React, { useState } from 'react';
 import Header from '../../components/NotifyHeader/Header';
-import Footer from '../../components/Footer/Footer';
-import './Filter.css';
 import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import { SiTicktick } from 'react-icons/si';
+import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
+import './Filter.css';
 
 const Filter = () => {
     const [sortSelection, setSortSelection] = useState({
         newestMembers: false,
         lastActive: false,
-        location: false
+        location: false,
     });
 
     const [filterSelection, setFilterSelection] = useState({
@@ -18,8 +17,14 @@ const Filter = () => {
         age: false,
         location: false,
         interestsHobbies: false,
-        religion: false
+        religion: false,
     });
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
 
     const handleSortClick = (key) => {
         setSortSelection((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -30,8 +35,12 @@ const Filter = () => {
     };
 
     return (
-        <div className="filter-container">
-            <div className="filter-header">
+        <div className="container">
+            <div className="sidebar-toggle-button" onClick={toggleSidebar}>
+                ☰
+            </div>
+            <div className="leftsidebar"><BuddyHomeFooter /></div>
+            <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
                 <Header title="Filter" />
                 <div className="filter-content">
                     <div className="filter-section">
@@ -40,10 +49,7 @@ const Filter = () => {
                             {Object.keys(sortSelection).map((key) => (
                                 <li key={key} onClick={() => handleSortClick(key)}>
                                     <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                                    <FontAwesomeIcon
-                                        icon={sortSelection[key] ? faTimesCircle : faCheckCircle}
-                                        className="icon-tick"
-                                    />
+                                    <SiTicktick />
                                 </li>
                             ))}
                         </ul>
@@ -54,10 +60,7 @@ const Filter = () => {
                             {Object.keys(filterSelection).map((key) => (
                                 <li key={key} onClick={() => handleFilterClick(key)}>
                                     <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                                    <FontAwesomeIcon
-                                        icon={filterSelection[key] ? faTimesCircle : faCheckCircle}
-                                        className="icon-tick"
-                                    />
+                                    <SiTicktick />
                                 </li>
                             ))}
                         </ul>
@@ -68,7 +71,9 @@ const Filter = () => {
                     </div>
                 </div>
             </div>
-            <div className='customFooter'> <BuddyHomeFooter/></div>
+            <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+                <RightSideBar />
+            </div>
         </div>
     );
 };

@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './SubscriptionPlan.css';
-import Footer from '../../components/Footer/Footer';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import Header from '../../components/NotifyHeader/Header';
+import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
 
 const SubscriptionPlan = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
-    <div className="subscription-page">
-      <div className="subscription-plan">
-        <header className="subscription-header">
-          <h1>Subscription Plan</h1>
-        </header>
-        <main className="subscription-content">
+    <div className="subscription-container">
+      <div className="sidebar-toggle-button" onClick={toggleSidebar}>
+        ☰
+      </div>
+      <div className="leftsidebar"><BuddyHomeFooter /></div>
+      <div className={`subscription-main ${isSidebarOpen ? 'blur' : ''}`}>
+        <Header title="Subscription Plan" />
+        <div className="subscription-content">
           <div className="plan-card">
             <h2>Prime Member</h2>
             <p className="price">₹49/month</p>
@@ -59,10 +69,12 @@ const SubscriptionPlan = () => {
             </div>
             <button className="subscribe-button">Subscribe</button>
           </div>
-        </main>
+        </div>
       </div>
-      <div className='customFooter'> <BuddyHomeFooter/></div>
+      <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <RightSideBar />
       </div>
+    </div>
   );
 };
 

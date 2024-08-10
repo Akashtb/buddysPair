@@ -1,19 +1,54 @@
-.nav333 {
-  margin-top: 20px;
+.anoop20 .side1-7 h1 {
+  position: absolute;
+  margin-top: -45%;
+  font-family: Aldrich;
+  margin-left: -5%;
+}
+.anoop20 .side1-7 {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 1px 1px 12px rgb(187, 186, 186);
+  width: 240px;
+  position: fixed;
+  height: 110%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  box-sizing: border-box;
+  padding-left: 3%;
+  padding-top: 10%;
+  margin-top: -1%;
+  margin-left: -1%;
+  gap: 10px;
+}
+.anoop20 .side1-7 h3 {
+  font-family: Aldrich;
+  font-size: 16px;
+}
+.anoop20 .side1-7 .fa-solid,
+.fa-brands {
+  font-size: 130%;
+  width: 30px;
+}
+.anoop20 .pro1-6 {
+  margin-top: 110%;
+}
+.anoop20 .nav333 {
+  margin-top: px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 10px 0px 10px;
+  padding: 20px 20px 0px 20px;
 }
 
-.nav333 .fa-solid {
+.anoop20 .nav333 .fa-solid {
   box-shadow: 0px 0px 0px;
   background-color: white;
   margin-top: -20px;
 }
 
-.pay10 {
+.anoop20 .pay10 {
   display: flex;
+  gap: 60px;
   align-items: center;
   width: 100%;
   height: 70px;
@@ -22,8 +57,9 @@
   border-radius: 20px;
   border: 2px solid rgb(202, 200, 200);
 }
-.pay10-1 {
+.anoop20 .pay10-1 {
   display: flex;
+  gap: 60px;
   align-items: center;
   width: 100%;
   height: 70px;
@@ -32,40 +68,39 @@
   border-radius: 20px;
   border: 2px solid rgb(202, 200, 200);
 }
-.pay10-1 .pay11 {
+.anoop20 .pay10-1 .pay11 {
   margin-left: 20px;
 }
-.pay10 img {
+.anoop20 .pay10 img {
   width: 80px;
 }
-.pay11 {
-  margin-top: -10px;
+.anoop20 .pay11 {
+  /* margin-top: 60px; */
 }
-.pay10-2 .fa-solid {
+.anoop20 .pay10-2 .fa-solid {
   position: absolute;
-  margin-left: 250px;
+  margin-left: 290px;
   box-shadow: 0px 0px 0px;
   padding: 0;
   background-color: rgb(0, 34, 68);
   color: white;
   padding: 3px;
 }
-.pay11 p {
+.anoop20 .pay11 p {
   width: 100px;
   font-size: 10px;
-  /* margin-left: 10px; */
-  background-color: rgb(255, 255, 255);
-  margin-top: -10px;
+  margin-left: -10px;
+  background-color: white;
 }
-.pay11 h3 {
+.anoop20 .pay11 h3 {
   font-size: 15px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
-  background-color: rgb(255, 255, 255);
 }
 
-.pay10-2 {
+.anoop20 .pay10-2 {
   display: flex;
+  gap: 60px;
   align-items: center;
   width: 100%;
   height: 70px;
@@ -74,17 +109,18 @@
   border-radius: 20px;
   border: 2px solid rgb(202, 200, 200);
 }
-.pay10-2 .pay11 {
+.anoop20 .pay10-2 .pay11 {
   margin-left: 10px;
 }
-.im {
+.anoop20 .im {
   background-color: orange;
   padding: 0 10px 0px 10px;
   width: 35px;
 }
 
-.pay19 {
-  width: 100%;
+.anoop20 .pay19 {
+  width: 400px;
+  margin: auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -94,9 +130,10 @@
   align-items: center;
   /* text-align: start; */
   /* background-color: antiquewhite; */
+  box-shadow: 2px 2px 7px rgb(178, 177, 177);
 }
-.pay19 button {
-  width: 90%;
+.anoop20 .pay19 button {
+  width: 100%;
   border: 0;
   background-color: rgb(102, 41, 78);
   color: white;
@@ -104,41 +141,93 @@
   margin-top: 20px;
   border-radius: 10px;
 }
-.pay19 h1 {
-  font-size: 30px;
+.anoop20 .pay19 h1 {
+  font-size: 35px;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   color: rgb(110, 50, 80);
 }
-.p1-1 {
+.anoop20 .p1-1 {
   background-color: white;
   font-size: 12px;
 }
 
-.pay19 .meth {
-  margin-right: 120px;
+.anoop20 .pay19 .meth {
+  margin-right: 150px;
   width: 200px;
   font-size: 12px;
   /* position: absolute; */
   /* background-color: antiquewhite; */
 }
+@media screen and (max-width: 1030px) {
+  .anoop20 .pay19 {
+    margin-left: 35%;
+  }
+  .anoop20 .side1-7 {
+    padding-top: 200px;
+  }
+}
+@media screen and (min-width: 300px) and (max-width: 400px) {
+  .anoop20 .meth {
+    margin-left: 50px;
+    /* background-color: aqua; */
+  }
+  .anoop20 h1 {
+    width: 300px;
+  }
+  .anoop20 .pay19 {
+    width: 110%;
+  }
+  .anoop20 .pay11 {
+    /* background-color: antiquewhite; */
+  }
+  .anoop20 .pay10 {
+    width: 120%;
+    /* background-color: antiquewhite; */
+  }
 
-@media screen and (min-width: 500px) {
-  .pay19 {
-    width: 500px;
+  .anoop20 .pay10-1 {
+    width: 120%;
+    /* background-color: antiquewhite; */
+  }
+  .anoop20 .pay10-2 {
+    width: 120%;
+    /* background-color: antiquewhite; */
+  }
+}
+@media screen and (max-width: 700px) {
+  .anoop20 .side1-7 {
+    display: none;
+  }
+  .anoop20 .pay19 h3 {
+    font-size: 18px;
+  }
+  .anoop20 .pay19 {
+    width: 90%;
     margin: auto;
+    box-shadow: 0px 0px 0px;
   }
-  .pay11 {
-    margin-left: 100px;
+  .anoop20 .pay11 {
+    margin-left: 7%;
   }
-  .pay10-1 .pay11 {
-    margin-left: 130px;
+  .anoop20 .pay10 {
+    gap: 10px;
   }
-  .pay10-2 .pay11 {
-    margin-left: 130px;
+  .anoop20 .pay10-1 {
+    gap: 10px;
   }
-  .pay10-2 .fa-solid {
+  .anoop20 .pay10-1 .pay11 {
+    margin-left: 15%;
+  }
+  .anoop20 .pay10-2 .pay11 {
+    margin-left: 15%;
+  }
+  .anoop20 .pay10-2 .fa-solid {
     position: absolute;
-    margin-left: 400px;
+    margin-left: 69%;
+    border-radius: 5px;
+  }
+  .anoop20 .pay10-2 {
+    gap: 10px;
   }
 }

@@ -2,7 +2,32 @@ import "./pay.css";
 
 const Payment = () => {
   return (
-    <div className="payment12">
+    <div className="anoop20">
+      <div className="side1-7">
+        <h1>Matrimony</h1>
+        <h3>
+          <i class="fa-solid fa-house"></i> Home
+        </h3>
+        <h3>
+          {" "}
+          <i class="fa-brands fa-facebook-messenger"></i> Message
+        </h3>
+        <h3>
+          {" "}
+          <i class="fa-solid fa-star"></i> Favorites
+        </h3>
+        <h3>
+          <i class="fa-solid fa-bell"></i> Notifications
+        </h3>
+        <h3>
+          {" "}
+          <i class="fa-solid fa-gear"></i> Settings
+        </h3>
+
+        <h3 className="pro1-6">
+          <i class="fa-solid fa-user"></i> Profile
+        </h3>
+      </div>
       <div className="pay1123">
         <div className="nav333">
           <label htmlFor="">
@@ -35,6 +60,7 @@ const Payment = () => {
             <img src="src/assets/Authentication/pay2.svg" alt="" />
             <div className="pay11">
               <h3>********876</h3>
+
               <p>Expires 09/24</p>
             </div>
           </div>

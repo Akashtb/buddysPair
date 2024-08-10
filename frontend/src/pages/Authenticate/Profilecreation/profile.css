@@ -1,4 +1,5 @@
-.card1 {
+.anoop15 .card1 {
+  background-color: white;
   width: 500px;
   /* background-color: rgb(205, 205, 205); */
   /* border: 1px solid black; */
@@ -6,16 +7,16 @@
   text-align: center;
   padding-bottom: 20px;
   padding-top: 30px;
-  box-shadow: 3px 3px 7px grey;
+  box-shadow: 3px 3px 7px rgb(182, 180, 180);
 }
-.card1_1 {
+.anoop15 .card1_1 {
   padding-top: 30px;
   display: inline-flex;
   flex-direction: column;
   align-items: start;
 }
 
-.card2 {
+.anoop15 .card2 {
   width: 500px;
   /* background-color: rgb(205, 205, 205); */
   /* border: 1px solid black; */
@@ -25,13 +26,13 @@
   padding-top: 30px;
   box-shadow: 3px 3px 7px grey;
 }
-.card1_2 {
+.anoop15 .card1_2 {
   padding-top: 30px;
   display: inline-flex;
   flex-direction: column;
   align-items: start;
 }
-.card3 {
+.anoop15 .card3 {
   width: 500px;
   /* background-color: rgb(205, 205, 205); */
   /* border: 1px solid black; */
@@ -41,13 +42,13 @@
   padding-top: 30px;
   box-shadow: 3px 3px 7px grey;
 }
-.card1_3 {
+.anoop15 .card1_3 {
   padding-top: 30px;
   display: inline-flex;
   flex-direction: column;
   align-items: start;
 }
-.card4 {
+.anoop15 .card4 {
   width: 500px;
   /* background-color: rgb(205, 205, 205); */
   /* border: 1px solid black; */
@@ -57,13 +58,13 @@
   padding-top: 30px;
   box-shadow: 3px 3px 7px grey;
 }
-.card1_4 {
+.anoop15 .card1_4 {
   padding-top: 30px;
   display: inline-flex;
   flex-direction: column;
   align-items: start;
 }
-.card5 {
+.anoop15 .card5 {
   width: 500px;
   /* background-color: rgb(205, 205, 205); */
   /* border: 1px solid black; */
@@ -73,46 +74,54 @@
   padding-top: 30px;
   box-shadow: 3px 3px 7px grey;
 }
-.card1_5 {
-  padding-top: 30px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: start;
-}
-
-.card6 {
-  width: 500px;
-  /* background-color: rgb(205, 205, 205); */
-  /* border: 1px solid black; */
-  border-radius: 10px;
-  text-align: center;
-  padding-bottom: 20px;
-  padding-top: 30px;
-  box-shadow: 3px 3px 7px grey;
-}
-.card1_6 {
+.anoop15 .card1_5 {
   padding-top: 30px;
   display: inline-flex;
   flex-direction: column;
   align-items: start;
 }
 
-.box12 {
+.anoop15 .card6 {
+  width: 500px;
+  /* background-color: rgb(205, 205, 205); */
+  /* border: 1px solid black; */
+  border-radius: 10px;
+  text-align: center;
+  padding-bottom: 20px;
+  padding-top: 30px;
+  box-shadow: 3px 3px 7px rgb(186, 184, 184);
+}
+.anoop15 .card1_6 {
+  padding-top: 30px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.anoop15 .box12 {
   margin-top: 40px;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
 }
-textarea {
+.anoop15 .box12 input {
+  height: 30px;
+  width: 250px;
+  border-radius: 5px;
+  border: 2px solid rgb(185, 182, 182);
+}
+.anoop15 .box12 textarea {
   width: 250px;
   height: 50px;
+  border: 2px solid rgb(194, 191, 191);
+  border-radius: 5px;
 }
-footer {
+.anoop15 footer {
   height: 200px;
 }
 
-.sub {
+.anoop15 .sub {
   width: 70px;
   margin-top: 20px;
   margin-left: 79%;
@@ -128,33 +137,62 @@ footer {
   font-size: 16px;
 }
 
-.skip {
+.anoop15 .skip {
   margin-top: 20px;
   margin-left: 90%;
   background-color: #000000; /* Green */
   border: none;
   border-radius: 5px;
   color: rgb(255, 255, 255);
-  padding: 10px 10px;
+  padding: 5px 10px 5px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
 }
 
-select {
-  width: 100px;
-}
-
-.head {
+.anoop15 .head {
   font-size: 100px;
   margin-left: 100px;
 }
-
-@media screen and (max-width: 500px) {
-  .box12 {
+.anoop15 {
+  width: 100%;
+  background-image: url("../../src/assets/Authentication/Backround1.jpeg");
+  height: 550px;
+  /* background-size: contain; */
+  background-position: -5px 90px;
+  /* margin-top: 10%; */
+  padding-top: 20%;
+  overflow: hidden;
+  overflow: scroll;
+}
+.anoop15 .box12 div {
+  background-color: white;
+}
+@media screen and (max-width: 1030px) {
+  .anoop15 .box12 {
+    /* background-color: white; */
+    margin: auto;
     width: 360px;
-    margin-left: 6px;
-    box-shadow: 1px 1px 6px rgb(202, 202, 202);
+    /* margin-left: 6px; */
+    /* box-shadow: 1px 1px 6px rgb(208, 207, 207); */
+  }
+  .anoop15 .skip {
+    margin-left: 80%;
+    margin-bottom: 10px;
+  }
+  .anoop15 {
+    width: 100%;
+    background-image: url("../../src/assets/Authentication/Backround2.jpeg");
+    height: 1040px;
+    background-size: cover;
+    background-position: -50px -70px;
+    /* margin-top: 10%; */
+    padding-top: 20%;
+    overflow: hidden;
+    overflow: scroll;
+  }
+  .anoop15 .box12 div {
+    background-color: white;
   }
 }

@@ -53,7 +53,7 @@ const Registration = () => {
   //
 
   return (
-    <div className="reg">
+    <div className="anoop16">
       <div className="box">
         {/* <h1>{person}</h1> */}
         <div className="card1_1_1">
@@ -129,6 +129,7 @@ const Registration = () => {
                   type="file"
                   name="propic"
                   onChange={onSignup}
+                  className="pp"
                 />
               </label>
 

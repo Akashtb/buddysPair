@@ -1,5 +1,5 @@
 import "../intrest.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Confirm = () => {
   const { id } = useParams();
@@ -10,7 +10,7 @@ const Confirm = () => {
   };
 
   return (
-    <div className="intrest12">
+    <div className="anoop11">
       <div className="intrest2">
         <h3>Intrested</h3>
         <button onClick={Yes} className="short">

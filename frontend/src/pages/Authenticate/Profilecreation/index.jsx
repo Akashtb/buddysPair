@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./profile.css";
 
@@ -61,7 +61,7 @@ const Profile = () => {
     );
     // console.log("hlooooo", response.data.pro._id);
     if (response.data.pro) {
-      navigate(`/log`);
+      navigate(`/login`);
     }
   };
   useEffect(() => {
@@ -69,9 +69,9 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="profile">
+    <div className="anoop15">
       {/* <h1 className="head">Matrimony</h1> */}
-      <button className="skip">Skip {">>"}</button>
+      <button className="skip">Skip </button>
       <div className="box12">
         <div className="card1">
           <h3>personal details</h3>

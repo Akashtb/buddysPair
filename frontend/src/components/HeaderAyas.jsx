@@ -11,6 +11,7 @@ const Header = ({ title }) => {
         </div>
 
       </div>
+            <div className='grid grid-cols-1 bg-white h-7 rounded-t-full -my-6'></div>
     </div>
   )
 }

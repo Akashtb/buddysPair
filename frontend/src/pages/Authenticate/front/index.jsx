@@ -15,7 +15,7 @@ const Front = () => {
     window.location.href = "http://localhost:1400/pass/login/federated/google";
   };
   return (
-    <div className="front">
+    <div className="anoop1">
       <div className="page1">
         <img
           className="pageImg1"
@@ -30,18 +30,24 @@ const Front = () => {
             around you
           </h1>
           <div className="button1">
-            <i class="fa-solid fa-phone-volume"></i>
-            <button className="frontbtn" onClick={phone}>
-              Login with Phone
-            </button>
-            <button className="frontbtn1" onClick={respos}>
-              Login with Google
-            </button>
-            <img
-              className="img13"
-              src="src/assets/Authentication/google_13170545.png"
-              alt=""
-            />
+            <div className="f12">
+              <i class="fa-solid fa-phone-volume"></i>
+              <button className="frontbtn" onClick={phone}>
+                {" "}
+                Login with Phone
+              </button>
+            </div>
+            <div className="f13">
+              <img
+                className="img13"
+                src="src/assets/Authentication/google_13170545.png"
+                alt=""
+              />
+              <button className="frontbtn1" onClick={respos}>
+                Login with Google
+              </button>
+            </div>
+
             <p className="p12">
               Don't have an account?{" "}
               <a href="" className="a1" onClick={Signup}>

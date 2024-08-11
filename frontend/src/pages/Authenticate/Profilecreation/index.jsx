@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./profile.css";
 
@@ -61,7 +61,7 @@ const Profile = () => {
     );
     // console.log("hlooooo", response.data.pro._id);
     if (response.data.pro) {
-      navigate(`/log`);
+      navigate(`/login`);
     }
   };
   useEffect(() => {
@@ -69,103 +69,172 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="profile">
+    <div className="anoop15">
       {/* <h1 className="head">Matrimony</h1> */}
-      <button className="skip">Skip {">>"}</button>
-      <div className="box12">
-        <div className="card1">
-          <h3>personal details</h3>
-          <div className="card1_1">
-            <label htmlFor="">Gender</label>
-            {/* <select name="gender" id="frame" onSelect={onPro}>
-              <option value="">Male</option>
-              <option value="">Female</option>
-              <option value="">Other</option>
-            </select>{" "} */}
-            <input type="text" name="gender" onChange={onPro} id="" />
-            <br />
-            <label htmlFor="">Religion</label>
-            <input type="text" name="religion" onChange={onPro} /> <br />
-            <label htmlFor="">Horriscope</label>
-            <input type="text" name="horriscope" onChange={onPro} /> <br />
-            <label htmlFor="">Mother Toungue</label>
-            <input type="text" name="motherTongue" onChange={onPro} />
-            <br />
-            <label htmlFor="">Marrital status</label>
-            <input type="text" name="marrital" onChange={onPro} />
-          </div>
-        </div>
-        <div className="card2">
-          <h3>Basic info</h3>
-          <div className="card1_2">
-            <label htmlFor="">About</label>
-            <textarea name="about" id="" onChange={onPro}></textarea>
-            <br />
-            <label htmlFor="">Height</label>
-            <input type="number" name="height" onChange={onPro} />
-            <br />
-            <label htmlFor="">Weight</label>
-            <input label="" type="number" name="weight" onChange={onPro} />
-            <br />
-            <label htmlFor="">Body type</label>
-            <input type="text" name="bodytype" onChange={onPro} />
-            <br />
-          </div>
-        </div>
 
-        <div className="card3">
-          <h3>Career</h3>
-          <div className="card1_3">
-            <label htmlFor="">Education</label>
-            <input type="text" name="education" onChange={onPro} />
+      <div className="box12">
+        <h3>Additional details</h3>
+        <div className="box77">
+          <div className="card55">
+            <textarea name="" placeholder="About" id=""></textarea>
+            <br />{" "}
+            <select name="" id="">
+              <option value="">Marital Status</option>
+              <option value="">married</option>
+            </select>
             <br />
-            <label htmlFor="">Occupation</label>
-            <input type="text" name="occupation" onChange={onPro} />
+            {/* <label htmlFor="">Religion</label> */}
+            <input
+              placeholder="Annual Income"
+              type="text"
+              name="religion"
+              onChange={onPro}
+            />{" "}
             <br />
-            <label htmlFor="">Annual income</label>
-            <input type="number" name="income" onChange={onPro} />
+            {/* <label htmlFor="">Horriscope</label> */}
+            <input
+              placeholder="Family Type"
+              type="text"
+              name="horriscope"
+              onChange={onPro}
+            />{" "}
             <br />
-            <label htmlFor="">Passion</label>
-            <input type="text" name="passsion" onChange={onPro} />
+            {/* <label htmlFor="">Marrital status</label> */}
+            <input
+              placeholder="Father's Name"
+              type="text"
+              name="marrital"
+              onChange={onPro}
+            />
             <br />
-            <label htmlFor="">Future plans</label>
-            <input type="text" name="futureplan" onChange={onPro} />
+            {/* <label htmlFor="">About</label> */}
+            <input
+              placeholder="Father's Occupation"
+              name="about"
+              id=""
+              onChange={onPro}
+            ></input>
+            <br />
+            {/* <label htmlFor="">Height</label> */}
+            <input
+              placeholder="Mother's Name"
+              type="number"
+              name="height"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Weight</label> */}
+            <input
+              placeholder="Mother's Occupation"
+              label=""
+              type="number"
+              name="weight"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Body type</label> */}
+            <input
+              placeholder="Number of Siblings"
+              type="text"
+              name="bodytype"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Education</label> */}
+          </div>
+
+          <div className="card66">
+            <input
+              placeholder="Number of Siblings Married"
+              type="text"
+              name="education"
+              onChange={onPro}
+            />{" "}
+            <br />
+            {/* <label htmlFor="">Occupation</label> */}
+            <input
+              placeholder="Siblings Name & Details"
+              type="text"
+              name="occupation"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Annual income</label> */}
+            <input
+              placeholder="Height"
+              type="number"
+              name="income"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Passion</label> */}
+            <input
+              placeholder="Weight"
+              type="text"
+              name="passsion"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Future plans</label> */}
+            <input
+              placeholder="Body Type"
+              type="text"
+              name="futureplan"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Father Name</label> */}
+            <input
+              placeholder="Complexion"
+              type="text"
+              name="fathername"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Father Occupation</label> */}
+            <input
+              placeholder="Disabilities"
+              type="text"
+              name="fatherjob"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Mother Name</label> */}
+            <input
+              placeholder="Religion"
+              type="text"
+              name="mothername"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label  htmlFor="">Mother Occupation</label> */}
+            <input
+              placeholder="Cast/Community"
+              type="text"
+              name="motherjob"
+              onChange={onPro}
+            />
+            <br />
+            {/* <label htmlFor="">Siblings</label> */}
+            <input
+              placeholder="Expectaions from Partner"
+              type="text"
+              name="siblings"
+              onChange={onPro}
+            />{" "}
+            <br />
+            <input
+              placeholder="Gender"
+              type="text"
+              name="gender"
+              onChange={onPro}
+            />
           </div>
         </div>
-        <div className="card4">
-          <h3>family</h3>
-          <div className="card1_4">
-            <label htmlFor="">Father Name</label>
-            <input type="text" name="fathername" onChange={onPro} />
-            <br />
-            <label htmlFor="">Father Occupation</label>
-            <input type="text" name="fatherjob" onChange={onPro} />
-            <br />
-            <label htmlFor="">Mother Name</label>
-            <input type="text" name="mothername" onChange={onPro} />
-            <br />
-            <label htmlFor="">Mother Occupation</label>
-            <input type="text" name="motherjob" onChange={onPro} />
-            <br />
-            <label htmlFor="">Siblings</label>
-            <input type="text" name="siblings" onChange={onPro} />
-          </div>
-        </div>
-        <div className="card5">
-          <h3>Address</h3>
-          <div className="card1_5">
-            <label htmlFor="">Contact</label>
-            <input type="number" name="contact" onChange={onPro} /> <br />
-            <label htmlFor="">email</label>
-            <input type="text" name="email" onChange={onPro} /> <br />
-            <label htmlFor="">Address</label>
-            <input type="text" name="address" onChange={onPro} /> <br />
-          </div>
-        </div>
+        <button className="sub" onClick={Next3}>
+          Next
+        </button>
       </div>
-      <button className="sub" onClick={Next3}>
-        Submit
-      </button>
 
       {/* <Link to="/landing" className="sub">
         Submit

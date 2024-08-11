@@ -32,17 +32,17 @@ const Login = () => {
   };
 
   return (
-    <div className="full">
+    <div className="anoop2">
       <h1></h1>
 
       <div className="login">
         <h3>Login</h3>
         <div className="inputt">
-          <label htmlFor="">username</label>
+          <label htmlFor="">Username</label>
           <input type="text" name="username" onChange={insert} />
           <br />
 
-          <label htmlFor="">password</label>
+          <label htmlFor="">Password</label>
           <input type="text" name="password" onChange={insert} />
         </div>
 

@@ -38,7 +38,7 @@ const Job = () => {
   }, []);
 
   return (
-    <div className="job123">
+    <div className="anoop12">
       <div className="job">
         <h3>Job Status</h3>
 

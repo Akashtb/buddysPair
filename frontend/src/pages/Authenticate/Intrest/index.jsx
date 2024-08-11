@@ -17,7 +17,7 @@ const Intrest = () => {
   }, []);
 
   return (
-    <div className="look12">
+    <div className="anoop10">
       <div className="look">
         <h3>Relationship Goals</h3>
         <div className="check12">

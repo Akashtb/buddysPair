@@ -1,25 +1,23 @@
-.container {
+.activitycontainer{
   display: flex;
-  flex-direction: row;
-  height: 100vh;
+  height: 100%;
   background-color: #4B164C;
-  position: relative;
   width: 100%;
-  overflow-y: auto;
 }
 
-.leftsidebar {
-  flex: 0 0 130px;
-  /* Fixed width for left sidebar */
-  transition: filter 0.3s;
+.leftsidebar { 
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 10px;
+  border-radius: 0 40px 40px 0;
+  box-shadow: 8px 0px 40px 0px #75227726;
 }
 
 .main {
   padding: 20px;
-  width: 100%;
-  height: 100%;
-  transition: filter 0.3s;
-  margin-right: 55px;
+  width: calc(100% - 130px);
 }
 
 .leftsidebar.blur,
@@ -28,23 +26,34 @@
 }
 
 .activity-header {
-  display: flex;
-  justify-content: space-between;
-  position: sticky;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 80px;
+  background-color: #4B164C;
+  padding: 10px;
+  z-index: 1000;
+
 }
 
 .user-list {
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
+  margin-top: 80px; /* to account for fixed header */
+  padding-top: 20px;
+  height: calc(100vh - 70px);
+  margin-left:80px;
   background-color: #fff;
   border-radius: 20px 20px 0 0;
-  /* Rounded top corners */
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-  /* Shadow for better visibility */
-  margin-top: auto;
-  /* Push to the bottom */
-  height: 100vh;
+}
+.letter-heading {
+  font-size: 18px; /* Adjust size as needed */
+  font-weight: bold;
+  color: #4B164C; /* Match the header background color or choose another color */
+  margin: 20px 0 10px; /* Adjust margins for spacing */
+  padding: 0 10px; /* Add some padding if needed */
+  border-bottom: 2px solid #ddd; /* Optional border to separate groups */
+  background-color: #f9f9f9; /* Light background to make it stand out */
+  border-radius: 5px; /* Rounded corners for a softer look */
 }
 
 .call-icon {
@@ -81,7 +90,13 @@
     flex: none;
     padding: 20px;
   }
-
+  .activity-header {
+    left: 0;
+  }
+  .user-list {
+    height: calc(100vh - 50px);
+    margin-left:0px;
+  }
 
 }
 
@@ -90,7 +105,9 @@
     height: calc(100vh - 60px);
     /* Adjust height to fit within viewport minus some padding */
   }
-
+  .activity-header {
+    left: 0;
+  }
   .main {
     padding: 10px;
   }
@@ -101,7 +118,9 @@
     align-items: center;
     justify-content: space-between;
   }
-
+  .user-list {
+    margin-left:0px;
+  }
   .user-details {
     flex: 1;
   }
@@ -116,8 +135,13 @@
   .user-list {
     height: calc(100vh - 50px);
     /* Adjust height to fit within viewport minus some padding */
-  }
+      margin-left:0px;
 
+    }
+  
+  .activity-header {
+    left: 0;
+  }
   .main {
     padding: 10px;
   }

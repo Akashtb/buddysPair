@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import Header from '../../components/NotifyHeader/Header';
 import { SiTicktick } from 'react-icons/si';
 import './Filter.css';
@@ -22,12 +22,12 @@ const Filter = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showProfileOptions, setShowProfileOptions] = useState(false);
-  
+
     const toggleProfileOptions = () => {
-      setIsSidebarOpen(!isSidebarOpen);
-      setShowProfileOptions(!showProfileOptions);
+        setIsSidebarOpen(!isSidebarOpen);
+        setShowProfileOptions(!showProfileOptions);
     };
-  
+
 
     const handleSortClick = (key) => {
         setSortSelection((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -38,16 +38,17 @@ const Filter = () => {
     };
 
     return (
-        <div className="container">
-             <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
-        <LeftSideBar />
-      </div>
+        <div className="activitycontainer">
+            <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+                <LeftSideBar />
+            </div>
             <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
             <div className="activity-header">
-                <Header title="Filter" />
-                <div className="profilePicContainer" onClick={toggleProfileOptions}>
-            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
-          </div>
+          <Header 
+            title="Filter" 
+            profilePic="assets/Images/propic1.jpg" 
+            onProfilePicClick={toggleProfileOptions} 
+          />
         </div>
                 <div className="filter-content">
                     <div className="filter-section">
@@ -78,12 +79,12 @@ const Filter = () => {
                     </div>
                 </div>
             </div>
-         
-      {showProfileOptions && (
-        <div className="profileOptionsContainer">
-          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
-        </div>
-      )}
+
+            {showProfileOptions && (
+                <div className="profileOptionsContainer">
+                    <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+                </div>
+            )}
         </div>
     );
 };

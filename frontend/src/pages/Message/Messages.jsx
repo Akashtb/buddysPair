@@ -1,4 +1,5 @@
-import  { useState } from 'react';
+// src/pages/Messages.js
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 import './Messages.css';
@@ -15,12 +16,9 @@ const Messages = () => {
     setShowProfileOptions(!showProfileOptions);
   };
 
-
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
   };
-
- 
 
   const messages = [
     { id: 1, name: 'Alfredo Calzoni', age: '27yrs', location: 'Kochi', time: '09:18', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'Hello there!' },
@@ -31,20 +29,18 @@ const Messages = () => {
   ];
 
   return (
-    <div className="container">
-     <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+    <div className="activitycontainer">
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
-      <div className="activity-header">
         <header className="messages-header">
           <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
           <h1 className="title">Messages</h1>
-        </header>
-        <div className="profilePicContainer" onClick={toggleProfileOptions}>
+          <div className="profilePicContainer" onClick={toggleProfileOptions}>
             <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
           </div>
-        </div>
+        </header>
         <section className="messages-list">
           {messages.map(message => (
             <div key={message.id} className="message-item">
@@ -64,7 +60,7 @@ const Messages = () => {
           ))}
         </section>
       </div>
- 
+
       {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />

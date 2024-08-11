@@ -24,16 +24,20 @@
 }
 
 .subscription-content {
+  margin-top: 80px; /* to account for fixed header */
+  padding-top: 20px;
+  height: calc(100vh - 70px);
+  margin-left:80px;
+  background-color: #000000;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  color: #ffffff;
   flex: 1;
   display: flex;
   justify-content: center;
-  background-color: #0b0b0b;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-  color: #ffffff;
   
 }
+
 
 .sub-icon-tick {
   margin-right: 20px;
@@ -91,7 +95,10 @@ hr {
     order: 2;
     width: 100%;
   }
- 
+  .subscription-content {
+    height: 100%;
+    margin-left:0px;
+    }
 
   .subscription-main {
     order: 0;
@@ -110,6 +117,7 @@ hr {
 
   .subscription-content {
     height: 100%;
+    margin-left:0px;
   }
 
   .subscription-main {
@@ -124,6 +132,7 @@ hr {
 
   .subscription-content {
   height: 100%;
+  margin-left:0px;
   }
 
   .subscription-main {

@@ -28,18 +28,18 @@ const PartnerPreference = () => {
   };
 
   return (
-    <div className="container">
+    <div className="activitycontainer">
       <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
-
-      <div className={`preference-container ${isSidebarOpen ? 'blur' : ''}`}>
-        <div className="activity-header">
-            <h2 className="preference-header">Privacy & Settings</h2>
-            <div className="profilePicContainer" onClick={toggleProfileOptions}>
-              <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
-            </div>
+      <div className="preference-header">
+          <h2 >Privacy & Settings</h2>
+          <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
         </div>
+      <div className={`preference-container ${isSidebarOpen ? 'blur' : ''}`}>
+        
         <div className="preference-section">
           <h2>Partner Preference</h2>
           <div className="preference-form">
@@ -257,3 +257,5 @@ const RangeGroup = ({ label, text, values, min, max, onChange }) => (
 );
 
 export default PartnerPreference;
+
+

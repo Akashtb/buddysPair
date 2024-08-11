@@ -24,26 +24,40 @@ const RejectPage = () => {
     setShowProfileOptions(!showProfileOptions);
   };
 
+  const groupedUsers = users.reduce((acc, user) => {
+    const firstLetter = user.name[0].toUpperCase();
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(user);
+    return acc;
+  }, {});
 
   return (
-    <div className="container">
+    <div className="activitycontainer">
    <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
   
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
-      <div className="activity-header">
-        <Header title="Reject" />
-        <div className="profilePicContainer" onClick={toggleProfileOptions}>
-            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
-          </div>
+         <div className="activity-header">
+          <Header 
+            title="Reject" 
+            profilePic="assets/Images/propic1.jpg" 
+            onProfilePicClick={toggleProfileOptions} 
+          />
         </div>
         <div className="user-list">
-          {users.map(user => (
+        {Object.keys(groupedUsers).sort().map(letter => (
+            <div key={letter}>
+              <h2 className="letter-heading">{letter}</h2>
+              {groupedUsers[letter].map(user => (
             <UserCard key={user.id} user={user} actions={[]} />
           ))}
-        </div>
+          </div>
+        ))}
       </div>
+    </div>
       {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />

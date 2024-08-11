@@ -23,10 +23,11 @@ const SubscriptionPlan = () => {
       </div>
       <div className={`subscription-main ${isSidebarOpen ? 'blur' : ''}`}>
       <div className="activity-header">
-        <Header title="Subscription Plan" />
-        <div className="profilePicContainer" onClick={toggleProfileOptions}>
-            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
-          </div>
+          <Header 
+            title="Subscription" 
+            profilePic="assets/Images/propic1.jpg" 
+            onProfilePicClick={toggleProfileOptions} 
+          />
         </div>
         <div className="subscription-content">
           <div className="plan-card">

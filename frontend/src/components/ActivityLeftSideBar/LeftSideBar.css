@@ -87,10 +87,11 @@
   
   @media (max-width: 375px) {
     .LeftSideBarContainer {
-      height: 45px;
-      background-color: transparent;
+      height: 50px;
       padding: 0px;
+      z-index: 1;
     }
+  
   
     .icons {
       gap: 12px;

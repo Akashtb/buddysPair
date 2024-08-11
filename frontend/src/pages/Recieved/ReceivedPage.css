@@ -1,7 +1,3 @@
-.container{
-    position: relative;
-    width: 100%;
-}
 
 .customFooter{
     position: absolute;
@@ -18,3 +14,19 @@
     font-weight: 800;
     font-size: 14px;
 }
+.preference-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #4B164C;
+    color: white;
+    padding: 15px 20px 120px 120px;
+  
+    margin-left: 80px;
+    width: 100%;
+    position: fixed; /* Ensure it stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure it stays above other content */
+  }
+  

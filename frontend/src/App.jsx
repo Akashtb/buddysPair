@@ -18,7 +18,12 @@ import Filter from './pages/Filter/Filter';
 import PartnerPreference from './pages/PartnerPreference/PartnerPreference';
 import SubscriptionPlan from './pages/SubscriptionPlan/SubscriptionPlan';
 
-
+import Settings from './pages/Settings';
+import Edit from './pages/Edit';
+import Change from './pages/Change';
+import Shortlisted from './pages/Shortlisted';
+import Shortlist from './pages/Shortlist';
+import Viewed from './pages/Viewed';
 
 function App() {
   return (
@@ -41,6 +46,14 @@ function App() {
           <Route path="/filter" element={<Filter />} />
           <Route path="/preference" element={<PartnerPreference />} />
           <Route path="/subscription" element={<SubscriptionPlan/>} />
+        
+          <Route path='/setting' element={<Settings Se="Settings"/>} />
+          <Route path='/edit' element={<Edit Se="Edit My Profile"/>}/>
+          <Route path='/change' element={<Change Se="Change Password"/>}/>
+          <Route path='/shortlisted' element={<Shortlisted Se="Shortlisted By"/>}/>
+          <Route path='/short' element={<Shortlist Se="Shortlist"/>}/>
+          <Route path='/view' element={<Viewed Se="Viewed My Profile"/>}/>
+
       </Routes>
     </Router>
   );

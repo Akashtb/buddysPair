@@ -5,49 +5,73 @@
   background-color: #4B164C;
   display: flex;
   flex-direction: column;
-  margin: 0px;
+  margin: 0;
+  height: 100%;
 }
 
-
-
-.container{
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  background-color: #4B164C;
   position: relative;
+  width: 100%;
+  padding: 0;
 }
 
-.customFooter{
+.customFooter {
   position: absolute;
   bottom: 41px;
 }
-.preference-container{
+
+.preference-container {
   color: #fff;
   flex-direction: column;
-  margin: 0;
-  width: 100%;
+  margin-right: 60px;
+  width: 100%; /* Ensure full width */
+}
 
-} 
 .preference-header {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 20px;
   background-color: #4B164C;
+  width: 100%; /* Ensure full width */
+  margin-left:420px;
 }
+
+.preference-header h2 {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+}
+
+.profilePicContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+
 
 .preference-section {
   flex: 1;
-  padding:0px 50px 0 50px;
+  padding: 20px 50px;
   background-color: #fff;
-  height: 150vh;
+  height: auto;
   color: #050505;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  overflow-y:hidden;
+  overflow-y: hidden;
+  margin: 0; /* Remove any margin */
+}
 
+.preference-section h2 {
+  margin: 20px 0;
+  text-align: center;
 }
-.preference-section h2{
-  margin: 20px;
-text-align: center;
-}
+
 .form-group {
   margin-bottom: 15px;
   display: flex;
@@ -108,7 +132,6 @@ text-align: center;
 .range-values {
   display: flex;
   justify-content: space-between;
-
 }
 
 .range-values span {
@@ -122,39 +145,63 @@ text-align: center;
   margin-bottom: 5px;
 }
 
+/* Media Queries */
 
-/* Media query for desktop view */
-@media (min-width: 768px) {
-  .prefer-container {
-    flex-direction: row;
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
   }
 
-  .preference-section {
-    flex: 3;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-  }
-
-  
-}
-@media (width: 430px) {
- 
-
-  .preference-section {
-    padding: 0px 30px;
-  }
-
- 
-}
-
-/* Media query for mobile view (min-width: 375px) */
-@media (min-width: 375px) {
   .preference-header {
-    padding: 30px;
+    padding: 15px;
+    margin: 0;
   }
 
   .preference-section {
-    padding: 0px 20px;
-    height: 100%;
+    padding: 20px 30px;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .profilePicContainer {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 445px) {
+  .preference-section {
+    padding: 15px 20px;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .preference-header {
+    margin: 0;
+    padding: 15px 10px;
+  }
+  .preference-container{
+    margin-left: 20px  ;
+    padding-right: 60px;
+  }
+ 
+}
+
+@media (max-width: 385px) {
+  .preference-section {
+    padding: 10px 15px;
+    height: auto;
+  }
+
+  .preference-header {
+    padding: 10px 5px;
+  }
+
+  .profilePic {
+    height: 30px;
+    width: 30px;
+  }
+  .preference-container{
+    margin-left: 20px  ;
+    padding-right: 40px;
   }
 }

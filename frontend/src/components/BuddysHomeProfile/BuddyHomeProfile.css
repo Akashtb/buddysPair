@@ -5,7 +5,7 @@
     width: 80%;
     max-width: 300px;
     height: 95%;
-    background-color: rgba(128, 0, 128, 0.9); /* Adjust color and opacity */
+    background-color: #4B164C; /* Adjust color and opacity */
     color: white;
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
     z-index: 1000;

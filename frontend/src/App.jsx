@@ -1,10 +1,9 @@
-import React from 'react';
+
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/BuddysHome/Home';
 import './App.css';
 import QualificationSorting from './pages/Qualification/QualificationSorting';
 import EducationSort from './pages/EducationSort/EducationSort';
-
 import QualificationSortingPage from './pages/SortingPages/QualificationSorting/QualificationSortingPage'
 import LocationSortingPage from './pages/SortingPages/LocationSorting/LocationSortingPage';
 import DesignationSortingPage from './pages/SortingPages/DesignationSorting/DesignationSortingPage';
@@ -17,7 +16,11 @@ import ReceivedPage from './pages/Recieved/ReceivedPage';
 import Filter from './pages/Filter/Filter';
 import PartnerPreference from './pages/PartnerPreference/PartnerPreference';
 import SubscriptionPlan from './pages/SubscriptionPlan/SubscriptionPlan';
-import RightSideBar from './components/Rightsidebar/Rightsidebar';
+import ViewedMyProfileActivity from './pages/ViewedMyProfileActivity/ViewedMyProfileActivity';
+import Contacted from './pages/Contacted/Contacted';
+import ShortlistedBy from './pages/ShortlistedBy/ShortlistedBy';
+import Shortlist from './pages/Shortlist/Shortlist';
+
 
 
 
@@ -32,7 +35,6 @@ function App() {
         <Route path="/locationSorting" element={<LocationSortingPage/>} />
         <Route path="/designationSorting" element={<DesignationSortingPage/>} />
         <Route path="/viewedMyProfileSorting" element={<ViewedMyProfile/>} />
-        <Route path="/" element={<SentPage />} />
           <Route path="/sent" element={<SentPage />} />
           <Route path="/accept" element={<AcceptPage />} />
           <Route path="/reject" element={<RejectPage />} />
@@ -41,7 +43,10 @@ function App() {
           <Route path="/filter" element={<Filter />} />
           <Route path="/preference" element={<PartnerPreference />} />
           <Route path="/subscription" element={<SubscriptionPlan/>} />
-          <Route path="/rsb" element={<RightSideBar />} />
+          <Route path="/shortlist" element={<Shortlist/>} />
+          <Route path="/shortlistedby" element={<ShortlistedBy/>} />
+          <Route path="/contacted" element={<Contacted/>} />
+          <Route path="/viewed" element={<ViewedMyProfileActivity/>} />
       </Routes>
     </Router>
   );

@@ -1,13 +1,16 @@
 import React from 'react';
 import { FaSignOutAlt } from 'react-icons/fa'; // Import the logout icon
+import { useNavigate } from 'react-router-dom';
 import './BuddyHomeProfile.css';
 import profilepic from '../../assets/buddysHome/propic1.jpg';
 
 const BuddyHomeProfile = ({ toggleProfileOptions }) => {
+  const navigate = useNavigate();
+
   return (
     <div className="buddyHomeProfile">
       <div className="buddyHomeProfileHeader">
-        <div className='HeadingprofilePicContainer'>  
+        <div className='HeadingprofilePicContainer'>
           <img src={profilepic} alt="Profile" className="HeadingProfilePic" />
           <span className='onlineDot'></span>
         </div>
@@ -21,17 +24,17 @@ const BuddyHomeProfile = ({ toggleProfileOptions }) => {
         </div>
       </div>
       <div className="buddyHomeProfileOptions">
-        <button>My Profile</button>
-        <button>Sent Request</button>
-        <button>Viewed My Profile</button>
-        <button>Accept Request</button>
-        <button>Reject</button>
-        <button>Revived</button>
-        <button>Shortlisted By</button>
-        <button>Shortlisted</button>
-        <button>Contacted</button>
-        <button>Message</button>
-        <button>Settings</button>
+        <button >My Profile</button>
+        <button onClick={() => navigate('/sent')}>Sent Request</button>
+        <button onClick={() => navigate('/viewed')}>Viewed My Profile</button>
+        <button onClick={() => navigate('/accept')}>Accept Request</button>
+        <button onClick={() => navigate('/reject')}>Reject</button>
+        <button onClick={() => navigate('/received')}>Received</button>
+        <button onClick={() => navigate('/shortlistedby')}>Shortlisted By</button>
+        <button onClick={() => navigate('/shortlist')}>Shortlist</button>
+        <button onClick={() => navigate('/contacted')}>Contacted</button>
+        <button onClick={() => navigate('/message')}>Message</button>
+        <button >Settings</button>
         <button className="logoutButton">
           <FaSignOutAlt /> Logout
         </button>

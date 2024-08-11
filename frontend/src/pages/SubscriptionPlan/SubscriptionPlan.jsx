@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './SubscriptionPlan.css';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
 import Header from '../../components/NotifyHeader/Header';
-import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const SubscriptionPlan = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
 
-  const toggleSidebar = () => {
+  const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
   };
+
 
   return (
     <div className="subscription-container">
-      <div className="sidebar-toggle-button" onClick={toggleSidebar}>
-        ☰
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
       </div>
-      <div className="leftsidebar"><BuddyHomeFooter /></div>
       <div className={`subscription-main ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className="activity-header">
         <Header title="Subscription Plan" />
+        <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
+        </div>
         <div className="subscription-content">
           <div className="plan-card">
             <h2>Prime Member</h2>
@@ -71,9 +77,11 @@ const SubscriptionPlan = () => {
           </div>
         </div>
       </div>
-      <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <RightSideBar />
-      </div>
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
     </div>
   );
 };

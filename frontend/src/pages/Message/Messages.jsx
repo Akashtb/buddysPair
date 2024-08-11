@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
-import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
 import './Messages.css';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const Messages = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
+
+  const toggleProfileOptions = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
+  };
+
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
   };
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+ 
 
   const messages = [
     { id: 1, name: 'Alfredo Calzoni', age: '27yrs', location: 'Kochi', time: '09:18', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'Hello there!' },
@@ -27,15 +32,19 @@ const Messages = () => {
 
   return (
     <div className="container">
-      <div className="sidebar-toggle-button" onClick={toggleSidebar}>
-        ☰
+     <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
       </div>
-      <div className="leftsidebar"><BuddyHomeFooter /></div>
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className="activity-header">
         <header className="messages-header">
           <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
-          <h1 className="header-title">Messages</h1>
+          <h1 className="title">Messages</h1>
         </header>
+        <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
+        </div>
         <section className="messages-list">
           {messages.map(message => (
             <div key={message.id} className="message-item">
@@ -55,9 +64,12 @@ const Messages = () => {
           ))}
         </section>
       </div>
-      <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <RightSideBar />
-      </div>
+ 
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
     </div>
   );
 };

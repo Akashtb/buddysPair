@@ -32,20 +32,19 @@
 }
 
 .title {
-  margin: 0;
-  font-size: 24px;
   color: #fff;
-  flex: 2; /* Adjust flex as needed to balance the space */
-  text-align: center;
-  margin-right: 15px;
+  flex: 1; /* Adjust flex as needed to balance the space */
+  margin-left:400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Responsive adjustments for screens with a width of 415px */
-@media (max-width: 415px) {
+@media (max-width: 475px) {
   .header {
     padding: 8px;
   }
-
   .search {
     font-size: 24px;
     padding: 10px;
@@ -53,7 +52,7 @@
 
   .title {
     font-size: 20px;
-    margin-right: 10px;
+    margin-left: 200px;
   }
 }
 
@@ -70,6 +69,6 @@
 
   .title {
     font-size: 18px;
-    margin-right: 8px;
+    margin-left: 100px;
   }
 }

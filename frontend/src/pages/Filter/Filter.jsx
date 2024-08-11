@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Header from '../../components/NotifyHeader/Header';
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
 import { SiTicktick } from 'react-icons/si';
-import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
 import './Filter.css';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const Filter = () => {
     const [sortSelection, setSortSelection] = useState({
@@ -21,10 +21,13 @@ const Filter = () => {
     });
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
+    const [showProfileOptions, setShowProfileOptions] = useState(false);
+  
+    const toggleProfileOptions = () => {
+      setIsSidebarOpen(!isSidebarOpen);
+      setShowProfileOptions(!showProfileOptions);
     };
+  
 
     const handleSortClick = (key) => {
         setSortSelection((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -36,12 +39,16 @@ const Filter = () => {
 
     return (
         <div className="container">
-            <div className="sidebar-toggle-button" onClick={toggleSidebar}>
-                ☰
-            </div>
-            <div className="leftsidebar"><BuddyHomeFooter /></div>
+             <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
+      </div>
             <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
+            <div className="activity-header">
                 <Header title="Filter" />
+                <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
+        </div>
                 <div className="filter-content">
                     <div className="filter-section">
                         <h3>Sort By</h3>
@@ -71,9 +78,12 @@ const Filter = () => {
                     </div>
                 </div>
             </div>
-            <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-                <RightSideBar />
-            </div>
+         
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
         </div>
     );
 };

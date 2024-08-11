@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import  { useState } from 'react';
 import Header from '../../components/NotifyHeader/Header';
 import UserCard from '../../components/NotifyUserCard/UserCard';
-import RightSideBar from '../../components/Rightsidebar/Rightsidebar';
 import './RejectPage.css';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const RejectPage = () => {
   const users = [
@@ -17,28 +17,38 @@ const RejectPage = () => {
   ];
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
 
-  const toggleSidebar = () => {
+  const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
   };
+
 
   return (
     <div className="container">
-      <div className="sidebar-toggle-button" onClick={toggleSidebar}>
-        ☰
+   <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
       </div>
-      <div className="leftsidebar"><BuddyHomeFooter /></div>
+  
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className="activity-header">
         <Header title="Reject" />
+        <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
+        </div>
         <div className="user-list">
           {users.map(user => (
             <UserCard key={user.id} user={user} actions={[]} />
           ))}
         </div>
       </div>
-      <div className={`right-sidebar ${isSidebarOpen ? 'open' : ''}`}>
-        <RightSideBar />
-      </div>
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
     </div>
   );
 };

@@ -1,14 +1,14 @@
-// src/pages/ReceivedPage.js
+
 import Header from '../../components/NotifyHeader/Header';
 import UserCard from '../../components/NotifyUserCard/UserCard';
-import './ReceivedPage.css';
+import './Contacted.css';
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
 import { useState } from 'react';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
-const ReceivedPage = () => {
+const Contacted = () => {
   const users = [
     { id: 1, name: 'Afrin Sabila', age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
     { id: 2, name: 'Adil Adnan',age:'27yrs',location:'Kochi', time:'22 July 8:30pm', avatar: 'assets/Images/propic1.jpg' },
@@ -45,7 +45,7 @@ const ReceivedPage = () => {
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
       <div className="activity-header">
           <Header 
-            title="Received" 
+            title="Contacted" 
             profilePic="assets/Images/propic1.jpg" 
             onProfilePicClick={toggleProfileOptions} 
           />
@@ -66,8 +66,8 @@ const ReceivedPage = () => {
         ))}
         </div>
       ))}
+      </div>
     </div>
-  </div>
     {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
@@ -77,4 +77,4 @@ const ReceivedPage = () => {
 );
 };
   
-export default ReceivedPage;
+export default Contacted;

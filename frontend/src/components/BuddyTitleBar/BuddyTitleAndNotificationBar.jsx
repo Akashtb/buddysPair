@@ -5,6 +5,7 @@ import BuddyNotification from '../BuddyNotification/BuddyNotification';
 import { FaBars } from "react-icons/fa6";
 import profilepic from '../../assets/buddysHome/propic1.jpg'
 import BuddyHomeProfile from '../BuddysHomeProfile/BuddyHomeProfile';
+
 const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, showProfileOptions, toggleProfileOptions,showMenu,toggleMenu }) => {
  
     return (

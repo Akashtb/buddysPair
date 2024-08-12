@@ -1,3 +1,16 @@
+/* General Styles */
+
+
+.user-list {
+  flex: 1;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 20px 20px 0 0; /* Rounded top corners */
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
+  margin-top: auto; /* Push to the bottom */
+}
+
+/* UserCard Styles */
 .user-card {
   display: flex;
   align-items: center;
@@ -9,6 +22,7 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  object-fit: cover; /* Ensure the image covers the entire circle */
 }
 
 .info {
@@ -21,6 +35,10 @@
 .name {
   font-weight: bold;
   margin-bottom: 5px;
+  font-size: 16px; /* Default font size */
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflowed text */
+  text-overflow: ellipsis; /* Adds ellipsis (...) for overflowed text */
 }
 
 .details {
@@ -34,13 +52,15 @@
 }
 
 .content {
-  flex: 2;
-  margin-right: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .time {
   color: #666;
   text-align: center;
+  margin-right: 10px; /* Space between time and actions */
 }
 
 .actions {
@@ -49,15 +69,21 @@
 }
 
 .call-icon, .video-icon {
-  font-size: 20px;
+  font-size: 10px;
   cursor: pointer;
 }
 
-/* Media Query for Mobile View */
+/* Media Query for Mobile View (max-width: 768px) */
 @media (max-width: 768px) {
   .user-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
   }
 
   .info {
@@ -65,7 +91,56 @@
   }
 
   .name {
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .details {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .age, .location {
+    font-size: 14px;
+  }
+
+  .content {
+    margin-right: 0;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .actions {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+
+  .actions span {
+    margin-right: 10px;
+  }
+}
+
+/* Media Query for Tablet View (min-width: 415px) */
+@media (min-width: 415px) {
+  .user-card {
+    flex-direction: row;
+  }
+
+  .avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 80%;
+    object-fit: cover;
+  }
+
+  .info {
+    margin-left: 10px;
+  }
+
+  .name {
+    font-size: 18px;
   }
 
   .details {
@@ -78,18 +153,59 @@
   }
 
   .content {
-    margin-right: 0;
+    margin-right: 20px;
+    justify-content: space-between;
+  }
+
+  .time {
+    margin-right: 10px;
   }
 
   .actions {
-    width: 100%;
-    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* Media Query for Desktop View (min-width: 768px) */
+@media (min-width: 768px) {
+  .user-card {
     flex-direction: row;
-    justify-content: flex-start;
-    margin-top: 10px;
   }
 
-  .actions span {
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .info {
+    margin-left: 10px;
+  }
+
+  .name {
+    font-size: 20px;
+  }
+
+  .details {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .age, .location {
+    font-size: 18px;
+  }
+
+  .content {
+    margin-right: 0;
+    justify-content: space-between;
+  }
+
+  .time {
     margin-right: 10px;
+  }
+
+  .actions {
+    justify-content: flex-end;
   }
 }

@@ -1,137 +1,173 @@
-.messages-page {
-    color: #fff;
-    background-color: #4B164C; 
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    position: relative;
+/* src/pages/Messages.css */
+.activitycontainer {
+  display: flex;
+  height: 100vh;
 }
 
-
-.customFooter{
-    position: absolute;
-    bottom: 41px;
+.leftsidebar {
+  flex: 0 0 130px; /* Fixed width for left sidebar */
 }
 
+.main {
+  flex: 1;
+  padding: 20px;
+  height: 100%;
+  transition: filter 0.3s;
+}
+
+.main.blur {
+  filter: blur(5px);
+}
+
+/* Messages Header */
 .messages-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: #4B164C; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #4B164C;
+  padding-right: 10px;
+  position: relative;
+  margin-left: 80px;
+
+
 }
 
 .back-arrow {
-    font-size: 24px;
-    cursor: pointer;
-    color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+  color: #fff;
 }
 
-.header-title {
-    flex: 1;
-    font-size: 24px;
-    text-align: center;
-    color: #fff;
-    margin: 0;
+.title {
+  flex: 1;
+  text-align: center;
+  color: #fff;
+  font-size: 24px;
+  margin: 0;
 }
 
+.profilePicContainer {
+  display: flex;
+  align-items: center;
+}
+
+.profilePic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Messages List */
 .messages-list {
-    flex: 1;
-    padding: 20px;
-    background-color: #fff;
-    color: #333;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    overflow-y: scroll;
+  margin-top: 20px;
+  padding: 20px;
+  height: calc(100vh - 70px);
+  margin-left:80px;
+  background-color: #fff;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .message-item {
-    display: flex;
-    align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
 }
 
 .message-item:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  object-fit: cover;
 }
 
 .message-content {
-    flex: 1;
-    margin-left: 10px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.message-content .info {
+  flex: 1;
 }
 
 .message-content h5 {
-    margin: 0;
+  margin: 0;
 }
 
 .details {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .message-time {
-    color: #999;
+  color: #999;
 }
 
 .last-message {
-    text-align: center;
-    color: #666;
-    font-size: 14px;
-    padding-left: 300px;
+  color: #666;
+  font-size: 14px;
+  flex: 1;
 }
 
 .message-content p {
-    margin: 0;
-    font-size: 14px;
+  margin: 0;
+  font-size: 14px;
 }
 
-@media (max-width: 768px) {
-  .messages-page {
-    height: auto;
-  }
+/* Media Queries for responsiveness */
 
-  .info {
+/* For devices with a width of 768px and above */
+@media (max-width: 768px) {
+  .messages-list {
+    height: calc(100vh - 60px); /* Adjust height to fit within viewport minus some padding */
+    margin-left:0px;
+  }
+  .messages-header {
+    padding-right: 0px;
+    margin-left: 0px;
+  }
+  .main {
     margin-left: 0;
   }
+}
 
-  .name {
-    font-size: 16px;
+/* For devices with a width of 415px and below */
+@media (max-width: 415px) {
+  .messages-list {
+    height: calc(100vh - 50px); /* Adjust height to fit within viewport minus some padding */
+    margin-left:0px;
   }
 
-  .details {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+  .main {
+    padding: 10px;
+  }
+  .messages-header {
+    padding-right: 0px;
+    margin-left: 0px;
+  }
+}
+
+@media (max-width: 375px) {
+  .messages-list {
+    height: calc(100vh - 50px); /* Adjust height to fit within viewport minus some padding */
+   margin-left:0px;
   }
 
-  .age, .location {
-    font-size: 16px;
+  .main {
+    padding: 10px;
   }
-
-  .content {
-    margin-right: 0;
-  }
-
-  .actions {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-top: 10px;
-  }
-
-  .actions span {
-    margin-right: 10px;
+  .messages-header {
+    padding-right: 0px;
+    margin-left: 0px;
   }
 }

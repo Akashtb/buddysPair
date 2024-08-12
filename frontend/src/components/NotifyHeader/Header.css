@@ -2,42 +2,73 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color:#4B164C; /* Purple background color */
+  background-color: #4B164C;
   padding: 10px;
-
+  position: relative;
 }
 
-.search{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
+.search {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   background-color: pink;
-  padding: 15px;
+  padding: 10px;
   border-radius: 50%;
   color: white;
+  font-size:25px;
+  margin-left: 10px;
+
 }
 
-.search-bar {
+.title-wrapper {
   flex: 1;
-  max-width: 20px; /* Adjust the width as needed */
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 50px;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.search-bar:focus {
-  border-color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center the title */
 }
 
 .title {
-  margin: 0;
-  font-size: 24px;
   color: #fff;
-  flex: 2; /* Adjust flex as needed to balance the space */
-  text-align: center;
-  margin-right: 15px;
+  font-size: 24px; /* Adjust font size as needed */
+}
+
+.profile-pic-container {
+
+  cursor: pointer;
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+/* Responsive adjustments for screens with a width of 475px */
+@media (max-width: 475px) {
+  .header {
+    padding: 8px;
+  }
+  .search {
+    font-size: 24px;
+    padding: 8px;
+  }
+  .title {
+    font-size: 20px;
+  }
+}
+
+/* Responsive adjustments for screens with a width of 375px */
+@media (max-width: 375px) {
+  .header {
+    padding: 6px;
+  }
+  .search {
+    font-size: 22px;
+    padding: 6px;
+  }
+  .title {
+    font-size: 18px;
+  }
 }

@@ -1,10 +1,20 @@
-import React from 'react';
+// src/pages/Messages.js
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Messages.css';
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import './Messages.css';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
+
 const Messages = () => {
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
+
+  const toggleProfileOptions = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
+  };
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
@@ -19,32 +29,43 @@ const Messages = () => {
   ];
 
   return (
-    <div className="messages-page">
-      <header className="messages-header">
-        <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft />
-        </span>
-        <h1 className="header-title">Messages</h1>
-      </header>
-
-      <section className="messages-list">
-        {messages.map(message => (
-          <div key={message.id} className="message-item">
-            <img src={message.imgSrc} alt={message.name} className="avatar" />
-            <div className="message-content">
-              <h5>{message.name}</h5>
-              <div className="details">
-                <p>{message.age}</p>
-                <p>{message.location}</p>
+    <div className="activitycontainer">
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
+      </div>
+      <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
+        <header className="messages-header">
+          <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
+          <h1 className="title">Messages</h1>
+          <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
+        </header>
+        <section className="messages-list">
+          {messages.map(message => (
+            <div key={message.id} className="message-item">
+              <img src={message.imgSrc} alt={message.name} className="avatar" />
+              <div className="message-content">
+                <div className="info">
+                  <h5>{message.name}</h5>
+                  <div className="details">
+                    <p>{message.age}</p>
+                    <p>{message.location}</p>
+                  </div>
+                </div>
                 <div className="last-message">{message.lastMessage}</div>
               </div>
-             
+              <span className="message-time">{message.time}</span>
             </div>
-          
-            <span className="message-time">{message.time}</span>
-          </div>
-        ))}
-      </section>
-      <div className='customFooter'> <BuddyHomeFooter/></div>
+          ))}
+        </section>
+      </div>
+
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
     </div>
   );
 };

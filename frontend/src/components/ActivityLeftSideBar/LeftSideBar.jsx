@@ -1,14 +1,14 @@
 import React from 'react'
-import './BuddyHomeFooter.css'
+import './LeftSideBar.css'
 import { CiSearch } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
 import { FaRegStar } from "react-icons/fa";
 import { IoChatbubbleSharp } from "react-icons/io5";
 
-const BuddyHomeFooter = ({ showProfileOptions }) => {
+const LeftSideBar = ({ showProfileOptions }) => {
   return (
-    <div className='BuddyHomeFooterContainer'>
+    <div className='LeftSideBarContainer'>
       <div className='icons'>
         <span className="Icon"><CiSearch /></span>
         <span className="Icon"><FaHeart /></span>
@@ -20,4 +20,4 @@ const BuddyHomeFooter = ({ showProfileOptions }) => {
   )
 }
 
-export default BuddyHomeFooter
+export default LeftSideBar

@@ -1,18 +1,35 @@
-import React from 'react';
+import  { useState } from 'react';
 import './SubscriptionPlan.css';
-import Footer from '../../components/Footer/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import Header from '../../components/NotifyHeader/Header';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const SubscriptionPlan = () => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
+
+  const toggleProfileOptions = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
+  };
+
+
   return (
-    <div className="subscription-page">
-      <div className="subscription-plan">
-        <header className="subscription-header">
-          <h1>Subscription Plan</h1>
-        </header>
-        <main className="subscription-content">
+    <div className="subscription-container">
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
+      </div>
+      <div className={`subscription-main ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className="activity-header">
+          <Header 
+            title="Subscription" 
+            profilePic="assets/Images/propic1.jpg" 
+            onProfilePicClick={toggleProfileOptions} 
+          />
+        </div>
+        <div className="subscription-content">
           <div className="plan-card">
             <h2>Prime Member</h2>
             <p className="price">₹49/month</p>
@@ -59,10 +76,14 @@ const SubscriptionPlan = () => {
             </div>
             <button className="subscribe-button">Subscribe</button>
           </div>
-        </main>
+        </div>
       </div>
-      <div className='customFooter'> <BuddyHomeFooter/></div>
-      </div>
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
+    </div>
   );
 };
 

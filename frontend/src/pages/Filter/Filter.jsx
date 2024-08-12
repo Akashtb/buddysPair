@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/NotifyHeader/Header';
-import Footer from '../../components/Footer/Footer';
+import { SiTicktick } from 'react-icons/si';
 import './Filter.css';
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const Filter = () => {
     const [sortSelection, setSortSelection] = useState({
         newestMembers: false,
         lastActive: false,
-        location: false
+        location: false,
     });
 
     const [filterSelection, setFilterSelection] = useState({
@@ -18,8 +17,17 @@ const Filter = () => {
         age: false,
         location: false,
         interestsHobbies: false,
-        religion: false
+        religion: false,
     });
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [showProfileOptions, setShowProfileOptions] = useState(false);
+
+    const toggleProfileOptions = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+        setShowProfileOptions(!showProfileOptions);
+    };
+
 
     const handleSortClick = (key) => {
         setSortSelection((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -30,9 +38,18 @@ const Filter = () => {
     };
 
     return (
-        <div className="filter-container">
-            <div className="filter-header">
-                <Header title="Filter" />
+        <div className="activitycontainer">
+            <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+                <LeftSideBar />
+            </div>
+            <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
+            <div className="activity-header">
+          <Header 
+            title="Filter" 
+            profilePic="assets/Images/propic1.jpg" 
+            onProfilePicClick={toggleProfileOptions} 
+          />
+        </div>
                 <div className="filter-content">
                     <div className="filter-section">
                         <h3>Sort By</h3>
@@ -40,10 +57,7 @@ const Filter = () => {
                             {Object.keys(sortSelection).map((key) => (
                                 <li key={key} onClick={() => handleSortClick(key)}>
                                     <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                                    <FontAwesomeIcon
-                                        icon={sortSelection[key] ? faTimesCircle : faCheckCircle}
-                                        className="icon-tick"
-                                    />
+                                    <SiTicktick />
                                 </li>
                             ))}
                         </ul>
@@ -54,10 +68,7 @@ const Filter = () => {
                             {Object.keys(filterSelection).map((key) => (
                                 <li key={key} onClick={() => handleFilterClick(key)}>
                                     <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                                    <FontAwesomeIcon
-                                        icon={filterSelection[key] ? faTimesCircle : faCheckCircle}
-                                        className="icon-tick"
-                                    />
+                                    <SiTicktick />
                                 </li>
                             ))}
                         </ul>
@@ -68,7 +79,12 @@ const Filter = () => {
                     </div>
                 </div>
             </div>
-            <div className='customFooter'> <BuddyHomeFooter/></div>
+
+            {showProfileOptions && (
+                <div className="profileOptionsContainer">
+                    <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+                </div>
+            )}
         </div>
     );
 };

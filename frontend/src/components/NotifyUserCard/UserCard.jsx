@@ -1,3 +1,4 @@
+import React from 'react';
 import './UserCard.css';
 
 const UserCard = ({ user, actions }) => {
@@ -5,14 +6,11 @@ const UserCard = ({ user, actions }) => {
     <div className="user-card">
       <img className="avatar" src={user.avatar} alt={user.name} />
       <div className="info">
-        <div className="name">{user.name}</div>
+        <h5 className="name">{user.name}</h5>
         <div className="details">
           <div className="age">{user.age}</div>
           <div className="location">{user.location}</div>
         </div>
-      </div>
-      <div className="content">
-        <div className="time">{user.time}</div>
       </div>
       <div className="actions">
         {actions.map((action, index) => (

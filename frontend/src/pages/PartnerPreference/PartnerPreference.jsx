@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import './PartnerPreference.css';
-
 import { Range, getTrackBackground } from "react-range";
-import Footer from '../../components/Footer/Footer';
-import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter';
+import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const PartnerPreference = () => {
   const [ageRange, setAgeRange] = useState([18, 35]);
@@ -11,6 +10,14 @@ const PartnerPreference = () => {
   const [weightRange, setWeightRange] = useState([40, 150]);
   const [locations, setLocations] = useState(['Kochi', 'Kollam', 'Aluva']);
   const [hobbies, setHobbies] = useState(['yoga', 'jazz', 'cooking']);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [showProfileOptions, setShowProfileOptions] = useState(false);
+
+  const toggleProfileOptions = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
+  };
+
 
   const removeTag = (type, tag) => {
     if (type === 'location') {
@@ -21,12 +28,18 @@ const PartnerPreference = () => {
   };
 
   return (
-    <div className="prefer-container">
-
-      <div className="preference-container">
-        <header className="header">
-          <h2>Privacy & Settings</h2>
-        </header>
+    <div className="activitycontainer">
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+        <LeftSideBar />
+      </div>
+      <div className="preference-header">
+          <h2 >Privacy & Settings</h2>
+          <div className="profilePicContainer" onClick={toggleProfileOptions}>
+            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+          </div>
+        </div>
+      <div className={`preference-container ${isSidebarOpen ? 'blur' : ''}`}>
+        
         <div className="preference-section">
           <h2>Partner Preference</h2>
           <div className="preference-form">
@@ -42,7 +55,7 @@ const PartnerPreference = () => {
           <div className="form-group">
             <label>Gender</label>
             <select>
-              <option value="">Value</option>
+              <option value="">Select</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="other">Other</option>
@@ -71,10 +84,10 @@ const PartnerPreference = () => {
           <div className="form-group">
             <label>Education Level</label>
             <select>
-              <option value="">Value</option>
+              <option value="">Select</option>
               <option value="highschool">High School</option>
-              <option value="bachelor">Bachelor's</option>
-              <option value="master">Master's</option>
+              <option value="bachelor">Bachelors</option>
+              <option value="master">Masters</option>
               <option value="doctorate">Doctorate</option>
             </select>
           </div>
@@ -99,7 +112,7 @@ const PartnerPreference = () => {
           <div className="form-group">
             <label>Religion</label>
             <select>
-              <option value="">Value</option>
+              <option value="">Select</option>
               <option value="christianity">Christianity</option>
               <option value="islam">Islam</option>
               <option value="hinduism">Hinduism</option>
@@ -109,7 +122,7 @@ const PartnerPreference = () => {
           <div className="form-group">
             <label>Occupation</label>
             <select>
-              <option value="">Value</option>
+              <option value="">Select</option>
               <option value="student">Student</option>
               <option value="employed">Employed</option>
               <option value="self-employed">Self-Employed</option>
@@ -118,7 +131,13 @@ const PartnerPreference = () => {
           </div>
         </div>
       </div>
-      <div className='customFooter'> <BuddyHomeFooter/></div>
+
+
+      {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
     </div>
   );
 };
@@ -238,3 +257,5 @@ const RangeGroup = ({ label, text, values, min, max, onChange }) => (
 );
 
 export default PartnerPreference;
+
+

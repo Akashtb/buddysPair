@@ -1,54 +1,67 @@
 /* PartnerPreference.css */
 
-.prefer-container {
-  color: #fff;
-  background-color: #4B164C;
-  display: flex;
-  flex-direction: column;
-  margin: 0px;
-}
-
-
-
-.container{
-  position: relative;
-}
-
-.customFooter{
-  position: absolute;
-  bottom: 41px;
-}
-.preference-container{
-  color: #fff;
-  flex-direction: column;
-  margin: 0;
+.preference-container {
+  margin-top: 80px; /* to account for fixed header */
+  height: 100%;
+  margin-left: 100px;
+  background-color: #fff;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
   width: 100%;
+  margin-right: 20px;
+}
 
-} 
-.header {
+.preference-header {
   display: flex;
-  
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
   background-color: #4B164C;
+  color: white;
+  padding: 15px 100px 0 20px;
+  margin-left: 80px;
+  width: 100%;
+  position: fixed; /* Ensure it stays at the top */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Ensure it stays above other content */
+}
+
+.preference-header h2 {
+  margin: 0;
+  text-align: center;
+  flex: 1;
+}
+
+.profilePicContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.profilePic {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
 }
 
 .preference-section {
   flex: 1;
-  padding:0px 50px 0 50px;
+  padding: 20px 50px;
   background-color: #fff;
-  height: 70vh;
+  height: auto;
   color: #050505;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  overflow-y: auto;
+  overflow-y: hidden;
+  margin: 0; /* Remove any margin */
+ 
+}
 
+.preference-section h2 {
+  margin: 20px 0;
+  text-align: center;
 }
-.preference-section h2{
-  margin: 20px;
-text-align: center;
-}
+
 .form-group {
   margin-bottom: 15px;
   display: flex;
@@ -109,7 +122,6 @@ text-align: center;
 .range-values {
   display: flex;
   justify-content: space-between;
-
 }
 
 .range-values span {
@@ -123,18 +135,61 @@ text-align: center;
   margin-bottom: 5px;
 }
 
+/* Media Queries */
 
-/* Media query for desktop view */
-@media (min-width: 768px) {
-  .prefer-container {
-    flex-direction: row;
+@media (max-width: 768px) {
+  .preference-container {
+    margin-left: 20px; /* to account for fixed header */
+  }
+  
+  .preference-header {
+    padding: 15px 10px 0 20px;
+    margin-left: 0px;
   }
 
   .preference-section {
-    flex: 3;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    padding: 20px 30px;
+    height: auto;
+    overflow-y: auto;
   }
 
-  
+  .profilePicContainer {
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 445px) {
+  .preference-section {
+    padding: 15px 20px;
+    height: auto;
+    overflow-y: auto;
+  }
+
+  .preference-header {
+    padding: 15px 10px 0 20px;
+    margin-left: 0px;
+  }
+  .preference-container {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 385px) {
+  .preference-section {
+    padding: 10px 15px;
+    height: auto;
+  }
+
+  .preference-header {
+    padding: 15px 10px 0 20px;
+    margin-left: 0px;
+  }
+
+  .profilePic {
+    height: 30px;
+    width: 30px;
+  }
+  .preference-container {
+    margin-left: 20px;
+  }
 }

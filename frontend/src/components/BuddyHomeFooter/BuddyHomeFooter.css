@@ -1,16 +1,15 @@
 .BuddyHomeFooterContainer {
-  width: 10%;
   display: flex;
   justify-content: center;
   position: fixed;
   top: 10px;
   left: 0;
   bottom: 0;
-  z-index: 1000;
+  z-index: 999;
   background-color: rgb(240, 235, 235);
   padding: 10px;
   border-radius: 40px;
-  box-shadow: 8px 0px 40px 0px #75227726;
+  box-shadow:40px  #75227726;
 }
 
 .icons {
@@ -44,13 +43,14 @@
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .BuddyHomeFooterContainer {
-    width: 100%;
-    height: 60px;
+    width: 90%;
+    height: 55px;
     position: fixed;
     top: auto;
-    left: 0;
+    left: 20px;
+    bottom: 10px;
     right: 0;
-    border-radius: 40px 40px 0 0;
+    border-radius: 40px;
   }
 
   .icons {
@@ -68,9 +68,14 @@
 
 @media (max-width: 415px) {
   .BuddyHomeFooterContainer {
-    height: 50px;
-    padding: 0px;
-    z-index: 1;
+    width: 90%;
+    height: 55px;
+    position: fixed;
+    top: auto;
+    left: 20px;
+    bottom: 10px;
+    right: 0;
+    border-radius: 40px;
   }
 
   .icons {
@@ -85,11 +90,16 @@
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 376px) {
   .BuddyHomeFooterContainer {
-    height: 45px;
-    background-color: transparent;
-    padding: 0px;
+    width: 90%;
+    height: 55px;
+    position: fixed;
+    top: auto;
+    left: 20px;
+    bottom: 10px;
+    right: 0;
+    border-radius: 40px;
   }
 
   .icons {

@@ -37,6 +37,8 @@ import Shortlist from './pages/Shortlist/Shortlist';
 import Settings from './pages/Settings';
 import Edit from './pages/Edit';
 import Change from './pages/Change';
+import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
+import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 
 function App() {
   return (
@@ -77,6 +79,8 @@ function App() {
         <Route path="/shortlistedby" element={<ShortlistedBy />} />
         <Route path="/contacted" element={<Contacted />} />
         <Route path="/viewed" element={<ViewedMyProfileActivity />} />
+        <Route path="/pageNotFound" element={<NotFoundPage/>}/>
+        <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
       </Routes>
     </Router>
   );

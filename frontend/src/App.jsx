@@ -1,9 +1,24 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Front from "./pages/Authenticate/front/index.jsx";
+import Intrest from "./pages/Authenticate/Intrest/index.jsx";
+import Confirm from "./pages/Authenticate/Intrest/confirm/index.jsx";
+import Job from "./pages/Authenticate/job/index.jsx";
+import JobSeeker from "./pages/Authenticate/job/seeker/index.jsx";
+import Employe from "./pages/Authenticate/job/Employe/index.jsx";
+import Other from "./pages/Authenticate/OtherProfile/index.jsx";
+import Payment from "./pages/Authenticate/Payment/index.jsx";
+import Payment2 from "./pages/Authenticate/Payment2/index.jsx";
+import Profile from "./pages/Authenticate/Profilecreation/index.jsx";
+import Registration from "./pages/Authenticate/Registration/index.jsx";
+import Login from "./pages/Authenticate/UserLogin/index.jsx";
+import SignUp from "./pages/Authenticate/UserSignup/index.jsx";
+
 import Home from './pages/BuddysHome/Home';
-import './App.css';
 import QualificationSorting from './pages/Qualification/QualificationSorting';
 import EducationSort from './pages/EducationSort/EducationSort';
-import QualificationSortingPage from './pages/SortingPages/QualificationSorting/QualificationSortingPage'
+import QualificationSortingPage from './pages/SortingPages/QualificationSorting/QualificationSortingPage';
 import LocationSortingPage from './pages/SortingPages/LocationSorting/LocationSortingPage';
 import DesignationSortingPage from './pages/SortingPages/DesignationSorting/DesignationSortingPage';
 import ViewedMyProfile from './pages/SortingPages/ViewMyProfile/ViewedMyProfile';
@@ -27,13 +42,26 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Front />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/sign" element={<SignUp />} />
+        <Route path="/registration/:id" element={<Registration />} />
+        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment2" element={<Payment2 />} />
+        <Route path="/other" element={<Other />} />
+        <Route path="job/employe/:id" element={<Employe />} />
+        <Route path="job/seeker/:id" element={<JobSeeker />} />
+        <Route path="/job/:id" element={<Job />} />
+        <Route path="/confirm/:id" element={<Confirm />} />
+        <Route path="/intrest/:id" element={<Intrest />} />
         <Route path="/buddysHomePage" element={<Home />} />
         <Route path="/QualificationSortedPage" element={<QualificationSorting />} />
         <Route path="/educationSortedPage" element={<EducationSort />} />
-        <Route path="/qualificationSorting" element={<QualificationSortingPage/>} />
-        <Route path="/locationSorting" element={<LocationSortingPage/>} />
-        <Route path="/designationSorting" element={<DesignationSortingPage/>} />
-        <Route path="/viewedMyProfileSorting" element={<ViewedMyProfile/>} />
+        <Route path="/qualificationSorting" element={<QualificationSortingPage />} />
+        <Route path="/locationSorting" element={<LocationSortingPage />} />
+        <Route path="/designationSorting" element={<DesignationSortingPage />} />
+        <Route path="/viewedMyProfileSorting" element={<ViewedMyProfile />} />
         <Route path="/sent" element={<SentPage />} />
         <Route path="/accept" element={<AcceptPage />} />
         <Route path="/reject" element={<RejectPage />} />
@@ -41,14 +69,14 @@ function App() {
         <Route path="/message" element={<Messages />} />
         <Route path="/filter" element={<Filter />} />
         <Route path="/preference" element={<PartnerPreference />} />
-        <Route path="/subscription" element={<SubscriptionPlan/>} />
-        <Route path='/setting' element={<Settings Se="Settings"/>} />
-        <Route path='/edit' element={<Edit Se="Edit My Profile"/>}/>
-        <Route path='/change' element={<Change Se="Change Password"/>}/>
-        <Route path="/shortlist" element={<Shortlist/>} />
-        <Route path="/shortlistedby" element={<ShortlistedBy/>} />
-        <Route path="/contacted" element={<Contacted/>} />
-        <Route path="/viewed" element={<ViewedMyProfileActivity/>} />
+        <Route path="/subscription" element={<SubscriptionPlan />} />
+        <Route path='/setting' element={<Settings Se="Settings" />} />
+        <Route path='/edit' element={<Edit Se="Edit My Profile" />} />
+        <Route path='/change' element={<Change Se="Change Password" />} />
+        <Route path="/shortlist" element={<Shortlist />} />
+        <Route path="/shortlistedby" element={<ShortlistedBy />} />
+        <Route path="/contacted" element={<Contacted />} />
+        <Route path="/viewed" element={<ViewedMyProfileActivity />} />
       </Routes>
     </Router>
   );

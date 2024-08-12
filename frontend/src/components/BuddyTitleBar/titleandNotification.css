@@ -30,6 +30,9 @@
   margin-top: 25px;
    
 }
+.BuddyPairHomeHeaderTitle{
+  cursor: pointer;
+}
 
 .BuddyPairHomeHeaderTitle.blur-background{
   filter: blur(5px); /* Apply blur effect when notifications are visible */

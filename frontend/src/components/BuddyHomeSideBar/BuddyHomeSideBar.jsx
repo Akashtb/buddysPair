@@ -6,11 +6,16 @@ import { IoChatbubbleSharp } from 'react-icons/io5'
 import { BsSearchHeartFill } from "react-icons/bs";
 import { FaStar } from "react-icons/fa6";
 import { CiSearch } from 'react-icons/ci'
+import { useNavigate } from 'react-router-dom'
 const BuddyHomeSideBar = () => {
+  const navigate = useNavigate()
+  const RedirectedHomePage = ()=>{
+      navigate('/buddysHomePage')
+  }
   return (
     <div className='BuddyHomeSideBarContainer'>
       <div className="BuddyHomeSideBarSubContainer">
-        <div className="BuddyHomeSideBarSubContainerIconAndDesc">
+        <div className="BuddyHomeSideBarSubContainerIconAndDesc" onClick={RedirectedHomePage}>
           <span className='BuddyHomeSideBarSubContainerIcon'><AiFillHome /></span>
           <label className='BuddyHomeSideBarSubContainerDesc'>Home</label>
         </div>

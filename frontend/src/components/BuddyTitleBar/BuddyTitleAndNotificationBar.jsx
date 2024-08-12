@@ -5,9 +5,13 @@ import BuddyNotification from '../BuddyNotification/BuddyNotification';
 import { FaBars } from "react-icons/fa6";
 import profilepic from '../../assets/buddysHome/propic1.jpg'
 import BuddyHomeProfile from '../BuddysHomeProfile/BuddyHomeProfile';
+import { useNavigate } from 'react-router-dom';
 
 const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, showProfileOptions, toggleProfileOptions,showMenu,toggleMenu }) => {
- 
+const navigate = useNavigate()
+const RedirectedHomePage = ()=>{
+    navigate('/buddysHomePage')
+}
     return (
         <div className='BuddyPairHomeHeaderTitleAndNotificationContainer'>
             <div className="BuddyPairHomeHeaderTitleAndNotification">
@@ -15,7 +19,7 @@ const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, 
                     <div className={`bar ${showNotifications ||showProfileOptions||showMenu ? 'blur-background' : ''}`} onClick={toggleMenu}>
                         <FaBars />
                     </div>
-                    <h1 className={`BuddyPairHomeHeaderTitle ${showNotifications ||showProfileOptions ||showMenu ? 'blur-background' : ''}`}>Buddy Pair</h1>
+                    <h1 className={`BuddyPairHomeHeaderTitle ${showNotifications ||showProfileOptions ||showMenu ? 'blur-background' : ''}` } onClick={RedirectedHomePage}>Buddy Pair</h1>
                 </div>
                 <div className={`profileAndNotification  ${showNotifications ||showProfileOptions ||showMenu ? 'blur-background' : ''}`}>
                     <div className="BuddyPairHomeHeaderNotificationIcon" onClick={toggleNotifications}>

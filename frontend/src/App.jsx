@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import Front from "./pages/Authenticate/front/index.jsx";
 import Intrest from "./pages/Authenticate/Intrest/index.jsx";
 import Confirm from "./pages/Authenticate/Intrest/confirm/index.jsx";
@@ -14,7 +13,6 @@ import Profile from "./pages/Authenticate/Profilecreation/index.jsx";
 import Registration from "./pages/Authenticate/Registration/index.jsx";
 import Login from "./pages/Authenticate/UserLogin/index.jsx";
 import SignUp from "./pages/Authenticate/UserSignup/index.jsx";
-
 import Home from './pages/BuddysHome/Home';
 import QualificationSorting from './pages/Qualification/QualificationSorting';
 import EducationSort from './pages/EducationSort/EducationSort';

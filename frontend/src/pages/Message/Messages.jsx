@@ -47,10 +47,10 @@ const Messages = () => {
               <img src={message.imgSrc} alt={message.name} className="avatar" />
               <div className="message-content">
                 <div className="info">
-                  <h5>{message.name}</h5>
+                  <h2>{message.name}</h2>
                   <div className="details">
-                    <p>{message.age}</p>
-                    <p>{message.location}</p>
+                    <h2>{message.age}</h2>
+                    <h2>{message.location}</h2>
                   </div>
                 </div>
                 <div className="last-message">{message.lastMessage}</div>

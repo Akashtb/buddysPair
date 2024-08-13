@@ -10,7 +10,12 @@
 .leftsidebar {
   flex: 0 0 130px; /* Fixed width for left sidebar */
 }
-
+.activity-header {
+  position: fixed;
+  top: 0;
+  right: 100px;
+  left: 160px;
+}
 .subscription-main {
   padding: 20px;
   overflow-y: auto;
@@ -24,10 +29,10 @@
 }
 
 .subscription-content {
-  margin-top: 80px; /* to account for fixed header */
+  margin-top: 60px; /* to account for fixed header */
   padding-top: 20px;
-  height: calc(100vh - 70px);
-  margin-left:80px;
+  margin-left:160px;
+  margin-right: 80px;
   background-color: #000000;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
@@ -98,6 +103,7 @@ hr {
   .subscription-content {
     height: 100%;
     margin-left:0px;
+    margin-right: 0;
     }
 
   .subscription-main {
@@ -110,6 +116,12 @@ hr {
   .subscription-main.blur {
     filter: blur(5px);
   }
+  .activity-header {
+    position: fixed;
+    top: 0;
+    right: 0px;
+    left: 0px;
+  }
 }
 
 @media (max-width: 415px) {
@@ -118,6 +130,7 @@ hr {
   .subscription-content {
     height: 100%;
     margin-left:0px;
+    margin-right: 0;
   }
 
   .subscription-main {
@@ -133,6 +146,7 @@ hr {
   .subscription-content {
   height: 100%;
   margin-left:0px;
+  margin-right: 0;
   }
 
   .subscription-main {

@@ -100,15 +100,19 @@
   flex: 1;
 }
 
-.message-content h5 {
+.message-content h2 {
   margin: 0;
+  font-size: 16px;
 }
 
 .details {
   display: flex;
   flex-direction: column;
 }
-
+.details h2 {
+  font-size: 12px;
+  font-weight: 100;
+}
 .message-time {
   color: #999;
 }

@@ -15,7 +15,7 @@ const Messages = () => {
     setShowProfileOptions(!showProfileOptions);
   };
   const unreadMessages = 5;
-  
+
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
   };
@@ -41,11 +41,19 @@ const Messages = () => {
             <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
           </div>
         </header>
+        <h2 className="recent-matches">Recent Matches</h2>
         <div className="matches-wrapper">
         <div className="match-item">
     <img src="assets/Images/propic1.jpg" alt="Match 1" />
     {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
   </div>
+  <img src="assets/Images/propic1.jpg" alt="Match 2" />
+  <img src="assets/Images/propic1.jpg" alt="Match 3" />
+  <img src="assets/Images/propic1.jpg" alt="Match 4" />
+  <img src="assets/Images/propic1.jpg" alt="Match 5" />
+  <img src="assets/Images/propic1.jpg" alt="Match 6" />
+  <img src="assets/Images/propic1.jpg" alt="Match 7" />
+  <img src="assets/Images/propic1.jpg" alt="Match 8" />
   <img src="assets/Images/propic1.jpg" alt="Match 2" />
   <img src="assets/Images/propic1.jpg" alt="Match 3" />
   <img src="assets/Images/propic1.jpg" alt="Match 4" />

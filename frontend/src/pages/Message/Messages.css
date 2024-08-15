@@ -6,7 +6,8 @@
 }
 
 .leftsidebar {
-  flex: 0 0 130px; /* Fixed width for left sidebar */
+  flex: 0 0 130px;
+  /* Fixed width for left sidebar */
 }
 
 .main {
@@ -62,7 +63,7 @@
   margin: 20px 0;
   font-size: 16px;
   color: #ffffff;
-  padding-left: 80px;
+  padding-left: 90px;
 
 }
 
@@ -74,8 +75,14 @@
   margin-bottom: 20px;
   padding-right: 10px;
   margin-left: 80px;
-  overflow-x:scroll;  /* Allow horizontal scrolling */
-  /* Keep all items in a single line */
+  overflow-x: scroll;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none;  /* For Internet Explorer and Edge */
+}
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.matches-wrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .matches-wrapper img {
@@ -117,7 +124,7 @@
   margin-top: 20px;
   padding: 20px;
   height: calc(100vh - 70px);
-  margin-left:80px;
+  margin-left: 80px;
   background-color: #fff;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
@@ -161,10 +168,12 @@
   display: flex;
   flex-direction: column;
 }
+
 .details h2 {
   font-size: 12px;
   font-weight: 100;
 }
+
 .message-time {
   color: #999;
 }
@@ -173,7 +182,7 @@
   color: #666;
   font-size: 14px;
   flex: 1;
-  margin-left:10px;
+  margin-left: 10px;
 }
 
 .message-content p {
@@ -186,29 +195,35 @@
 /* For devices with a width of 768px and above */
 @media (max-width: 768px) {
   .messages-list {
-    height: calc(100vh - 60px); /* Adjust height to fit within viewport minus some padding */
-    margin-left:0px;
+    height: calc(100vh - 60px);
+    /* Adjust height to fit within viewport minus some padding */
+    margin-left: 0px;
   }
+
   .messages-header {
     padding-right: 0px;
     margin-left: 0px;
   }
+
   .main {
     margin-left: 0;
   }
+
   .matches-wrapper {
     gap: 10px;
-margin: 0px;
+    margin: 0px;
   }
 
   .matches-wrapper img {
     width: 40px;
     height: 50px;
   }
+
   .recent-matches {
-    padding-left:0px;
-  
+    padding-left: 10px;
+
   }
+
   .message-content {
     flex: 1;
     display: flex;
@@ -219,13 +234,15 @@ margin: 0px;
 /* For devices with a width of 415px and below */
 @media (max-width: 415px) {
   .messages-list {
-    height: calc(100vh - 50px); /* Adjust height to fit within viewport minus some padding */
-    margin-left:0px;
+    height: calc(100vh - 50px);
+    /* Adjust height to fit within viewport minus some padding */
+    margin-left: 0px;
   }
 
   .main {
     padding: 10px;
   }
+
   .messages-header {
     padding-right: 0px;
     margin-left: 0px;
@@ -234,17 +251,20 @@ margin: 0px;
 
 @media (max-width: 375px) {
   .messages-list {
-    height: calc(100vh - 50px); /* Adjust height to fit within viewport minus some padding */
-   margin-left:0px;
+    height: calc(100vh - 50px);
+    /* Adjust height to fit within viewport minus some padding */
+    margin-left: 0px;
   }
 
   .main {
     padding: 10px;
   }
+
   .messages-header {
     padding-right: 0px;
     margin-left: 0px;
   }
+
   .matches-wrapper img {
     width: 30px;
     height: 40px;

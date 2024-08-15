@@ -1,4 +1,5 @@
 /* src/pages/Messages.css */
+/* src/pages/Messages.css */
 .activitycontainer {
   display: flex;
   height: 100vh;
@@ -28,8 +29,6 @@
   padding-right: 10px;
   position: relative;
   margin-left: 80px;
-
-
 }
 
 .back-arrow {
@@ -57,6 +56,61 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.recent-matches {
+  text-align: left;
+  margin: 20px 0;
+  font-size: 16px;
+  color: #ffffff;
+  padding-left: 80px;
+
+}
+
+.matches-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+  padding-left: 10px;
+  margin-bottom: 20px;
+  padding-right: 10px;
+  margin-left: 80px;
+  overflow-x:scroll;  /* Allow horizontal scrolling */
+  /* Keep all items in a single line */
+}
+
+.matches-wrapper img {
+  width: 60px;
+  height: 70px;
+  border-radius: 20%;
+  object-fit: cover;
+  position: relative;
+}
+
+/* Blurred effect for the first image */
+.matches-wrapper img:first-child {
+  filter: blur(4px);
+}
+
+/* Container for the unread messages count */
+.unread-message-count {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Container for image and overlay */
+.match-item {
+  position: relative;
+  display: inline-block;
+}
+
 
 /* Messages List */
 .messages-list {
@@ -91,9 +145,7 @@
 .message-content {
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-left: 10px;
+  flex-direction: row;
 }
 
 .message-content .info {
@@ -121,6 +173,7 @@
   color: #666;
   font-size: 14px;
   flex: 1;
+  margin-left:10px;
 }
 
 .message-content p {
@@ -142,6 +195,24 @@
   }
   .main {
     margin-left: 0;
+  }
+  .matches-wrapper {
+    gap: 10px;
+margin: 0px;
+  }
+
+  .matches-wrapper img {
+    width: 40px;
+    height: 50px;
+  }
+  .recent-matches {
+    padding-left:0px;
+  
+  }
+  .message-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 }
 
@@ -173,5 +244,10 @@
   .messages-header {
     padding-right: 0px;
     margin-left: 0px;
+  }
+  .matches-wrapper img {
+    width: 30px;
+    height: 40px;
+
   }
 }

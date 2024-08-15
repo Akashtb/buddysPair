@@ -1,4 +1,3 @@
-// src/pages/Messages.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
@@ -15,7 +14,8 @@ const Messages = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setShowProfileOptions(!showProfileOptions);
   };
-
+  const unreadMessages = 5;
+  
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
   };
@@ -41,6 +41,19 @@ const Messages = () => {
             <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
           </div>
         </header>
+        <div className="matches-wrapper">
+        <div className="match-item">
+    <img src="assets/Images/propic1.jpg" alt="Match 1" />
+    {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
+  </div>
+  <img src="assets/Images/propic1.jpg" alt="Match 2" />
+  <img src="assets/Images/propic1.jpg" alt="Match 3" />
+  <img src="assets/Images/propic1.jpg" alt="Match 4" />
+  <img src="assets/Images/propic1.jpg" alt="Match 5" />
+  <img src="assets/Images/propic1.jpg" alt="Match 6" />
+  <img src="assets/Images/propic1.jpg" alt="Match 7" />
+  <img src="assets/Images/propic1.jpg" alt="Match 8" />
+</div>
         <section className="messages-list">
           {messages.map(message => (
             <div key={message.id} className="message-item">
@@ -48,10 +61,6 @@ const Messages = () => {
               <div className="message-content">
                 <div className="info">
                   <h2>{message.name}</h2>
-                  <div className="details">
-                    <h2>{message.age}</h2>
-                    <h2>{message.location}</h2>
-                  </div>
                 </div>
                 <div className="last-message">{message.lastMessage}</div>
               </div>
@@ -60,7 +69,6 @@ const Messages = () => {
           ))}
         </section>
       </div>
-
       {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />

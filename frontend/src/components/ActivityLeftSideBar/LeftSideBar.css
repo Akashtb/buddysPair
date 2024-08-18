@@ -50,7 +50,8 @@
       top: auto;
       left: 0;
       right: 0;
-      border-radius: 40px 40px 0 0;
+      bottom:5px;
+      border-radius: 40px 40px ;
     }
   
     .icons {
@@ -71,6 +72,8 @@
       height: 50px;
       padding: 0px;
       z-index: 1;
+      bottom:5px;
+      border-radius: 40px 40px ;
     }
   
     .icons {
@@ -90,6 +93,8 @@
       height: 50px;
       padding: 0px;
       z-index: 1;
+      bottom:5px;
+      border-radius: 40px 40px ;
     }
   
   

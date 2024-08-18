@@ -1,4 +1,3 @@
-// src/pages/Messages.js
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
@@ -15,6 +14,7 @@ const Messages = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setShowProfileOptions(!showProfileOptions);
   };
+  const unreadMessages = 5;
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
@@ -41,17 +41,34 @@ const Messages = () => {
             <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
           </div>
         </header>
+        <h2 className="recent-matches">Recent Matches</h2>
+        <div className="matches-wrapper">
+        <div className="match-item">
+    <img src="assets/Images/propic1.jpg" alt="Match 1" />
+    {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
+  </div>
+  <img src="assets/Images/propic1.jpg" alt="Match 2" />
+  <img src="assets/Images/propic1.jpg" alt="Match 3" />
+  <img src="assets/Images/propic1.jpg" alt="Match 4" />
+  <img src="assets/Images/propic1.jpg" alt="Match 5" />
+  <img src="assets/Images/propic1.jpg" alt="Match 6" />
+  <img src="assets/Images/propic1.jpg" alt="Match 7" />
+  <img src="assets/Images/propic1.jpg" alt="Match 8" />
+  <img src="assets/Images/propic1.jpg" alt="Match 2" />
+  <img src="assets/Images/propic1.jpg" alt="Match 3" />
+  <img src="assets/Images/propic1.jpg" alt="Match 4" />
+  <img src="assets/Images/propic1.jpg" alt="Match 5" />
+  <img src="assets/Images/propic1.jpg" alt="Match 6" />
+  <img src="assets/Images/propic1.jpg" alt="Match 7" />
+  <img src="assets/Images/propic1.jpg" alt="Match 8" />
+</div>
         <section className="messages-list">
           {messages.map(message => (
             <div key={message.id} className="message-item">
               <img src={message.imgSrc} alt={message.name} className="avatar" />
               <div className="message-content">
                 <div className="info">
-                  <h5>{message.name}</h5>
-                  <div className="details">
-                    <p>{message.age}</p>
-                    <p>{message.location}</p>
-                  </div>
+                  <h2>{message.name}</h2>
                 </div>
                 <div className="last-message">{message.lastMessage}</div>
               </div>
@@ -60,7 +77,6 @@ const Messages = () => {
           ))}
         </section>
       </div>
-
       {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />

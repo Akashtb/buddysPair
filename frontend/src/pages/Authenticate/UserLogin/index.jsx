@@ -28,7 +28,7 @@ const Login = () => {
           <input type="text" name="password" onChange={insert} />
         </div>
 
-        <button className="log1" onClick={Onlogin}>
+        <button className="log1">
           Login
         </button>
         <div className="foot">

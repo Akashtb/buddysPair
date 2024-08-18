@@ -1,10 +1,10 @@
 .anoop14 {
   background-image: url("../../src/assets/Authentication/Backround1.jpeg");
-  height: 750px;
-  background-repeat: no-repeat;
+  height: 700px;
+  /* background-repeat: no-repeat; */
+  background-size: cover;
   background-position: 0px 40px;
-  padding-top: 10%;
-  width: 100%;
+  padding-top: 6%;
 }
 
 .anoop14 .seek {
@@ -38,6 +38,7 @@
 }
 .anoop14 .seek input {
   box-sizing: border-box;
+  border-radius: 5px;
   padding-left: 15px;
   height: 30px;
   border: 2px solid rgb(173, 171, 171);
@@ -64,7 +65,7 @@
     background-image: url("../../src/assets/Authentication/Backround2.jpeg");
     height: 700px;
     background-size: cover;
-    background-position: -5px -70px;
+    background-position: -0px -70px;
     /* margin-top: 10%; */
     padding-top: 20%;
   }

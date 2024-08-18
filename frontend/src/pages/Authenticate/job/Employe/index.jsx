@@ -17,9 +17,9 @@ const Employe = () => {
 
   const onjob = async () => {
     const responseee = await axios.get(
-      `http://localhost:1400/user/person/register/${id}`
+      `http://localhost:1450/user/person/register/${id}`
     );
-    console.log(responseee);
+    console.log("dsgsgik", responseee);
     setJob(responseee.data);
   };
 
@@ -29,7 +29,7 @@ const Employe = () => {
   };
   const Next = async () => {
     const response = await axios.post(
-      `http://localhost:1400/user/job/employee`,
+      `http://localhost:1450/user/job/employee`,
       cred
     );
     console.log("ksssss", response);

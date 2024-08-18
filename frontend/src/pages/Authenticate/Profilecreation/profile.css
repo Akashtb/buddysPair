@@ -80,15 +80,15 @@ select {
   margin-left: 100px;
 }
 .anoop15 {
-  width: 100%;
+  /* width: 100%; */
   background-image: url("../../src/assets/Authentication/Backround1.jpeg");
-  height: 650px;
-  /* background-size: contain; */
-  background-position: -5px 90px;
+  height: 740px;
+  background-size: cover;
+  /* background-position: -5px 90px; */
   /* margin-top: 10%; */
-  padding-top: 7%;
+  padding-top: 10%;
   overflow: hidden;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 .anoop15 .box12 div {
   background-color: white;
@@ -118,15 +118,15 @@ select {
     margin-bottom: 10px;
   }
   .anoop15 {
-    width: 100%;
+    /* width: 100%; */
     background-image: url("../../src/assets/Authentication/Backround2.jpeg");
-    height: 1040px;
+    height: 1000px;
     background-size: cover;
-    background-position: -50px -70px;
+    background-position: -0px -70px;
     /* margin-top: 10%; */
     padding-top: 20%;
     overflow: hidden;
-    overflow: scroll;
+    overflow-y: scroll;
   }
   .anoop15 .box12 div {
     background-color: white;

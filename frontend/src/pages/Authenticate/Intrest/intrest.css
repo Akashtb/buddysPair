@@ -13,9 +13,10 @@
 }
 .anoop10 {
   background-image: url("../../src/assets/Authentication/Backround1.jpeg");
-  background-position: -40px;
+  background-position: 0px 40px;
+  background-size: cover;
   height: 700px;
-  padding-top: 100px;
+  padding-top: 10%;
 }
 
 .anoop10 .look input {
@@ -47,7 +48,9 @@
 .anoop11 {
   background-image: url("../../src/assets/Authentication/Backround1.jpeg");
   height: 700px;
-  padding-top: 100px;
+  background-position: 0px 40px;
+  background-size: cover;
+  padding-top: 10%;
 }
 .anoop11 .intrest2 {
   width: 300px;
@@ -96,5 +99,9 @@
   .anoop11 .intrest2 {
     width: 260px;
     box-shadow: 1px 1px 6px rgb(187, 187, 187);
+  }
+  .anoop11 .intrest2 button {
+    width: 210px;
+    background-color: rgb(42, 42, 43);
   }
 }

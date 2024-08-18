@@ -29,7 +29,7 @@ const SignUp = () => {
       return setOt("please enter username");
     } else {
       const response = await axios.post(
-        `http://localhost:1400/user/signup`,
+        `http://localhost:1450/user/signup`,
         cred
       );
       console.log(response.data);

@@ -1,8 +1,9 @@
 .anoop3 {
   background-image: url("src/assets/Authentication/Backround1.jpeg");
-  height: 700px;
-  background-position: -80px 40px;
-  padding-top: 100px;
+  height: 740px;
+  background-position: 0px 40px;
+  padding-top: 6%;
+  background-size: cover;
 }
 .anoop3 .data input {
   width: 250px;
@@ -35,7 +36,7 @@
 .anoop3 .insert {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: center;
   padding: 10px;
   gap: 10px;
   width: 250px;
@@ -139,7 +140,7 @@
     background-image: url("../../src/assets/Authentication/Backround2.jpeg");
     height: 750px;
     background-size: cover;
-    background-position: -15px -70px;
+    background-position: -0px -40px;
     /* margin-top: 10%; */
     padding-top: 15%;
     padding-bottom: 28%;

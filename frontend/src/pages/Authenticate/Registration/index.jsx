@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./reg.css";
 
 const Registration = () => {
+  const fileInputRef = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const [person, setPerson] = useState({});
@@ -24,7 +25,7 @@ const Registration = () => {
 
   const GetUser = async () => {
     const responseee = await axios.get(
-      `http://localhost:1400/user/person/${id}`
+      `http://localhost:1450/user/person/${id}`
     );
     console.log("halo", responseee);
     setPerson(responseee.data);
@@ -37,7 +38,7 @@ const Registration = () => {
 
   const onData = async () => {
     const response = await axios.post(
-      `http://localhost:1400/user/person`,
+      `http://localhost:1450/user/person`,
       cred
     );
     //details =registration
@@ -46,6 +47,10 @@ const Registration = () => {
       navigate(`/job/${response.data.details._id}`);
     }
   };
+  const handleButtonClick = () => {
+    fileInputRef.current.click(); // Click the file input element
+  };
+
   useEffect(() => {
     GetUser();
   }, []);
@@ -123,33 +128,57 @@ const Registration = () => {
                 />
               </label>
 
-              <label htmlFor="">
+              {/* <label htmlFor="">
                 <input
+                  style={{}}
                   placeholder="Profile Image"
                   type="file"
                   name="propic"
                   onChange={onSignup}
                   className="pp"
                 />
-              </label>
-
-              <label htmlFor="">
+              </label> */}
+              <div className="koo">
+                Profile Image
                 <input
-                  placeholder="Add more image"
                   type="file"
-                  name="multipepic"
-                  onChange={onSignup}
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
                 />
-              </label>
+                <label htmlFor="">
+                  <button onClick={handleButtonClick}>
+                    <i class="fa-solid fa-image"></i>
+                  </button>
+                </label>
+              </div>
 
-              <label htmlFor="">
+              <div className="koo">
+                Add More Image
                 <input
-                  placeholder="Short reel"
-                  type="text"
-                  name="reel"
-                  onChange={onSignup}
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
                 />
-              </label>
+                <label htmlFor="">
+                  <button onClick={handleButtonClick}>
+                    <i class="fa-solid fa-image"></i>
+                  </button>
+                </label>
+              </div>
+
+              <div className="koo">
+                Add More Image
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                />
+                <label htmlFor="">
+                  <button onClick={handleButtonClick}>
+                    <i class="fa-solid fa-video"></i>
+                  </button>
+                </label>
+              </div>
             </div>
           </div>
 

@@ -11,7 +11,7 @@ const JobSeeker = () => {
 
   const onjo = async () => {
     const responseee = await axios.get(
-      `http://localhost:1400/user/person/register/${id}`
+      `http://localhost:1450/user/person/register/${id}`
     );
     console.log("loop", responseee);
     setJob(responseee.data);
@@ -28,7 +28,7 @@ const JobSeeker = () => {
 
   const Next2 = async () => {
     const response = await axios.post(
-      `http://localhost:1400/user/job/seeker`,
+      `http://localhost:1450/user/job/seeker`,
       cred
     );
     console.log(response);

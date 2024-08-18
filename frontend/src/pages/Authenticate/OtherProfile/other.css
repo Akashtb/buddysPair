@@ -190,9 +190,13 @@ h2 {
 }
 
 .anoop19 .components {
-  left: 6%;
+  left: 9%;
   background-color: white;
+  /* position: absolute; */
+  /* position: sticky; */
   position: fixed;
+  bottom: 10px;
+
   display: flex;
   gap: 20px;
   width: 80%;
@@ -204,7 +208,7 @@ h2 {
   /* padding-left: 20px; */
   padding: 10px;
   box-shadow: 2px 2px 20px rgb(255, 198, 217);
-  margin-top: 170%;
+  /* margin-top: 170%; */
 }
 .anoop19 .img122 {
   width: 18%;
@@ -213,56 +217,39 @@ h2 {
   width: 19%;
 }
 
-@media screen and (min-width: 340px) {
-  .anoop19 .components {
-    margin-top: 200%;
-  }
-  .anoop19 .arrow {
-    width: 18%;
-  }
-}
-@media screen and (min-width: 350px) {
-  .anoop19 .components {
-    margin-top: 150%;
-  }
-  .anoop19 .arrow {
-    width: 18%;
-  }
-}
-@media screen and (min-width: 360px) {
-  .anoop19 .components {
-    margin-top: 170%;
-  }
-}
-@media screen and (min-width: 370px) {
-  .anoop19 .components {
-    margin-top: 150%;
-  }
-}
-@media screen and (min-width: 380px) {
-  .anoop19 .components {
-    margin-top: 180%;
-  }
-}
-
-@media screen and (min-width: 400px) {
-  .anoop19 .components {
-    margin-top: 180%;
-  }
-}
-@media screen and (min-width: 500px) {
-  .anoop19 .components {
-    margin-top: 110%;
-  }
-}
 @media screen and (min-width: 1030px) {
+  .anoop19 {
+    /* background-color: antiquewhite; */
+    padding-bottom: 50px;
+  }
+  .anoop19 footer {
+    position: absolute;
+    position: sticky;
+    width: 800px;
+    background-color: aqua;
+    bottom: 30px;
+  }
+  .anoop19 ::-webkit-scrollbar {
+    width: 0;
+  }
+
+  .anoop19 ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .anoop19 ::-webkit-scrollbar-thumb {
+    background: transparent;
+    border: none;
+  }
   .anoop19 .links2 a:hover {
     background-color: aliceblue;
   }
+
   /* #ou {
     background-color: red;
     background-color: antiquewhite;
   } */
+
   .anoop19 .swap div {
     display: flex;
     /* border: 2px solid black; */
@@ -327,15 +314,13 @@ h2 {
     margin-left: 30%;
   }
   .anoop19 .arrow {
-    width: 6%;
+    width: 5%;
     margin-top: 1%;
     margin-left: 32%;
   }
   .anoop19 .components {
     width: 35%;
-    margin: auto;
-    margin-top: 40%;
-    margin-left: 31%;
+    margin: auto 30.5%;
     border-radius: 50px;
     gap: 10%;
     padding: 1% 2% 1% 2%;
@@ -343,7 +328,7 @@ h2 {
   .anoop19 .header4 {
     padding-top: 20px;
     padding-left: 14%;
-    width: 86%;
+    width: 100%;
     /* background-color: antiquewhite; */
     display: flex;
     flex-direction: column;
@@ -355,7 +340,7 @@ h2 {
   }
   .anoop19 .context4 {
     /* height: 1000px; */
-    margin-left: 27%;
+    margin-left: 29%;
     padding-top: 50px;
     width: 56%;
     height: 660px;

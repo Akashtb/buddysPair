@@ -12,7 +12,7 @@ const Front = () => {
   };
 
   const respos = async () => {
-    window.location.href = "http://localhost:1400/pass/login/federated/google";
+    window.location.href = "http://localhost:1450/pass/login/federated/google";
   };
   return (
     <div className="anoop1">

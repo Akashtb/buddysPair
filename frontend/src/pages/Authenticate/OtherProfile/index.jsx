@@ -9,11 +9,11 @@ const Other = () => {
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [pro, setPro] = useState("");
-  // const [halo, sethalo] = useState(false);
+  const [halo, sethalo] = useState(false);
 
   const Getprofile = async () => {
     const getresponse = await axios.get(
-      `http://localhost:1400/user/profile/${id}`,
+      `http://localhost:1450/user/profile/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -26,7 +26,7 @@ const Other = () => {
 
   const GetMyPro = async () => {
     const tresponse = await axios.get(
-      `http://localhost:1400/user/profile/${getId()}`,
+      `http://localhost:1450/user/profile/${getId()}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -103,13 +103,10 @@ const Other = () => {
           <div className="botImg">
             <br />
             <div className="name12">
-              <h2> abcdefg,</h2>
-              {/* <h2> {data.user && data.user.name} ,</h2> */}
-              <h2> 65</h2>
-              {/* <h2> {data.reg && data.reg.age}</h2> */}
+              <h2> {data.user && data.user.name} ,</h2>
+              <h2> {data.reg && data.reg.age}</h2>
             </div>
-            <h3>Location : Mumbai</h3>
-            {/* <h3>Location : {data.address}</h3> */}
+            <h3>Location : {data.address}</h3>
             <img
               src="../../../src/assets/Authentication/Match Percentage.svg"
               alt=""
@@ -143,7 +140,7 @@ const Other = () => {
         </div> */}
 
         <div className="swap">
-          <section className="s1" id="sec1">
+          <section className="s1" id="sec1" href="#ou">
             <div className="about">
               <h2>About</h2>
               <h3 className="ab"> {data.about}</h3>
@@ -238,6 +235,9 @@ const Other = () => {
           alt=""
         />
       </div>
+      {/* <footer>
+        <h4>Haaai</h4>
+      </footer> */}
     </div>
   );
 };

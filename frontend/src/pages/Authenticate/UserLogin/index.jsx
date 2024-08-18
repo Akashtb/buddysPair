@@ -12,25 +12,7 @@ const Login = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const Onlogin = async () => {
-    const response = await axios.post(
-      `http://localhost:1450/user/login`,
-      // {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-      //   },
-      // },
-      data
-    );
-
-    localStorage.setItem("token", response.data.token);
-
-    console.log("hlooooooooooooooo", response);
-    if (response.data.token) {
-      navigate(`/choose/${response.data.prof._id}`);
-    }
-  };
-
+  
   return (
     <div className="anoop2">
       <h1></h1>

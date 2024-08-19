@@ -1,9 +1,5 @@
 /* src/pages/Messages.css */
 /* src/pages/Messages.css */
-.activitycontainer {
-  display: flex;
-  height: 100vh;
-}
 
 .leftsidebar {
   flex: 0 0 130px;

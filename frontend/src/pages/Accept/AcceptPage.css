@@ -1,8 +1,10 @@
 .activitycontainer{
   display: flex;
-  height: 100%;
+  flex-direction: row; /* Added to ensure proper layout */
+  min-height: 100vh; /* Ensure the container covers the full viewport height */
   background-color: #4B164C;
   width: 100%;
+  overflow: hidden; /* Prevent overflow to ensure the background stays in place */
 }
 
 .leftsidebar { 
@@ -37,12 +39,14 @@
 }
 
 .user-list {
-  margin-top: 60px; /* to account for fixed header */
+  margin-top: 60px; /* Account for the fixed header */
   padding-top: 20px;
-  margin-left:80px;
+  margin-left: 80px;
   background-color: #fff;
   border-radius: 20px 20px 0 0;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 10px); /* Ensure it covers the available height */
+  overflow-y: auto; /* Enable scrolling within the user list */
 }
 .letter-heading {
   font-size: 18px; /* Adjust size as needed */

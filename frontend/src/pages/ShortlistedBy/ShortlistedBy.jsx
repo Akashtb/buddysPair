@@ -4,20 +4,14 @@ import UserCard from '../../components/NotifyUserCard/UserCard';
 import './ShortlistedBy.css';
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
+import IdContext from '../../context/IdContext';
 
 const ShortlistedBy = () => {
-  const users = [
-    { id: 1, name: 'Afrin Sabila', age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
-    { id: 2, name: 'Adil Adnan',age:'27yrs',location:'Kochi', time:'22 July 8:30pm', avatar: 'assets/Images/propic1.jpg' },
-    { id: 3, name: 'Bristy Haque',age:'27yrs',location:'Kochi', time:'20 July 2:30pm', avatar: 'assets/Images/propic1.jpg' },
-    { id: 4, name: 'John Borino', age:'27yrs',location:'Kochi',time: '15 July 4:30pm',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 5, name: 'Borsha Akther',age:'27yrs',location:'Kochi', time: '12 July 9:30pm',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 6, name: 'Sheik Sadi', age:'27yrs',location:'Kochi',time: '7 July 3:30pm', avatar: 'assets/Images/propic1.jpg' },
-    // Add more users as needed
-  ];
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
 
@@ -26,8 +20,37 @@ const ShortlistedBy = () => {
     setShowProfileOptions(!showProfileOptions);
   };
 
-  const groupedUsers = users.reduce((acc, user) => {
-    const firstLetter = user.name[0].toUpperCase();
+  const axiosPrivate = useAxiosPrivate();
+  const { matrimonyProfileId } = useContext(IdContext);
+  const [shortListedByProfiles, setShortListedByProfiles] = useState([]);
+
+  useEffect(() => {
+    const fetchShortedListedByRequests = async () => {
+      try {
+        const response = await axiosPrivate.get(`/api/matrimony/profile/shortListedBy/${matrimonyProfileId}`);
+        const requestList = response.data;
+
+        const profilesPromises = requestList.map(request =>
+          axiosPrivate.get(`/api/matrimony/profile/getProfile/${request.fromUID}`)
+        );
+
+        const profilesResponses = await Promise.all(profilesPromises);
+
+        const profiles = profilesResponses.map(res => res.data);
+        setShortListedByProfiles(profiles);
+      } catch (error) {
+        console.error("Error fetching sent requests or profiles:", error);
+      }
+    };
+    fetchShortedListedByRequests();
+  }, [axiosPrivate, matrimonyProfileId]);
+
+  console.log(shortListedByProfiles);
+  
+
+
+  const groupedUsers = shortListedByProfiles.reduce((acc, user) => {
+    const firstLetter = user.firstName[0].toUpperCase();
     if (!acc[firstLetter]) {
       acc[firstLetter] = [];
     }

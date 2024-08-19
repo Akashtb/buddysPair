@@ -42,7 +42,6 @@ const ReceivedPage = () => {
     };
     fetchReceivedRequests();
   }, [axiosPrivate, matrimonyProfileId]);
-  console.log('usersList', receivedProfiles);
 
   // Sort users alphabetically and group by the first letter
   const groupedUsers = receivedProfiles.reduce((acc, user) => {
@@ -55,19 +54,23 @@ const ReceivedPage = () => {
   }, {});
 
   const acceptTheRequest = async (fromUID) => {
+    console.log(`Attempting to accept request from user with ID: ${fromUID}`);  
     try {
       const response = await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, {
         requestFromId: fromUID
       });
+      console.log('API response:', response);
       if (response.status === 200) {
         console.log('Request accepted successfully');
-        // Optionally, update the UI or refresh the list of received profiles
+        
+        setReceivedProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== fromUID));
+      } else {
+        console.error('Failed to accept the request. Status:', response.status);
       }
     } catch (error) {
       console.error("Error accepting the request:", error);
     }
   };
-
 
   return (
     <div className="activitycontainer">
@@ -88,13 +91,13 @@ const ReceivedPage = () => {
             <div key={letter}>
               <h2 className="letter-heading">{letter}</h2>
               {groupedUsers[letter].map(user => {
-                console.log('User:', user);  // Console log the user here
+                console.log('User:', user._id);  // Console log the user here
                 return (
                   <UserCard
-                    key={user.id}
+                    key={user._id}  // Ensure you use _id if that's the correct key
                     user={user}
                     actions={[
-                      { className: 'accept-icon', icon: <TiTick /> },
+                      { className: 'accept-icon', icon: <TiTick />, onClick: () => acceptTheRequest(user._id) },
                       { className: 'remove-icon', icon: <RxCross2 /> },
                     ]}
                   />

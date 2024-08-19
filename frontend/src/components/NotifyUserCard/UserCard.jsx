@@ -16,7 +16,7 @@ const UserCard = ({ user, actions }) => {
       </div>
       <div className="actions">
         {actions.map((action, index) => (
-          <span key={index} className={action.className}>
+          <span key={index} className={action.className} onClick={action.onClick}>
             {action.icon}
           </span>
         ))}

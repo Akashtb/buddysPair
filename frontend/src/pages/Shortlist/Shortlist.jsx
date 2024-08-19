@@ -4,20 +4,14 @@ import UserCard from '../../components/NotifyUserCard/UserCard';
 import './Shortlist.css';
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
+import IdContext from '../../context/IdContext';
 
 const Shortlist = () => {
-  const users = [
-    { id: 1, name: 'Afrin Sabila', age:'27yrs',location:'Kochi',time: 'Today 5:30pm', avatar: 'assets/Images/propic1.jpg' },
-    { id: 2, name: 'Adil Adnan',age:'27yrs',location:'Kochi', time:'22 July 8:30pm', avatar: 'assets/Images/propic1.jpg' },
-    { id: 3, name: 'Bristy Haque',age:'27yrs',location:'Kochi', time:'20 July 2:30pm', avatar: 'assets/Images/propic1.jpg' },
-    { id: 4, name: 'John Borino', age:'27yrs',location:'Kochi',time: '15 July 4:30pm',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 5, name: 'Borsha Akther',age:'27yrs',location:'Kochi', time: '12 July 9:30pm',  avatar: 'assets/Images/propic1.jpg' },
-    { id: 6, name: 'Sheik Sadi', age:'27yrs',location:'Kochi',time: '7 July 3:30pm', avatar: 'assets/Images/propic1.jpg' },
-    // Add more users as needed
-  ];
+ 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
 
@@ -26,8 +20,36 @@ const Shortlist = () => {
     setShowProfileOptions(!showProfileOptions);
   };
 
-  const groupedUsers = users.reduce((acc, user) => {
-    const firstLetter = user.name[0].toUpperCase();
+  const axiosPrivate = useAxiosPrivate();
+  const { matrimonyProfileId } = useContext(IdContext);
+  const [shortListedProfiles, setshortListedProfiles] = useState([]);
+
+  useEffect(() => {
+    const fetchShortlistedRequests = async () => {
+      try {
+        const response = await axiosPrivate.get(`/api/matrimony/profile/shortListedList/${matrimonyProfileId}`);
+        const shortListedList = response.data;
+
+        const profilesPromises = shortListedList.map(shortList =>
+          axiosPrivate.get(`/api/matrimony/profile/getProfile/${shortList.toUID}`)
+        );
+
+        const profilesResponses = await Promise.all(profilesPromises);
+
+        const profiles = profilesResponses.map(res => res.data);
+        setshortListedProfiles(profiles);
+      } catch (error) {
+        console.error("Error fetching sent requests or profiles:", error);
+      }
+    };
+    fetchShortlistedRequests();
+  }, [axiosPrivate, matrimonyProfileId]);
+
+  console.log(shortListedProfiles);
+  
+
+  const groupedUsers = shortListedProfiles.reduce((acc, user) => {
+    const firstLetter = user.firstName[0].toUpperCase();
     if (!acc[firstLetter]) {
       acc[firstLetter] = [];
     }
@@ -51,19 +73,22 @@ const Shortlist = () => {
         </div>
       <div className="user-list">
       {Object.keys(groupedUsers).sort().map(letter => (
-            <div key={letter}>
-              <h2 className="letter-heading">{letter}</h2>
-              {groupedUsers[letter].map(user => (
-          <UserCard
-            key={user.id}
-            user={user}
-            actions={[
-              { className: 'accept-icon', icon: <TiTick />},
-              { className: 'remove-icon', icon:<RxCross2 />},
-            ]}
-          />
-        ))}
-        </div>
+           <div key={letter}>
+           <h2 className="letter-heading">{letter}</h2>
+           {groupedUsers[letter].map(user => {
+             console.log('User:', user.id);  // Console log the user here
+             return (
+               <UserCard
+                 key={user.id}  // Ensure you use _id if that's the correct key
+                 user={user}
+                 actions={[
+                   { className: 'accept-icon', icon: <TiTick />},
+                   { className: 'remove-icon', icon: <RxCross2 /> },
+                 ]}
+               />
+             );
+           })}
+         </div>
       ))}
     </div>
   </div>

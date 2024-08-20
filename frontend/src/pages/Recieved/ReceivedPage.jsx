@@ -87,25 +87,30 @@ const ReceivedPage = () => {
           />
         </div>
         <div className="user-list">
-          {Object.keys(groupedUsers).sort().map(letter => (
-            <div key={letter}>
-              <h2 className="letter-heading">{letter}</h2>
-              {groupedUsers[letter].map(user => {
-                console.log('User:', user._id);  // Console log the user here
-                return (
-                  <UserCard
-                    key={user._id}  // Ensure you use _id if that's the correct key
-                    user={user}
-                    actions={[
-                      { className: 'accept-icon', icon: <TiTick />, onClick: () => acceptTheRequest(user._id) },
-                      { className: 'remove-icon', icon: <RxCross2 /> },
-                    ]}
-                  />
-                );
-              })}
-            </div>
-          ))}
-        </div>
+  {Object.keys(groupedUsers).sort().map(letter => (
+    <div key={letter}>
+      <h2 className="letter-heading">{letter}</h2>
+      {groupedUsers[letter].map(user => (
+        <UserCard
+          key={user._id}  // Ensure you use _id if that's the correct key
+          user={user}
+          actions={[
+            { 
+              className: 'accept-icon', 
+              icon: <TiTick />, 
+              onClick: () => console.log("Accept icon clicked for user:", user._id) // Just log a message on click
+            },
+            { 
+              className: 'remove-icon', 
+              icon: <RxCross2 /> 
+            },
+          ]}
+        />
+      ))}
+    </div>
+  ))}
+</div>
+
       </div>
       {showProfileOptions && (
         <div className="profileOptionsContainer">

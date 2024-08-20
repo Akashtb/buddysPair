@@ -3,6 +3,7 @@ import './UserCard.css';
 
 const UserCard = ({ user, actions }) => {
   console.log("users",user);
+  console.log("action",actions)
   
   return (
     <div className="user-card">

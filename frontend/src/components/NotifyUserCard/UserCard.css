@@ -2,12 +2,10 @@
 
 
 .user-list {
-  flex: 1;
   padding: 20px;
   background-color: #fff;
   border-radius: 20px 20px 0 0; /* Rounded top corners */
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1); /* Shadow for better visibility */
-  margin-top: auto; /* Push to the bottom */
 }
 
 /* UserCard Styles */

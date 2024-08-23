@@ -31,9 +31,9 @@
   position: fixed;
   top: 0;
   right: 80px;
-  left: 160px;
+  left: 100px;
   background-color: #4B164C;
-  padding: 10px;
+  padding: 20px;
   z-index: 1000;
 
 }

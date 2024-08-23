@@ -1,24 +1,20 @@
 import { useState, useRef, useEffect } from 'react';
-import { IoMdSend } from 'react-icons/io';
+import { IoMdAttach, IoMdCall, IoMdMic, IoMdSend } from 'react-icons/io';
 
-import Header from '../../components/NotifyHeader/Header';
 import './ChatRoomPage.css';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
+import { useNavigate } from 'react-router-dom';
+import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 
 const ChatRoomPage = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [showProfileOptions, setShowProfileOptions] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState([
     { id: 1, text: 'Hi, how are you?', type: 'received', profilePic: 'assets/Images/propic1.jpg' },
     { id: 2, text: "I'm good, thank you! What about you?", type: 'sent', profilePic: 'assets/Images/propic1.jpg' }
   ]);
   const messagesEndRef = useRef(null);
+  const navigate = useNavigate();
 
-  const toggleProfileOptions = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    setShowProfileOptions(!showProfileOptions);
-  };
 
   const handleSendMessage = () => {
     if (inputMessage.trim() !== '') {
@@ -33,6 +29,10 @@ const ChatRoomPage = () => {
     }
   };
 
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
   useEffect(() => {
     // Scroll to the bottom of the messages container
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -40,16 +40,17 @@ const ChatRoomPage = () => {
 
   return (
     <div className="activitycontainer">
-      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className="leftsidebar">
         <LeftSideBar />
       </div>
-      <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className="main">
         <div className="activity-header">
-          <Header 
-            title="Chatroom" 
-            profilePic="assets/Images/propic1.jpg" 
-            onProfilePicClick={toggleProfileOptions} 
-          />
+        <header className="messages-header">
+          <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
+          <h1 className="title">Sandra Thomas</h1>
+          <div className="chat-call" > <IoMdCall />
+          </div>
+        </header>
         </div>
         <div className="chatroom">
           <div className="chat-messages">
@@ -64,25 +65,22 @@ const ChatRoomPage = () => {
             <div ref={messagesEndRef} />
           </div>
           <div className="message-input">
-            <input
-              type="text"
-              placeholder="Type your message..."
-              value={inputMessage}
-              onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-            />
-            <button className="send-button" onClick={handleSendMessage}>
-              <IoMdSend />
-            </button>
-          </div>
+  <input
+    type="text"
+    placeholder="Type your message..."
+    value={inputMessage}
+    onChange={(e) => setInputMessage(e.target.value)}
+    onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+  />
+  <IoMdAttach className="pin-icon" />
+  <IoMdMic className="mic-icon" />
+  <button className="send-button" onClick={handleSendMessage}>
+    <IoMdSend />
+  </button>
+</div>
+
         </div>
       </div>
-
-      {showProfileOptions && (
-        <div className="profileOptionsContainer">
-          {/* Profile options can go here */}
-        </div>
-      )}
     </div>
   );
 };

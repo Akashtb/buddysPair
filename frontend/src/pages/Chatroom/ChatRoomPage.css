@@ -1,0 +1,136 @@
+
+.chatroom {
+  margin-top: 60px;
+  background-color: #fff;
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin-left: 80px;
+}
+
+.chat-messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-bottom: 10px;
+}
+
+.message {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+
+.message.received {
+  justify-content: flex-start;
+ 
+}
+
+.message.sent {
+  justify-content: flex-end;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.message-content {
+  padding: 10px 15px;
+  border-radius: 20px;
+  max-width: 60%;
+  background-color: #DD88CF;
+}
+
+.message.sent .message-content {
+  background-color: #4B164C;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.message-input input {
+  flex-grow: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+}
+
+.send-button {
+  background-color: #4B164C;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-button svg {
+  font-size: 20px;
+}
+
+/* Mobile View */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .chatroom {
+    padding: 10px;
+    margin-left: 0;
+    min-height: calc(100vh - 150px);
+  }
+  .main {
+    order: 0;
+    width: 100%;
+    flex: none;
+    padding: 20px;
+  }
+
+  .activity-header {
+    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 415px) {
+  .chatroom {
+    padding: 10px;
+    margin-left: 0;
+
+  }
+
+  .profile-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+
+  .message-content {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .message-input input {
+    padding: 8px;
+    margin-right: 5px;
+  }
+
+  .send-button svg {
+    font-size: 18px;
+  }
+}

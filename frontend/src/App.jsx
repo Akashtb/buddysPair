@@ -37,6 +37,7 @@ import Edit from './pages/Edit';
 import Change from './pages/Change';
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
+import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
 
 function App() {
   return (
@@ -79,6 +80,7 @@ function App() {
         <Route path="/viewed" element={<ViewedMyProfileActivity />} />
         <Route path="/pageNotFound" element={<NotFoundPage/>}/>
         <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
+        <Route path="/chat" element={<ChatRoomPage/>}/>
       </Routes>
     </Router>
   );

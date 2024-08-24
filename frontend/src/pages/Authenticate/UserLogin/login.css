@@ -12,6 +12,9 @@
   background-color: rgb(255, 255, 255);
   /* position: absolute; */
 }
+.anoop2 .inputt {
+  text-align: start;
+}
 .anoop2 .inputt input {
   border: 2px solid rgb(207, 203, 203);
   height: 30px;

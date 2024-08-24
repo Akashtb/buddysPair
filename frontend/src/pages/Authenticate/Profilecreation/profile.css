@@ -34,12 +34,15 @@ select {
   width: 240px;
   border-radius: 5px;
   border: 2px solid rgb(185, 182, 182);
+  padding-left: 14px;
+  color: gray;
 }
 .anoop15 .box12 textarea {
   width: 240px;
   height: 50px;
   border: 2px solid rgb(194, 191, 191);
   border-radius: 5px;
+  padding: 14px;
 }
 .anoop15 footer {
   height: 200px;

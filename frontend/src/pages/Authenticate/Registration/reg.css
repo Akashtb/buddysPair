@@ -55,11 +55,17 @@
   padding: 10px 40px 20px 40px;
   background-color: white;
 }
+.anoop16 .box select {
+  width: 250px;
+  padding-left: 14px;
+  color: gray;
+}
 .anoop16 .card1_1_1 input {
   width: 250px;
   border: 2px solid rgb(207, 203, 203);
   height: 30px;
   border-radius: 5px;
+  color: gray;
 }
 .anoop16 .card1_1_1 {
   /* border: 1px solid black; */

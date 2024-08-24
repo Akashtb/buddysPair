@@ -7,6 +7,7 @@ import useAxiosPrivate from "../../../../CustomApi/UseAxiosPrivate";
 import IdContext from "../../../../context/IdContext";
 
 const JobSeeker = () => {
+  const [com, setCompany] = useState("");
   const navigate = useNavigate();
   const [data, setData] = useState({ title: "", expertiseLevel: "" });
   const axiosPrivate = useAxiosPrivate();
@@ -52,7 +53,7 @@ const JobSeeker = () => {
             type="text"
             placeholder="Title"
             onChange={dataChange}
-          />
+          />{" "}
           <label htmlFor="" className="sel">
             Expertise level
             <select name="expertiseLevel" onChange={dataChange}>

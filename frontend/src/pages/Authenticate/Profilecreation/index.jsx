@@ -7,10 +7,11 @@ import "./profile.css";
 import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
 
 const Profile = () => {
-
+  const [marry, setMarried] = useState("");
+  const [adres, setAddres] = useState("");
   const { id } = useParams();
   console.log(id);
-  
+
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
 
@@ -47,22 +48,32 @@ const Profile = () => {
   };
   console.log(reRegistrationData);
 
-
-  const profileReRegistraion = async()=>{
+  const profileReRegistraion = async () => {
     try {
-      const response = await axiosPrivate.patch(`http://localhost:8003/api/matrimony/profile/reRegistration/${id}`,reRegistrationData)
-      console.log(response.data);
-      if(response.status === 200){
-        toast.success("Profile updated successfully");
-        navigate('/job')
-      }else{
-        toast.error("Failed to create profile");
+      setAddres("");
+      setMarried("");
+      if (!reRegistrationData.martialStatus) {
+        return setMarried("* Required");
+      } else if (!reRegistrationData.address) {
+        return setAddres("* Required");
+      } else {
+        const response = await axiosPrivate.patch(
+          `http://localhost:8003/api/matrimony/profile/reRegistration/${id}`,
+          reRegistrationData
+        );
+        console.log(response.data);
+        if (response.status === 200) {
+          toast.success("Profile updated successfully");
+          navigate("/job");
+        } else {
+          toast.error("Failed to create profile");
+        }
       }
     } catch (error) {
       toast.error("An error occurred while creating the profile");
       console.error(error);
     }
-  }
+  };
 
   return (
     <div className="anoop15">
@@ -84,8 +95,8 @@ const Profile = () => {
               <option value="married">Married</option>
               <option value="unmarried">Unmarried</option>
             </select>
+            <span style={{ color: "red", fontSize: "13px" }}>{marry}</span>
             <br />
-
             {/* <label htmlFor="">Horriscope</label> */}
             <input
               placeholder="Family Type"
@@ -135,11 +146,19 @@ const Profile = () => {
             />
             <br />
             <input
+              placeholder="Number of Siblings Married"
+              type="number"
+              name="numberOfMarriedSibilings"
+              onChange={dataChange}
+            />{" "}
+            <br />
+            <input
               placeholder="Address"
               type="text"
               name="address"
               onChange={dataChange}
             />{" "}
+            <span style={{ color: "red", fontSize: "13px" }}>{adres}</span>
             <br />
             <input
               placeholder="Mother Tongue"
@@ -151,14 +170,6 @@ const Profile = () => {
           </div>
           <br />
           <div className="card66">
-            <input
-              placeholder="Number of Siblings Married"
-              type="number"
-              name="numberOfMarriedSibilings"
-              onChange={dataChange}
-            />{" "}
-            <br />
-
             {/* <label htmlFor="">Annual income</label> */}
             <input
               placeholder="Height"
@@ -175,7 +186,6 @@ const Profile = () => {
               onChange={dataChange}
             />
             <br />
-
             <input
               placeholder="State"
               type="text"
@@ -219,8 +229,6 @@ const Profile = () => {
               onChange={dataChange}
             />
             <br />
-
-
             {/* <label htmlFor="">Father Occupation</label> */}
             <input
               placeholder="Disabilities"
@@ -255,12 +263,10 @@ const Profile = () => {
             <br />
           </div>
         </div>
-        <button className="sub" onClick={profileReRegistraion} >
+        <button className="sub" onClick={profileReRegistraion}>
           Next
         </button>
       </div>
-
-
 
       <footer></footer>
     </div>

@@ -10,18 +10,26 @@ const SignUp = () => {
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
-    const error = queryParams.get('error');
+    const error = queryParams.get("error");
 
-    if (error === 'account_does_not_exist') {
-      toast.error("You don't have an account Please Register")
+    if (error === "account_does_not_exist") {
+      toast.error("You don't have an account Please Register");
     }
   }, [location]);
 
+  const [showName, setName] = useState("");
+  const [showLast, setLast] = useState("");
+  const [showUser, setUse] = useState("");
+  const [showMail, setMail] = useState("");
+  const [showMCode, setMailCode] = useState("");
+  const [showPass, setPass] = useState("");
+  const [showCPass, setCoPass] = useState("");
+  const [showMob, setMob] = useState("");
+  const [showMOTP, setMobOtp] = useState("");
 
-  const [show, setOt] = useState("");
-  const [showReg, setReg] = useState([]);
+  // const [showReg, setReg] = useState([]);
   const navigate = useNavigate();
-  const {setUserId} = useContext(IdContext)
+  const { setUserId } = useContext(IdContext);
 
   // const [res, setRes] = useState();
   const [signupData, setSignupData] = useState({
@@ -37,7 +45,7 @@ const SignUp = () => {
   });
 
   const dataChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const { name, value } = e.target;
     setSignupData({ ...signupData, [name]: value });
   };
@@ -63,69 +71,81 @@ const SignUp = () => {
 
   const generateGmailOtp = async () => {
     console.log(signupData.email);
-    const email = signupData.email
+    const email = signupData.email;
     try {
-      const response = await axios.post('http://localhost:8003/api/auth/generate-otp', { email })
+      const response = await axios.post(
+        "http://localhost:8003/api/auth/generate-otp",
+        { email }
+      );
       console.log(response);
-      if(response.data.message === "OTP sent successfully"){
-        toast.success('OTP sent successfully to your email');
-      }else{
-        toast.error('Failed to send OTP');
+      if (response.data.message === "OTP sent successfully") {
+        toast.success("OTP sent successfully to your email");
+      } else {
+        toast.error("Failed to send OTP");
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const verifyGmailOtp = async () => {
     const email = signupData.email;
     const otp = signupData.emailCode;
     try {
-      const response = await axios.post('http://localhost:8003/api/auth/verify-gmail-otp', { email, otp })
+      const response = await axios.post(
+        "http://localhost:8003/api/auth/verify-gmail-otp",
+        { email, otp }
+      );
       console.log(response);
-      if (response.data.message === 'OTP verified successfully') {
-        toast.success('OTP verified successfully ');
-      }else{
-        toast.error('Invalid OTP ')
+      if (response.data.message === "OTP verified successfully") {
+        toast.success("OTP verified successfully ");
+      } else {
+        toast.error("Invalid OTP ");
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  const sendOtp = async() => {
+  const sendOtp = async () => {
     const phoneNumber = `+91${signupData.phno}`;
 
     try {
-      const response = await axios.post('http://localhost:8003/api/auth/send-otp', { phoneNumber });
+      const response = await axios.post(
+        "http://localhost:8003/api/auth/send-otp",
+        { phoneNumber }
+      );
       console.log(response.data);
-      if (response.data.message === 'OTP send successfully') {
-        toast.success('OTP sent successfully');
+      if (response.data.message === "OTP send successfully") {
+        toast.success("OTP sent successfully");
       } else {
-        toast.error('Failed to send OTP. Please try again.');
+        toast.error("Failed to send OTP. Please try again.");
       }
     } catch (error) {
-      toast.error('Please give the phone number');
-      console.error('OTP sending error:', error);
+      toast.error("Please give the phone number");
+      console.error("OTP sending error:", error);
     }
   };
 
   const verifyOtp = async () => {
     console.log(signupData.phno);
-    
+
     const phoneNumber = `+91${signupData.phno}`;
-    const otp = signupData.phoneOTP 
+    const otp = signupData.phoneOTP;
     try {
-      const response = await axios.post('http://localhost:8003/api/auth/verify-otp', { phoneNumber, otp });
+      const response = await axios.post(
+        "http://localhost:8003/api/auth/verify-otp",
+        { phoneNumber, otp }
+      );
       console.log(response);
-      if (response.data.message === 'Verification successful') {
-        toast.success('OTP verified successfully');
+      if (response.data.message === "Verification successful") {
+        toast.success("OTP verified successfully");
       } else {
-        toast.error('Invalid OTP. Please try again.');
+        toast.error("Invalid OTP. Please try again.");
       }
     } catch (error) {
-      toast.error('Invalid OTP. Please try again2.');
-      console.error('OTP verification error:', error);
+      toast.error("Invalid OTP. Please try again2.");
+      console.error("OTP verification error:", error);
     }
   };
 
@@ -133,82 +153,120 @@ const SignUp = () => {
     try {
       const { emailCode, phoneOTP, ...otherDetails } = signupData;
       console.log(otherDetails);
-  
-      // Send data to the backend for registration
-      const response = await axios.post('http://localhost:8003/api/auth/register', otherDetails,{withCredentials:true});
-      const userId = response.data.user._id
-      console.log(response.data);
-  
-      if (response.data.message === 'User already exists') {
-        toast.error('Email is taken');
-      } else if (response.data.message === 'Passwords do not match') {
-        toast.error('Passwords do not match');
-      } else if (response.status === 201) {
-        toast.success('User registered successfully');
-        setUserId(userId)
-        navigate(`/registration/${userId}`); // Redirect to login or another page
+      setName("");
+      setLast("");
+      setUse("");
+      setMail("");
+      setMailCode("");
+      setPass("");
+      setCoPass("");
+      setMob("");
+      setMobOtp("");
+
+      if (otherDetails.firstName == "") {
+        return setName("*Please enter name");
+      } else if (!otherDetails.lastName) {
+        return setLast("Please enter lastName");
+      } else if (!otherDetails.username) {
+        return setUse("Please enter username");
+      } else if (!otherDetails.email) {
+        return setMail("Please enter email");
+      } else if (!otherDetails.emailCode) {
+        return setMailCode("Please enter mail code");
+      } else if (!otherDetails.password) {
+        return setPass("Please enter password");
+      } else if (!otherDetails.confirmPassword) {
+        return setCoPass("Please enter confimPassword");
+      } else if (!otherDetails.phno) {
+        return setMob("Please enter Mob.no");
+      } else if (!otherDetails.phoneOTP) {
+        return setMobOtp("Please enter OTP");
+      } else {
+        // Send data to the backend for registration
+        const response = await axios.post(
+          "http://localhost:8003/api/auth/register",
+          otherDetails,
+          { withCredentials: true }
+        );
+        const userId = response.data.user._id;
+        console.log(response.data);
+
+        if (response.data.message === "User already exists") {
+          toast.error("Email is taken");
+        } else if (response.data.message === "Passwords do not match") {
+          toast.error("Passwords do not match");
+        } else if (response.status === 201) {
+          toast.success("User registered successfully");
+          setUserId(userId);
+          navigate(`/registration/${userId}`); // Redirect to login or another page
+        }
       }
     } catch (error) {
       // Handle AxiosError specifically
       if (error.response) {
-
         // The request was made and the server responded with a status code
         // that falls out of the range of 2xx
-        console.log('Response error data:', error.response.data);
-        console.log('Response error status:', error.response.status);
-        console.log('Response error headers:', error.response.headers);
-  
+        console.log("Response error data:", error.response.data);
+        console.log("Response error status:", error.response.status);
+        console.log("Response error headers:", error.response.headers);
+
         // Extract the message from the error response and display it
-        toast.error(error.response.data.message || 'Registration failed. Please try again.');
+        toast.error(
+          error.response.data.message ||
+            "Registration failed. Please try again."
+        );
       } else if (error.request) {
         // The request was made but no response was received
-        console.log('Request error data:', error.request);
-        toast.error('No response from server. Please try again.');
+        console.log("Request error data:", error.request);
+        toast.error("No response from server. Please try again.");
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log('Error message:', error.message);
-        toast.error('An unexpected error occurred. Please try again.');
+        console.log("Error message:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
       }
     }
   };
-  
-
 
   return (
     <div className="anoop3">
       <div className="data">
         <h3>Sign up</h3>
         <div className="insert">
-
           <label htmlFor="">
-            First Name <input type="text" name="firstName" onChange={dataChange} />
-            <span style={{ color: "red" }}>{showReg}</span>
+            First Name{" "}
+            <input type="text" name="firstName" onChange={dataChange} />
+            <span style={{ color: "red", fontSize: "13px" }}>{showName}</span>
           </label>
 
           <label htmlFor="">
-            Last Name <input type="text" name="lastName" onChange={dataChange} />
-            <span style={{ color: "red" }}>{showReg}</span>
+            Last Name{" "}
+            <input type="text" name="lastName" onChange={dataChange} />
+            <span style={{ color: "red", fontSize: "13px" }}>{showLast}</span>
           </label>
 
           <label htmlFor="">
-            Username{" "}
-            <input type="text" name="username" onChange={dataChange} />
-            <span style={{ color: "red" }}>{show}</span>
+            Username <input type="text" name="username" onChange={dataChange} />
+            <span style={{ color: "red", fontSize: "13px" }}>{showUser}</span>
           </label>
 
           <div className="footer22">
             <label htmlFor="">
-              email{" "}
-              <input type="email" name="email" onChange={dataChange}/>
-              <span style={{ color: "red" }}>{show}</span>
+              email <input type="email" name="email" onChange={dataChange} />
+              <span style={{ color: "red", fontSize: "13px" }}>{showMail}</span>
             </label>
 
             <div className="Otp">
-
               <button onClick={generateGmailOtp} className="link-button">
-                Generate OTP <i className="fa-solid fa-arrows-rotate" style={{ color: 'rgb(152, 18, 188)' }}></i>
+                Generate OTP{" "}
+                <i
+                  className="fa-solid fa-arrows-rotate"
+                  style={{ color: "rgb(152, 18, 188)" }}
+                ></i>
               </button>
-              <i className="fa-regular fa-circle-check" style={{ color: 'rgb(152, 18, 188)' }}></i>
+              <i
+                className="fa-regular fa-circle-check"
+                style={{ color: "rgb(152, 18, 188)" }}
+              ></i>
             </div>
           </div>
 
@@ -216,23 +274,26 @@ const SignUp = () => {
             <label htmlFor="">
               email verify code{" "}
               <input type="text" name="emailCode" onChange={dataChange} />
-              <span style={{ color: "red" }}>{show}</span>
+              <span style={{ color: "red", fontSize: "13px" }}>
+                {showMCode}
+              </span>
             </label>
 
             <div className="Otp">
-
               <button className="link-button" onClick={verifyGmailOtp}>
                 Verify OTP
               </button>
-              <i className="fa-regular fa-circle-check" style={{ color: 'rgb(152, 18, 188)' }}></i>
+              <i
+                className="fa-regular fa-circle-check"
+                style={{ color: "rgb(152, 18, 188)" }}
+              ></i>
             </div>
-
           </div>
-
 
           <label htmlFor="">
             Password{" "}
             <input type="password" name="password" onChange={dataChange} />
+            <span style={{ color: "red", fontSize: "13px" }}>{showPass}</span>
           </label>
 
           <label htmlFor="">
@@ -242,31 +303,48 @@ const SignUp = () => {
               name="confirmPassword"
               onChange={dataChange}
             />
+            <span style={{ color: "red", fontSize: "13px" }}>{showCPass}</span>
           </label>
 
           <label htmlFor="">
-            Mobile <input lang="en-US" type="number" name="phno" onChange={dataChange} />
+            Mobile{" "}
+            <input
+              lang="en-US"
+              type="number"
+              name="phno"
+              onChange={dataChange}
+            />
+            <span style={{ color: "red", fontSize: "13px" }}>{showMob}</span>
           </label>
 
           <div className="footer22">
-           <div className="Otp">
+            <div className="Otp">
               <button onClick={sendOtp} className="link-button">
                 send OTP
-                <i className="fa-solid fa-arrows-rotate" style={{ color: 'rgb(152, 18, 188)' }}></i>
+                <i
+                  className="fa-solid fa-arrows-rotate"
+                  style={{ color: "rgb(152, 18, 188)" }}
+                ></i>
               </button>
-              <i className="fa-regular fa-circle-check" style={{ color: 'rgb(152, 18, 188)' }}></i>
-           </div>
+              <i
+                className="fa-regular fa-circle-check"
+                style={{ color: "rgb(152, 18, 188)" }}
+              ></i>
+            </div>
 
             <label htmlFor="">
               OTP <input type="number" name="phoneOTP" onChange={dataChange} />{" "}
+              <span style={{ color: "red", fontSize: "13px" }}>{showMOTP}</span>
             </label>
             <div className="Otp">
               <button onClick={verifyOtp} className="link-button">
                 verify OTP
               </button>
-              <i className="fa-regular fa-circle-check" style={{ color: 'rgb(152, 18, 188)' }}></i>
-           </div>
-
+              <i
+                className="fa-regular fa-circle-check"
+                style={{ color: "rgb(152, 18, 188)" }}
+              ></i>
+            </div>
 
             <button className="up" onClick={registration}>
               Register

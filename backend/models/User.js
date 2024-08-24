@@ -1,14 +1,5 @@
 import mongoose from "mongoose";
 const userSchema = mongoose.Schema({
-    googleID: {
-        type: String,
-        required: true,
-        unique:true
-    },
-    displayName: {
-        type: String,
-        required: true
-    },
     firstName: {
         type: String,
         required: true
@@ -17,40 +8,13 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    age: {
-        type: Number,
-    },
-    gender:{
-        type: String,
-    },
     email: {
         type: String,
         required: true,
         unique:true
     },
-    dateOfBirth: {
-        type: Date,
-    },
-    city: {
-        type: String,
-    },
-    state: {
-        type: String,
-    },
-    district: {
-        type: String,
-    },
-    profilePic: {
-        type: String,
-    },
-    qualification: {
-        type: String,
-    },
     username:{
         type:String
-    },
-    profession: {
-        type: String,
     },
     password: {
         type: String,

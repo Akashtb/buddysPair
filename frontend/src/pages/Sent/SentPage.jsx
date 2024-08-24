@@ -56,6 +56,23 @@ const SentPage = () => {
   }, {});
   console.log("groupOfUSer",groupedUsers);
   
+  const cancelTheRequest = async (toUId) => {
+    console.log(`Attempting to cancel request for user with ID: ${toUId}`);  
+    try {
+        const response = await axiosPrivate.delete(`/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}`, {
+            params: { requestToId: toUId }
+        });
+        console.log('API response:', response);
+        if (response.status === 200) {
+            console.log('Request cancelled successfully');
+            setSentProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== toUId));
+        } else {
+            console.error('Failed to cancel the request. Status:', response.status);
+        }
+    } catch (error) {
+        console.error("Error cancelling the request:", error);
+    }
+};
 
   return (
     <div className="activitycontainer">
@@ -79,7 +96,8 @@ const SentPage = () => {
               key={user.id}
               user={user}
               actions={[
-                { className: 'remove-icon', icon: <ImCross/> },
+                { className: 'remove-icon', icon: <ImCross/> , onClick: () => cancelTheRequest(user._id)
+                (user._id) },
               ]}
             />
           ))}

@@ -1,48 +1,48 @@
-// import { useNavigate } from "react-router-dom";
-// import Home from "../Home";
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { toast } from "react-toastify";
 import "./employe.css";
+import IdContext from "../../../../context/IdContext";
+import useAxiosPrivate from "../../../../CustomApi/UseAxiosPrivate";
 
 // import { Link } from "react-router-dom";
 
 const Employe = () => {
-  const { id } = useParams();
+
   const navigate = useNavigate();
-  // const navigate = useNavigate();
-  const [jjob, setJob] = useState({});
-  const [cred, setCred] = useState({});
 
-  const onjob = async () => {
-    const responseee = await axios.get(
-      `http://localhost:1450/user/person/register/${id}`
-    );
-    console.log("dsgsgik", responseee);
-    setJob(responseee.data);
-  };
+  const [data, setData] = useState({
+    designation:"",
+    location:"",
+    company:""
+  });
+  const axiosPrivate = useAxiosPrivate();
+  const{userId}=useContext(IdContext)
+  console.log(userId);
+  
 
-  const onEmploye = (e) => {
+
+  const dataChange = (e) => {
     const { name, value } = e.target;
-    setCred({ ...cred, [name]: value, reg: jjob._id, user: jjob.user._id });
-  };
-  const Next = async () => {
-    const response = await axios.post(
-      `http://localhost:1450/user/job/employee`,
-      cred
-    );
-    console.log("ksssss", response);
-    if (response.data.job) {
-      navigate(`/intrest/${response.data.job._id}`);
-    } else {
-      console.log("invalid data");
-    }
+    setData({ ...data, [name]: value });
   };
 
-  useEffect(() => {
-    onjob();
-  }, []);
+  const submitForm = async()=>{
+    try {
+      const response = await axiosPrivate.post(`/api/employer/createEmployer/${userId}`)
+      console.log(response.data)
+      if(response.status === 201){
+        toast.success("suucefully register")
+        navigate('/intrest')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  console.log(data);
+  
+ 
   return (
     <div className="anoop13">
       <div className="employe">
@@ -53,25 +53,25 @@ const Employe = () => {
             placeholder="Company Name"
             type="text"
             name="company"
-            onChange={onEmploye}
+            onChange={dataChange}
           />
 
           <input
             placeholder="Designation"
             type="text"
             name="designation"
-            onChange={onEmploye}
+            onChange={dataChange}
           />
 
           <input
             placeholder="Location"
             type="text"
             name="location"
-            onChange={onEmploye}
+            onChange={dataChange}
           />
         </div>
 
-        <button className="btnemp" onClick={Next}>
+        <button className="btnemp" onClick={submitForm} >
           Next
         </button>
       </div>

@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./front.css";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Front = () => {
   const navigate = useNavigate();
@@ -11,9 +13,10 @@ const Front = () => {
     navigate("/sign");
   };
 
-  const respos = async () => {
-    window.location.href = "http://localhost:1450/pass/login/federated/google";
+  const callGoogle = () => {
+    window.location.href = "http://localhost:8003/api/auth/google";
   };
+  
   return (
     <div className="anoop1">
       <div className="page1">
@@ -43,7 +46,7 @@ const Front = () => {
                 src="src/assets/Authentication/google_13170545.png"
                 alt=""
               />
-              <button className="frontbtn1" onClick={respos}>
+              <button className="frontbtn1" onClick={callGoogle}>
                 Login with Google
               </button>
             </div>

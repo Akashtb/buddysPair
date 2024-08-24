@@ -1,68 +1,65 @@
-import { useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-// import Home from "../Home";
+import { useState } from "react";
 import "./job.css";
-import { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Job = () => {
-  const [Num, setNum] = useState("");
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const Jobb = () => {
-    console.log(id);
+  const [selectedJob, setSelectedJob] = useState(""); // Store the selected job status
+  const navigate = useNavigate()
+  const handleCheckboxChange = (e) => {
+    setSelectedJob(e.target.id); // Set the selected job status to the ID of the checkbox clicked
   };
 
-  const Seeker = (No) => {
-    console.log(No);
-    if (No == 1) {
-      setNum(11);
-    } else {
-      setNum(33);
+  
+  const navigateToPage=(selectedJob)=>{
+    if(selectedJob === "1"||selectedJob === "2"){
+      navigate('/job/employe')
+    }else{
+      navigate('/job/seeker')
     }
-  };
-  const Employe = (check) => {
-    console.log("check", check);
-    if (check == 33) {
-      navigate(`/job/seeker/${id}`);
-    } else {
-      navigate(`/job/employe/${id}`);
-    }
-    // navigate(`/job/employe/${id}`);
-    //
-    // navigate(`/job/seeker/${id}`);
-  };
-
-  useEffect(() => {
-    Jobb();
-  }, []);
+  }
 
   return (
     <div className="anoop12">
       <div className="job">
         <h3>Job Status</h3>
 
-        <label className="main123" htmlFor="">
+        <label className="main123">
           <span>
-            <input type="checkbox" name="" id="1" onChange={() => Seeker(1)} />
+            <input
+              type="checkbox"
+              id="1"
+              checked={selectedJob === "1"}
+              onChange={handleCheckboxChange}
+            />
             Employer
           </span>
         </label>
-        <label className="main123" htmlFor="">
+        <label className="main123">
           <span>
-            <input type="checkbox" name="" id="2" onChange={() => Seeker(1)} />
+            <input
+              type="checkbox"
+              id="2"
+              checked={selectedJob === "2"}
+              onChange={handleCheckboxChange}
+            />
             Employee
           </span>
         </label>
-        <label className="main123" htmlFor="">
+        <label className="main123">
           <span>
-            <input type="checkbox" name="" id="3" onChange={() => Seeker(3)} />
+            <input
+              type="checkbox"
+              id="3"
+              checked={selectedJob === "3"}
+              onChange={handleCheckboxChange}
+            />
             Job Seeker
           </span>
         </label>
-        <button onClick={() => Employe(Num)}>Next</button>
+        <button onClick={()=>navigateToPage(selectedJob)}>Next</button>
       </div>
     </div>
   );
 };
+
 export default Job;

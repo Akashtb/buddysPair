@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 
 const jobSeekerSchema = new mongoose.Schema({
-  userIdRef: { type: String },
-  skills: [{ type: String }],
-  locationPreference: { type: String },
-  salaryExpectation: { type: Number },
-  email: { type: String},
-  phone: { type: String }
+  userId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'User', required: true }, 
+ title:{type:String},
+ expertiseLevel:{type:String}
 });
 
 const JobSeeker = mongoose.model('JobSeeker', jobSeekerSchema);

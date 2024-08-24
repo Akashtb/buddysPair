@@ -50,11 +50,11 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment2" element={<Payment2 />} />
         <Route path="/other" element={<Other />} />
-        <Route path="job/employe/:id" element={<Employe />} />
-        <Route path="job/seeker/:id" element={<JobSeeker />} />
-        <Route path="/job/:id" element={<Job />} />
-        <Route path="/confirm/:id" element={<Confirm />} />
-        <Route path="/intrest/:id" element={<Intrest />} />
+        <Route path="/job/employe" element={<Employe />} />
+        <Route path="/job/seeker" element={<JobSeeker />} />
+        <Route path="/job" element={<Job />} />
+        <Route path="/confirm" element={<Confirm />} />
+        <Route path="/intrest" element={<Intrest />} />
         <Route path="/buddysHomePage" element={<Home />} />
         <Route path="/QualificationSortedPage" element={<QualificationSorting />} />
         <Route path="/educationSortedPage" element={<EducationSort />} />

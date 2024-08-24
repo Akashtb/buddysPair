@@ -6,7 +6,7 @@ const Confirm = () => {
   const navigate = useNavigate();
 
   const Yes = () => {
-    navigate(`/profile/${id}`);
+    navigate(`/login`);
   };
 
   return (

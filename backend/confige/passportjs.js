@@ -11,37 +11,14 @@ export default function (passport) {
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
-                    let user = await User.findOne({ googleID: profile.id, email: profile.emails[0].value });
+                    let user = await User.findOne({ email: profile.emails[0].value });
 
-                    if (!user) {
-                        const newUser = {
-                            googleID: profile.id,
-                            displayName: profile.displayName,
-                            firstName: profile.name.givenName,
-                            lastName: profile.name.familyName,
-                            profilePic: profile.photos[0].value,
-                            email: profile.emails[0].value,
-                            qualification: "",
-                            professional: "",
-                            dateOfBirth: "",
-                            age: "",
-                            gender: "",
-                            city: "",
-                            state: "",
-                            district: "",
-                            password: "",
-                            confirmPassword: "",
-                            isAdmin: false,
-                            isStaff: false
-                        };
-
-                        user = new User(newUser);
-                        await user.save();
-                        done(null, { user, isNew: true });
-                    } else {
-                        user.googleID = profile.id;
+                    if (user) {
+                        user.email = profile.emails[0].value
                         await user.save();
                         done(null, { user, isNew: false });
+                    } else {
+                        done(null, false, { message: "You are a new user, please register" });
                     }
                 } catch (err) {
                     console.error(err);

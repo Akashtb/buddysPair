@@ -34,6 +34,7 @@ const Home = () => {
   const axiosPrivate = useAxiosPrivate();
   const { setMatrimonyProfileId, setUserId } = useContext(IdContext);
   const [nearByProfileList,setNearByProfileList] = useState([])
+  
   useEffect(() => {
     const fetchIds = async () => {
       try {

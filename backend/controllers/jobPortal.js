@@ -6,7 +6,12 @@ import JobSeeker from "../models/Jobseker.js";
 
 export const creatEmployee = async (req, res) => {
     try {
-      const newEmployee = new Employee(req.body);
+      const newEmployee = new Employee({
+        userId:req.params.id,
+        company: req.body.company,
+        designation: req.body.designation,
+        location: req.body.location,
+      });
       await newEmployee.save();
       res.status(201).json(newEmployee);
     } catch (error) {
@@ -17,7 +22,9 @@ export const creatEmployee = async (req, res) => {
 
 export const createEmployer = async(req,res)=>{
     try {
-        const newEmployer = new Employer(req.body);
+        const newEmployer = new Employer({
+            
+        });
         await newEmployer.save();
         res.status(201).json(newEmployer);
     } catch (error) {
@@ -27,7 +34,11 @@ export const createEmployer = async(req,res)=>{
 
 export const createJobSeeker = async(req,res)=>{
     try{
-        const NewJobSeeker = new JobSeeker(req.body);
+        const NewJobSeeker = new JobSeeker({
+            userId:req.params.id,
+            title:req.body.title,
+            expertiseLevel:req.body.expertiseLevel
+        })
         await NewJobSeeker.save();
         res.status(201).json(NewJobSeeker);
     }catch(error){

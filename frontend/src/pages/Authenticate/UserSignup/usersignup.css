@@ -5,6 +5,20 @@
   padding-top: 6%;
   background-size: cover;
 }
+.link-button {
+  background: none;
+  color: rgb(152, 18, 188);
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.link-button:hover {
+  color: rgb(126, 13, 154);
+}
+
 .anoop3 .data input {
   width: 250px;
   border: 2px solid rgb(207, 203, 203);
@@ -31,6 +45,12 @@
   color: #212323;
 
   margin: auto;
+}
+
+.Otp{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .anoop3 .insert {

@@ -72,6 +72,27 @@ const ReceivedPage = () => {
     }
   };
 
+  const rejectTheRequest = async (fromUID) => {
+    console.log(`Attempting to accept request from user with ID: ${fromUID}`);  
+    try {
+      const response = await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, {
+        requestFromId: fromUID
+      });
+      console.log('API response:', response);
+      if (response.status === 200) {
+        console.log('Request accepted successfully');
+        
+        setReceivedProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== fromUID));
+      } else {
+        console.error('Failed to accept the request. Status:', response.status);
+      }
+    } catch (error) {
+      console.error("Error accepting the request:", error);
+    }
+  };
+
+  
+
   return (
     <div className="activitycontainer">
       <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
@@ -98,11 +119,12 @@ const ReceivedPage = () => {
             { 
               className: 'accept-icon', 
               icon: <TiTick />, 
-              onClick: () => console.log("Accept icon clicked for user:", user._id) // Just log a message on click
+              onClick: () => acceptTheRequest(user._id)// Just log a message on click
             },
             { 
               className: 'remove-icon', 
-              icon: <RxCross2 /> 
+              icon: <RxCross2 /> ,
+              onClick: () => rejectTheRequest(user._id)
             },
           ]}
         />

@@ -1,20 +1,19 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import "./intrest.css";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Intrest = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [selectedGoal, setSelectedGoal] = useState(""); // State to track selected option
 
-  const check = () => {
-    console.log(id);
+  const handleSelection = (e) => {
+    setSelectedGoal(e.target.value); // Update selected goal based on user selection
   };
+
   const Long = () => {
-    navigate(`/confirm/${id}`);
+    navigate(`/confirm`);
   };
-  useEffect(() => {
-    check();
-  }, []);
 
   return (
     <div className="anoop10">
@@ -22,11 +21,23 @@ const Intrest = () => {
         <h3>Relationship Goals</h3>
         <div className="check12">
           <span>
-            <input type="checkbox" name="" id="" />
+            <input
+              type="checkbox"
+              name="relationshipGoal"
+              value="shortTerm"
+              checked={selectedGoal === "shortTerm"}
+              onChange={handleSelection}
+            />
             Short Term Relationship
           </span>
           <span>
-            <input type="checkbox" name="" id="" />
+            <input
+              type="checkbox"
+              name="relationshipGoal"
+              value="longTerm"
+              checked={selectedGoal === "longTerm"}
+              onChange={handleSelection}
+            />
             Long Term Relationship
           </span>
         </div>
@@ -35,4 +46,5 @@ const Intrest = () => {
     </div>
   );
 };
+
 export default Intrest;

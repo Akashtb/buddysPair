@@ -1,29 +1,15 @@
 import mongoose from "mongoose";
 
 const employeeSchema = new mongoose.Schema({
-    userIdRef: { type: String },
-    designation: {
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', required: true }, 
+        designation: {
         type: String,
     },
-    currentSalary: {
-        type: Number
-    },
-    currentlyWorking: {
-        type: Boolean,
-    },
-    previousSalary: {
-        type: Number
-    },
-    lastWorkingDate: {
-        type: Date
-    },
-    quitReason: {
-        type: String
-    },
-    contactInfo: {
-        email: { type: String },
-        phone: { type: Number }
-    }
+   location:{
+    type:String
+   }
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);

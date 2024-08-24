@@ -1,5 +1,7 @@
 import User from "../models/User.js";
 import bcrypt from 'bcryptjs'
+import nodeMalier from 'nodemailer'
+import crypto from 'crypto'
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import twilio from 'twilio'
@@ -17,52 +19,62 @@ const client = twilio(accoundSid, authtoken)
 const otps = {};
 
 
-export const Register = async (req, res, next) => {
+export const Register = async (req, res) => {
+  const { firstName, lastName, email, username, password, confirmPassword, phno } = req.body;
+
   try {
-    let user = await User.findById(req.params.id);
-    const salt = bcrypt.genSaltSync(10);
-    const hash = bcrypt.hashSync(req.body.password, salt);
-    if (user) {
-      user.age = req.body.age;
-      user.gender = req.body.gender;
-      user.dateOfBirth = req.body.dateOfBirth;
-      user.city = req.body.city;
-      user.state = req.body.state;
-      user.district = req.body.district;
-      user.qualification = req.body.qualification;
-      user.professional = req.body.professional;
-      user.password = hash,
-        await user.save();
-      res.status(200).json({ user, message: "User updated successfully" });
-    } else {
-
-      const salt = bcrypt.genSaltSync(10);
-      const hash = bcrypt.hashSync(req.body.password, salt);
-      const newUser = new User({
-        googleID: req.body.googleID,
-        displayName: req.body.displayName,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        age: req.body.age,
-        gender: req.body.gender,
-        dateOfBirth: req.body.dateOfBirth,
-        city: req.body.city,
-        state: req.body.state,
-        district: req.body.district,
-        qualification: req.body.qualification,
-        professional: req.body.professional,
-        password: hash,
-      });
-      await newUser.save();
-      res.status(201).json({ message: "User created successfully again" });
-
-      res.status(400).json({ message: "User  is already created so please login in" })
+    
+    const existingUser = await User.findOne({ email });
+    console.log(existingUser)
+    if (existingUser) {
+      return res.status(409).json({ message: "User already exists" });
     }
-  } catch (err) {
-    next(err);
+
+    
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+
+ 
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+
+    const newUser = new User({
+      firstName,
+      lastName,
+      email,
+      username,
+      password: hashedPassword,
+      phno
+    });
+    
+
+   
+    const savedUser = await newUser.save();
+
+    const tempAccessToken = jwt.sign({
+      id:savedUser._id,
+      isAdmin:savedUser.isAdmin,
+      isStaff:savedUser.isStaff
+    },
+    process.env.JWT,{
+      expiresIn: '7d' 
+    }
+  )
+
+  res.cookie("refreshToken",tempAccessToken,{
+    httpOnly:true,
+    secure:true,
+    maxAge:7 * 24 * 60 * 60 * 1000
+  }).status(201).json({ message: "User registered successfully", user: savedUser });
+
+  } catch (error) {
+    console.error('Error during registration:', error.message); // Log the error message
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
 
 
 export const Login = async (req, res, next) => {
@@ -111,6 +123,8 @@ export const refreshToken = (req, res, next) => {
   if (!refreshToken) return next(createError(401, "No refresh token"));
 
   jwt.verify(refreshToken, process.env.JWT, (err, user) => {
+    console.log("user data in refresh token",user);
+    
     if (err) return next(createError(403, "Invalid refresh token"));
     
 
@@ -140,8 +154,9 @@ export const getUserData = async (req, res, next) => {
   const userId = req.params.userId;
   try {
     const user = await User.findById(userId);
+    const { password, ...otherDetails } = user._doc;
     if (!user) return next(createError(404, "user not found"))
-    res.status(200).json(user);
+    res.status(200).json(otherDetails);
   } catch (error) {
     next(error)
   }
@@ -189,5 +204,61 @@ export const verify_otp = (req, res) => {
     res.status(400).json({ error: 'Invalid code' });
   }
 }
+
+let otpStore = {};
+
+const transporter = nodeMalier.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD, 
+  },
+});
+
+export const generateOTP = async (req, res) => {
+
+  const { email } = req.body;
+  console.log("email",email);
+  
+
+  const otp = crypto.randomInt(100000, 999999).toString(); 
+
+  otpStore[email] = otp; 
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: email,
+    subject: "Your OTP Code",
+    text: `Your OTP code is ${otp}`,
+  };
+  console.log("message sent email", process.env.EMAIL);
+
+  console.log("otpStore",otpStore);
+  
+  
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error details:", error); 
+      return res.status(500).json({ message: "Error sending email" });
+    }
+    res.status(200).json({ message: "OTP sent successfully" });
+  });
+};
+
+export const verifyOTP = (req, res) => {
+  const { email, otp } = req.body;
+
+  if (otpStore[email] && otpStore[email] === otp) {
+    delete otpStore[email]; // OTP used, so remove it from the store
+    res.status(200).json({ message: "OTP verified successfully" });
+  } else {
+    res.status(400).json({ message: "Invalid OTP" });
+  }
+};
+
+
+
+
 
 

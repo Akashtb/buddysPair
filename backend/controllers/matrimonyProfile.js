@@ -3,16 +3,43 @@ import MatrimonyProfileconnection from "../models/ConnectedProfile.js";
 import ConversationMembers from "../models/conversation.js";
 import Profile from "../models/MatrimonyProfile.js";
 import shortListMatrimonyProfile from "../models/shortList.js";
+import User from '../models/User.js'
 
 export const createProfile = async (req, res) => {
+    const userId = req.params.id;
+    
     try {
-        const newProfile = new Profile(req.body);
-        await newProfile.save()
-        res.status(201).json(newProfile);
+       
+        const findUserData = await User.findById(userId);
+        console.log("findUserData", findUserData);
+
+        const profileData = {
+            userId:findUserData._id,
+            firstName: findUserData.firstName,
+            lastName: findUserData.lastName,
+            phoneNumber: findUserData.phno,
+            email: findUserData.email,
+            profilePic: req.body.propic,
+            photos: req.body.multipleimg,
+            video: req.body.reel,
+            smoking: req.body.smoking,
+            drinking: req.body.drinking,
+            gender: req.body.gender,
+            hobbies: req.body.hobbies,
+            interest: req.body.interest,
+            age: req.body.age,
+            dateOfBirth:req.body.dateOfBirth
+        };
+
+        const newProfile = new Profile(profileData);
+        await newProfile.save();
+
+        res.status(201).json({ message: "Profile created successfully", profile: newProfile  });
     } catch (error) {
-        res.status(400).json({ message: error.message })
+        res.status(400).json({ message: error.message });
     }
-}
+};
+
 
 export const searchProfiles = async (req, res) => {
     try {
@@ -78,6 +105,24 @@ export const updateProfile = async (req, res, next) => {
     }
 }
 
+export const addViewedProfile = async (req, res, next) => {
+    try {
+        const viewedProfileId = await Profile.findByIdAndUpdate(
+            req.body.otherProfileId,
+            { $addToSet: { viewedMyProfile: req.params.id } },
+            { new: true } 
+        );
+
+        if (!viewedProfileId) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
+        res.status(200).json(viewedProfileId);
+    } catch (error) {
+        next(error);
+    }
+};
+
+
 export const getProfileByUserID = async (req, res) => {
     const userId = req.params.id
     try {
@@ -131,25 +176,34 @@ export const sendRequest = async (req, res) => {
 };
 
 
-export const canelSentRequest = async (req, res) => {
+export const cancelSentRequest = async (req, res) => {
+    const fromUID = req.params.id;
+    const requestToId = req.query.requestToId;  // Retrieve from query string
 
-    const { fromUID, toUID } = req.body;
-    // const fromUID = req.params.id
-    // const {toUID} = req.body
-    const findRequest = await MatrimonyProfileconnection.findOne({
-        fromUID: fromUID,
-        toUID: toUID,
-        status: "pending"
-    })
+    console.log("fromUID", fromUID);
+    console.log("toUId", requestToId);
+
     try {
+        const findRequest = await MatrimonyProfileconnection.findOne({
+            fromUID: fromUID,
+            toUID: requestToId,
+            status: "pending"
+        });
+
+        console.log("findRequest", findRequest);
+
         if (findRequest) {
-            const cancelRequest = await MatrimonyProfileconnection.findOneAndDelete(findRequest)
+            await MatrimonyProfileconnection.findOneAndDelete({ _id: findRequest._id });
+            res.status(200).json({ message: "Request cancelled successfully" });
+        } else {
+            res.status(404).json({ message: "Request not found" });
         }
-        res.status(200).json({ message: "Request cancelled successfully" });
     } catch (error) {
         console.log(error);
+        res.status(500).json({ message: "Internal server error" });
     }
-}
+};
+
 
 
 
@@ -428,6 +482,24 @@ export const shortListedListedBy = async(req,res)=>{
         
     }
 }
+
+export const reRegisterProfile = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updatedProfile = await Profile.findByIdAndUpdate(id, req.body, {
+        new: true, // Return the updated document
+        runValidators: true, // Validate before update
+      });
+  
+      if (!updatedProfile) {
+        return res.status(404).json({ message: 'Profile not found' });
+      }
+  
+      res.status(200).json(updatedProfile);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error', error });
+    }
+  }
 
 
 

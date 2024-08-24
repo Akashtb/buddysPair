@@ -3,88 +3,105 @@ import passport from "passport"
 import twilio from 'twilio'
 import dotenv from 'dotenv'
 import jwt from "jsonwebtoken"
-import {Login, Register, getIds, getUserData, logOut, otp_sent, refreshToken, verify_otp} from "../controllers/authControl.js"
-import { verifyProfile, verifyToken, verifyUser } from "../utils/verifyToken.js"
+import { Login, Register, generateOTP, getIds, getUserData, logOut, otp_sent, refreshToken, verifyOTP, verify_otp } from "../controllers/authControl.js"
+import {  verifyToken, verifyUser } from "../utils/verifyToken.js"
 import { createError } from "../utils/error.js"
 
 const router = express.Router()
 dotenv.config()
- 
+
 const accoundSid = process.env.accoundSid
 const authtoken = process.env.authtoken
 
-const client = twilio(accoundSid,authtoken)
+const client = twilio(accoundSid, authtoken)
 const otps = {};
 
 router.post('/login', Login)
 
-router.get('/refreshToken',refreshToken)
+router.get('/refreshToken', refreshToken)
 
-router.put('/register/:id', Register)
+router.post('/register', Register)
 
-router.get('/getIds',verifyToken,getIds)
- 
+router.get('/getIds', verifyToken, getIds)
+
+router.post("/generate-otp", generateOTP);
+router.post("/verify-gmail-otp", verifyOTP);
+
+
 //dummy token verification
-router.get('/authenticatedUserId',verifyToken,(req,res,next)=>{
+router.get('/authenticatedUserId', verifyToken, (req, res, next) => {
     console.log(req.user);
-    res.status(200).json({message:"you are authenticated",user:req.user})
+    res.status(200).json({ message: "you are authenticated", user: req.user })
 })
 
 
-router.get('/checkUserAuthentication/:id',verifyUser,(req,res,next)=>{
+router.get('/checkUserAuthentication/:id', verifyUser, (req, res, next) => {
     try {
-        res.json({message:"you are authenticated",user:req.user})
+        res.json({ message: "you are authenticated", user: req.user })
     } catch (error) {
         next(error)
     }
-    
+
 })
 
-router.get('/checkAdminAuthentication',verifyUser,(req,res,next)=>{
+router.get('/checkAdminAuthentication', verifyUser, (req, res, next) => {
     try {
-        res.json({message:"you are authenticated",user:req.user})
+        res.json({ message: "you are authenticated", user: req.user })
     } catch (error) {
         next(error)
     }
-    
+
 })
 
-router.get('/user/:userId',getUserData);
+router.get('/user/:userId',verifyUser, getUserData);
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 
 
 router.get('/google/callback',
-    passport.authenticate('google', { failureRedirect: 'http://localhost:8003/api/auth/login' }),
+    passport.authenticate('google', { failureRedirect: 'http://localhost:5173/sign?error=account_does_not_exist'}),
     (req, res) => {
-        const userId = req.user.user._id;
+
+        console.log("user", req.user);
+
+        const id = req.user.user._id;
+        const isAdmin = req.user.user.isAdmin;
+        console.log("isAdmin", isAdmin);
+
+        const isStaff = req.user.user.isStaff;
+        console.log("isStaff", isStaff);
+
         const user = req.user.user;
         console.log(user);
-        const userPwd = req.user.user.password;
-        console.log("userPassword",userPwd);
-        const token = jwt.sign({
-            userId
-        },
-        process.env.JWT, 
-        {expiresIn: '3h'}
-    );
-        if (user.password==="") {
-            res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 36000000 });
-            res.redirect(`http://localhost:5173/register/${userId}`);
-            
+
+        if (user) {
+            const refreshToken = jwt.sign(
+                { id, isAdmin, isStaff },
+                process.env.JWT,
+                { expiresIn: '7d' }
+            );
+
+            res.cookie('refreshToken', refreshToken, {
+                httpOnly: true,
+                secure: true,
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            });
+
+            // Redirect to homepage after setting cookie
+            return res.redirect('http://localhost:5173/buddysHomePage');
         } else {
-            res.cookie('token', token, { httpOnly: true, secure: false, maxAge: 36000000 });
-            res.redirect('http://localhost:5173/home');
+            // If user does not exist, send a 402 status with a JSON message
+            return res.status(402).json({ message: "Account doesn't exist" });
         }
     }
 );
 
 
-router.post('/send-otp',otp_sent)
+router.post('/send-otp', otp_sent)
 
-router.post('/verify-otp',verify_otp);
+router.post('/verify-otp', verify_otp);
 
-router.post('/logout',logOut)
+router.post('/logout', logOut)
 
 export default router;

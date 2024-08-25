@@ -26,6 +26,7 @@ const SignUp = () => {
   const [showCPass, setCoPass] = useState("");
   const [showMob, setMob] = useState("");
   const [showMOTP, setMobOtp] = useState("");
+   const [showLeng, setLength] = useState("");
 
   // const [showReg, setReg] = useState([]);
   const navigate = useNavigate();
@@ -162,6 +163,7 @@ const SignUp = () => {
       setCoPass("");
       setMob("");
       setMobOtp("");
+      setLength("")
 
       if (otherDetails.firstName == "") {
         return setName("*Please enter name");
@@ -175,7 +177,10 @@ const SignUp = () => {
         return setMailCode("Please enter mail code");
       } else if (!otherDetails.password) {
         return setPass("Please enter password");
-      } else if (!otherDetails.confirmPassword) {
+      } else if (otherDetails.password.length < 8){
+        return setLength("password must be 8 character")
+      }    
+      else if (!otherDetails.confirmPassword) {
         return setCoPass("Please enter confimPassword");
       } else if (!otherDetails.phno) {
         return setMob("Please enter Mob.no");
@@ -294,6 +299,7 @@ const SignUp = () => {
             Password{" "}
             <input type="password" name="password" onChange={dataChange} />
             <span style={{ color: "red", fontSize: "13px" }}>{showPass}</span>
+             <span style={{ color: "red", fontSize: "13px" }}>{showLeng}</span>
           </label>
 
           <label htmlFor="">

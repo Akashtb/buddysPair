@@ -18,7 +18,7 @@
   height: calc(100vh - 70px);
   margin-left:80px;
   background-color: #fff;
-  border-radius: 20px 20px 0 0;
+  border-radius: 20px 20px 20px 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -46,6 +46,19 @@
   padding: 10px 0;
   border-bottom: 1px solid #E0E0E0;
   font-size: 16px;
+  position: relative; /* Updated */
+}
+
+.filter-subselection {
+  position: absolute;
+  right: 50px;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  z-index: 1; /* To appear on top of other elements */
+}
+.filter-subselection select {
+  width:100%;
 }
 
 .filter-footer {
@@ -74,16 +87,16 @@
 
 /* Media queries for responsiveness */
 @media (max-width: 768px) {
-  
-
   .leftsidebar {
       order: 2;
       width: 100%;
   }
+
   .filter-content {
-    padding: 10px;
-    margin-left:0px;
-}
+      padding: 10px;
+      margin-left: 0px;
+  }
+
   .right-sidebar {
       order: 1;
       width: 100%;
@@ -109,8 +122,12 @@
   .main.blur {
       filter: blur(5px);
   }
+
+  .filter-subselection select {
+      width: 100%; /* Make select full width */
+  }
 }
-/* */
+
 @media (max-width: 415px) {
   .right-sidebar {
       width: 100%;
@@ -118,7 +135,7 @@
 
   .filter-content {
       padding: 10px;
-      margin-left:0px;
+      margin-left: 0px;
   }
 
   .main {
@@ -131,10 +148,10 @@
       padding: 8px;
   }
 
-  .filter-section {
-      margin-top: 40px;
-      padding-bottom: 25px;
-  }
+  .filter-subselection {
+    width:100px;
+    right: 30px;
+   }
 }
 
 @media (max-width: 375px) {
@@ -144,12 +161,16 @@
 
   .filter-content {
     padding: 10px;
-    margin-left:0px;
-}
+    margin-left: 0px;
+  }
 
   .main {
       padding: 10px;
   }
 
+  .filter-subselection {
+   width:80px;
+   right: 20px;
+  }
 
 }

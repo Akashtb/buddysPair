@@ -8,7 +8,12 @@ const shortListedMatrimonyProfile = new mongoose.Schema({
     toUID:{
         type:String,
         required:true
-    }
+    },
+    // status:{
+    //     type:String,
+    //     enum:["pending","requested"],
+    //     default:"pending",
+    // }
 })
 
 const shortListMatrimonyProfile = mongoose.model("shortListedMatrimonyProfile",shortListedMatrimonyProfile);

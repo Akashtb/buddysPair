@@ -45,7 +45,14 @@ const profileSchema = new mongoose.Schema({
     email: { type: String , required: true },
     address: { type: String },
     horoscope: { type: String },
-
+    preference: {
+        gender: { type: String },
+        fromAge: { type: Number },
+        toAge: { type: Number },
+        district: { type: String },
+        interest: { type: [String] },
+        caste: { type: String },
+    },
     viewedMyProfile: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }], 
     contactedProfile :[{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }]
 }, {

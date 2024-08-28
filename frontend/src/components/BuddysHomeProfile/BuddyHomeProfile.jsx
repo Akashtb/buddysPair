@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa'; // Import the logout icon
 import { useNavigate } from 'react-router-dom';
 import './BuddyHomeProfile.css';
 import profilepic from '../../assets/buddysHome/propic1.jpg';
+import IdContext from '../../context/IdContext';
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 
 const BuddyHomeProfile = ({ toggleProfileOptions }) => {
   const navigate = useNavigate();
+
+  const {setMatrimonyProfileId,setUserId} = useContext(IdContext)
+  const axiosPrivate = useAxiosPrivate()
+  const handleLogout = async () => {
+    try {
+     const response = await axiosPrivate.post('/api/auth/logout');
+     console.log(response.data);
+     if(response.status===200){
+      localStorage.removeItem('MatrimonyProfileId');
+      localStorage.removeItem('userId');
+
+      setMatrimonyProfileId(null);
+      setUserId(null);
+      navigate('/login');
+     }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
 
   return (
     <div className="buddyHomeProfile">
@@ -35,7 +56,7 @@ const BuddyHomeProfile = ({ toggleProfileOptions }) => {
         <button onClick={() => navigate('/contacted')}>Contacted</button>
         <button onClick={() => navigate('/message')}>Message</button>
         <button >Settings</button>
-        <button className="logoutButton">
+        <button className="logoutButton" onClick={handleLogout}>
           <FaSignOutAlt /> Logout
         </button>
       </div>

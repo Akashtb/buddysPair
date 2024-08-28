@@ -21,6 +21,8 @@ const SentPage = () => {
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId} = useContext(IdContext);
   const [sentProfiles, setSentProfiles] = useState([]);
+  console.log("matrimonyProfileId",matrimonyProfileId);
+  
 
   useEffect(() => {
     const fetchSentRequests = async () => {

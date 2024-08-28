@@ -7,6 +7,8 @@ import jwt from "jsonwebtoken";
 import twilio from 'twilio'
 import dotenv from 'dotenv'
 import Profile from "../models/MatrimonyProfile.js";
+import AWS from 'aws-sdk'
+import mongoose from "mongoose";
 
 
 dotenv.config()
@@ -18,6 +20,47 @@ const authtoken = process.env.authtoken
 const client = twilio(accoundSid, authtoken)
 const otps = {};
 
+AWS.config.update({
+  region: 'ap-south-1', 
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+});
+
+const sns = new AWS.SNS({ apiVersion: '2010-03-31' });
+
+const sendOTP = async (phoneNumber, otp) => {
+  const params = {
+    Message: `Your OTP is ${otp}`,
+    PhoneNumber: phoneNumber,
+  };
+
+  try {
+    const result = await sns.publish(params).promise();
+    console.log('OTP sent successfully:', result);
+    return { success: true, message: 'OTP sent successfully' };
+  } catch (error) {
+    console.error('Failed to send OTP:', error);
+    return { success: false, message: error.message };
+  }
+};
+
+
+export const AWSOTP = async (req, res) => {
+  const { phoneNumber } = req.body;
+
+  // Generate a 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Send the OTP
+  const result = await sendOTP(phoneNumber, otp);
+
+  // Respond to the client
+  if (result.success) {
+    res.status(200).json({ message: result.message, otp });
+  } else {
+    res.status(500).json({ message: result.message });
+  }
+}
 
 export const Register = async (req, res) => {
   const { firstName, lastName, email, username, password, confirmPassword, phno } = req.body;
@@ -144,7 +187,6 @@ export const refreshToken = (req, res, next) => {
 };
 
 export const logOut = (req, res) => {
-  res.clearCookie("accessToken", { httpOnly: true, secure: true, sameSite: 'none' });
   res.clearCookie("refreshToken", { httpOnly: true, secure: true, sameSite: 'none' });
   res.status(200).json({ message: "logged out successfully" })
 }
@@ -163,24 +205,32 @@ export const getUserData = async (req, res, next) => {
 };
 
 export const getIds = async(req,res)=>{
-  const userId = req.user
-  try {
-    const userProfile = await Profile.find({userId:userId})
-      console.log(userProfile[0]._id);
-      const MatrimonyProfileId = userProfile[0]._id
-      if(userProfile){
-        res.status(200).json({MatrimonyProfileId:MatrimonyProfileId,userId:userId})
-      }else{
-        res.status(200).json({userId:userId});
-      }
-  } catch (error) {
-    console.log(error);
+  const userId = req.user 
+  console.log(userId);
+  try{
+    const user = await Profile.findOne({userId:userId})
+    const matrimonyId = user._id
+    res.status(200).json({
+      matrimonyId:matrimonyId,
+      userId:userId
+    })
+  }catch(err){
+    console.log(err);
   }
+  
+  // try {
+  //   const userProfile = await Profile.find({ userId: mongoose.Types.ObjectId(userId) });
+  //       console.log(userProfile);
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 
 export const otp_sent = async (req, res) => {
   const { phoneNumber } = req.body;
+  console.log(phoneNumber);
+  
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
   try {
     await client.messages.create({

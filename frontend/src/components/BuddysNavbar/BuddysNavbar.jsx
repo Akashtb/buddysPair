@@ -25,10 +25,10 @@ const BuddysNavbar = ({ navPage, setNavPage,showNotifications,showProfileOptions
                 Near by
             </div>
             <div 
-                className={`header-tab ${activeTab === 'Education' ? 'active' : ''}`}
+                className={`header-tab ${activeTab === 'Designation' ? 'active' : ''}`}
                 onClick={() => handleTabClick('Education', '/educationSortedPage')}
             >
-                Education
+               Designation
             </div>
             <div 
                 className={`header-tab ${activeTab === 'Qualification' ? 'active' : ''}`}

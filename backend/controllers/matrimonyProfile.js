@@ -7,14 +7,14 @@ import User from '../models/User.js'
 
 export const createProfile = async (req, res) => {
     const userId = req.params.id;
-    
+
     try {
-       
+
         const findUserData = await User.findById(userId);
         console.log("findUserData", findUserData);
 
         const profileData = {
-            userId:findUserData._id,
+            userId: findUserData._id,
             firstName: findUserData.firstName,
             lastName: findUserData.lastName,
             phoneNumber: findUserData.phno,
@@ -28,13 +28,13 @@ export const createProfile = async (req, res) => {
             hobbies: req.body.hobbies,
             interest: req.body.interest,
             age: req.body.age,
-            dateOfBirth:req.body.dateOfBirth
+            dateOfBirth: req.body.dateOfBirth
         };
 
         const newProfile = new Profile(profileData);
         await newProfile.save();
 
-        res.status(201).json({ message: "Profile created successfully", profile: newProfile  });
+        res.status(201).json({ message: "Profile created successfully", profile: newProfile });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -110,7 +110,7 @@ export const addViewedProfile = async (req, res, next) => {
         const viewedProfileId = await Profile.findByIdAndUpdate(
             req.body.otherProfileId,
             { $addToSet: { viewedMyProfile: req.params.id } },
-            { new: true } 
+            { new: true }
         );
 
         if (!viewedProfileId) {
@@ -135,9 +135,9 @@ export const getProfileByUserID = async (req, res) => {
     }
 }
 export const sendRequest = async (req, res) => {
-    // const { fromUID, toUID } = req.body;
-    const fromUID = req.params.id
-    const { toUID } = req.body
+    const fromUID = req.params.id;
+    const { toUID } = req.body;
+
     if (!fromUID || !toUID) {
         return res.status(404).json({ message: "One or both user IDs are not found" });
     }
@@ -147,24 +147,34 @@ export const sendRequest = async (req, res) => {
     }
 
     try {
-        // Check if there is already a request from toUID to fromUID (duplicate request)
+        // Check if there is already a request from toUID to fromUID (to avoid duplicate request)
         const duplicateRequest = await MatrimonyProfileconnection.findOne({
             fromUID: toUID,
             toUID: fromUID
         });
 
         if (duplicateRequest) {
-            return res.status(400).json({ message: "You have already have receive request from this user" });
+            return res.status(400).json({ message: "You have already received a request from this user" });
         }
 
-        // Check if there is already a request from fromUID to toUID
+        // Check if there is already a request from fromUID to toUID (to avoid duplicate request)
         const existingRequest = await MatrimonyProfileconnection.findOne({ fromUID, toUID });
 
         if (existingRequest) {
             return res.status(400).json({ message: "You have already sent a request" });
         }
 
-        // Create a new request
+        // Update the status of any existing shortlist data between the two users (either way) to "requested"
+        await shortListMatrimonyProfile.deleteMany(
+            {
+                $or: [
+                    { fromUID: fromUID, toUID: toUID },
+                    { fromUID: toUID, toUID: fromUID }
+                ]
+            }
+        );
+
+        // Create a new connection request
         const newRequest = new MatrimonyProfileconnection({ fromUID, toUID });
         await newRequest.save();
 
@@ -174,6 +184,7 @@ export const sendRequest = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
 
 
 export const cancelSentRequest = async (req, res) => {
@@ -231,6 +242,14 @@ export const acceptRequest = async (req, res) => {
             findConnectionRequest.status = "accepted";
             await findConnectionRequest.save();
 
+            await shortListMatrimonyProfile.deleteMany({
+                $or: [
+                    { fromUID: requestFromId, toUID: requestToId },
+                    { fromUID: requestToId, toUID: requestFromId }
+                ]
+
+            });
+
             // Create a new conversation for the accepted request
             const newConversation = new ConversationMembers({
                 members: [findConnectionRequest.fromUID, findConnectionRequest.toUID]
@@ -261,6 +280,15 @@ export const rejectTheRequest = async (req, res) => {
         }
 
         if (findConnectionRequest.status === "pending") {
+
+            await shortListMatrimonyProfile.deleteMany({
+                $or: [
+                    { fromUID: requestFromId, toUID: requestToId },
+                    { fromUID: requestToId, toUID: requestFromId }
+                ]
+
+            });
+
             findConnectionRequest.status = "rejected";
             await findConnectionRequest.save();
             return res.status(200).json({ message: "Request rejected successfully" });
@@ -346,15 +374,17 @@ export const listOfRejection = async (req, res) => {
 
 export const findConnectionStatus = async (req, res) => {
     const FromId = req.params.id;
-    const toId = req.params.otherUser
-    try {
+    const toId = req.params.otherUser;
+    
+    try { 
         const connection = await MatrimonyProfileconnection.find({
             $or: [
                 { fromUID: FromId, toUID: toId },
                 { fromUID: toId, toUID: FromId }
             ]
         });
-        if (connection) {
+
+        if (connection.length > 0) {
             console.log("status connection", connection[0].fromUID);
             res.json({ fromUID: connection[0].fromUID, toUID: connection[0].toUID, status: connection[0].status });
         } else {
@@ -364,6 +394,7 @@ export const findConnectionStatus = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 }
+
 
 
 export const nearbyProfile = async (req, res) => {
@@ -402,18 +433,18 @@ export const qualificationProfile = async (req, res) => {
     }
 };
 
-export const educationProfile = async (req, res) => {
+export const professionProfile = async (req, res) => {
     const profileId = req.params.id;
     console.log("profileId", profileId);
     try {
         const userProfile = await Profile.findOne({ _id: profileId })
-        const nearbyProfiles = await Profile.find(
+        const professionProfiles = await Profile.find(
             {
-                education: userProfile.education,
+                profession: userProfile.profession,
                 _id: { $ne: profileId }
             }
         );
-        res.status(200).json(nearbyProfiles);
+        res.status(200).json(professionProfiles);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
@@ -421,85 +452,145 @@ export const educationProfile = async (req, res) => {
 };
 
 
-export const shortListTheProfile = async(req,res)=>{
+export const shortListTheProfile = async (req, res) => {
     const profileId = req.params.id;
     const otherUserProfileId = req.body.profileId
-    try{
+    try {
         if (!profileId || !otherUserProfileId) {
             return res.status(404).json({ message: "One or both user IDs are not found" });
         }
-    
+
         if (profileId === otherUserProfileId) {
             return res.status(400).json({ message: "You cannot send a request to yourself" });
         }
+        const isProfileConnected = await MatrimonyProfileconnection.find({
+            $or: [
+                { fromUID: profileId, toUID: otherUserProfileId },
+                { fromUID: otherUserProfileId, toUID: profileId }
+            ]
+        })
+
+        if (isProfileConnected.length > 0) {
+            return res.status(400).json({ message: "You have already received a request from this user or you have sent request to this user" })
+        }
+
 
         const findDuplicate = await shortListMatrimonyProfile.find({
-            fromUID:profileId,
-            toUID:otherUserProfileId
+            fromUID: profileId,
+            toUID: otherUserProfileId
         })
-        if(findDuplicate.length > 0){
-            return res.status(400).json({ message: "You have already shortList the user"})
+        if (findDuplicate.length > 0) {
+            return res.status(400).json({ message: "You have already shortList the user" })
         }
 
         const shortListTheProfile = new shortListMatrimonyProfile({
-            fromUID:profileId,
-            toUID:otherUserProfileId 
+            fromUID: profileId,
+            toUID: otherUserProfileId
         })
 
         const saveshortListTheProfile = await shortListTheProfile.save()
         res.status(200).json(saveshortListTheProfile);
-    }catch(err){
+    } catch (err) {
         console.error(err);
     }
 }
 
-export const shortListedList = async(req,res)=>{
+
+export const cancelShortListTheProfile = async (req, res) => {
     const profileId = req.params.id;
+    const otherUserProfileId = req.params.otherProfile
     try {
-        const listUserShortListedYOurProfile = await shortListMatrimonyProfile.find({
-            fromUID:profileId
-        })
-        if(listUserShortListedYOurProfile.length===0){
-            return res.status(404).json({ message: "No user shortlisted" });
+        if (!profileId || !otherUserProfileId) {
+            return res.status(404).json({ message: "One or both user IDs are not found" });
         }
-        res.status(200).json(listUserShortListedYOurProfile);
-    } catch (error) {
-        
+
+        if (profileId === otherUserProfileId) {
+            return res.status(400).json({ message: "You cannot send a request to yourself" });
+        }
+       
+
+       await shortListMatrimonyProfile.findOneAndDelete({
+            fromUID: profileId,
+            toUID: otherUserProfileId
+        })
+        res.status(200).json({ message: "ShortList The Profile is cancelled" });
+    } catch (err) {
+        console.error(err);
     }
 }
+export const shortListedList = async (req, res) => {
+    const profileId = req.params.id;
+    try {
+      const listUserShortListedYourProfile = await shortListMatrimonyProfile.find({
+        fromUID: profileId,
+        status: "pending"
+      });
+      console.log(listUserShortListedYourProfile);
+      
+      
+      if (listUserShortListedYourProfile.length>0) {
+        return res.status(200).json(listUserShortListedYourProfile);
+      }else{
+        return res.status(200).json({ message: "No user shortlisted" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  };
 
-export const shortListedListedBy = async(req,res)=>{
+  export const shortListedListOfAUser = async (req, res) => {
+    const profileId = req.params.id;
+    const otherProfileId = req.params.Otherid
+    try {
+      const listUserShortListedYourProfile = await shortListMatrimonyProfile.findOne({
+        fromUID: profileId,
+        toUID:otherProfileId,
+      });
+      
+      if (listUserShortListedYourProfile) {
+        return res.status(200).json({ message: "shortlisted is found" });
+      }else{
+        return res.status(200).json({ message: "shortlisted not found" });
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Server error", error: error.message });
+    }
+  };
+  
+
+export const shortListedListedBy = async (req, res) => {
     const profileId = req.params.id;
     try {
         const listUserShortListedYOurProfile = await shortListMatrimonyProfile.find({
-            toUID:profileId
+            toUID: profileId,
+            status:"pending"
         })
-        if(listUserShortListedYOurProfile.length===0){
+        if (listUserShortListedYOurProfile.length === 0) {
             return res.status(404).json({ message: "No user shortlisted your profile" });
         }
         res.status(200).json(listUserShortListedYOurProfile);
     } catch (error) {
-        
+
     }
 }
 
 export const reRegisterProfile = async (req, res) => {
     try {
-      const { id } = req.params;
-      const updatedProfile = await Profile.findByIdAndUpdate(id, req.body, {
-        new: true, // Return the updated document
-        runValidators: true, // Validate before update
-      });
-  
-      if (!updatedProfile) {
-        return res.status(404).json({ message: 'Profile not found' });
-      }
-  
-      res.status(200).json(updatedProfile);
+        const { id } = req.params;
+        const updatedProfile = await Profile.findByIdAndUpdate(id, req.body, {
+            new: true, // Return the updated document
+            runValidators: true, // Validate before update
+        });
+
+        if (!updatedProfile) {
+            return res.status(404).json({ message: 'Profile not found' });
+        }
+
+        res.status(200).json(updatedProfile);
     } catch (error) {
-      res.status(500).json({ message: 'Server error', error });
+        res.status(500).json({ message: 'Server error', error });
     }
-  }
+}
 
 
 

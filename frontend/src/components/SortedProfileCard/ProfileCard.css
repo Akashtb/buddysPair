@@ -9,14 +9,14 @@
 
 
 
-.profileCardimageContainer{
+.profileCardimageContainer3{
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 20px;
 }
 
-.profileCardOnlineTag{
+.profileCardOnlineTag3{
   position: absolute;
   padding: 3px;
   font-size: 13px;
@@ -27,11 +27,12 @@
   border-radius: 15px;
 }
 
-.profileCardIcons{
+.profileCardIcons3{
   position: absolute;
-  top: 25px;
+  top: 23px;
   right: 1px;
   display: flex;
+  gap: 3px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -47,7 +48,9 @@
   
 }
 
-.profileCardIcon{
+
+
+.profileCardIcon3{
   margin-bottom: 4px;
   background-color: grey;
   display: flex;
@@ -58,20 +61,30 @@
 }
 
 
-.profileCardNameAndAge{
+.profileCardNameAndAge3{
   position: absolute;
   bottom: 16px;
-  left: 8px;
+  width: 100%;
   color: rgb(220, 219, 217);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 15px;
+
 }
 
-.profileName {
+.profileName3{
+  width: 60%;
+}
+
+.profileAgeAndGender3{
+  padding-top: 5px;
+  width: 30%;
+}
+
+.profileName3 {
   font-size: 16px;
-  color: rgb(223, 223, 222);
-  margin-left: 8px;
+  color: rgb(230, 230, 227);
+  padding-left: 15px;
   white-space: nowrap;       /* Prevents the text from wrapping to the next line */
   overflow: hidden;          /* Hides the overflowing text */
   text-overflow: ellipsis;   /* Adds an ellipsis (...) at the end of the truncated text */
@@ -79,22 +92,27 @@
 }
 
 
-.profileAgeAndGender{
+.profileAgeAndGender3{
   font-size: 10px;
   font-weight: 400;
 }
 
-.profileDesignationAndPlaceContainer{
+.profileDesignationAndPlaceContainer3{
   position: absolute;
   bottom: 0;
   left: 16px;
   margin-bottom: 5px;
+  white-space: nowrap;       /* Prevents the text from wrapping to the next line */
+  overflow: hidden;          /* Hides the overflowing text */
+  text-overflow: ellipsis;   /* Adds an ellipsis (...) at the end of the truncated text */
+  width: 80%; 
 }
 
-.profileDesignationAndPlace{
+.profileDesignationAndPlace3{
   font-size: 10px;
   font-weight: large;
-  color: rgb(198, 194, 194);
+  color: rgb(171, 165, 165);
+    
 }
 
 @media (max-width: 1024px) {
@@ -106,21 +124,21 @@
     margin-right: 4px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
@@ -134,21 +152,21 @@
     margin-left: 22px;  
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3{
     font-size: 8px;
   }
 }
@@ -163,21 +181,21 @@
     margin-bottom: 20px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
@@ -192,21 +210,21 @@
     margin-bottom: 10px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
@@ -221,21 +239,21 @@
     margin-bottom: 20px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
@@ -250,102 +268,101 @@
     margin-left: 17px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3{
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
 
-@media (max-width: 420px) {
-  .profileCardContainer3{
-    width: 155px;
-    height: 130px;
-    position: relative;
-  }
 
-  .profileCardNameAndAge {
-    gap: 5px;
-  }
-
-  .profileCardIcon {
-    margin-right: 2px;
-    margin-bottom: 0;
-  }
-
-  .profileName {
-    font-size: 14px;
-  }
-
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
-    font-size: 8px;
-  }
-}
 
 @media (max-width: 440px) {
+  .profileCardContainer2{
+    margin-right: 0px;
+    margin-left: 8px;
+  }
   .profileCardContainer3{
-    width: 155px;
-    height: 130px;
+    width: 170px;
+    height: 140px;
     position: relative;
    margin-left: 25px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardIcons3{
+    top: 30px;
+  }
+
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
 
 @media (max-width: 420px) {
   .profileCardContainer3{
-    width: 155px;
-    height: 130px;
+    width: 170px;
+    height: 150px;
     position: relative;
    margin-left: 20px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardIcons3{
+    top: 25px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .profileCardNameAndAge3 {
+    bottom: 20px;
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
+    font-size: 19px;
+  }
+  .profileDesignationAndPlaceContainer3{
+    bottom: 2px;
+  }
+  
+  
+  .profileName3 {
+    font-size: 17px;
   }
 
-  .profileName {
-    font-size: 14px;
+  .profileAgeAndGender3 {
+    font-size: 9.5px;
   }
-
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
-    font-size: 8px;
+  .profileDesignationAndPlace3 {
+    font-size: 9.5px;
+  
   }
 }
 @media (max-width: 400px) {
@@ -358,55 +375,72 @@
     margin-left: 2px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
 
 @media (max-width: 395px) {
+  .profileCardContainer2{
+    margin-right: 0px;
+    margin-left: 6px;
+  }
   .profileCardContainer3{
-    width: 150px;
+    width: 160px;
     height: 130px;
     position: relative;
-    margin-left: 27px;
+    margin-left: 18px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+
+  .profileCardIcons3{
+    padding-left: 5px;
+  }
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
+    font-size: 13px;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
+  }
+}
+
+@media (max-width: 391px) {
+  .profileCardIcon3 {
+    margin-right: 2px;
+    margin-bottom: 0;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 380px) {
   .profileCardContainer3{
-    width: 150px;
+    width: 152px;
     height: 130px;
     position: relative;
     margin-bottom: 20px;
@@ -414,21 +448,56 @@
     margin-left: 2px;
   }
 
-  .profileCardNameAndAge {
-    gap: 5px;
+  .profileCardIcons3{
+    position: absolute;
+    top: 24px;
+    right: 1px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(83, 80, 80, 0.3);
+    
+    padding-left: 4px;
+    font-size: 16px;
+    color: rgb(218, 217, 217);
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-top-right-radius: 2px;
+    
+    
   }
 
-  .profileCardIcon {
+  .profileCardIcon3{
+    font-size: 15px;
+  }
+
+  .profileCardNameAndAge3{
+    position: absolute;
+    width: 100%;
+    bottom: 15px;
+    color: rgb(220, 219, 217);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 15px;
+  }
+
+  
+
+ 
+
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
@@ -443,21 +512,19 @@
     margin-left: 0px;
   }
 
-  .profileCardNameAndAge {
-    gap: 5px;
-  }
+  
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }
@@ -472,21 +539,21 @@
     margin-left: 13px;
   }
 
-  .profileCardNameAndAge {
+  .profileCardNameAndAge3 {
     gap: 5px;
   }
 
-  .profileCardIcon {
+  .profileCardIcon3 {
     margin-right: 2px;
     margin-bottom: 0;
   }
 
-  .profileName {
+  .profileName3 {
     font-size: 14px;
   }
 
-  .profileAgeAndGender,
-  .profileDesignationAndPlace {
+  .profileAgeAndGender3,
+  .profileDesignationAndPlace3 {
     font-size: 8px;
   }
 }

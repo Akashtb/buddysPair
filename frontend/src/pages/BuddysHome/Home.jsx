@@ -36,15 +36,15 @@ const Home = () => {
   const [nearByProfileList,setNearByProfileList] = useState([])
   
   useEffect(() => {
-    const fetchIds = async () => {
+    const fetchIds = async () => { 
       try {
         const response = await axiosPrivate.get('/api/auth/getIds');
-        const { MatrimonyProfileId, userId } = response.data;
+        const { matrimonyId, userId } = response.data;
         // console.log(MatrimonyProfileId, userId );
-        setMatrimonyProfileId(MatrimonyProfileId);
+        setMatrimonyProfileId(matrimonyId);
         setUserId(userId);
         if(response){
-          const getNearByProfileList =await axiosPrivate.get(`/api/matrimony/profile/nearbyUser/${MatrimonyProfileId}`)
+          const getNearByProfileList =await axiosPrivate.get(`/api/matrimony/profile/nearbyUser/${matrimonyId}`)
           setNearByProfileList(getNearByProfileList.data)
         }
       } catch (error) {
@@ -53,7 +53,7 @@ const Home = () => {
     };
 
     fetchIds();
-  }, [navPage]); // Ensure the useEffect runs only once on component mount
+  }, []); // Ensure the useEffect runs only once on component mount
   console.log("nearByProfileList",nearByProfileList);
   return (
     <div className='DummyPageContainer'>

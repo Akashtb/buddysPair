@@ -22,6 +22,8 @@ const SignUp = () => {
   const [showReg, setReg] = useState([]);
   const navigate = useNavigate();
   const {setUserId} = useContext(IdContext)
+  const [gamilOTPVerified,setGmailOTPVerified] = useState(false)
+  const [phoneNumberOTPVerified,setPhoneNumberOTPVerified] = useState(false)
 
   // const [res, setRes] = useState();
   const [signupData, setSignupData] = useState({
@@ -84,6 +86,7 @@ const SignUp = () => {
       const response = await axios.post('http://localhost:8003/api/auth/verify-gmail-otp', { email, otp })
       console.log(response);
       if (response.data.message === 'OTP verified successfully') {
+        setGmailOTPVerified(true)
         toast.success('OTP verified successfully ');
       }else{
         toast.error('Invalid OTP ')
@@ -119,6 +122,7 @@ const SignUp = () => {
       const response = await axios.post('http://localhost:8003/api/auth/verify-otp', { phoneNumber, otp });
       console.log(response);
       if (response.data.message === 'Verification successful') {
+        setPhoneNumberOTPVerified(true)
         toast.success('OTP verified successfully');
       } else {
         toast.error('Invalid OTP. Please try again.');

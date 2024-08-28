@@ -7,10 +7,13 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { IoHeartDislikeOutline } from "react-icons/io5";
 import { FaRegEye } from "react-icons/fa6";
 import { RiUserForbidLine } from "react-icons/ri";
+import { PiUserCheckLight } from "react-icons/pi";
+import { FiUserCheck } from "react-icons/fi";
+import { LuUserX } from "react-icons/lu";
 import noUser from '../../assets/buddysHome/no image.webp'
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
-import { toast } from 'react-toastify';
+import { toast, useToastContainer } from 'react-toastify';
 
 const ProfileCard = ({ profile }) => {
   const axiosPrivate = useAxiosPrivate();
@@ -18,6 +21,8 @@ const ProfileCard = ({ profile }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isSentRequest, setIsSentRequest] = useState(false)
   const [connectionStatus, setConnectionStatus] = useState({})
+  const [nolikeIcon, SetNoLikeIcon] = useState(false)
+  const [acceptOrReject, setAcceptOrReject] = useState(false)
 
 
 
@@ -26,6 +31,7 @@ const ProfileCard = ({ profile }) => {
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/connection-status/${matrimonyProfileId}/${profile._id}`);
         console.log("fromUId", response.data.fromUID);
+        console.log("acceptOrReject", acceptOrReject);
 
         setConnectionStatus(response?.data)
       } catch (error) {
@@ -34,7 +40,7 @@ const ProfileCard = ({ profile }) => {
     };
 
     findConnectionStatus();
-  }, [axiosPrivate, matrimonyProfileId, profile._id]);
+  }, [axiosPrivate, matrimonyProfileId, profile._id,acceptOrReject]);
 
   useEffect(() => {
     const findShortList = async () => {
@@ -53,10 +59,7 @@ const ProfileCard = ({ profile }) => {
   }, [axiosPrivate, matrimonyProfileId, profile._id]);
 
 
-  const { status, fromUID } = connectionStatus;
 
-  console.log("status", status);
-  console.log("fromUID", fromUID);
 
 
 
@@ -111,7 +114,7 @@ const ProfileCard = ({ profile }) => {
           setIsSentRequest(false);
         } catch (error) {
           console.error('Error unshortlisting profile:', error);
-          toast.error("Failed to cancel the request either you have accept or get rejec");
+          toast.error("Failed to cancel the request either you have accept or get reject");
         }
       } else {
 
@@ -127,7 +130,7 @@ const ProfileCard = ({ profile }) => {
 
           if (error.response && error.response.data && error.response.data.message) {
             if (error.response.data.message === "You have already received a request from this user") {
-              toast.error("You have already received a request from this user");
+              toast.error("You have already received a request from this user, please refresh the page");
             } else {
               toast.error(error.response.data.message);
             }
@@ -150,12 +153,41 @@ const ProfileCard = ({ profile }) => {
     toast.error("Your request has been rejected by this user ")
   }
 
-  const handleInfoFRejected = ()=>{
+  const handleInfoFRejected = () => {
     toast.error("You rejected the request from this user ")
   }
 
+  const handleReject =async()=>{
+    try {
+      await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`,{requestFromId:profile._id})
+      setAcceptOrReject(true)
+      SetNoLikeIcon(true)
+      toast.success("You have rejected the request successfully")
+   } catch (error) {
+    console.error('Error accepting request:', error);
+    toast.error("User might cancel the request to check. Please Refresh the page.");
+   }
+  }
+
+
+
+  const handleAccept = async () => {
+   try {
+      await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`,{requestFromId:profile._id})
+      setAcceptOrReject(true)
+      SetNoLikeIcon(true)
+      toast.success("You have accepted the request successfully")
+   } catch (error) {
+    console.error('Error accepting request:', error);
+    toast.error("User might cancel the request to check. Please Refresh the page.");
+   }
+  };
+
   useEffect(() => {
     const { status, fromUID } = connectionStatus;
+    console.log("status", status);
+    console.log("fromUID", fromUID)
+
     if (status === "pending" && fromUID === matrimonyProfileId) {
       setIsSentRequest(true);
     } else {
@@ -211,11 +243,15 @@ const ProfileCard = ({ profile }) => {
     if (status === "pending" && fromUID !== matrimonyProfileId) {
       return (
         <>
-          <span className='profileCardIcon3' onClick={handleLikeClick}>
-            {isLiked ? <AiOutlineDislike /> : <AiOutlineLike />}
+          <span className='profileCardIcon3' onClick={handleReject}>
+          <LuUserX />
+            {/* {nolikeIcon ? <IoHeartDislikeOutline /> : <LuUserX />} */}
           </span>
-          <span className='profileCardIcon3' onClick={handleRequestClick}>
-            <LuMessageCircle />
+          <span className='profileCardIcon3' onClick={handleAccept}>
+          <FiUserCheck />
+            {/* {acceptOrReject === 'initial' && <FiUserCheck />}
+            {acceptOrReject === 'accept' && <LuMessageCircle onClick={handleInfoFRejected}/>}
+            {acceptOrReject === 'reject' && <RiUserForbidLine onClick={handleInfoFRejected}/>} */}
           </span>
           <span className='profileCardIcon3'><FaRegEye /></span>
         </>

@@ -34,34 +34,37 @@ const Messages = () => {
         <LeftSideBar />
       </div>
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
-        <header className="messages-header">
-          <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
-          <h1 className="title">Messages</h1>
-          <div className="profilePicContainer" onClick={toggleProfileOptions}>
-            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
-          </div>
-        </header>
+        <div className="activity-header">
+          <header className="messages-header">
+            <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
+            <h1 className="title">Messages</h1>
+            <div className="profilePicContainer" onClick={toggleProfileOptions}>
+              <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+            </div>
+          </header>
+        </div>
         <h2 className="recent-matches">Recent Matches</h2>
         <div className="matches-wrapper">
-        <div className="match-item">
-    <img src="assets/Images/propic1.jpg" alt="Match 1" />
-    {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
-  </div>
-  <img src="assets/Images/propic1.jpg" alt="Match 2" />
-  <img src="assets/Images/propic1.jpg" alt="Match 3" />
-  <img src="assets/Images/propic1.jpg" alt="Match 4" />
-  <img src="assets/Images/propic1.jpg" alt="Match 5" />
-  <img src="assets/Images/propic1.jpg" alt="Match 6" />
-  <img src="assets/Images/propic1.jpg" alt="Match 7" />
-  <img src="assets/Images/propic1.jpg" alt="Match 8" />
-  <img src="assets/Images/propic1.jpg" alt="Match 2" />
-  <img src="assets/Images/propic1.jpg" alt="Match 3" />
-  <img src="assets/Images/propic1.jpg" alt="Match 4" />
-  <img src="assets/Images/propic1.jpg" alt="Match 5" />
-  <img src="assets/Images/propic1.jpg" alt="Match 6" />
-  <img src="assets/Images/propic1.jpg" alt="Match 7" />
-  <img src="assets/Images/propic1.jpg" alt="Match 8" />
-</div>
+          <div className="match-item">
+            <img src="assets/Images/propic1.jpg" alt="Match 1" />
+            {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
+          </div>
+          <img src="assets/Images/propic1.jpg" alt="Match 2" />
+          <img src="assets/Images/propic1.jpg" alt="Match 3" />
+          <img src="assets/Images/propic1.jpg" alt="Match 4" />
+          <img src="assets/Images/propic1.jpg" alt="Match 5" />
+          <img src="assets/Images/propic1.jpg" alt="Match 6" />
+          <img src="assets/Images/propic1.jpg" alt="Match 7" />
+          <img src="assets/Images/propic1.jpg" alt="Match 8" />
+          <img src="assets/Images/propic1.jpg" alt="Match 2" />
+          <img src="assets/Images/propic1.jpg" alt="Match 3" />
+          <img src="assets/Images/propic1.jpg" alt="Match 4" />
+          <img src="assets/Images/propic1.jpg" alt="Match 5" />
+          <img src="assets/Images/propic1.jpg" alt="Match 6" />
+          <img src="assets/Images/propic1.jpg" alt="Match 7" />
+          <img src="assets/Images/propic1.jpg" alt="Match 8" />
+        </div>
+
         <section className="messages-list">
           {messages.map(message => (
             <div key={message.id} className="message-item">

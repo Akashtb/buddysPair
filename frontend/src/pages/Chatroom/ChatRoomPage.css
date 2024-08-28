@@ -45,14 +45,14 @@
   color: white;
 }
 
-.message-content {
+.message-cont {
   padding: 10px 15px;
   border-radius: 20px;
   max-width: 60%;
   background-color: #DD88CF;
 }
 
-.message.sent .message-content {
+.message.sent .message-cont {
   background-color: #4B164C;
   color: #fff;
   margin-right: 10px;
@@ -125,10 +125,7 @@
     padding: 20px;
   }
 
-  .activity-header {
-    left: 0;
-    right: 0;
-  }
+  
   .message-input input {
     padding: 10px 70px 10px 35px; /* Adjust padding for smaller screens */
   }
@@ -155,7 +152,7 @@
     margin-right: 5px;
   }
 
-  .message-content {
+  .message-cont {
     font-size: 14px;
     padding: 8px 12px;
   }
@@ -182,7 +179,7 @@
     margin-right: 5px;
   }
 
-  .message-content {
+  .message-cont {
     font-size: 13px;
     padding: 7px 10px;
   }

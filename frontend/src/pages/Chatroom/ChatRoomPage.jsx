@@ -57,7 +57,7 @@ const ChatRoomPage = () => {
             {messages.map(message => (
               <div key={message.id} className={`message ${message.type}`}>
                 <img src={message.profilePic} alt={message.type === 'sent' ? 'Sender' : 'Receiver'} className="profile-icon" />
-                <div className="message-content">
+                <div className="message-cont">
                   {message.text}
                 </div>
               </div>

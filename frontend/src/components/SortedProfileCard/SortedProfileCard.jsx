@@ -4,7 +4,9 @@ import { LuMessageCircle } from "react-icons/lu";
 import { AiOutlineLike, AiOutlineDislike, AiOutlineUsergroupAdd } from "react-icons/ai";
 import { MdOutlineCancelScheduleSend } from "react-icons/md";
 import { SlOptionsVertical } from "react-icons/sl";
-
+import { IoHeartDislikeOutline } from "react-icons/io5";
+import { FaRegEye } from "react-icons/fa6";
+import { RiUserForbidLine } from "react-icons/ri";
 import noUser from '../../assets/buddysHome/no image.webp'
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
@@ -23,8 +25,8 @@ const ProfileCard = ({ profile }) => {
     const findConnectionStatus = async () => {
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/connection-status/${matrimonyProfileId}/${profile._id}`);
-        console.log("fromUId",response.data.fromUID);
-        
+        console.log("fromUId", response.data.fromUID);
+
         setConnectionStatus(response?.data)
       } catch (error) {
         console.error("Error fetching connection status:", error);
@@ -51,7 +53,7 @@ const ProfileCard = ({ profile }) => {
   }, [axiosPrivate, matrimonyProfileId, profile._id]);
 
 
-  const { status, fromUID} = connectionStatus;
+  const { status, fromUID } = connectionStatus;
 
   console.log("status", status);
   console.log("fromUID", fromUID);
@@ -140,10 +142,17 @@ const ProfileCard = ({ profile }) => {
     }
   };
 
-
   const getGenderAbbreviation = (gender) => {
     return gender === 'Female' ? 'F' : 'M';
   };
+
+  const handleInfoRejected = () => {
+    toast.error("Your request has been rejected by this user ")
+  }
+
+  const handleInfoFRejected = ()=>{
+    toast.error("You rejected the request from this user ")
+  }
 
   useEffect(() => {
     const { status, fromUID } = connectionStatus;
@@ -156,7 +165,7 @@ const ProfileCard = ({ profile }) => {
 
   const renderIcons = () => {
     const { status, fromUID } = connectionStatus;
-  
+
     if (status === "pending" && fromUID === matrimonyProfileId) {
       return (
         <>
@@ -166,25 +175,80 @@ const ProfileCard = ({ profile }) => {
           <span className='profileCardIcon3' onClick={handleRequestClick}>
             {isSentRequest ? <MdOutlineCancelScheduleSend /> : <AiOutlineUsergroupAdd />}
           </span>
-          <span className='profileCardIcon3'><SlOptionsVertical /></span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
         </>
       );
     }
 
-    if(status === "accepted" && fromUID !== matrimonyProfileId){
-      return(
+    if (status === "accepted" && fromUID === matrimonyProfileId) {
+      return (
         <>
-        <span className='profileCardIcon3' onClick={handleLikeClick}>
-          {isLiked ? <AiOutlineDislike /> : <AiOutlineLike />}
-        </span>
-        <span className='profileCardIcon3' onClick={handleRequestClick}>
-        <LuMessageCircle/>
-        </span>
-        <span className='profileCardIcon3'><SlOptionsVertical /></span>
-      </>
+          <span className='profileCardIcon3' onClick={handleLikeClick}>
+            <IoHeartDislikeOutline />
+          </span>
+          <span className='profileCardIcon3' onClick={handleRequestClick}>
+            <LuMessageCircle />
+          </span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
+        </>
+      );
+    }
+
+    if (status === "rejected" && fromUID === matrimonyProfileId) {
+      return (
+        <>
+          <span className='profileCardIcon3' onClick={handleLikeClick}>
+            <IoHeartDislikeOutline />
+          </span>
+          <span className='profileCardIcon3' onClick={handleInfoRejected}>
+            <RiUserForbidLine />
+          </span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
+        </>
+      );
+    }
+
+    if (status === "pending" && fromUID !== matrimonyProfileId) {
+      return (
+        <>
+          <span className='profileCardIcon3' onClick={handleLikeClick}>
+            {isLiked ? <AiOutlineDislike /> : <AiOutlineLike />}
+          </span>
+          <span className='profileCardIcon3' onClick={handleRequestClick}>
+            <LuMessageCircle />
+          </span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
+        </>
       )
     }
 
+    if (status === "accepted" && fromUID !== matrimonyProfileId) {
+      return (
+        <>
+          <span className='profileCardIcon3' onClick={handleLikeClick}>
+            <IoHeartDislikeOutline />
+          </span>
+          <span className='profileCardIcon3'>
+            <LuMessageCircle />
+          </span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
+        </>
+      )
+    }
+
+    if (status === "rejected" && fromUID !== matrimonyProfileId) {
+      return (
+        <>
+          <span className='profileCardIcon3' onClick={handleLikeClick}>
+            <IoHeartDislikeOutline />
+          </span>
+          <span className='profileCardIcon3' onClick={handleInfoFRejected}>
+            <RiUserForbidLine />
+          </span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
+        </>
+      )
+    }
     if (status === "not_found") {
       return (
         <>
@@ -194,7 +258,7 @@ const ProfileCard = ({ profile }) => {
           <span className='profileCardIcon3' onClick={handleRequestClick}>
             {isSentRequest ? <MdOutlineCancelScheduleSend /> : <AiOutlineUsergroupAdd />}
           </span>
-          <span className='profileCardIcon3'><SlOptionsVertical /></span>
+          <span className='profileCardIcon3'><FaRegEye /></span>
         </>
       );
     }
@@ -208,7 +272,7 @@ const ProfileCard = ({ profile }) => {
       <img src={profile?.profilePic || noUser} alt="" className='profileCardimageContainer3' />
       <span className='profileCardOnlineTag3'>Online</span>
       <div className="profileCardIcons3">
-      {renderIcons()}
+        {renderIcons()}
       </div>
       <div className="profileCardNameAndAge3">
         <span className="profileName3">{profile?.firstName} {profile?.lastName}</span>

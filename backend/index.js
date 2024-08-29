@@ -7,6 +7,8 @@ import session from 'express-session';
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cors from "cors"
+import { Server as SocketIO } from "socket.io"; 
+import http from "http";
 import authRoute from "./routes/authRoutes.js"
 import employeeRoute from './routes/jobPortal/employee.js'
 import employerRoute from './routes/jobPortal/employer.js'
@@ -23,7 +25,7 @@ const app = express()
 
 app.use(express.json());
 app.use(bodyParser.json()); 
-app.use(morgan('combined'));
+// app.use(morgan('combined'));
 
 dotenv.config()
 const corsOptions = {
@@ -73,7 +75,79 @@ app.use((err,req,res,next)=>{
   })  
 })
 
+const server = http.createServer(app);
 
-app.listen(8003,()=>{   
+const io = new SocketIO(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
+  }
+});
+
+let users = [];
+
+
+const addUser = (profileId, socketId) => {
+  const existingUser = users.find(user => user.profileId === profileId);
+
+  if (!existingUser) {
+    users.push({ profileId, socketId });
+    console.log("User added:", profileId, socketId);
+  } else {
+    console.log("ProfileId already associated with a socket. No changes made.", users);
+    console.log("ProfileId already associated with a socket. No changes made.");
+  }
+
+  console.log("Current user list after addUser:", users);
+};
+
+
+const removeUser = (socketId) => {
+  users = users.filter(user => user.socketId !== socketId);
+  console.log("User removed:", socketId);
+  console.log("Current user list after removeUser:", users);
+};
+
+const getUser = (profileId) => {
+  return users.find(user => user.profileId === profileId);
+};
+
+io.on("connection", (socket) => {
+  console.log("Someone is connected");
+
+  socket.on("addUser", profileId => {
+      addUser(profileId, socket.id);
+      io.emit("getUsers", users);
+      console.log("userList", users);
+  });
+
+  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+      console.log('Received sendMessage event:', { senderId, receiverId, text });
+      console.log("Current user list in sendMessage:", users);
+      const user = getUser(receiverId);
+      console.log("Retrieved user for receiverId", receiverId, ":", user);
+      if (user) {
+          console.log(`Sending message from ${senderId} to ${receiverId}: ${text}`);
+          io.to(user.socketId).emit("getMessages", {
+              senderId,
+              text,
+              createdAt: Date.now(),
+          });
+      } else {
+          console.log(`User with id ${receiverId} not found.`);
+      }
+  });
+
+  socket.on("disconnect", () => {
+      console.log("Someone is disconnected");
+      removeUser(socket.id);
+      io.emit("getUsers", users);
+  });
+
+  io.emit("welcome", "hello this is a message from the socket server");
+});
+
+
+server.listen(8003,()=>{   
     console.log("Server is running on port 8003")
 })

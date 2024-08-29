@@ -38,8 +38,40 @@ import Change from './pages/Change';
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
+import { useContext, useEffect, useRef, useState } from "react";
+import IdContext from "./context/IdContext.jsx";
+import {io} from 'socket.io-client'
+
 
 function App() {
+
+  const { matrimonyProfileId } = useContext(IdContext);
+  const socket = useRef();
+  const [isSocketInitialized, setIsSocketInitialized] = useState(false);
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8003");
+
+    socket.current.on("connect", () => {
+      console.log("Socket connected:", socket.current.id);
+      socket.current.emit("addUser", matrimonyProfileId);
+    });
+
+    socket.current.on("getUsers", users => {
+      console.log("users from socket", users);
+    });
+
+    console.log("Socket object in app js:", socket);
+    setIsSocketInitialized(true);
+
+    return () => {
+      socket.current.disconnect(); 
+    };
+  }, [matrimonyProfileId]);
+
+  
+
+  
   return (
     <Router>
       <Routes>
@@ -80,7 +112,7 @@ function App() {
         <Route path="/viewed" element={<ViewedMyProfileActivity />} />
         <Route path="/pageNotFound" element={<NotFoundPage/>}/>
         <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
-        <Route path="/chat" element={<ChatRoomPage/>}/>
+        <Route path="/chat" element={isSocketInitialized && <ChatRoomPage socket={socket} />} />
       </Routes>
     </Router>
   );

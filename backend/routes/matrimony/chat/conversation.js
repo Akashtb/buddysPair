@@ -2,6 +2,7 @@ import express from 'express'
 import ConversationMembers from '../../../models/conversation.js'
 import mongoose from 'mongoose';
 import MatrimonyProfileconnection from '../../../models/ConnectedProfile.js';
+import { verifyProfile } from '../../../utils/verifyToken.js';
 
 const router = express.Router()
 
@@ -56,7 +57,7 @@ const router = express.Router()
 //   });
 
 
-router.get('/getCurrentUserConversation/:id',async(req,res)=>{
+router.get('/getCurrentUserConversation/:id',verifyProfile,async(req,res)=>{
     try{
         const conversation = await ConversationMembers.find({
             members:{$in:[req.params.id]}

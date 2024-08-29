@@ -32,18 +32,11 @@ const Messages = () => {
 
 
 
-  const messages = [
-    { id: 1, name: 'Alfredo Calzoni', age: '27yrs', location: 'Kochi', time: '09:18', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'Hello there!' },
-    { id: 2, name: 'Clara Hazel', age: '27yrs', location: 'Kochi', time: '12:44', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'How are you?' },
-    { id: 3, name: 'Brandon', age: '27yrs', location: 'Kochi', time: '08:06', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'See you soon!' },
-    { id: 4, name: 'Amina Mina', age: '27yrs', location: 'Kochi', time: '09:32', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'Good morning!' },
-    { id: 5, name: 'Raymond Hall', age: '27yrs', location: 'Kochi', time: '10:21', imgSrc: 'assets/Images/propic1.jpg', lastMessage: 'Take care!' },
-  ];
-
   useEffect(() => {
     const getConversationsArray = async () => {
       try {
-        const response = await axios.get(`http://localhost:8003/api/matrimony/conversation/getCurrentUserConversation/${matrimonyProfileId}`);
+        const response = await axiosPrivate.get(`/api/matrimony/conversation/getCurrentUserConversation/${matrimonyProfileId}`);
+        console.log("conversationArray after axiosPrivate",response.data);
         setConversationArray(response.data);
       } catch (error) {
         console.error('Failed to fetch conversations:', error);

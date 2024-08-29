@@ -52,6 +52,36 @@ export const verifyUser = (req, res, next) => {
     })
   }
 
+  export const verifyProfileId = (req,res,next)=>{
+    verifyToken(req,res,async()=>{
+      const userRefId = req.user
+      const profileId = req.params.id
+      console.log(userRefId);
+      console.log(profileId);
+      const findProfileWithUserId = await Profile.findOne({ 
+        $and: [
+        {userId : userRefId},
+        {_id : profileId}
+        ]
+      })
+      if(findProfileWithUserId){
+        
+        next()
+      }else{
+        return next(
+          createError(403,'your not have authorized to perform in the matrimonyProfile ')
+        )
+      }
+    })
+  }
+
+  export const verifyConverstion = (req,res,next)=>{
+    verifyProfile(req,res,async()=>{
+      console.log("verifyProfile",req);
+      
+    })
+  }
+
   
   export const verifyAdmin = (req, res, next) => {
     verifyToken(req, res, () => {

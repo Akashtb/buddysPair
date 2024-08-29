@@ -21,6 +21,8 @@ const employerSchema = new mongoose.Schema({
     location: {
         type: String
     }
+},{
+    timestamps: true,
 });
 
 const Employer= mongoose.model('Employer', employerSchema);

@@ -14,6 +14,8 @@ const connectedMatrimonyProfile = new mongoose.Schema({
         enum:["pending","accepted","rejected"],
         default:"pending",
     }
+},{
+    timestamps: true,
 })
 
 connectedMatrimonyProfile.index({ fromUID: 1, toUID: 1 }, { unique: true });

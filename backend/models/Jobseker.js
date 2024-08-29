@@ -6,6 +6,8 @@ const jobSeekerSchema = new mongoose.Schema({
     ref: 'User', required: true }, 
  title:{type:String},
  expertiseLevel:{type:String}
+},{
+  timestamps: true,
 });
 
 const JobSeeker = mongoose.model('JobSeeker', jobSeekerSchema);

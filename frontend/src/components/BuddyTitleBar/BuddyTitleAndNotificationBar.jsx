@@ -7,7 +7,8 @@ import profilepic from '../../assets/buddysHome/propic1.jpg'
 import BuddyHomeProfile from '../BuddysHomeProfile/BuddyHomeProfile';
 import { useNavigate } from 'react-router-dom';
 
-const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, showProfileOptions, toggleProfileOptions,showMenu,toggleMenu }) => {
+const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, showProfileOptions, toggleProfileOptions,showMenu,toggleMenu,socket }) => {
+    
 const navigate = useNavigate()
 const RedirectedHomePage = ()=>{
     navigate('/buddysHomePage')
@@ -32,7 +33,7 @@ const RedirectedHomePage = ()=>{
                 </div>
             </div>
             {showNotifications && <BuddyNotification />} {/* Render the notification component */}
-            {showProfileOptions && <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions}/>}
+            {showProfileOptions && <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} socket={socket}/>}
             {showMenu && (
                 <div className="menuOverlay">
                     <ul className="menuList">

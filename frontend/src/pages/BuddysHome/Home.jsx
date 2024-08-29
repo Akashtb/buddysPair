@@ -12,7 +12,9 @@ import BuddyHomeSideBar from '../../components/BuddyHomeSideBar/BuddyHomeSideBar
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate.jsx';
 import IdContext from '../../context/IdContext.jsx';
 
-const Home = () => {
+const Home = ({socket}) => {
+  
+  
   const [navPage, setNavPage] = useState('Near by');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileOptions, setShowProfileOPtions] = useState(false);
@@ -65,6 +67,7 @@ const Home = () => {
           toggleProfileOptions={toggleProfileOptions}
           showMenu={showMenu}
           toggleMenu={toggleMenu}
+          socket={socket}
         />
       </div>
 

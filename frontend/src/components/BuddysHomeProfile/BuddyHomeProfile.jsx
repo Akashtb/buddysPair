@@ -6,7 +6,9 @@ import profilepic from '../../assets/buddysHome/propic1.jpg';
 import IdContext from '../../context/IdContext';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 
-const BuddyHomeProfile = ({ toggleProfileOptions }) => {
+const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
+  console.log("socket in homeProfile",socket);
+  
   const navigate = useNavigate();
 
   const {setMatrimonyProfileId,setUserId} = useContext(IdContext)
@@ -21,6 +23,10 @@ const BuddyHomeProfile = ({ toggleProfileOptions }) => {
 
       setMatrimonyProfileId(null);
       setUserId(null);
+      if (socket.current) {
+        socket.current.disconnect();
+        console.log("Socket disconnected");
+      }
       navigate('/login');
      }
     } catch (error) {

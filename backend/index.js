@@ -19,6 +19,7 @@ import MessageRouteOfMatrimony from './routes/matrimony/chat/message.js'
  
 
 import morgan from "morgan"; 
+import Profile from "./models/MatrimonyProfile.js";
 
  
 const app = express() 
@@ -87,25 +88,44 @@ const io = new SocketIO(server, {
 let users = [];
 
 
-const addUser = (profileId, socketId) => {
+const addUser = async (profileId, socketId) => {
   const existingUser = users.find(user => user.profileId === profileId);
 
   if (!existingUser) {
     users.push({ profileId, socketId });
     console.log("User added:", profileId, socketId);
+
+
+    try {
+      await Profile.findByIdAndUpdate(profileId, { isOnline: true });
+      console.log(`Profile ${profileId} is set to online`);
+    } catch (error) {
+      console.error("Error updating profile isOnline status:", error);
+    }
+
   } else {
     console.log("ProfileId already associated with a socket. No changes made.", users);
-    console.log("ProfileId already associated with a socket. No changes made.");
   }
 
   console.log("Current user list after addUser:", users);
 };
 
 
-const removeUser = (socketId) => {
-  users = users.filter(user => user.socketId !== socketId);
-  console.log("User removed:", socketId);
-  console.log("Current user list after removeUser:", users);
+const removeUser = async (socketId) => {
+  const user = users.find(user => user.socketId === socketId);
+  if (user) {
+    users = users.filter(user => user.socketId !== socketId);
+    console.log("User removed:", socketId);
+    
+    try {
+      await Profile.findByIdAndUpdate(user.profileId, { isOnline: false });
+      console.log(`Profile ${user.profileId} is set to offline`);
+    } catch (error) {
+      console.error("Error updating profile isOnline status:", error);
+    }
+
+    console.log("Current user list after removeUser:", users);
+  }
 };
 
 const getUser = (profileId) => {

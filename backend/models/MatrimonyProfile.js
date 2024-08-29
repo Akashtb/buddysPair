@@ -54,7 +54,8 @@ const profileSchema = new mongoose.Schema({
         caste: { type: String },
     },
     viewedMyProfile: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }], 
-    contactedProfile :[{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }]
+    contactedProfile :[{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }],
+    isOnline:{type:Boolean,default:"false",}
 }, {
     timestamps: true,
 });

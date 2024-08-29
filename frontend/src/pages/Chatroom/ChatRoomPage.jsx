@@ -3,10 +3,11 @@ import { IoMdAttach, IoMdCall, IoMdMic, IoMdSend } from 'react-icons/io';
 import axios from 'axios'
 import './ChatRoomPage.css';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate} from 'react-router-dom';
 import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import ArrayOfChat from '../../components/ArrayOfChat/ArrayOfChat';
 import IdContext from '../../context/IdContext'
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate'
 
 const ChatRoomPage = ({socket}) => {
 

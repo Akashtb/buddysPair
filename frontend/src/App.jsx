@@ -88,7 +88,7 @@ function App() {
         <Route path="/job" element={<Job />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/intrest" element={<Intrest />} />
-        <Route path="/buddysHomePage" element={<Home />} />
+        <Route path="/buddysHomePage" element={isSocketInitialized && <Home socket={socket}/>} />
         <Route path="/QualificationSortedPage" element={<QualificationSorting />} />
         <Route path="/educationSortedPage" element={<EducationSort />} />
         <Route path="/qualificationSorting" element={<QualificationSortingPage />} />

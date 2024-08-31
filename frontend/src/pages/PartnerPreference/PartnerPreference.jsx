@@ -3,6 +3,7 @@ import './PartnerPreference.css';
 import { Range, getTrackBackground } from "react-range";
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
+import { CiSearch } from 'react-icons/ci';
 
 const PartnerPreference = () => {
   const [ageRange, setAgeRange] = useState([18, 35]);
@@ -12,12 +13,12 @@ const PartnerPreference = () => {
   const [hobbies, setHobbies] = useState(['yoga', 'jazz', 'cooking']);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
+  const [hobbyInput, setHobbyInput] = useState('');
 
   const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setShowProfileOptions(!showProfileOptions);
   };
-
 
   const removeTag = (type, tag) => {
     if (type === 'location') {
@@ -27,19 +28,51 @@ const PartnerPreference = () => {
     }
   };
 
+  const addHobby = (e) => {
+    if (e.key === 'Enter' && hobbyInput.trim()) {
+      setHobbies([...hobbies, hobbyInput.trim()]);
+      setHobbyInput('');
+    }
+  };
+
+  const handleSubmit = () => {
+    // Handle form submission or data processing here
+    console.log('Form Submitted');
+  };
+
+  const [selectedLocations, setSelectedLocations] = useState([]);
+  const keralaDistricts = [
+    'Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasargod',
+    'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad',
+    'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad'
+  ];
+
+  const genderOptions = ['Male', 'Female', 'Other'];
+  const educationOptions = ['High School', 'Bachelors', 'Masters', 'Doctorate'];
+  const religionOptions = ['Christianity', 'Islam', 'Hinduism', 'Other'];
+  const occupationOptions = ['Student', 'Employed', 'Self-Employed', 'Unemployed'];
+
+  const handleSelectChange = (e) => {
+    const selectedOption = e.target.value;
+    if (selectedOption && !selectedLocations.includes(selectedOption)) {
+      setSelectedLocations([...selectedLocations, selectedOption]);
+    }
+  };
+
   return (
     <div className="activitycontainer">
       <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
+      <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
       <div className="preference-header">
-          <h2 >Privacy & Settings</h2>
-          <div className="profilePicContainer" onClick={toggleProfileOptions}>
-            <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
-          </div>
+      <span className='search'><CiSearch /></span>
+        <h2>Privacy & Settings</h2>
+        <div className="profilePicContainer" onClick={toggleProfileOptions}>
+          <img src="assets/Images/propic1.jpg" alt="" className="profilePic" />
         </div>
-      <div className={`preference-container ${isSidebarOpen ? 'blur' : ''}`}>
-        
+      </div>
+   
         <div className="preference-section">
           <h2>Partner Preference</h2>
           <div className="preference-form">
@@ -54,17 +87,25 @@ const PartnerPreference = () => {
           </div>
           <div className="form-group">
             <label>Gender</label>
-            <select>
-              <option value="">Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
+            <select className="form-control">
+              {genderOptions.map((gender) => (
+                <option key={gender} value={gender}>
+                  {gender}
+                </option>
+              ))}
             </select>
           </div>
           <div className="form-group">
             <label>Locations</label>
+            <select className="form-control" onChange={handleSelectChange}>
+              {keralaDistricts.map(district => (
+                <option key={district} value={district}>
+                  {district}
+                </option>
+              ))}
+            </select>
             <div className="tags">
-              {locations.map((location) => (
+              {selectedLocations.map((location) => (
                 <span key={location}>
                   {location} <button onClick={() => removeTag('location', location)}>x</button>
                 </span>
@@ -73,6 +114,14 @@ const PartnerPreference = () => {
           </div>
           <div className="form-group">
             <label>Interests & Hobbies</label>
+            <input
+              type="text"
+              className="form-control"
+              value={hobbyInput}
+              onChange={(e) => setHobbyInput(e.target.value)}
+              onKeyDown={addHobby}
+              placeholder="Type a hobby "
+            />
             <div className="tags">
               {hobbies.map((hobby) => (
                 <span key={hobby}>
@@ -81,64 +130,73 @@ const PartnerPreference = () => {
               ))}
             </div>
           </div>
-          <div className="form-group">
-            <label>Education Level</label>
-            <select>
-              <option value="">Select</option>
-              <option value="highschool">High School</option>
-              <option value="bachelor">Bachelors</option>
-              <option value="master">Masters</option>
-              <option value="doctorate">Doctorate</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <RangeGroup
-              label="Height"
-              values={heightRange}
-              text="cm"
-              min={100}
-              max={220}
-              onChange={setHeightRange}
-            />
-            <RangeGroup
-              label="Weight"
-              values={weightRange}
-              text="kg"
-              min={40}
-              max={150}
-              onChange={setWeightRange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Religion</label>
-            <select>
-              <option value="">Select</option>
-              <option value="christianity">Christianity</option>
-              <option value="islam">Islam</option>
-              <option value="hinduism">Hinduism</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Occupation</label>
-            <select>
-              <option value="">Select</option>
-              <option value="student">Student</option>
-              <option value="employed">Employed</option>
-              <option value="self-employed">Self-Employed</option>
-              <option value="unemployed">Unemployed</option>
-            </select>
-          </div>
+ 
+        <div className="form-group">
+          <label>Education Level</label>
+          <select className="form-control">
+            {educationOptions.map((education) => (
+              <option key={education} value={education}>
+                {education}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <RangeGroup
+            label="Height"
+            values={heightRange}
+            text="cm"
+            min={100}
+            max={220}
+            onChange={setHeightRange}
+          />
+          <RangeGroup
+            label="Weight"
+            values={weightRange}
+            text="kg"
+            min={40}
+            max={150}
+            onChange={setWeightRange}
+          />
+        </div>
+        <div className="form-group">
+          <label>Religion</label>
+          <select className="form-control">
+            {religionOptions.map((religion) => (
+              <option key={religion} value={religion}>
+                {religion}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label>Occupation</label>
+          <select className="form-control">
+            {occupationOptions.map((occupation) => (
+              <option key={occupation} value={occupation}>
+                {occupation}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Submit Button */}
+        <div className="form-group">
+          <button className="submit-btn" onClick={handleSubmit}>
+         Apply
+          </button>
         </div>
       </div>
-
-
-      {showProfileOptions && (
-        <div className="profileOptionsContainer">
-          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
-        </div>
-      )}
     </div>
+
+      {
+    showProfileOptions && (
+      <div className="profileOptionsContainer">
+        <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+      </div>
+    )
+  }
+    </div >
   );
 };
 
@@ -204,7 +262,7 @@ const RangeGroup = ({ label, text, values, min, max, onChange }) => (
     <div className="range-label">
       <label>{label}</label>
       <div className="range-values">
-        <span>{text} {values[0]} - {values[1]}</span>
+        <span>{values[0]} - {values[1]} {text}</span>
       </div>
     </div>
     <div className="range-slider-container">
@@ -257,5 +315,3 @@ const RangeGroup = ({ label, text, values, min, max, onChange }) => (
 );
 
 export default PartnerPreference;
-
-

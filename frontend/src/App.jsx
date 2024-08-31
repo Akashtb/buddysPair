@@ -38,6 +38,7 @@ import Change from './pages/Change';
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
+import PrivacySettings from "./pages/Privacy/Privacy.jsx";
 
 function App() {
   return (
@@ -81,6 +82,7 @@ function App() {
         <Route path="/pageNotFound" element={<NotFoundPage/>}/>
         <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
         <Route path="/chat" element={<ChatRoomPage/>}/>
+        <Route path="/privacy" element={<PrivacySettings/>}/>
       </Routes>
     </Router>
   );

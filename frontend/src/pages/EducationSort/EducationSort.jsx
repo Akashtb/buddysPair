@@ -63,7 +63,7 @@ const EducationSort = () => {
                 </div>
                 <div className={`profileCardContainer2 ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
                     {designationProfileList.map((profile, index) => (
-                        <ProfileCard key={index} profile={profile} />
+                        <ProfileCard key={index} profile={profile} designationProfileList={designationProfileList} setDesignationProfileList={setDesignationProfileList}/>
                     ))}
                 </div>
             </div>

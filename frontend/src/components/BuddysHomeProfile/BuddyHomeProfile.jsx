@@ -1,17 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FaSignOutAlt } from 'react-icons/fa'; // Import the logout icon
 import { useNavigate } from 'react-router-dom';
 import './BuddyHomeProfile.css';
 import profilepic from '../../assets/buddysHome/propic1.jpg';
 import IdContext from '../../context/IdContext';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
+import axios from 'axios';
 
 const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
   console.log("socket in homeProfile",socket);
   
   const navigate = useNavigate();
 
-  const {setMatrimonyProfileId,setUserId} = useContext(IdContext)
+  const {setMatrimonyProfileId,matrimonyProfileId,setUserId} = useContext(IdContext)
+  const [profileDetails,setProfileDetails] = useState({})
   const axiosPrivate = useAxiosPrivate()
   const handleLogout = async () => {
     try {
@@ -23,26 +25,38 @@ const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
 
       setMatrimonyProfileId(null);
       setUserId(null);
+      navigate('/login');
       if (socket.current) {
         socket.current.disconnect();
         console.log("Socket disconnected");
       }
-      navigate('/login');
+      
      }
     } catch (error) {
       console.error('Error during logout:', error);
     }
   };
 
+  useEffect(()=>{
+      const profileDetails = async()=>{
+        const response = await axios.get(`http://localhost:8003/api/matrimony/profile/getProfile/${matrimonyProfileId}`)
+        setProfileDetails(response.data)
+      }
+      profileDetails()
+  },[matrimonyProfileId])
+
+  console.log("profile details in home Profiles",profileDetails);
+  
+
   return (
     <div className="buddyHomeProfile">
       <div className="buddyHomeProfileHeader">
         <div className='HeadingprofilePicContainer'>
-          <img src={profilepic} alt="Profile" className="HeadingProfilePic" />
+          <img src={profileDetails?.profilePic} alt="Profile" className="HeadingProfilePic" />
           <span className='onlineDot'></span>
         </div>
         <div className="buddyHomeProfileInfo">
-          <h2>Stone Stellar</h2>
+          <h2>{profileDetails?.firstName} {profileDetails?.lastName}</h2>
           <span>Prime Member</span>
           <span className="onlineStatus">Online</span>
         </div>

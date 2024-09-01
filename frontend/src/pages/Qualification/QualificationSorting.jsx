@@ -63,7 +63,7 @@ const QualificationSorting = () => {
                 </div>
                 <div className={`profileCardContainer2 ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
                     {qulificationProfileList.map((profile, index) => (
-                        <ProfileCard key={index} profile={profile} />
+                        <ProfileCard key={index} profile={profile} qulificationProfileList={qulificationProfileList} setQualificationProfileList={setQualificationProfileList}/>
                     ))}
                 </div>
             </div>

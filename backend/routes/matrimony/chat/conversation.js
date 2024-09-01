@@ -3,6 +3,7 @@ import ConversationMembers from '../../../models/conversation.js'
 import mongoose from 'mongoose';
 import MatrimonyProfileconnection from '../../../models/ConnectedProfile.js';
 import { verifyProfile } from '../../../utils/verifyToken.js';
+import Profile from '../../../models/MatrimonyProfile.js';
 
 const router = express.Router()
 
@@ -58,6 +59,8 @@ const router = express.Router()
 
 
 router.get('/getCurrentUserConversation/:id',verifyProfile,async(req,res)=>{
+    console.log(req.params.id);
+    
     try{
         const conversation = await ConversationMembers.find({
             members:{$in:[req.params.id]}
@@ -67,6 +70,27 @@ router.get('/getCurrentUserConversation/:id',verifyProfile,async(req,res)=>{
         res.status(500).json(error);
     }
 })
+
+router.get('/getContactedProfile/:id',verifyProfile, async (req, res) => {
+    const id = req.params.id;
+    try {
+        const conversations = await ConversationMembers.find({
+            members: { $in: [id] },
+            isContacted: true
+        });
+
+        const contactedProfiles = await Promise.all(
+            conversations.map(async (profile) => {
+                const otherProfileId = profile.members.filter((member) => member != id);
+                return await Profile.findById(otherProfileId[0]);
+            })
+        );
+
+        res.status(200).json(contactedProfiles);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
 
 
 export default router

@@ -2,12 +2,12 @@ import mongoose from 'mongoose'
 
 const connectedMatrimonyProfile = new mongoose.Schema({
     fromUID:{
-        type:String,
-        required:true
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Profile', required: true 
     },
     toUID:{
-        type:String,
-        required:true
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Profile', required: true 
     },
     status:{
         type:String,

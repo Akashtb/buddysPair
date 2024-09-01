@@ -15,7 +15,12 @@ import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
 import { toast, useToastContainer } from 'react-toastify';
 
-const ProfileCard = ({ profile }) => {
+const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificationProfileList,setQualificationProfileList,designationProfileList,setDesignationProfileList}) => {
+  console.log(`profile ${profile.firstName} online status`, profile.isOnline);
+  console.log(`nearByProfileList in sortedProfileCard`,nearByProfileList);
+  console.log(`qulificationProfileList in sortedProfileCard`, qulificationProfileList);
+  console.log(`designationProfileList in sortedProfileCard`, designationProfileList);
+
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
   const [isLiked, setIsLiked] = useState(false);
@@ -30,17 +35,17 @@ const ProfileCard = ({ profile }) => {
     const findConnectionStatus = async () => {
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/connection-status/${matrimonyProfileId}/${profile._id}`);
-        console.log("fromUId", response.data.fromUID);
+        console.log("connectionStatus", response);
         console.log("acceptOrReject", acceptOrReject);
 
-        setConnectionStatus(response?.data)
+        setConnectionStatus(response.data)
       } catch (error) {
         console.error("Error fetching connection status:", error);
       }
     };
 
     findConnectionStatus();
-  }, [axiosPrivate, matrimonyProfileId, profile._id,acceptOrReject]);
+  }, [axiosPrivate, matrimonyProfileId, profile, acceptOrReject]);
 
   useEffect(() => {
     const findShortList = async () => {
@@ -157,36 +162,48 @@ const ProfileCard = ({ profile }) => {
     toast.error("You rejected the request from this user ")
   }
 
-  const handleReject =async()=>{
+  const handleReject = async () => {
     try {
-      await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`,{requestFromId:profile._id})
+      await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, { requestFromId: profile._id })
+      if(nearByProfileList){
+        setNearByProfileList(nearByProfileList.filter(p => p._id !== profile._id));
+      }else if(qulificationProfileList){
+        setQualificationProfileList(qulificationProfileList.filter(p => p._id !== profile._id));
+      }else{
+        setDesignationProfileList(designationProfileList.filter(p => p._id !== profile._id));
+      }
       setAcceptOrReject(true)
       SetNoLikeIcon(true)
       toast.success("You have rejected the request successfully")
-   } catch (error) {
-    console.error('Error accepting request:', error);
-    toast.error("User might cancel the request to check. Please Refresh the page.");
-   }
+    } catch (error) {
+      console.error('Error accepting request:', error);
+      toast.error("User might cancel the request to check. Please Refresh the page.");
+    }
   }
 
 
 
   const handleAccept = async () => {
-   try {
-      await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`,{requestFromId:profile._id})
+    try {
+      await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, { requestFromId: profile._id })
+      if(nearByProfileList){
+        setNearByProfileList(nearByProfileList.filter(p => p._id !== profile._id));
+      }else if(qulificationProfileList){
+        setQualificationProfileList(qulificationProfileList.filter(p => p._id !== profile._id));
+      }else{
+        setDesignationProfileList(designationProfileList.filter(p => p._id !== profile._id));
+      }
       setAcceptOrReject(true)
       SetNoLikeIcon(true)
       toast.success("You have accepted the request successfully")
-   } catch (error) {
-    console.error('Error accepting request:', error);
-    toast.error("User might cancel the request to check. Please Refresh the page.");
-   }
+    } catch (error) {
+      console.error('Error accepting request:', error);
+      toast.error("User might cancel the request to check. Please Refresh the page.");
+    }
   };
 
   useEffect(() => {
     const { status, fromUID } = connectionStatus;
-    console.log("status", status);
-    console.log("fromUID", fromUID)
 
     if (status === "pending" && fromUID === matrimonyProfileId) {
       setIsSentRequest(true);
@@ -218,7 +235,7 @@ const ProfileCard = ({ profile }) => {
           <span className='profileCardIcon3' onClick={handleLikeClick}>
             <IoHeartDislikeOutline />
           </span>
-          <span className='profileCardIcon3' onClick={handleRequestClick}>
+          <span className='profileCardIcon3'>
             <LuMessageCircle />
           </span>
           <span className='profileCardIcon3'><FaRegEye /></span>
@@ -244,11 +261,11 @@ const ProfileCard = ({ profile }) => {
       return (
         <>
           <span className='profileCardIcon3' onClick={handleReject}>
-          <LuUserX />
+            <LuUserX />
             {/* {nolikeIcon ? <IoHeartDislikeOutline /> : <LuUserX />} */}
           </span>
           <span className='profileCardIcon3' onClick={handleAccept}>
-          <FiUserCheck />
+            <FiUserCheck />
             {/* {acceptOrReject === 'initial' && <FiUserCheck />}
             {acceptOrReject === 'accept' && <LuMessageCircle onClick={handleInfoFRejected}/>}
             {acceptOrReject === 'reject' && <RiUserForbidLine onClick={handleInfoFRejected}/>} */}
@@ -306,7 +323,11 @@ const ProfileCard = ({ profile }) => {
   return (
     <div className="profileCardContainer3">
       <img src={profile?.profilePic || noUser} alt="" className='profileCardimageContainer3' />
-      <span className='profileCardOnlineTag3'>Online</span>
+      {profile?.isOnline === true ? (
+       <div className='profileCardOnlineParentTag'> <span className='profileCardOnlineTag3'>Online</span></div>
+      ) : (
+        <div className='profileCardOfflineParentTag'> <span className='profileCardOnlineTag3'>Offline</span></div>
+      )}
       <div className="profileCardIcons3">
         {renderIcons()}
       </div>

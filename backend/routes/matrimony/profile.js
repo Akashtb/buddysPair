@@ -7,7 +7,7 @@ router.post('/createProfile/:id',verifyUser,createProfile)
 router.get('/searchProfiles', searchProfiles);
 router.get('/getProfile/:id',viewAUser);
 router.patch('/reRegistration/:id',verifyProfile,reRegisterProfile)
-router.put('/updatetheProfile/:id',verifyProfile,updateProfile)
+router.put('/updatetheProfile/:id',updateProfile)
 router.post('/sendRequest/:id',verifyProfile,sendRequest)
 router.post('/acceptRequest/:id',verifyProfile,acceptRequest) 
 router.post('/rejectTheRequest/:id',verifyProfile,rejectTheRequest) 
@@ -20,9 +20,9 @@ router.get('/listOfSentRequest/:id',verifyProfile,listOfSentRequest)
 router.get('/listOfAccepted/:id',verifyProfile,listOfAccepted)
 router.get('/listOfRejection/:id',verifyProfile,listOfRejection)
 router.get('/connection-status/:id/:otherUser',verifyProfile,findConnectionStatus);
-router.get('/nearbyUser/:id',verifyProfile,nearbyProfile);
-router.get('/designationUsers/:id',verifyProfile,professionProfile);
-router.get('/qualicationUsers/:id',verifyProfile,qualificationProfile);
+router.get('/nearbyUser/:id',nearbyProfile);
+router.get('/designationUsers/:id',professionProfile);
+router.get('/qualicationUsers/:id',qualificationProfile);
 router.post('/shortListTheProfile/:id',verifyProfile,shortListTheProfile);
 router.delete('/cancelshortListTheProfile/:id/:otherProfile',verifyProfile,cancelShortListTheProfile);
 router.get('/shortListedList/:id',verifyProfile,shortListedList);

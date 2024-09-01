@@ -4,16 +4,19 @@ import App from "./App.jsx";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { IdProvider } from "./context/IdContext.jsx";
-import { ToastContainer} from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { SocketMessageProvider } from "./context/SocketMessageContext.jsx";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
       <IdProvider>
-        <App />
-        <ToastContainer/>
+        <SocketMessageProvider>
+          <App />
+          <ToastContainer />
+        </SocketMessageProvider>
       </IdProvider>
     </AuthProvider>
   </React.StrictMode>

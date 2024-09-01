@@ -7,7 +7,7 @@ const UserCard = ({ user, actions }) => {
   
   return (
     <div className="user-card">
-      <img className="avatar" src={user.avatar} alt={user.name} />
+      <img className="avatar" src={user.profilePic} alt={user.name} />
       <div className="info">
         <h5 className="name">{user.firstName} {user.lastName}</h5>
         <div className="details">

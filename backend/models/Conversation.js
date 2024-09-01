@@ -1,8 +1,13 @@
 import mongoose from "mongoose";
 
 const ConversationSchema = new mongoose.Schema({
-    members:{
-        type:Array
+    members: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Profile",
+    },
+    isContacted:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true}
 )

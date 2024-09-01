@@ -47,11 +47,15 @@ const profileSchema = new mongoose.Schema({
     horoscope: { type: String },
     preference: {
         gender: { type: String },
-        fromAge: { type: Number },
-        toAge: { type: Number },
+        fromAge: { type: Number,default:21},
+        toAge: { type: Number ,default:35},
         district: { type: String },
         interest: { type: [String] },
-        caste: { type: String },
+        religion: { type: String },
+        qualification: { type: String },
+        profession:{type: String},
+        fromHeight:{type:Number,default:160},
+        toHeight:{type:Number,default:190}
     },
     viewedMyProfile: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }], 
     contactedProfile :[{ type: mongoose.Schema.Types.ObjectId, ref: 'Profile' }],

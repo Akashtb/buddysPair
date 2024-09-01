@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './buddyNotifications.css';
 import { RxCross2 } from "react-icons/rx";
 import tick from '../../assets/buddysHome/success icon.svg';
 import info from '../../assets/buddysHome/info icon.svg';
 import error from '../../assets/buddysHome/error icon.svg';
-const BuddyNotifications = () => {
+const BuddyNotifications = ({socket}) => {
+  console.log("socket in notifications",socket);
+  
+
+
+  
+
+
+  
+  
   return (
     <div className='BuddyNotifications'>
       <div className="BuddyNotification1">

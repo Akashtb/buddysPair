@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react';
 
 const IdContext = createContext({});
 export const IdProvider = ({ children }) => {
+    const [sortingDataRenderState,setSortingDataRenderState] = useState(false)
     const [matrimonyProfileId, setMatrimonyProfileId] = useState(() => {
         return localStorage.getItem('MatrimonyProfileId') || null;
     });
@@ -22,7 +23,7 @@ export const IdProvider = ({ children }) => {
     }, [userId]);
 
     return (
-        <IdContext.Provider value={{ matrimonyProfileId, setMatrimonyProfileId, userId, setUserId }}>
+        <IdContext.Provider value={{ matrimonyProfileId, setMatrimonyProfileId, userId, setUserId,sortingDataRenderState,setSortingDataRenderState }}>
             {children}
         </IdContext.Provider>
     );

@@ -19,7 +19,6 @@ const Home = ({socket}) => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileOptions, setShowProfileOPtions] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
-
   const toggleNotifications = () => {
     setShowNotifications(!showNotifications);
   };
@@ -35,8 +34,7 @@ const Home = ({socket}) => {
 
   const axiosPrivate = useAxiosPrivate();
   const { setMatrimonyProfileId, setUserId } = useContext(IdContext);
-  const [nearByProfileList,setNearByProfileList] = useState([])
-  
+  const [nearByProfileList,setNearByProfileList] = useState([])  
   useEffect(() => {
     const fetchIds = async () => { 
       try {
@@ -56,7 +54,8 @@ const Home = ({socket}) => {
 
     fetchIds();
   }, []); // Ensure the useEffect runs only once on component mount
-  console.log("nearByProfileList",nearByProfileList);
+
+  
   return (
     <div className='DummyPageContainer'>
       <div className="titleAndNotificationBar">
@@ -86,7 +85,11 @@ const Home = ({socket}) => {
           </div>
           <div className={`profileCardContainer2 ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
             {nearByProfileList.map((nearByProfileList, index) => (
-              <ProfileCard key={index} profile={nearByProfileList} />
+              <ProfileCard 
+              key={index} 
+              profile={nearByProfileList} 
+              setNearByProfileList={setNearByProfileList} 
+              nearByProfileList={nearByProfileList}/>
             ))}
           </div>
         </div>

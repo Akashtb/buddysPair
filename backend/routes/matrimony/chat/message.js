@@ -1,5 +1,6 @@
 import express from 'express'
 import MessageOfUser from '../../../models/Message.js'
+import ConversationMembers from '../../../models/conversation.js'
 
 const router = express.Router()
 
@@ -10,6 +11,7 @@ router.post('/:id',async(req,res)=>{
         conversationId:req.body.conversationId
     })
     try{
+        await ConversationMembers.findByIdAndUpdate(req.body.conversationId,{isContacted:true})
         const savedMessage = await newMessage.save()
         res.status(200).json(savedMessage)
     }catch(error){

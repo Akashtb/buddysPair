@@ -192,6 +192,33 @@ export const logOut = (req, res) => {
 }
 
 
+
+export const updatePassword = async(req,res)=>{
+  const{oldPassword,newPassword,confirmPassword} = req.body
+  const userID = req.params.id
+
+  try {
+    const isUser = await User.findById(userID)
+    if(!isUser) return res.status(404).json({message:"User not found"})
+
+      const isPasswordMatch = await bcrypt.compare(oldPassword,isUser.password)
+      if(!isPasswordMatch) return res.status(400).json({message:"Old password is incorrect"})
+
+        if(newPassword!==confirmPassword)return res.status(400).json({message:"new password do not match with confirm password"})
+
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+          isUser.password = hashedPassword;
+          await isUser.save()
+          res.status(200).json({message:"Password updated successfully"})
+  } catch (error) {
+    console.error('Error updating password:', error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+}
+
+
 export const getUserData = async (req, res, next) => {
   const userId = req.params.userId;
   try {
@@ -217,13 +244,6 @@ export const getIds = async(req,res)=>{
   }catch(err){
     console.log(err);
   }
-  
-  // try {
-  //   const userProfile = await Profile.find({ userId: mongoose.Types.ObjectId(userId) });
-  //       console.log(userProfile);
-  // } catch (error) {
-  //   console.log(error);
-  // }
 }
 
 

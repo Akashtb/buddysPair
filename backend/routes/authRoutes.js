@@ -3,7 +3,7 @@ import passport from "passport"
 import twilio from 'twilio'
 import dotenv from 'dotenv'
 import jwt from "jsonwebtoken"
-import { AWSOTP, Login, Register, generateOTP, getIds, getUserData, logOut, otp_sent, refreshToken, verifyOTP, verify_otp } from "../controllers/authControl.js"
+import { Login, Register, generateOTP, getIds, getUserData, logOut, otp_sent, refreshToken, updatePassword, verifyOTP, verify_otp } from "../controllers/authControl.js"
 import {  verifyToken, verifyUser } from "../utils/verifyToken.js"
 import { createError } from "../utils/error.js"
 
@@ -21,6 +21,8 @@ router.post('/login', Login)
 router.get('/refreshToken', refreshToken)
 
 router.post('/register', Register)
+
+router.post('/updatePassword/:id',verifyUser,updatePassword)
 
 router.get('/getIds', verifyToken, getIds)
 
@@ -98,7 +100,7 @@ router.get('/google/callback',
 );
 
 
-router.post('/send-otp', AWSOTP)
+router.post('/send-otp', otp_sent)
 
 router.post('/verify-otp', verify_otp);
 

@@ -33,7 +33,7 @@ import Contacted from './pages/Contacted/Contacted';
 import ShortlistedBy from './pages/ShortlistedBy/ShortlistedBy';
 import Shortlist from './pages/Shortlist/Shortlist';
 import Settings from './pages/Settings';
-import Edit from './pages/Edit';
+import Edit from './pages/Edit.jsx';
 import Change from './pages/Change';
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";

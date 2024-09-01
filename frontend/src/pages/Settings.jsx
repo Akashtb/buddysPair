@@ -19,12 +19,12 @@ function Settings({ Se }) {
                     <div className="relative grid grid-cols-1 h-24">
                         <div className="">
                             <p className="absolute left-4">
-                                <img src="/assets/Images/mohanlal.jpeg" alt="" className="h-16 rounded-full lg:ml-72" />
+                                <img src="/assets/Images/mohanlal.jpeg" alt="" className="h-16 rounded-full sm:ml-6" />
                             </p>
                         </div>
                         <div>
-                            <p className="absolute left-24 -mt-8 font-bold lg:ml-72">Mohanlal</p>
-                            <p className="absolute left-24 text-sm lg:ml-72">Never give up</p>
+                            <p className="absolute left-24 -mt-8 font-bold sm:ml-12">Mohanlal</p>
+                            <p className="absolute left-24 text-sm sm:ml-12">Never give up</p>
                         </div>
                         <div className="">
                             <p className="absolute md:right-20 sm:absolute right-2">
@@ -71,7 +71,7 @@ function Settings({ Se }) {
             </div>
 
             {/* Footer */}
-            <footer className=" bg-gray-800 text-white p-4 mt-auto">
+            <footer className=" container bg-white text-white p-4 fixed mb-0 bottom-0 ">
                 <Footer />
             </footer>
         </div>

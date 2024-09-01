@@ -1,8 +1,9 @@
 
 import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import React from 'react'
 import Header from '../components/HeaderAyas';
-const Messages = ({ Se }) => {
+const Edit = ({ Se }) => {
   // Initialize state for form fields
   const [formData, setFormData] = useState({
     name: '',
@@ -17,6 +18,29 @@ const Messages = ({ Se }) => {
   const [selectedReels, setSelectedReels] = useState([]);
   const fileInputRef = useRef(null);
   const fileInputRef2 = useRef(null);
+  const [currentImage, setCurrentImage] = useState('/assets/Images/mohanlal.jpeg'); // Default image
+  const PhotoInputRef = useRef(null); // Reference to the file input
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setCurrentImage(reader.result);
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  };
+
+  const handleStaticImageClick = () => {
+    PhotoInputRef.current.click(); // Programmatically trigger the file input
+  };
+  const handleRemoveImage = (index) => {
+    setSelectedReels((prevReels) =>
+      prevReels.filter((_, i) => i !== index)
+    );
+  };
+
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to array
@@ -77,7 +101,6 @@ const Messages = ({ Se }) => {
       bio: '',
       images: '',
       reels: '',
-      password: '',
     });
   };
   // React.useEffect(() => {
@@ -85,10 +108,36 @@ const Messages = ({ Se }) => {
     <div>
       <Header title={Se} />
       <div className="grid grid-cols-1 h-24">
-        <div className="  "><p className="absolute left-4"><img src="/assets/Images/mohanlal.jpeg" alt="" className="h-16 rounded-full mt-4" ></img></p></div>
+        <div className="relative">
+          {/* Changing image */}
+          <img
+            src={currentImage}
+            alt="Current"
+            className="w-24 h-24 object-cover border-2 border-gray-300  rounded-full md:ml-32"
+          />
+
+          {/* Static image on top */}
+          <img
+            src="/assets/Images/pencil.jpg" // Path to the static image
+            alt="Static"
+            className="absolute top-16 left-8 w-8 h-8 object-cover rounded-full border z-10 cursor-pointer md:ml-32"
+            onClick={handleStaticImageClick}
+          />
+        </div>
+
+        {/* File input for uploading images */}
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          // id="fileInput"
+          ref={PhotoInputRef}
+          onChange={handlePhotoChange}
+        />
+
         <div>
-          <div className=" "><p className="absolute left-24 -mt-8 font-bold">Mohanlal</p></div>
-          <div className=" "><p className="absolute left-24 text-sm">Never give up</p></div>
+          <div className=" "><p className="absolute left-24 -mt-10 font-bold md:ml-40">Mohanlal</p></div>
+          <div className=" "><p className="absolute left-24 text-sm -mt-4 md:ml-40">Never give up</p></div>
 
         </div>
 
@@ -97,7 +146,7 @@ const Messages = ({ Se }) => {
       <div className='container -mx-8 lg:w-full'>
         <div className='flex justify-center'>
 
-          <form onSubmit={handleSubmit} className='grid grid-cols-1 mt-4'>
+          <form onSubmit={handleSubmit} className='grid grid-cols-1 mt-4 md:grid-cols-2 '>
             <div className='mt-8'>
               <label className=''>
                 Name
@@ -105,7 +154,7 @@ const Messages = ({ Se }) => {
 
             </div>
             <div>
-              <input className='  border-b-purple-900 border-b-2 w-full '
+              <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
                 name="name"
 
@@ -121,7 +170,7 @@ const Messages = ({ Se }) => {
 
             </div>
             <div>
-              <input className='  border-b-purple-900 border-b-2 w-full'
+              <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
                 name="username"
 
@@ -136,7 +185,7 @@ const Messages = ({ Se }) => {
 
             </div>
             <div>
-              <input className='  border-b-purple-900 border-b-2 w-full'
+              <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
                 name="email"
 
@@ -151,7 +200,7 @@ const Messages = ({ Se }) => {
 
             </div>
             <div>
-              <input className='  border-b-purple-900 border-b-2 w-full'
+              <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
                 name="phone"
 
@@ -159,8 +208,8 @@ const Messages = ({ Se }) => {
                 onChange={handleChange}
               />
             </div>
-           
-         
+
+
             <div className='mt-8'>
               <label className=''>
                 Bio
@@ -168,7 +217,7 @@ const Messages = ({ Se }) => {
 
             </div>
             <div>
-              <input className='  border-b-purple-900 border-b-2 w-full'
+              <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
                 name="bio"
 
@@ -203,12 +252,12 @@ const Messages = ({ Se }) => {
                     key={index}
                     src={image}
                     alt={`Selected ${index}`}
-                    className='h-6'
+                    className='h-6 md:mt-8'
                   // style={{ marginRight: '10px', maxWidth: '200px', maxHeight: '200px' }}
                   />
                 ))}
                 <button type="button" onClick={handleButtonClick}>
-                  <img src="/assets/Images/plus-solid.svg" alt="" className='h-5 ' />
+                  <img src="/assets/Images/plus-solid.svg" alt="" className='h-5 md:mt-9' />
                 </button>
               </div>
 
@@ -241,12 +290,21 @@ const Messages = ({ Se }) => {
                     key={index}
                     src={reels}
                     alt={`Selected ${index}`}
-                    className='h-6'
-                  // style={{ marginRight: '10px', maxWidth: '200px', maxHeight: '200px' }}
+                    className='h-6 mt-8'
+                    style={{ marginRight: '10px', maxWidth: '200px', maxHeight: '200px' }}
                   />
+
                 ))}
+
+                {/* <button
+                  type="button"
+                  onClick={() => handleRemoveImage(index)}
+                  className='absolute top-0 right-0 p-1 bg-red-500 text-white rounded-full'
+                >
+                  ×
+                </button> */}
                 <button type="button" onClick={handleButtonClick2}>
-                  <img src="/assets/Images/plus-solid.svg" alt="" className='h-5 ' />
+                  <img src="/assets/Images/plus-solid.svg" alt="" className='h-5 md:mt-9' />
                 </button>
               </div>
 
@@ -254,33 +312,25 @@ const Messages = ({ Se }) => {
 
             </div>
 
-            <div className='mt-8'>
-              <label className=''>
-                Change Password
-              </label>
+            <Link to="/change" className="text-purple-700 hover:underline mt-5">
+              Change Password
+            </Link>
 
-            </div>
-            <div>
-              <input className='  border-b-purple-900 border-b-2 w-full'
-                type="text"
-                name="password"
 
-                value={formData.password}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='grid grid-rows-3 mt-8 mx-7 bg-pink-900 h-16 my-5 rounded-full justify-center'>
-              <div></div>
-              <div>
-                {/* <label className='grid place-content-center '>
-                        UPDATE
-                    </label> */}
-                <button type="submit" className='mx-16 text-white '>Update</button>
+            {/* <div className='grid grid-rows-3 mt-8 mx-7 bg-pink-900 h-16 my-5 rounded-full justify-center '>
+              <div className=''>
+                <button type="submit" className='mx-16 text-white mt-8 -my-10 '>Update</button>
 
               </div>
-              <div></div>
 
+            </div> */}
+              <div className='grid grid-cols-1  w-full'>
+                <button type="submit" className='text-black bg-pink-500 py-2 px-4 rounded-full mt-10 md:-ml-14'>
+                  Update
+                </button>
+              <div></div>
             </div>
+
 
           </form>
 
@@ -292,7 +342,7 @@ const Messages = ({ Se }) => {
 }
 //     )
 // }
-export default Messages
+export default Edit
 
 
 

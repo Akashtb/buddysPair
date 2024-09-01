@@ -37,6 +37,8 @@
   flex-direction: column;
   align-items: center;
   /* background-color: aqua; */
+  /* padding: 10px; */
+  /* overflow-x: scroll; */
 }
 
 .anoop19 .image6 h3,
@@ -46,7 +48,9 @@ h2 {
 }
 .anoop19 .img4 {
   width: 100%;
+  /* position: relative; */
 }
+
 .anoop19 .botImg img {
   width: 130px;
 }
@@ -129,9 +133,13 @@ h2 {
   border-radius: 20px;
   padding: 6px 0px 5px 0px;
 }
-.anoop19 .links2 a:hover {
+/* .anoop19 .links2 a:hover {
   background-color: rgb(255, 255, 255);
-}
+} */
+
+/* #ou :active {
+  color: rgb(219, 219, 224);
+} */
 
 #ou {
   padding: 6px 40px 6px 40px;
@@ -139,6 +147,7 @@ h2 {
   /* margin-left: -10%; */
   font-family: Aldrich;
   text-decoration: none;
+  /* background-color: aliceblue; */
 }
 #ther {
   /* background-color: rgb(79, 63, 42); */
@@ -147,6 +156,7 @@ h2 {
   font-family: Aldrich;
   text-decoration: none;
 }
+
 .anoop19 .swap {
   display: flex;
   overflow: hidden;
@@ -157,6 +167,16 @@ h2 {
   position: relative;
   width: 100%;
   /* background-color: rgb(240, 225, 206); */
+}
+.anoop19 .swap .s1 button {
+  color: rgb(255, 255, 255);
+  background-color: rgb(138, 15, 107);
+  padding: 10px;
+  margin-left: 10px;
+  border-radius: 10px;
+  font-family: Aldrich;
+  font-size: 15px;
+  border: none;
 }
 .anoop19 .swap .s2 {
   padding-top: 20px;
@@ -242,7 +262,7 @@ h2 {
     border: none;
   }
   .anoop19 .links2 a:hover {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
   }
 
   /* #ou {
@@ -334,12 +354,23 @@ h2 {
     flex-direction: column;
     align-items: center;
   }
+  .anoop19 .imagecontain {
+    padding: 0px;
+    background-color: rgb(212, 229, 245);
+    padding-bottom: 50px;
+  }
   .anoop19 .image6 {
     width: 42%;
+    background-color: #00ffff;
+    /* overflow-x: scroll; */
+    /* margin-bottom: 40px; */
+    /* margin-left: 14%; */
+
     /* box-shadow: 3px 1px 12px rgb(179, 177, 177); */
   }
   .anoop19 .context4 {
     /* height: 1000px; */
+    /* margin-top: 200px; */
     margin-left: 29%;
     padding-top: 50px;
     width: 56%;
@@ -355,6 +386,7 @@ h2 {
     width: 100vh;
     box-sizing: border-box;
     display: flex;
+    /* background-color: #00ffff; */
   }
   .anoop19 .context4 h3 {
     box-sizing: border-box;

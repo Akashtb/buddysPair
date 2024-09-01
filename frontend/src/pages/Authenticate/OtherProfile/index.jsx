@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-// import { getId } from "../../../src/utils/index.js";
+import { getId } from "../../../src/utils/index.js";
 import "./other.css";
 
 const Other = () => {
@@ -10,23 +10,25 @@ const Other = () => {
   const [data, setData] = useState([]);
   const [pro, setPro] = useState("");
   const [halo, sethalo] = useState(false);
+  const [color1, setColor1] = useState("none");
+  const [color2, setColor2] = useState("none");
 
   const Getprofile = async () => {
     const getresponse = await axios.get(
-      `http://localhost:1450/user/profile/${id}`,
+      `http://localhost:1400/user/profile/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
     );
-    console.log(getresponse);
+    console.log("hiop", getresponse);
     setData(getresponse.data);
   };
 
   const GetMyPro = async () => {
     const tresponse = await axios.get(
-      `http://localhost:1450/user/profile/${getId()}`,
+      `http://localhost:1400/user/profile/${getId()}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -53,6 +55,20 @@ const Other = () => {
   const proBtn = () => {
     navigate(`/mypro/${pro}`);
   };
+
+  const ColorChange = () => {
+    setColor1("white");
+    setColor2(" rgb(234, 186, 246)");
+  };
+  const ColorChange2 = () => {
+    setColor1(" rgb(234, 186, 246)");
+    setColor2("white");
+  };
+
+  const Gallery = () => {
+    navigate(`/gallery/${data._id}`);
+  };
+
   return (
     <div className="anoop19">
       <div className="side1-6">
@@ -83,6 +99,7 @@ const Other = () => {
       </div>
       <div className="header4">
         <i class="fa-solid fa-angle-left"></i>
+
         <div className="image6">
           {/* <img className="img4" src="\profile2.jpeg" alt="" /> */}
           <img
@@ -95,11 +112,7 @@ const Other = () => {
             src="../../../src/assets/Authentication/Scroll.svg"
             alt=""
           />
-          <img
-            className="img4"
-            src="../../../src/assets/Authentication/profile5.jpeg"
-            alt=""
-          />
+          <img className="img4" src={data.reg && data.reg.propic} alt="" />
           <div className="botImg">
             <br />
             <div className="name12">
@@ -113,16 +126,30 @@ const Other = () => {
             />
           </div>
         </div>
+        {/* <div className="morepic">
+            <h1>hall</h1>
+          </div> */}
 
         {/* <button className="btn4">Logout</button> */}
       </div>
       <div className="links">
         <div className="links2">
-          <a id="ou" href="#sec1">
+          <a
+            id="ou"
+            href="#sec1"
+            tabIndex="1"
+            onClick={ColorChange}
+            style={{ backgroundColor: color1 }}
+          >
             About
           </a>
 
-          <a id="ther" href="#sec2">
+          <a
+            id="ther"
+            href="#sec2"
+            onClick={ColorChange2}
+            style={{ backgroundColor: color2 }}
+          >
             contact info
           </a>
         </div>
@@ -141,6 +168,7 @@ const Other = () => {
 
         <div className="swap">
           <section className="s1" id="sec1" href="#ou">
+            <button onClick={Gallery}>View Gallery</button>
             <div className="about">
               <h2>About</h2>
               <h3 className="ab"> {data.about}</h3>

@@ -1,0 +1,102 @@
+.anoop100 .image27 .pics .image25 {
+  width: 100%;
+  box-shadow: 1px 1px 10px rgb(167, 166, 166);
+  border-radius: 10px;
+}
+.anoop100 .nav25 .h3333 {
+  display: none;
+}
+.anoop100 .nav25 .fa-solid {
+  display: none;
+}
+.anoop100 .nav25 {
+  margin-left: 90%;
+  font-size: 20px;
+  padding-top: 20px;
+  cursor: pointer;
+}
+.anoop100 .image27 {
+  margin-top: 5%;
+  background-color: rgb(250, 235, 249);
+  width: 80%;
+  margin-left: 18%;
+  display: flex;
+  /* flex-wrap: wrap; */
+  align-items: baseline;
+  gap: 30px;
+  padding: 60px 30px 50px 30px;
+  border-radius: 20px;
+  /* flex-wrap: wrap; */
+}
+
+/* .anoop100 .image27 .pics {
+  background-color: aqua;
+  padding: 10px;
+} */
+
+.anoop100 .side1-6 {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 1px 1px 12px rgb(187, 186, 186);
+  width: 240px;
+  position: fixed;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  box-sizing: border-box;
+  padding-left: 3%;
+  padding-top: 10%;
+  gap: 40px;
+}
+
+.anoop100 .side1-6 h1 {
+  position: absolute;
+  margin-top: -45%;
+  font-family: Aldrich;
+  margin-left: -5%;
+}
+
+.anoop100 .side1-6 h3 {
+  font-family: Aldrich;
+  font-size: 16px;
+}
+.anoop100 .side1-6 .fa-solid,
+.fa-brands {
+  font-size: 130%;
+  width: 30px;
+}
+.anoop100 .pro1-6 {
+  margin-top: 110%;
+}
+
+@media screen and (max-width: 1030px) {
+  .anoop100 .image27 {
+    margin-left: 27%;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .anoop100 .side1-6 {
+    display: none;
+  }
+
+  .anoop100 .image27 {
+    width: 100%;
+    background-color: rgb(239, 226, 244);
+    margin: 0;
+    /* margin-left: 4%; */
+    display: flex;
+    flex-direction: column;
+    border-radius: 0;
+  }
+  .anoop100 .nav25 {
+    /* padding: 0; */
+    /* padding: 10px 50px 20px 0px; */
+    padding: 10px;
+    margin-left: 70%;
+    /* background-color: antiquewhite; */
+  }
+}

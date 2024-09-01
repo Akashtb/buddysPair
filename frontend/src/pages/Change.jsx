@@ -1,14 +1,21 @@
-
-
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Header from '../components/HeaderAyas';
+import useAxiosPrivate from '../CustomApi/UseAxiosPrivate';
+import IdContext from '../context/IdContext';
 
 const Change = ({ Se }) => {
     const [formData, setFormData] = useState({
-        password: '',
-        newpass: '',
-        confirm: '',
+        oldPassword: '',
+        newPassword: '',
+        confirmPassword: '',
     });
+    const axiosPrivate = useAxiosPrivate()
+    const { userId} = useContext(IdContext);
+
+    console.log("matrimonyProfileId in change password",userId);
+    
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,31 +25,45 @@ const Change = ({ Se }) => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
 
-        // Check if any field is empty
-        const { password, newpass, confirm } = formData;
-        if (!password || !newpass || !confirm) {
-            alert('Please fill out all fields.');
-            return; // Stop form submission if validation fails
-        } else {
-            alert('Your code is submitted');
-            setFormData({
-                password: '',
-                newpass: '',
-                confirm: '',
-            });
-        }
+        const { oldPassword, newPassword, confirmPassword } = formData;
+        try {
+            await axiosPrivate.post(`/api/auth/updatePassword/${userId}`,{
+                 oldPassword,
+                 newPassword,
+                 confirmPassword
+             })
+             setFormData({
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+             })
+             toast.success('Password changed successfully');
+            
+         } catch (error) {
+             console.error('Password updation:', error);
+             if (error.response && error.response.data && error.response.data.message) {
+                 if (error.response.data.message === "Old password is incorrect") {
+                   toast.error("Old password is incorrect");
+                 } else {
+                   toast.error(error.response.data.message);
+                 }
+               } else {
+                 toast.error("Failed to update the Password");
+               }
+         }
 
-        // Proceed with form submission if all fields are filled
         console.log('Form Data Submitted:', formData);
     };
+
+   
 
     return (
         <div className="min-h-screen flex flex-col">
             <Header title={Se} />
-            <div className=" py-4">
+            <div className="py-4">
                 <p className="font-light text-gray-700">
                     Feeling worried about your account being easily preyed on? Then change that password now!
                 </p>
@@ -60,8 +81,8 @@ const Change = ({ Se }) => {
                                     id="password"
                                     className="border-b-2 border-purple-900 w-full py-2 pr-10"
                                     type="password"
-                                    name="password"
-                                    value={formData.password}
+                                    name="oldPassword"
+                                    value={formData.oldPassword}
                                     onChange={handleChange}
                                 />
                                 <img
@@ -81,8 +102,8 @@ const Change = ({ Se }) => {
                                     id="newpass"
                                     className="border-b-2 border-purple-900 w-full py-2 pr-10"
                                     type="password"
-                                    name="newpass"
-                                    value={formData.newpass}
+                                    name="newPassword"
+                                    value={formData.newPassword}
                                     onChange={handleChange}
                                 />
                                 <img
@@ -102,8 +123,8 @@ const Change = ({ Se }) => {
                                     id="confirm"
                                     className="border-b-2 border-purple-900 w-full py-2 pr-10"
                                     type="password"
-                                    name="confirm"
-                                    value={formData.confirm}
+                                    name="confirmPassword"
+                                    value={formData.confirmPassword}
                                     onChange={handleChange}
                                 />
                                 <img
@@ -130,6 +151,3 @@ const Change = ({ Se }) => {
 };
 
 export default Change;
-
-
-

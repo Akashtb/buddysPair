@@ -8,6 +8,7 @@ import Message from '../../components/Message/Message';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
 import axios from 'axios';
+import RecentConversation from '../../components/recentConversation/RecentConversation';
 
 const Messages = () => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const Messages = () => {
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const [conversationArray, setConversationArray] = useState(null);
   const { matrimonyProfileId } = useContext(IdContext);
+  const [profileData,setProfileData]=useState({})
   const axiosPrivate = useAxiosPrivate()
   const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -35,9 +37,10 @@ const Messages = () => {
   useEffect(() => {
     const getConversationsArray = async () => {
       try {
-        const response = await axiosPrivate.get(`/api/matrimony/conversation/getCurrentUserConversation/${matrimonyProfileId}`);
-        console.log("conversationArray after axiosPrivate",response.data);
-        setConversationArray(response.data);
+        const response = await axiosPrivate.get(`/api/matrimony/conversation/getCurrentUserConversation/${matrimonyProfileId}`)
+        setConversationArray(response.data)
+        const profiledata = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${matrimonyProfileId}`)
+        setProfileData(profiledata.data)
       } catch (error) {
         console.error('Failed to fetch conversations:', error);
       }
@@ -62,39 +65,27 @@ const Messages = () => {
             <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
             <h1 className="title">Messages</h1>
             <div className="profilePicContainer" onClick={toggleProfileOptions}>
-              <img src="assets/Images/propic1.jpg" alt="" className='profilePic' />
+              <img src={profileData.profilePic} alt="" className='profilePic' />
             </div>
           </header>
         </div>
         <h2 className="recent-matches">Recent Matches</h2>
         <div className="matches-wrapper">
           <div className="match-item">
-            <img src="assets/Images/propic1.jpg" alt="Match 1" />
+            <img src={profileData.profilePic} alt="Match 1" />
             {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
           </div>
-          <img src="assets/Images/propic1.jpg" alt="Match 2" />
-          <img src="assets/Images/propic1.jpg" alt="Match 3" />
-          <img src="assets/Images/propic1.jpg" alt="Match 4" />
-          <img src="assets/Images/propic1.jpg" alt="Match 5" />
-          <img src="assets/Images/propic1.jpg" alt="Match 6" />
-          <img src="assets/Images/propic1.jpg" alt="Match 7" />
-          <img src="assets/Images/propic1.jpg" alt="Match 8" />
-          <img src="assets/Images/propic1.jpg" alt="Match 2" />
-          <img src="assets/Images/propic1.jpg" alt="Match 3" />
-          <img src="assets/Images/propic1.jpg" alt="Match 4" />
-          <img src="assets/Images/propic1.jpg" alt="Match 5" />
-          <img src="assets/Images/propic1.jpg" alt="Match 6" />
-          <img src="assets/Images/propic1.jpg" alt="Match 7" />
-          <img src="assets/Images/propic1.jpg" alt="Match 8" />
+          {conversationArray?.map((message, index) => {
+            return (
+                <RecentConversation key={index} message={message}/>
+            );
+          })}
         </div>
 
         <section className="messages-list">
           {conversationArray?.map((message, index) => {
-            const friendId = message.members.find((m) => m !== matrimonyProfileId);
             return (
-              <div key={index} onClick={() => navigateToChat(message?._id, friendId,message)}>
                 <Message key={message._id} message={message} />
-              </div>
             );
           })}
         </section>

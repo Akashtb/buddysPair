@@ -1,5 +1,3 @@
-
-
 import React from "react";
 import Header2edit from "../components/Header2editAyas";
 import Footer from "../components/FooterAyas";

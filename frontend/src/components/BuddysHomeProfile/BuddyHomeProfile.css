@@ -68,7 +68,7 @@
     border: none;
     color: white;
     text-align: left;
-    padding: 10px;
+    padding: 6px;
     cursor: pointer;
     transition: background 0.3s;
   }
@@ -78,8 +78,74 @@
   }
   
   .logoutButton {
-    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    width: 90%;
+    margin-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding-top: 10px;
+  }
+
+  @media(max-width:1025px){
+    .buddyHomeProfile {
+      height: 98%;
+    }
+  }
+
+  @media(max-width:768px){
+    .buddyHomeProfile {
+      height: 65%;
+    }
+  }
+
+  @media(max-width:540px){
+    .buddyHomeProfile {
+      height: 85%;
+    }
+  }
+
+  @media(max-width:431px){
+    .buddyHomeProfile {
+      height: 70%;
+    }
+  }
+
+  @media(max-width:415px){
+    .buddyHomeProfile {
+      height: 70%;
+    }
+  }
+
+
+
+  @media(max-width:400px){
+    .buddyHomeProfile {
+      height: 85%;
+    }
+  }
+  @media(max-width:391px){
+    .buddyHomeProfile {
+      height: 75%;
+    }
+   
+  }
+
+  @media(max-width:380px){
+    .buddyHomeProfile {
+      height: 88%;
+    }
+   
+  }
+
+  @media(max-width:360px){
+    .buddyHomeProfile {
+      height: 83%;
+    }
+  }
+
+  @media(max-width:360px){
+    .buddyHomeProfile {
+      height: 75%;
+    }
   }
   

@@ -16,10 +16,12 @@ const ChatRoomPage = ({socket}) => {
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
   const [arrivalMessages, setArrivalMessages] = useState(null)
+  const [user, setUser] = useState(null)
   const { matrimonyProfileId } = useContext(IdContext);
   const navigate = useNavigate();
   const location = useLocation();
   const { friendId,conversationArrayId,coversationDetails } = location.state || {}; 
+  const axiosPrivate = useAxiosPrivate()
 
   console.log('Friend ID:', friendId);
   console.log('Conversation ID:', conversationArrayId);
@@ -54,6 +56,8 @@ useEffect(() => {
   useEffect(() => {
     const getMessages = async () => {
       try {
+        const profiledata = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${friendId}`)
+        setUser(profiledata.data)
         const response = await axios.get(`http://localhost:8003/api/matrimony/messages/${conversationArrayId}`)
         setMessages(response.data)
       } catch (error) {
@@ -129,7 +133,7 @@ useEffect(() => {
         <div className="activity-header">
           <header className="messages-header">
             <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
-            <h1 className="title">Sandra Thomas</h1>
+            <h1 className="title">{user?.firstName} {user?.lastName}</h1>
             <div className="chat-call" > <IoMdCall />
             </div>
           </header>

@@ -1,17 +1,23 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import React from 'react'
 import Header from '../components/HeaderAyas';
+import { toast } from 'react-toastify';
+import useAxiosPrivate from '../CustomApi/UseAxiosPrivate';
+import IdContext from '../context/IdContext';
+
 const Edit = ({ Se }) => {
   // Initialize state for form fields
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
     username: '',
     email: '',
-    phone: "",
-    bio: '',
-    images: ''
+    phoneNumber: '',
+    aboutMe: '',
+    photos: '',
+    video: '',
   });
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [selectedImage, setSelectedImage] = useState([]);
@@ -20,13 +26,39 @@ const Edit = ({ Se }) => {
   const fileInputRef2 = useRef(null);
   const [currentImage, setCurrentImage] = useState('/assets/Images/mohanlal.jpeg'); // Default image
   const PhotoInputRef = useRef(null); // Reference to the file input
+  const axiosPrivate = useAxiosPrivate()
+  const { matrimonyProfileId } = useContext(IdContext);
+
+  useEffect(() => {
+    const getProfileDetails = async () => {
+      const response = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${matrimonyProfileId}`)
+      console.log(response);
+      
+      setFormData({
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        username: response.data.username,
+        email: response.data.email,
+        phoneNumber: response.data.phoneNumber,
+        aboutMe: response.data.aboutMe,
+        photos: [response.data.photos],
+        video: [response.data.video],
+        profilePic:response.data.profilePic
+      });
+    }
+    getProfileDetails()
+  }, [])
+
+  console.log("photos",formData.firstName);
+  
+
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setCurrentImage(reader.result);
+        setFormData({profilePic:reader.result})
       };
       reader.readAsDataURL(file); // Read the file as a data URL
     }
@@ -44,6 +76,12 @@ const Edit = ({ Se }) => {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to array
+
+    if (selectedImage.length + files.length > 5) {
+      toast.error('You can only upload a maximum of 5 images');
+      return;
+    }
+
     const imageUrls = files.map(file => URL.createObjectURL(file)); // Create URLs for the selected files
     setSelectedImage(prevImages => [
       ...prevImages,
@@ -53,12 +91,20 @@ const Edit = ({ Se }) => {
 
   const handleFileChange2 = (e) => {
     const files = Array.from(e.target.files); // Convert FileList to array
+
+    if (selectedReels.length + files.length > 5) {
+      toast.error('You can only upload a maximum of 5 reels');
+      return;
+    }
+
     const imageUrls = files.map(file => URL.createObjectURL(file)); // Create URLs for the selected files
-    setSelectedReels(prevImages => [
-      ...prevImages,
+    setSelectedReels(prevReels => [
+      ...prevReels,
       ...imageUrls,
-    ]); // Update state with new image URLs
+    ]); // Update state with new reel URLs
   };
+
+
   const handleButtonClick = () => {
     fileInputRef.current.click(); // Click the file input element
   };
@@ -80,8 +126,8 @@ const Edit = ({ Se }) => {
     e.preventDefault();
 
     // Check if any field is empty
-    const { name, username, email, phone, bio } = formData;
-    if (!name || !username || !email || !phone || !bio) {
+    const { firstName,lastName, username, email, phoneNumber, aboutMe, photos , video } = formData;
+    if (!firstName || !lastName || !email || !phoneNumber || !aboutMe) {
       alert('Please fill out all fields.');
       return; // Stop form submission if validation fails
     } else {
@@ -94,13 +140,14 @@ const Edit = ({ Se }) => {
     // Proceed with form submission if all fields are filled
     console.log('Form Data Submitted:', formData);
     setFormData({
-      name: '',
+      firstName: '',
+      lastName: '',
       username: '',
       email: '',
-      phone: '',
-      bio: '',
-      images: '',
-      reels: '',
+      phoneNumber: '',
+      aboutMe: '',
+      photos: '',
+      video: '',
     });
   };
   // React.useEffect(() => {
@@ -111,7 +158,7 @@ const Edit = ({ Se }) => {
         <div className="relative">
           {/* Changing image */}
           <img
-            src={currentImage}
+            src={formData.profilePic}
             alt="Current"
             className="w-24 h-24 object-cover border-2 border-gray-300  rounded-full md:ml-32"
           />
@@ -149,16 +196,31 @@ const Edit = ({ Se }) => {
           <form onSubmit={handleSubmit} className='grid grid-cols-1 mt-4 md:grid-cols-2 '>
             <div className='mt-8'>
               <label className=''>
-                Name
+                First Name
               </label>
 
             </div>
             <div>
               <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
-                name="name"
+                name="firstName"
 
-                value={formData.name}
+                value={formData.firstName}
+                onChange={handleChange}
+              />
+            </div>
+            <div className='mt-8'>
+              <label className=''>
+                Last Name
+              </label>
+
+            </div>
+            <div>
+              <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
+                type="text"
+                name="lastName"
+
+                value={formData.lastName}
                 onChange={handleChange}
               />
             </div>
@@ -202,9 +264,9 @@ const Edit = ({ Se }) => {
             <div>
               <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
-                name="phone"
+                name="phoneNumber"
 
-                value={formData.phone}
+                value={formData.phoneNumber}
                 onChange={handleChange}
               />
             </div>
@@ -219,9 +281,9 @@ const Edit = ({ Se }) => {
             <div>
               <input className='  border-b-purple-900 border-b-2 w-full md:mt-7'
                 type="text"
-                name="bio"
+                name="aboutMe"
 
-                value={formData.bio}
+                value={formData.aboutMe}
                 onChange={handleChange}
               />
             </div>
@@ -252,8 +314,7 @@ const Edit = ({ Se }) => {
                     key={index}
                     src={image}
                     alt={`Selected ${index}`}
-                    className='h-6 md:mt-8'
-                  // style={{ marginRight: '10px', maxWidth: '200px', maxHeight: '200px' }}
+                    className='w-[35px] h-[35px] rounded-full object-cover md:mt-8'
                   />
                 ))}
                 <button type="button" onClick={handleButtonClick}>
@@ -274,6 +335,7 @@ const Edit = ({ Se }) => {
               {/* File input element */}
               <input
                 type="file"
+                accept="video/*" // Only accept video files
                 ref={fileInputRef2}
                 style={{ display: 'none' }} // Hide the file input
                 onChange={handleFileChange2}
@@ -286,12 +348,11 @@ const Edit = ({ Se }) => {
 
               <div className='grid grid-cols-6'>
                 {selectedReels.map((reels, index) => (
-                  <img
+                  <video
                     key={index}
                     src={reels}
                     alt={`Selected ${index}`}
-                    className='h-6 mt-8'
-                    style={{ marginRight: '10px', maxWidth: '200px', maxHeight: '200px' }}
+                    className='w-[35px] h-[35px] rounded-full object-cover md:mt-8'
                   />
 
                 ))}
@@ -324,10 +385,10 @@ const Edit = ({ Se }) => {
               </div>
 
             </div> */}
-              <div className='grid grid-cols-1  w-full'>
-                <button type="submit" className='text-black bg-pink-500 py-2 px-4 rounded-full mt-10 md:-ml-14'>
-                  Update
-                </button>
+            <div className='grid grid-cols-1  w-full'>
+              <button type="submit" className='text-black bg-pink-500 py-2 px-4 rounded-full mt-10 md:-ml-14'>
+                Update
+              </button>
               <div></div>
             </div>
 

@@ -18,8 +18,6 @@ const SignUp = () => {
   }, [location]);
 
 
-  const [show, setOt] = useState("");
-  const [showReg, setReg] = useState([]);
   const navigate = useNavigate();
   const {setUserId} = useContext(IdContext)
   const [gamilOTPVerified,setGmailOTPVerified] = useState(false)
@@ -44,24 +42,6 @@ const SignUp = () => {
     setSignupData({ ...signupData, [name]: value });
   };
 
-  // const OnReg = async () => {
-  //   setReg("");
-  //   setOt("");
-  //   if (cred.name == "") {
-  //     return setReg("Please enter your name");
-  //   } else if (cred.username == "") {
-  //     return setOt("please enter username");
-  //   } else {
-  //     const response = await axios.post(
-  //       `http://localhost:1450/user/signup`,
-  //       cred
-  //     );
-  //     console.log(response.data);
-
-  //     console.log(response.data.detail._id);
-  //     navigate(`/registration/${response.data.detail._id}`);
-  //   }
-  // };
 
   const generateGmailOtp = async () => {
     console.log(signupData.email);
@@ -140,7 +120,7 @@ const SignUp = () => {
   
       // Send data to the backend for registration
       const response = await axios.post('http://localhost:8003/api/auth/register', otherDetails,{withCredentials:true});
-      const userId = response.data.user._id
+      const userId = response.data.user
       console.log(response.data);
   
       if (response.data.message === 'User already exists') {

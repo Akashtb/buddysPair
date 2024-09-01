@@ -106,17 +106,35 @@ export const Register = async (req, res) => {
     }
   )
 
-  res.cookie("refreshToken",tempAccessToken,{
+  res.cookie("accessToken",tempAccessToken,{
     httpOnly:true,
     secure:true,
     maxAge:7 * 24 * 60 * 60 * 1000
-  }).status(201).json({ message: "User registered successfully", user: savedUser });
+  }).status(201).json({ message: "User registered successfully", user: savedUser._id });
 
   } catch (error) {
     console.error('Error during registration:', error.message); // Log the error message
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+export const reRegisterProfile = async (req, res) => {
+  try {
+      const { id } = req.params;
+      const updatedProfile = await User.findByIdAndUpdate(id, req.body, {
+          new: true, // Return the updated document
+          runValidators: true, // Validate before update
+      });
+
+      if (!updatedProfile) {
+          return res.status(404).json({ message: 'Profile not found' });
+      }
+
+      res.status(200).json(updatedProfile);
+  } catch (error) {
+      res.status(500).json({ message: 'Server error', error });
+  }
+}
 
 
 

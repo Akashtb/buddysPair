@@ -50,10 +50,13 @@ const Messages = () => {
       getConversationsArray();
     }
   }, [matrimonyProfileId]);
-  console.log(conversationArray);
+  // console.log(conversationArray);
+
+console.log("conversationArray length",conversationArray?.length);
 
 
-
+  // console.log("profileData in message",profileData);
+  
   return (
     <div className="activitycontainer">
       <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
@@ -65,15 +68,15 @@ const Messages = () => {
             <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
             <h1 className="title">Messages</h1>
             <div className="profilePicContainer" onClick={toggleProfileOptions}>
-              <img src={profileData.profilePic} alt="" className='profilePic' />
+              <img src={profileData?.profilePic} alt="" className='profilePic' />
             </div>
           </header>
         </div>
         <h2 className="recent-matches">Recent Matches</h2>
         <div className="matches-wrapper">
           <div className="match-item">
-            <img src={profileData.profilePic} alt="Match 1" />
-            {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
+            <img src={profileData?.profilePic} alt="Match 1" />
+            {conversationArray?.length > 0 && <div className="unread-message-count">{conversationArray?.length}</div>}
           </div>
           {conversationArray?.map((message, index) => {
             return (
@@ -85,7 +88,7 @@ const Messages = () => {
         <section className="messages-list">
           {conversationArray?.map((message, index) => {
             return (
-                <Message key={message._id} message={message} />
+                <Message key={message._id} message={message}/>
             );
           })}
         </section>

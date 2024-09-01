@@ -11,20 +11,27 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique:true
+        unique: true
     },
-    username:{
-        type:String
+    username: {
+        type: String
     },
     password: {
         type: String,
     },
-    confirmPassword: {
-        type: String
-    },
-    phno:{
+    phno: {
         type: Number,
     },
+    age: { type: Number },
+    gender: { type: String },
+    dateOfBirth: { type: Date },
+    hobbies: { type: [String] },
+    interest: { type: [String] },
+    smoking: { type: Boolean },
+    drinking: { type: Boolean },
+    profilePic: { type: String },
+    photos: [{ type: String }],
+    video: [{ type: String }],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -39,7 +46,7 @@ const userSchema = mongoose.Schema({
     }
 
 },
-{timestamp:true}
+    { timestamp: true }
 )
 
 const User = mongoose.model('User', userSchema)

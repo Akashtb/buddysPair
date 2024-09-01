@@ -3,8 +3,8 @@ import passport from "passport"
 import twilio from 'twilio'
 import dotenv from 'dotenv'
 import jwt from "jsonwebtoken"
-import { Login, Register, generateOTP, getIds, getUserData, logOut, otp_sent, refreshToken, updatePassword, verifyOTP, verify_otp } from "../controllers/authControl.js"
-import {  verifyToken, verifyUser } from "../utils/verifyToken.js"
+import { Login, Register, generateOTP, getIds, getUserData, logOut, otp_sent, reRegisterProfile, refreshToken, updatePassword, verifyOTP, verify_otp } from "../controllers/authControl.js"
+import {  verifyRegister, verifyToken, verifyUser } from "../utils/verifyToken.js"
 import { createError } from "../utils/error.js"
 
 const router = express.Router()
@@ -21,6 +21,8 @@ router.post('/login', Login)
 router.get('/refreshToken', refreshToken)
 
 router.post('/register', Register)
+
+router.put('/reRegistration/:id',verifyRegister,reRegisterProfile)
 
 router.post('/updatePassword/:id',verifyUser,updatePassword)
 

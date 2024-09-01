@@ -18,6 +18,22 @@ export const verifyToken = (req,res,next)=>{
     })
 }
 
+
+export const verifyRegister = (req,res,next)=>{
+  const token = req.cookies.accessToken
+  if(!token){
+      return next(createError(401,"You are not authenticated"))
+  }
+  jwt.verify(token,process.env.JWT,(err,user)=>{
+      if(err){
+          return next(createError(403,'token is not vaild')) 
+      }
+      console.log("user data extracted by token",user.id);
+      req.user = user.id
+      next()
+  })
+}
+
 export const verifyUser = (req, res, next) => {
     verifyToken(req, res, () => {
       if (req.user === req.params.id) {

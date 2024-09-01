@@ -6,13 +6,7 @@ import info from '../../assets/buddysHome/info icon.svg';
 import error from '../../assets/buddysHome/error icon.svg';
 const BuddyNotifications = ({socket}) => {
   console.log("socket in notifications",socket);
-  
-
-
-  
-
-
-  
+    
   
   return (
     <div className='BuddyNotifications'>

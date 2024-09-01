@@ -138,7 +138,7 @@ const handleFileChange = async (e) => {
 
   const registerProfile = async () => {
     try {
-      const response = await axiosPrivate.post(`/api/matrimony/profile/createProfile/${id}`, profileData);
+      const response = await axios.post(`http://localhost:8003/api/auth/reRegistration/${id}`, profileData,{withCredentials});
       console.log(response.data.profile._id);
       
       if (response.status === 201) {

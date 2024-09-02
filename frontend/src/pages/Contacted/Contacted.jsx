@@ -26,7 +26,7 @@ const Contacted = () => {
   useEffect(() => {
     const fetchContactedProfiles = async () => {
       try {
-        const response = await axiosPrivate.get(`/api/matrimony/conversation//getContactedProfile/66cab7ef1b514a6d77517c63`);
+        const response = await axiosPrivate.get(`/api/matrimony/conversation/getContactedProfile/${matrimonyProfileId}`);
         setContactedProfiles(response.data);
       } catch (error) {
         console.error("Error fetching sent requests or profiles:", error);

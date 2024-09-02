@@ -82,8 +82,8 @@ const Shortlist = () => {
                  key={user.id}  // Ensure you use _id if that's the correct key
                  user={user}
                  actions={[
-                   { className: 'accept-icon', icon: <TiTick />},
-                   { className: 'remove-icon', icon: <RxCross2 /> },
+                  //  { className: 'accept-icon', icon: <TiTick />},
+                  //  { className: 'remove-icon', icon: <RxCross2 /> },
                  ]}
                />
              );

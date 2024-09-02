@@ -14,6 +14,7 @@ import noUser from '../../assets/buddysHome/no image.webp'
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
 import { toast, useToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificationProfileList,setQualificationProfileList,designationProfileList,setDesignationProfileList}) => {
   console.log(`profile ${profile.firstName} online status`, profile.isOnline);
@@ -29,6 +30,11 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   const [nolikeIcon, SetNoLikeIcon] = useState(false)
   const [acceptOrReject, setAcceptOrReject] = useState(false)
 
+  const navigate = useNavigate()
+
+  const reDirectToProfile =()=>{
+    navigate(`/other/${profile._id}`)
+  }
 
 
   useEffect(() => {
@@ -321,7 +327,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   };
 
   return (
-    <div className="profileCardContainer3">
+    <div className="profileCardContainer3" onClick={reDirectToProfile}>
       <img src={profile?.profilePic || noUser} alt="" className='profileCardimageContainer3' />
       {profile?.isOnline === true ? (
        <div className='profileCardOnlineParentTag'> <span className='profileCardOnlineTag3'>Online</span></div>

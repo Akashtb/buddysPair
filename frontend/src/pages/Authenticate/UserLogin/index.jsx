@@ -50,7 +50,7 @@ const {setUserId} = useContext(IdContext)
           <br />
 
           <label htmlFor="">Password</label>
-          <input type="text" name="password" onChange={loginData} />
+          <input type="password" name="password" onChange={loginData} />
         </div>
 
         <button className="log1" onClick={handleLogin}>

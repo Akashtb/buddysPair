@@ -13,8 +13,7 @@ const Registration = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
-
-  const {setMatrimonyProfileId}= useContext(IdContext)
+  console.log(id);
 
   const [profileData, setProfileData] = useState({
     age: "",
@@ -132,19 +131,17 @@ const handleFileChange = async (e) => {
 
   
 
-  const handleButtonClick = (ref) => {
+  const handleButtonClick = (ref) => { 
     ref.current.click();
   };
 
   const registerProfile = async () => {
     try {
-      const response = await axios.post(`http://localhost:8003/api/auth/reRegistration/${id}`, profileData,{withCredentials});
-      console.log(response.data.profile._id);
-      
-      if (response.status === 201) {
+      const response = await axiosPrivate.patch(`/api/auth/reRegistration/${id}`, profileData);
+      console.log(response.data);
+      if (response.status === 200) {
         toast.success("Profile created successfully");
-        navigate(`/profile/${response.data.profile._id}`);
-        setMatrimonyProfileId(response.data.profile._id);
+        navigate(`/job`)
       } else {
         toast.error("Failed to create profile");
       }

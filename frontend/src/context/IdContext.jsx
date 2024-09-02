@@ -6,6 +6,10 @@ export const IdProvider = ({ children }) => {
     const [matrimonyProfileId, setMatrimonyProfileId] = useState(() => {
         return localStorage.getItem('MatrimonyProfileId') || null;
     });
+
+    const [registerId, setRegisterId] = useState(() => {
+        return localStorage.getItem('registerId') || null;
+    });
     const [userId, setUserId] = useState(() => {
         return localStorage.getItem('userId') || null;
     });
@@ -22,8 +26,14 @@ export const IdProvider = ({ children }) => {
         }
     }, [userId]);
 
+    useEffect(() => {
+        if (registerId) {
+            localStorage.setItem('registerId', registerId);
+        }
+    }, [registerId]);
+
     return (
-        <IdContext.Provider value={{ matrimonyProfileId, setMatrimonyProfileId, userId, setUserId,sortingDataRenderState,setSortingDataRenderState }}>
+        <IdContext.Provider value={{ matrimonyProfileId, setMatrimonyProfileId, userId, setUserId,sortingDataRenderState,setSortingDataRenderState,registerId,setRegisterId }}>
             {children}
         </IdContext.Provider>
     );

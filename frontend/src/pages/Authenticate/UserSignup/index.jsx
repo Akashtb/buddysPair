@@ -17,9 +17,9 @@ const SignUp = () => {
     }
   }, [location]);
 
-
+  const [showReg, setReg] = useState([]);
   const navigate = useNavigate();
-  const {setUserId} = useContext(IdContext)
+  const {setRegisterId} = useContext(IdContext)
   const [gamilOTPVerified,setGmailOTPVerified] = useState(false)
   const [phoneNumberOTPVerified,setPhoneNumberOTPVerified] = useState(false)
 
@@ -129,7 +129,7 @@ const SignUp = () => {
         toast.error('Passwords do not match');
       } else if (response.status === 201) {
         toast.success('User registered successfully');
-        setUserId(userId)
+        setRegisterId(userId)
         navigate(`/registration/${userId}`); // Redirect to login or another page
       }
     } catch (error) {
@@ -177,14 +177,14 @@ const SignUp = () => {
           <label htmlFor="">
             Username{" "}
             <input type="text" name="username" onChange={dataChange} />
-            <span style={{ color: "red" }}>{show}</span>
+            <span style={{ color: "red" }}>{showReg}</span>
           </label>
 
           <div className="footer22">
             <label htmlFor="">
               email{" "}
               <input type="email" name="email" onChange={dataChange}/>
-              <span style={{ color: "red" }}>{show}</span>
+              <span style={{ color: "red" }}>{showReg}</span>
             </label>
 
             <div className="Otp">
@@ -200,7 +200,7 @@ const SignUp = () => {
             <label htmlFor="">
               email verify code{" "}
               <input type="text" name="emailCode" onChange={dataChange} />
-              <span style={{ color: "red" }}>{show}</span>
+              <span style={{ color: "red" }}>{showReg}</span>
             </label>
 
             <div className="Otp">

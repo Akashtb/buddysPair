@@ -98,10 +98,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/sign" element={<SignUp />} />
         <Route path="/registration/:id" element={<Registration />} />
-        <Route path="/profile/:id" element={<Profile />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment2" element={<Payment2 />} />
-        <Route path="/other" element={<Other />} />
+        <Route path="/other/:id" element={<Other />} />
         <Route path="/job/employe" element={<Employe />} />
         <Route path="/job/seeker" element={<JobSeeker />} />
         <Route path="/job" element={<Job />} />

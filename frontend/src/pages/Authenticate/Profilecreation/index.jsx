@@ -5,11 +5,14 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./profile.css";
 import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
+import { useContext } from "react";
+import IdContext from "../../../context/IdContext";
 
 const Profile = () => {
 
-  const { id } = useParams();
-  console.log(id);
+  const { registerId,setRegisterId } = useContext(IdContext)
+
+  console.log("registerId",registerId);
   
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
@@ -47,14 +50,19 @@ const Profile = () => {
   };
   console.log(reRegistrationData);
 
+ 
+
 
   const profileReRegistraion = async()=>{
     try {
-      const response = await axiosPrivate.patch(`http://localhost:8003/api/matrimony/profile/reRegistration/${id}`,reRegistrationData)
+      const response = await axiosPrivate.post(`/api/matrimony/profile/createProfile/${registerId}`,reRegistrationData)
       console.log(response.data);
-      if(response.status === 200){
-        toast.success("Profile updated successfully");
-        navigate('/job')
+      if(response.status === 201){
+        await axiosPrivate.post('/api/auth/logout');
+        localStorage.removeItem('registerId');
+        setRegisterId(null)
+        toast.success("Profile created successfully");
+        navigate('/login')
       }else{
         toast.error("Failed to create profile");
       }

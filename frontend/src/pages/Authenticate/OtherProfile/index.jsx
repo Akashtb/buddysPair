@@ -1,45 +1,38 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 // import { getId } from "../../../src/utils/index.js";
 import "./other.css";
+import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
+import IdContext from "../../../context/IdContext";
 
 const Other = () => {
   const navigate = useNavigate();
+
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [pro, setPro] = useState("");
   const [halo, sethalo] = useState(false);
+  const axiosPrivate = useAxiosPrivate()
+  const { matrimonyProfileId } = useContext(IdContext);
+
 
   const Getprofile = async () => {
-    const getresponse = await axios.get(
-      `http://localhost:1450/user/profile/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    console.log(getresponse);
-    setData(getresponse.data);
+    const response = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${id}`)
+    setData(response.data);
   };
 
-  const GetMyPro = async () => {
-    const tresponse = await axios.get(
-      `http://localhost:1450/user/profile/${getId()}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-    console.log(tresponse);
-    setPro(tresponse.data.user._id);
-  };
+  const profileisViewed =async()=>{
+    const response = await axiosPrivate.put(`/api/matrimony/profile/viewedOtherProfile/${matrimonyProfileId}`,{otherProfileId:id})
+    console.log("profile is viwed ",response.data);
+    
+  }
+  
+  
 
   useEffect(() => {
-    Getprofile(), GetMyPro();
-  }, []);
+    Getprofile(),profileisViewed()
+  }, [id]);
   const Chatbtn = () => {
     navigate(`/chat/${pro}`);
     // console.log("proooooooo", pro);
@@ -53,29 +46,42 @@ const Other = () => {
   const proBtn = () => {
     navigate(`/mypro/${pro}`);
   };
+
+  const formattedDate = new Date(data.dateOfBirth).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+});
+
+
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <div className="anoop19">
       <div className="side1-6">
         <h1>Matrimony</h1>
-        <h3>
-          <i class="fa-solid fa-house"></i> Home
-        </h3>
+        <h3 onClick={() => handleNavigation('/buddysHomePage')}>
+        <i className="fa-solid fa-house"></i> Home
+      </h3>
 
-        <h3>
-          {" "}
-          <i class="fa-brands fa-facebook-messenger"></i> Message
-        </h3>
-        <h3>
-          {" "}
-          <i class="fa-solid fa-star"></i> Favorites
-        </h3>
-        <h3>
-          <i class="fa-solid fa-bell"></i> Notifications
-        </h3>
-        <h3>
-          {" "}
-          <i class="fa-solid fa-gear"></i> Settings
-        </h3>
+      <h3 onClick={() => handleNavigation('/message')}>
+        <i className="fa-brands fa-facebook-messenger"></i> Message
+      </h3>
+
+      <h3 onClick={() => handleNavigation('/favorites')}>
+        <i className="fa-solid fa-star"></i> Favorites
+      </h3>
+
+      <h3 onClick={() => handleNavigation('/notifications')}>
+        <i className="fa-solid fa-bell"></i> Notifications
+      </h3>
+
+      <h3 onClick={() => handleNavigation('/settings')}>
+        <i className="fa-solid fa-gear"></i> Settings
+      </h3>
 
         <h3 className="pro1-6">
           <i class="fa-solid fa-user"></i> Profile
@@ -97,14 +103,14 @@ const Other = () => {
           />
           <img
             className="img4"
-            src="../../../src/assets/Authentication/profile5.jpeg"
+            src={data?.profilePic}
             alt=""
           />
           <div className="botImg">
             <br />
             <div className="name12">
-              <h2> {data.user && data.user.name} ,</h2>
-              <h2> {data.reg && data.reg.age}</h2>
+              <h2> {data?.firstName} {data?.lastName},</h2>
+              <h2> {data?.age}</h2>
             </div>
             <h3>Location : {data.address}</h3>
             <img
@@ -143,24 +149,24 @@ const Other = () => {
           <section className="s1" id="sec1" href="#ou">
             <div className="about">
               <h2>About</h2>
-              <h3 className="ab"> {data.about}</h3>
-              <h3>username : {data.user && data.user.username}</h3>
+              <h3 className="ab"> {data.aboutMe}</h3>
+              <h3>username : {data?.firstName} {data?.lastName}</h3>
             </div>
             <div className="habbits">
               <h2>Habbits</h2>
-              <h3>Drinking : {data.reg && data.reg.drinking}</h3>
-              <h3>Smoking : {data.reg && data.reg.smoking}</h3>
-              <h3>Hobbies : {data.reg && data.reg.hobbies}</h3>
+              <h3>Drinking : {data.drinking ? 'Yes' : 'No'}</h3>
+              <h3>Smoking :{data.smoking ? 'Yes' : 'No'}</h3>
+              <h3>Hobbies :{data.hobbies?.join(', ')}</h3>
             </div>
 
             <div className="personaldet">
               <h2>Personal details</h2>
               <h3>Gender: {data.gender}</h3>
 
-              <h3>DOB:{data.reg && data.reg.dob}</h3>
+              <h3>DOB:{formattedDate}</h3>
               {/* <h3>{data.reg && data.reg.propic}</h3> */}
-              <h3>Qualification{data.reg && data.reg.qualification}</h3>
-              <h3>Education:{data.education}</h3>
+              <h3>Qualification:{data?.qualification}</h3>
+              <h3>Proffesion:{data?.profession}</h3>
             </div>
             {/* <h3>Proflepic:{data.reg && data.reg.propic}</h3> */}
 
@@ -177,35 +183,35 @@ const Other = () => {
           <section className="s2" id="sec2">
             <div className="contact">
               <h2>Contact</h2>
-              <h3>Address:{data.address}</h3>
-              <h3>Contact{data.contact}</h3>
-              <h3>Email:{data.email}</h3>
+              <h3>Address:{data?.address}</h3>
+              {/* <h3>Contact{data.contact}</h3> */}
+              <h3>Email:{data?.email}</h3>
             </div>
             <div className="bodytype">
               <h2>Body type</h2>
-              <h3>Body Type: {data.bodytype}</h3>
-              <h3>Height :{data.height}</h3>
-              <h3>Weight :{data.weight}</h3>
+              <h3>Body Type: {data?.bodyType}</h3>
+              <h3>Height :{data?.height}</h3>
+              <h3>Weight :{data?.weight}</h3>
             </div>
             <div className="Family">
               <h2>Family</h2>
-              <h3>Father job :{data.fatherjob}</h3>
-              <h3>Mother Job :{data.motherjob}</h3>
-              <h3>Siblings :{data.siblings}</h3>
+              <h3>Father job :{data?.fatherOccupation}</h3>
+              <h3>Mother Job :{data?.motherOccupation}</h3>
+              {/* <h3>Siblings :{data?.siblings}</h3> */}
             </div>
-            <div className="pro-det">
+            {/* <div className="pro-det">
               <h2>Profile Details</h2>
 
               <h3>Occupation :{data.occupation}</h3>
               <h3>Passion :{data.passion}</h3>
               <h3>Future Plan :{data.futureplan}</h3>
               <h3>Income{data.income}</h3>
-            </div>
+            </div> */}
             <div className="Religion">
               <h2>Religion</h2>
-              <h3>Religion :{data.religion}</h3>
-              <h3>Marrital status :{data.marrital}</h3>
-              <h3>Mother Tongue :{data.motherTongue}</h3>
+              <h3>Religion :{data?.religion}</h3>
+              <h3>Marrital status :{data?.martialStatus}</h3>
+              <h3>Mother Tongue :{data?.motherTongue}</h3>
             </div>
           </section>
         </div>

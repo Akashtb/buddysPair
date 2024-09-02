@@ -8,7 +8,7 @@ import twilio from 'twilio'
 import dotenv from 'dotenv'
 import Profile from "../models/MatrimonyProfile.js";
 import AWS from 'aws-sdk'
-import mongoose from "mongoose";
+
 
 
 dotenv.config()
@@ -106,7 +106,7 @@ export const Register = async (req, res) => {
     }
   )
 
-  res.cookie("accessToken",tempAccessToken,{
+  res.cookie("refreshToken",tempAccessToken,{
     httpOnly:true,
     secure:true,
     maxAge:7 * 24 * 60 * 60 * 1000
@@ -120,8 +120,19 @@ export const Register = async (req, res) => {
 
 export const reRegisterProfile = async (req, res) => {
   try {
-      const { id } = req.params;
-      const updatedProfile = await User.findByIdAndUpdate(id, req.body, {
+      const {id} = req.params
+      const updatedProfile = await User.findByIdAndUpdate(id, {
+        age: req.body.age,
+        gender: req.body.gender,
+        dateOfBirth: req.body.dateOfBirth,
+        hobbies: req.body.hobbies,
+        interest: req.body.interest,
+        smoking: req.body.smoking,
+        drinking: req.body.drinking,
+        profilePic: req.body.propic,
+        photos: req.body.multipleimg,
+        video: req.body.reel,
+      }, {
           new: true, // Return the updated document
           runValidators: true, // Validate before update
       });

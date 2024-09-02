@@ -22,7 +22,7 @@ router.get('/refreshToken', refreshToken)
 
 router.post('/register', Register)
 
-router.put('/reRegistration/:id',verifyRegister,reRegisterProfile)
+router.patch('/reRegistration/:id',reRegisterProfile)
 
 router.post('/updatePassword/:id',verifyUser,updatePassword)
 

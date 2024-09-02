@@ -9,28 +9,32 @@ const Confirm = () => {
 
   const {setMatrimonyProfileId,setUserId} = useContext(IdContext)
 
-  const handleLogout = async () => {
-    try {
-     const response = await axiosPrivate.post('/api/auth/logout');
-     console.log(response.data);
-     if(response.status===200){
-      localStorage.removeItem('MatrimonyProfileId');
-      localStorage.removeItem('userId');
+  // const handleLogout = async () => {
+  //   try {
+  //    const response = await axiosPrivate.post('/api/auth/logout');
+  //    console.log(response.data);
+  //    if(response.status===200){
+  //     localStorage.removeItem('MatrimonyProfileId');
+  //     localStorage.removeItem('userId');
 
-      setMatrimonyProfileId(null);
-      setUserId(null);
-      navigate('/login');
-     }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
+  //     setMatrimonyProfileId(null);
+  //     setUserId(null);
+  //     navigate('/login');
+  //    }
+  //   } catch (error) {
+  //     console.error('Error during logout:', error);
+  //   }
+  // };
+
+  const handleChange =()=>{
+    navigate('/profile')
+  }
 
   return (
     <div className="anoop11">
       <div className="intrest2">
         <h3>Intrested</h3>
-        <button className="short" onClick={handleLogout}>
+        <button className="short" onClick={handleChange}>
           Matrimony
         </button>
         <button>Dating</button>

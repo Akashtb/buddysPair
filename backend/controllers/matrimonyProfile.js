@@ -12,23 +12,55 @@ export const createProfile = async (req, res) => {
 
         const findUserData = await User.findById(userId);
         console.log("findUserData", findUserData);
-
+        const preferredGender = findUserData.gender === 'Male' ? 'Female' : 'Male';
         const profileData = {
             userId: findUserData._id,
             firstName: findUserData.firstName,
             lastName: findUserData.lastName,
             phoneNumber: findUserData.phno,
             email: findUserData.email,
-            profilePic: req.body.propic,
-            photos: req.body.multipleimg,
-            video: req.body.reel,
-            smoking: req.body.smoking,
-            drinking: req.body.drinking,
-            gender: req.body.gender,
-            hobbies: req.body.hobbies,
-            interest: req.body.interest,
-            age: req.body.age,
-            dateOfBirth: req.body.dateOfBirth
+            profilePic: findUserData.profilePic,
+            photos: findUserData.photos,
+            video: findUserData.video,
+            smoking: findUserData.smoking,
+            drinking: findUserData.drinking,
+            gender: findUserData.gender,
+            hobbies: findUserData.hobbies,
+            interest: findUserData.interest,
+            age: findUserData.age,
+            dateOfBirth: findUserData.dateOfBirth,
+            preference: {
+                gender: preferredGender,
+                district: req.body.district,
+                religion: req.body.religion,
+                interest: findUserData.interest,
+                profession: req.body.profession,
+                qualification: req.body.qualification,
+            },
+
+            state: req.body.state,
+            district: req.body.district,
+            city: req.body.city,
+            profession: req.body.profession,
+            qualification: req.body.qualification,
+            religion: req.body.religion,
+            motherTongue: req.body.motherTongue,
+            aboutMe: req.body.aboutMe,
+            height: req.body.height,
+            weight: req.body.weight,
+            bodyType: req.body.bodyType,
+            martialStatus: req.body.martialStatus,
+            familyType: req.body.familyType,
+            diabilities: req.body.diabilities,
+            caste: req.body.caste,
+            patnerExpectation: req.body.patnerExpectation,
+            fatherName: req.body.fatherName,
+            numberOfMarriedSibilings: req.body.numberOfMarriedSibilings,
+            numberOfSibilings: req.body.numberOfSibilings,
+            fatherOccupation: req.body.fatherOccupation,
+            motherName: req.body.motherName,
+            motherOccupation: req.body.motherOccupation,
+            address: req.body.address,
         };
 
         const newProfile = new Profile(profileData);
@@ -122,6 +154,27 @@ export const addViewedProfile = async (req, res, next) => {
     }
 };
 
+
+export const listOfUserViwedMyProfile = async(req,res)=>{
+    try {
+        const {id} =req.params
+
+        const userProfile = await Profile.findById(id)
+        const viewList = userProfile.viewedMyProfile
+        
+        const viewdProfiles = await Promise.all(
+            viewList.map((profileId) => Profile.findById(profileId))
+        )
+    
+        res.status(200).json(viewdProfiles);
+    
+    } catch (error) {
+        res.status(500).json(error);
+    }
+  
+
+    
+}
 
 export const getProfileByUserID = async (req, res) => {
     const userId = req.params.id
@@ -408,16 +461,16 @@ export const nearbyProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { district, fromAge, toAge, religion,fromHeight,toHeight,gender } = userProfile.preference;
-        
+        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender } = userProfile.preference;
+
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
                 district,
                 gender,
-                religion,
+                // religion,
                 age: { $gte: fromAge, $lte: toAge },
-                height:{ $gte: fromHeight, $lte: toHeight },
+                height: { $gte: fromHeight, $lte: toHeight },
                 _id: { $ne: profileId },
             },
         );
@@ -470,16 +523,16 @@ export const qualificationProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { district, fromAge, toAge, religion,fromHeight,toHeight,gender,qualification } = userProfile.preference;
-        
+        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification } = userProfile.preference;
+
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
                 qualification,
                 gender,
-                religion,
+                // religion,
                 age: { $gte: fromAge, $lte: toAge },
-                height:{ $gte: fromHeight, $lte: toHeight },
+                height: { $gte: fromHeight, $lte: toHeight },
                 _id: { $ne: profileId },
             },
         );
@@ -532,16 +585,16 @@ export const professionProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { fromAge, toAge, religion,fromHeight,toHeight,gender,profession } = userProfile.preference;
-        
+        const { fromAge, toAge, religion, fromHeight, toHeight, gender, profession } = userProfile.preference;
+
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
                 profession,
                 gender,
-                religion,
+                // religion,
                 age: { $gte: fromAge, $lte: toAge },
-                height:{ $gte: fromHeight, $lte: toHeight },
+                height: { $gte: fromHeight, $lte: toHeight },
                 _id: { $ne: profileId },
             },
         );
@@ -655,8 +708,7 @@ export const shortListedList = async (req, res) => {
     const profileId = req.params.id;
     try {
         const listUserShortListedYourProfile = await shortListMatrimonyProfile.find({
-            fromUID: profileId,
-            status: "pending"
+            fromUID: profileId
         });
         console.log(listUserShortListedYourProfile);
 
@@ -696,7 +748,6 @@ export const shortListedListedBy = async (req, res) => {
     try {
         const listUserShortListedYOurProfile = await shortListMatrimonyProfile.find({
             toUID: profileId,
-            status: "pending"
         })
         if (listUserShortListedYOurProfile.length === 0) {
             return res.status(404).json({ message: "No user shortlisted your profile" });

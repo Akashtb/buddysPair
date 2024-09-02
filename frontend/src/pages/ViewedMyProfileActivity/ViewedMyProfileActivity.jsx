@@ -4,9 +4,11 @@ import UserCard from '../../components/NotifyUserCard/UserCard';
 import './ViewedMyProfileActivity.css';
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
+import IdContext from '../../context/IdContext';
 
 const ViewedMyProfileActivity = () => {
   const users = [
@@ -25,9 +27,31 @@ const ViewedMyProfileActivity = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setShowProfileOptions(!showProfileOptions);
   };
+  const axiosPrivate = useAxiosPrivate();
+  const { matrimonyProfileId} = useContext(IdContext);
+  const [Profiles, setProfiles] = useState([]);
 
-  const groupedUsers = users.reduce((acc, user) => {
-    const firstLetter = user.name[0].toUpperCase();
+
+  useEffect(() => {
+    const fetchSentRequests = async () => {
+      try {
+        const response = await axiosPrivate.get(`/api/matrimony/profile/viewedList/${matrimonyProfileId}`);
+        setProfiles(response.data);
+      } catch (error) {
+        console.error("Error fetching sent requests or profiles:", error);
+      }
+    };
+    fetchSentRequests();
+  }, [axiosPrivate, matrimonyProfileId]);
+
+  console.log("profile",Profiles);
+  
+
+  
+
+
+  const groupedUsers = Profiles.reduce((acc, user) => {
+    const firstLetter = user.firstName[0].toUpperCase();
     if (!acc[firstLetter]) {
       acc[firstLetter] = [];
     }
@@ -58,8 +82,8 @@ const ViewedMyProfileActivity = () => {
             key={user.id}
             user={user}
             actions={[
-              { className: 'accept-icon', icon: <TiTick />},
-              { className: 'remove-icon', icon:<RxCross2 />},
+              // { className: 'accept-icon', icon: <TiTick />},
+              // { className: 'remove-icon', icon:<RxCross2 />},
             ]}
           />
         ))}

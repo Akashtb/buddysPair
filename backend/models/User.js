@@ -23,7 +23,9 @@ const userSchema = mongoose.Schema({
         type: Number,
     },
     age: { type: Number },
+
     gender: { type: String },
+    
     dateOfBirth: { type: Date },
     hobbies: { type: [String] },
     interest: { type: [String] },

@@ -13,17 +13,17 @@
 }
 
 .preference-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #4B164C;
-  color: white;
-  padding: 15px 200px 0 180px;
-  margin-left: 80px;
-  width: 100%;
-  position: fixed; /* Ensure it stays at the top */
+  position: fixed;
   top: 0;
-  z-index: 1000; /* Ensure it stays above other content */
+  right: 80px;
+  left: 160px;
+  background-color: #4B164C;
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+ color: white;
+
 }
 
 .preference-header h2 {
@@ -45,15 +45,14 @@
 }
 
 .preference-section {
-  flex: 1;
-  padding: 20px 50px;
+  margin-top: 80px; /* Account for the fixed header */
+  padding: 20px;
+  margin-left: 80px;
   background-color: #fff;
-  height: auto;
-  color: #050505;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  overflow-y: hidden;
-  margin: 0; /* Remove any margin */
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+  min-height: calc(100vh - 10px); /* Ensure it covers the available height */
+  overflow-y: auto; /* Enable scrolling within the user list */
  
 }
 
@@ -71,12 +70,12 @@
 .form-group label {
   font-weight: 500;
   color: #4a4a4a;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
-.form-group select {
+.form-group select,input {
   width: 100%;
-  padding: 8px;
+  padding: 4px;
   border-radius: 5px;
   border: 1px solid #ddd;
   background-color: #f9f9f9;
@@ -86,6 +85,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin-top: 10px;
 }
 
 .tags span {
@@ -134,7 +134,22 @@
   align-items: center;
   margin-bottom: 5px;
 }
+.submit-btn {
+  background-color:  #4B164C;
+  color: white;
+  border: none;
+  padding: 8px 16px;  /* Reduced padding for a smaller button */
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;  /* Smaller font size */
+  display: block;
+  margin: 0 auto;  /* Center the button */
+  margin-bottom: 30px;
+}
 
+.submit-btn:hover {
+  background-color: #d08ad2;
+}
 /* Media Queries */
 
 @media (max-width: 768px) {
@@ -144,15 +159,17 @@
   }
   
   .preference-header {
-    padding: 15px 20px 0 80px;
-    margin-left: 0px;
+      left: 0;
+      right: 0;
+    }
    
-  }
+
 
   .preference-section {
     padding: 20px 30px;
     height: auto;
     overflow-y: auto;
+    margin-left: 0;
   }
 
   .profilePicContainer {
@@ -168,8 +185,8 @@
   }
 
   .preference-header {
-    padding: 15px 10px 0 20px;
-    margin-left: 0px;
+    left: 0;
+    right: 0;
   }
   .preference-container {
     margin-left: 20px;
@@ -183,14 +200,11 @@
   }
 
   .preference-header {
-    padding: 15px 10px 0 20px;
-    margin-left: 0px;
+    left: 0;
+    right: 0;
   }
 
-  .profilePic {
-    height: 30px;
-    width: 30px;
-  }
+  
   .preference-container {
     margin-left: 20px;
   }

@@ -28,9 +28,13 @@ const Messages = () => {
     navigate(-1); // Go back to the previous page
   };
 
-  const navigateToChat = (conversationArrayId, friendId,coversationDetails) => {
-    navigate(`/chat`, { state: { conversationArrayId, friendId,coversationDetails}});
+  const navigateToChat = (conversationArrayId, friendId, coversationDetails) => {
+    if (window.innerWidth <= 768) {
+      setIsSidebarOpen(false); // Ensure sidebar closes on mobile
+    }
+    navigate(`/chat`, { state: { conversationArrayId, friendId, coversationDetails } });
   }
+  
 
 
 
@@ -50,13 +54,10 @@ const Messages = () => {
       getConversationsArray();
     }
   }, [matrimonyProfileId]);
-  // console.log(conversationArray);
-
-console.log("conversationArray length",conversationArray?.length);
+  console.log(conversationArray);
 
 
-  // console.log("profileData in message",profileData);
-  
+
   return (
     <div className="activitycontainer">
       <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
@@ -68,15 +69,15 @@ console.log("conversationArray length",conversationArray?.length);
             <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
             <h1 className="title">Messages</h1>
             <div className="profilePicContainer" onClick={toggleProfileOptions}>
-              <img src={profileData?.profilePic} alt="" className='profilePic' />
+              <img src={profileData.profilePic} alt="" className='profilePic' />
             </div>
           </header>
         </div>
         <h2 className="recent-matches">Recent Matches</h2>
         <div className="matches-wrapper">
           <div className="match-item">
-            <img src={profileData?.profilePic} alt="Match 1" />
-            {conversationArray?.length > 0 && <div className="unread-message-count">{conversationArray?.length}</div>}
+            <img src={profileData.profilePic} alt="Match 1" />
+            {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
           </div>
           {conversationArray?.map((message, index) => {
             return (
@@ -88,7 +89,7 @@ console.log("conversationArray length",conversationArray?.length);
         <section className="messages-list">
           {conversationArray?.map((message, index) => {
             return (
-                <Message key={message._id} message={message}/>
+                <Message key={message._id} message={message} />
             );
           })}
         </section>

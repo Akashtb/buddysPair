@@ -29,21 +29,27 @@ const Shortlist = () => {
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/shortListedList/${matrimonyProfileId}`);
         const shortListedList = response.data;
-
-        const profilesPromises = shortListedList.map(shortList =>
-          axiosPrivate.get(`/api/matrimony/profile/getProfile/${shortList.toUID}`)
-        );
-
-        const profilesResponses = await Promise.all(profilesPromises);
-
-        const profiles = profilesResponses.map(res => res.data);
-        setshortListedProfiles(profiles);
+  
+        // Check if the response is an array
+        if (Array.isArray(shortListedList)) {
+          const profilesPromises = shortListedList.map(shortList =>
+            axiosPrivate.get(`/api/matrimony/profile/getProfile/${shortList.toUID}`)
+          );
+  
+          const profilesResponses = await Promise.all(profilesPromises);
+          const profiles = profilesResponses.map(res => res.data);
+  
+          setshortListedProfiles(profiles);
+        } else {
+          console.error('shortListedList is not an array:', shortListedList);
+        }
       } catch (error) {
         console.error("Error fetching sent requests or profiles:", error);
       }
     };
     fetchShortlistedRequests();
   }, [axiosPrivate, matrimonyProfileId]);
+  
 
   console.log(shortListedProfiles);
   

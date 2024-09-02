@@ -114,12 +114,11 @@ const addUser = async (profileId, socketId) => {
 const removeUser = async (socketId) => {
   const user = users.find(user => user.socketId === socketId);
   if (user) {
-    users = users.filter(user => user.socketId !== socketId);
-    console.log("User removed:", socketId);
-    
     try {
       await Profile.findByIdAndUpdate(user.profileId, { isOnline: false });
       console.log(`Profile ${user.profileId} is set to offline`);
+      users = users.filter(user => user.socketId !== socketId);
+      console.log("User removed:", socketId);
     } catch (error) {
       console.error("Error updating profile isOnline status:", error);
     }

@@ -3,7 +3,7 @@ import './BuddyHomeFooter.css';
 import { CiSearch } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { AiFillHome } from "react-icons/ai";
-import { FaRegStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa"; 
 import { IoChatbubbleSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 

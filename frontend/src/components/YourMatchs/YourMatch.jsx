@@ -4,7 +4,7 @@ import MatchProfileList from '../matchProfileList/MatchProfileList';
 
 const YourMatch = ({ profileData, headingName }) => {
   console.log("profileList", profileData);
-  console.log("headingName", headingName);
+
 
   const headingClassName = headingName === "Viewed My Profile" ? 'ViewedMyProfileHeading' : 'YourMatchHeading';
 
@@ -16,7 +16,7 @@ const YourMatch = ({ profileData, headingName }) => {
         </div>
       ) : (
         <div className={headingClassName}>
-          <span>Your Matches </span><label> 47</label>
+          <span>Your Matches </span><label> {profileData?.length}</label>
         </div>
       )}
       <div className='MatchProfileListContainer'>

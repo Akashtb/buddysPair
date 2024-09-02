@@ -2,6 +2,7 @@ import React from "react";
 import Header2edit from "../components/Header2editAyas";
 import Footer from "../components/FooterAyas";
 import Sidebar from "../components/SidebarAyas"; // Import Sidebar
+import { useNavigate } from "react-router-dom";
 
 function Settings({ Se }) {
     return (
@@ -37,6 +38,7 @@ function Settings({ Se }) {
                                 icon="/assets/Images/key-solid.svg"
                                 title="Account"
                                 description="Privacy"
+                                path="/privacySetting" // Pass the path as a prop
                             />
                             <SettingOption
                                 icon="/assets/Images/chat-icon-comments-icon-11553508047pnx3f5bvsr.png"
@@ -69,16 +71,21 @@ function Settings({ Se }) {
             </div>
 
             {/* Footer */}
-            <footer className=" container bg-white text-white p-4 fixed mb-0 bottom-0 ">
+            <footer className="container bg-white text-white p-4 fixed mb-0 bottom-0 ">
                 <Footer />
             </footer>
         </div>
     );
 }
 
-function SettingOption({ icon, title, description }) {
+function SettingOption({ icon, title, description, path }) {
+    const navigate = useNavigate(); // Initialize useNavigate
+
     return (
-        <div className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md mb-4">
+        <div
+            className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-md mb-4 cursor-pointer"
+            onClick={() => path && navigate(path)} // Navigate to the specified path on click
+        >
             <img src={icon} alt={title} className="w-7 h-7" />
             <div>
                 <p className="font-bold">{title}</p>
@@ -89,5 +96,3 @@ function SettingOption({ icon, title, description }) {
 }
 
 export default Settings;
-
-

@@ -24,7 +24,7 @@ const Filter = () => {
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showProfileOptions, setShowProfileOptions] = useState(false);
-    const [visibleSubSelection, setVisibleSubSelection] = useState(null); // Track visible subselection
+    const [visibleSubSelection, setVisibleSubSelection] = useState(null);
 
     const toggleProfileOptions = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -33,25 +33,38 @@ const Filter = () => {
 
     const handleSortClick = (key) => {
         setSortSelection((prev) => ({ ...prev, [key]: !prev[key] }));
-        setVisibleSubSelection(key); // Show subselection on tick click
+        setVisibleSubSelection(key);
     };
 
     const handleFilterClick = (key) => {
         setFilterSelection((prev) => ({ ...prev, [key]: !prev[key] }));
-        setVisibleSubSelection(key); // Show subselection on tick click
+        setVisibleSubSelection(key);
     };
 
     const handleSortSubSelection = (key, value) => {
         setSortSubSelection((prev) => ({ ...prev, [key]: value }));
-        console.log(`${key}: ${value}`); // Log selection to console
-        setVisibleSubSelection(null); // Hide subselection after selection
+        setVisibleSubSelection(null);
     };
 
     const handleFilterSubSelection = (key, value) => {
         setFilterSubSelection((prev) => ({ ...prev, [key]: value }));
-        console.log(`${key}: ${value}`); // Log selection to console
-        setVisibleSubSelection(null); // Hide subselection after selection
+        setVisibleSubSelection(null);
     };
+
+    const handleAgeChange = (key, minOrMax, value) => {
+        setSortSubSelection((prev) => ({
+            ...prev,
+            [key]: {
+                ...prev[key],
+                [minOrMax]: value,
+            },
+        }));
+    };
+
+    console.log(sortSelection);
+    
+    console.log(filterSelection);
+    
 
     return (
         <div className="activitycontainer">
@@ -77,7 +90,23 @@ const Filter = () => {
                                         onClick={() => handleSortClick(key)} 
                                         className="tick-icon" 
                                     />
-                                    {visibleSubSelection === key && (
+                                    {visibleSubSelection === key && key === 'age' && (
+                                        <div className="filter-subselection">
+                                            <label>Min Age:</label>
+                                            <input
+                                                type="number"
+                                                value={sortSubSelection[key]?.min || ''}
+                                                onChange={(e) => handleAgeChange(key, 'min', e.target.value)}
+                                            />
+                                            <label>Max Age:</label>
+                                            <input
+                                                type="number"
+                                                value={sortSubSelection[key]?.max || ''}
+                                                onChange={(e) => handleAgeChange(key, 'max', e.target.value)}
+                                            />
+                                        </div>
+                                    )}
+                                    {visibleSubSelection === key && key !== 'age' && (
                                         <div className="filter-subselection">
                                             <select 
                                                 value={sortSubSelection[key] || ''} 
@@ -95,14 +124,6 @@ const Filter = () => {
                                                         <option value="today">Today</option>
                                                         <option value="thisWeek">This Week</option>
                                                         <option value="thisMonth">This Month</option>
-                                                    </>
-                                                )}
-                                                {key === 'age' && (
-                                                    <>
-                                                        <option value="18-25">18-25</option>
-                                                        <option value="26-35">26-35</option>
-                                                        <option value="36-45">36-45</option>
-                                                        <option value="46-55">46-55</option>
                                                     </>
                                                 )}
                                             </select>

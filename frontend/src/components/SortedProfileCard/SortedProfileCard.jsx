@@ -327,8 +327,8 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   };
 
   return (
-    <div className="profileCardContainer3" onClick={reDirectToProfile}>
-      <img src={profile?.profilePic || noUser} alt="" className='profileCardimageContainer3' />
+    <div className="profileCardContainer3">
+      <img src={profile?.profilePic || noUser} alt="" className='profileCardimageContainer3' onClick={reDirectToProfile}/>
       {profile?.isOnline === true ? (
        <div className='profileCardOnlineParentTag'> <span className='profileCardOnlineTag3'>Online</span></div>
       ) : (

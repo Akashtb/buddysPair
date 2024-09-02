@@ -74,8 +74,8 @@ const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
         <button onClick={() => navigate('/shortlistedby')}>Shortlisted By</button>
         <button onClick={() => navigate('/shortlist')}>Shortlist</button>
         <button onClick={() => navigate('/contacted')}>Contacted</button>
-        <button onClick={() => navigate('/message')}>Message</button>
-        <button >Settings</button>
+        <button onClick={() => navigate('/message')}>Message</button> 
+        <button onClick={() => navigate('/setting')}>Settings</button>
         <span className="logoutButton" onClick={handleLogout}>
           <FaSignOutAlt /> Logout
         </span>

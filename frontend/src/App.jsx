@@ -43,6 +43,7 @@ import { useContext, useEffect, useRef, useState } from "react";
 import IdContext from "./context/IdContext.jsx";
 import {io} from 'socket.io-client'
 import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
+import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
 
 
 function App() {
@@ -129,8 +130,9 @@ function App() {
         <Route path="/shortlistedby" element={<ShortlistedBy />} />
         <Route path="/contacted" element={<Contacted />} />
         <Route path="/viewed" element={<ViewedMyProfileActivity />} />
-        <Route path="/pageNotFound" element={<NotFoundPage/>}/>
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
+        <Route path="/privacySetting" element={<PrivacySettings/>}/>
         <Route path="/chat" element={isSocketInitialized && <ChatRoomPage socket={socket} />} />
       </Routes>
     </Router>

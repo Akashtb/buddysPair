@@ -778,4 +778,45 @@ export const reRegisterProfile = async (req, res) => {
 
 
 
+export const sortedProfile = async (req, res) => {
+    const profileId = req.params.id;
 
+    try {
+
+        const nearbyProfiles = await Profile.find(
+            {
+                _id: { $ne: profileId },
+            },
+        );
+
+        const connections = await MatrimonyProfileconnection.find({
+            $or: [
+                { fromUID: profileId },
+                { toUID: profileId }
+            ]
+        });
+
+        const connectedProfileIds = connections.map(connection =>
+            connection.fromUID.toString() === profileId ? connection.toUID.toString() : connection.fromUID.toString()
+        );
+
+        const filteredProfiles = nearbyProfiles.filter(profile => {
+            const isConnected = connectedProfileIds.includes(profile._id.toString());
+
+            if (!isConnected) {
+                return true; // Profile is not connected at all
+            } else {
+                const connection = connections.find(conn =>
+                    (conn.fromUID.toString() === profileId && conn.toUID.toString() === profile._id.toString()) ||
+                    (conn.toUID.toString() === profileId && conn.fromUID.toString() === profile._id.toString())
+                );
+                return connection.status === 'pending'; // Profile is connected but with pending status
+            }
+        });
+
+        res.status(200).json(filteredProfiles);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};

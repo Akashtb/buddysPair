@@ -59,6 +59,10 @@ const Other = () => {
     navigate(path);
   };
 
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
   return (
     <div className="anoop19">
       <div className="side1-6">
@@ -88,7 +92,7 @@ const Other = () => {
         </h3>
       </div>
       <div className="header4">
-        <i class="fa-solid fa-angle-left"></i>
+        <i class="fa-solid fa-angle-left" onClick={handleBack}></i>
         <div className="image6">
           {/* <img className="img4" src="\profile2.jpeg" alt="" /> */}
           <img

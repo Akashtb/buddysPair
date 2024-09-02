@@ -5,6 +5,7 @@ import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import { useState } from 'react';
 import { FaToggleOn, FaToggleOff } from 'react-icons/fa';
 import { CiSearch } from 'react-icons/ci';
+import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 
 const PrivacySettings = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -79,10 +80,12 @@ const PrivacySettings = () => {
         <button className="resetButton">+ Reset all active sessions</button>
       </div>
       </div>
-
-     
-
    </div>
+   {showProfileOptions && (
+        <div className="profileOptionsContainer">
+          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+        </div>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import profilepic from '../../assets/buddysHome/propic1.jpg';
 import IdContext from '../../context/IdContext';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import axios from 'axios';
+import AuthContext from '../../context/AuthContext';
 
 const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
   console.log("socket in homeProfile",socket);
@@ -14,7 +15,10 @@ const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
 
   const {setMatrimonyProfileId,matrimonyProfileId,setUserId} = useContext(IdContext)
   const [profileDetails,setProfileDetails] = useState({})
+  const { setAuth } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate()
+
+  
   const handleLogout = async () => {
     try {
      const response = await axiosPrivate.post('/api/auth/logout');
@@ -25,6 +29,7 @@ const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
 
       setMatrimonyProfileId(null);
       setUserId(null);
+      setAuth({});
       navigate('/login');
       if (socket.current) {
         socket.current.disconnect();

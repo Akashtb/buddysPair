@@ -7,6 +7,7 @@ import { IdProvider } from "./context/IdContext.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SocketMessageProvider } from "./context/SocketMessageContext.jsx";
+import {  BrowserRouter as Router  } from "react-router-dom";
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -14,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <AuthProvider>
       <IdProvider>
         <SocketMessageProvider>
-          <App />
+          <Router><App /></Router>
           <ToastContainer />
         </SocketMessageProvider>
       </IdProvider>

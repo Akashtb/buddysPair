@@ -206,7 +206,7 @@ export const refreshToken = (req, res, next) => {
         isStaff: user.isStaff,
       },
       process.env.JWT,
-      { expiresIn: '7h' }
+      { expiresIn: '15s' }
     );
 
     // res.cookie("accessToken", accessToken, { httpOnly: true, secure: true });

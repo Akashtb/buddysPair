@@ -11,10 +11,11 @@ import BuddyHomeFooter from '../../components/BuddyHomeFooter/BuddyHomeFooter.js
 import BuddyHomeSideBar from '../../components/BuddyHomeSideBar/BuddyHomeSideBar.jsx';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate.jsx';
 import IdContext from '../../context/IdContext.jsx';
+import { useNavigate } from 'react-router-dom';
 
 const Home = ({socket}) => {
   
-  
+ 
   const [navPage, setNavPage] = useState('Near by');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileOptions, setShowProfileOPtions] = useState(false);
@@ -31,7 +32,6 @@ const Home = ({socket}) => {
     setShowMenu(!showMenu);
   };
   
-
   const axiosPrivate = useAxiosPrivate();
   const { setMatrimonyProfileId, setUserId } = useContext(IdContext);
   const [nearByProfileList,setNearByProfileList] = useState([])  

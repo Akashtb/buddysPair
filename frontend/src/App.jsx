@@ -39,24 +39,33 @@ import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
-
 import IdContext from "./context/IdContext.jsx";
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
 import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
 import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
+import AuthContext from "./context/AuthContext.jsx";
+import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
+import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
+
+
+
 
 
 function App() {
   const { matrimonyProfileId } = useContext(IdContext);
-  const {setSocketMessage } = useContext(SocketMessageContext);
+  const { setSocketMessage } = useContext(SocketMessageContext);
+  const { auth } = useContext(AuthContext)
+  const axiosPrivate = useAxiosPrivate()
   const socket = useRef();
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
+  console.log("auth", auth);
+
 
   useEffect(() => {
     socket.current = io("ws://localhost:8003");
 
     socket.current.on("connect", () => {
-      console.log("Socket connected:", socket.current.id); 
+      console.log("Socket connected:", socket.current.id);
       socket.current.emit("addUser", matrimonyProfileId);
     });
 
@@ -72,12 +81,12 @@ function App() {
     socket.current.on("getMessages", data => {
       console.log("Message received:", data);
       setSocketMessage({
-          senderId:data.senderId,
-          text: data.text, 
-          createdAt:data.createdAt
+        senderId: data.senderId,
+        text: data.text,
+        createdAt: data.createdAt
       });
-      
-  });
+
+    });
 
 
 
@@ -89,53 +98,187 @@ function App() {
     };
   }, [matrimonyProfileId]);
 
-  
 
-  
+
+
+
+  useEffect(() => {
+
+    const initialRun = async () => {
+      try {
+        const response = await axiosPrivate.get('/api/auth/getIds');
+        console.log("for initialRun", response.data);
+
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    initialRun();
+  }, []);
+
+
+
+
   return (
-    <Router>
+    <>
       <Routes>
-        <Route path="/" element={<Front />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={auth && Object.keys(auth).length ? <Home socket={socket} /> : <Front />} />
+        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home socket={socket} />} />
         <Route path="/sign" element={<SignUp />} />
         <Route path="/registration/:id" element={<Registration />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/payment2" element={<Payment2 />} />
-        <Route path="/other/:id" element={<Other />} />
-        <Route path="/job/employe" element={<Employe />} />
-        <Route path="/job/seeker" element={<JobSeeker />} />
         <Route path="/job" element={<Job />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/intrest" element={<Intrest />} />
-        <Route path="/buddysHomePage" element={isSocketInitialized && <Home socket={socket}/>} />
-        <Route path="/QualificationSortedPage" element={<QualificationSorting />} />
-        <Route path="/educationSortedPage" element={<EducationSort />} />
-        <Route path="/qualificationSorting" element={<QualificationSortingPage />} />
-        <Route path="/locationSorting" element={<LocationSortingPage />} />
-        <Route path="/designationSorting" element={<DesignationSortingPage />} />
-        <Route path="/viewedMyProfileSorting" element={<ViewedMyProfile />} />
-        <Route path="/sent" element={<SentPage />} />
-        <Route path="/accept" element={<AcceptPage />} />
-        <Route path="/reject" element={<RejectPage />} />
-        <Route path="/received" element={<ReceivedPage />} />
-        <Route path="/message" element={<Messages />} />
-        <Route path="/filter" element={<Filter />} />
-        <Route path="/preference" element={<PartnerPreference />} />
-        <Route path="/subscription" element={<SubscriptionPlan />} />
-        <Route path='/setting' element={<Settings Se="Settings" />} />
-        <Route path='/edit' element={<Edit Se="Edit My Profile" />} />
-        <Route path='/change' element={<Change Se="Change Password" />} />
-        <Route path="/shortlist" element={<Shortlist />} />
-        <Route path="/shortlistedby" element={<ShortlistedBy />} />
-        <Route path="/contacted" element={<Contacted />} />
-        <Route path="/viewed" element={<ViewedMyProfileActivity />} />
+        <Route path="/job/employe" element={<Employe />} />
+        <Route path="/job/seeker" element={<JobSeeker />} />
+
+
+        <Route path="/other/:id" element={
+          <ProtectedRoute>
+            <Other />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/buddysHomePage" element={
+          <ProtectedRoute>
+            <Home socket={socket} />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/QualificationSortedPage" element={
+          <ProtectedRoute>
+            <QualificationSorting />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/educationSortedPage" element={
+          <ProtectedRoute>
+            <EducationSort />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/qualificationSorting" element={
+          <ProtectedRoute>
+            <QualificationSortingPage />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/locationSorting" element={
+          <ProtectedRoute>
+            <LocationSortingPage />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/sent" element={
+          <ProtectedRoute>
+            <SentPage />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/accept" element={
+          <ProtectedRoute>
+            <AcceptPage />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/reject" element={
+          <ProtectedRoute>
+            <RejectPage />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/received" element={
+          <ProtectedRoute>
+            <ReceivedPage />
+          </ProtectedRoute>}
+        />
+
+
+        <Route path="/message" element={
+          <ProtectedRoute>
+            <Messages />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/filter" element={
+          <ProtectedRoute>
+            <Filter />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/preference" element={
+          <ProtectedRoute>
+            <PartnerPreference />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/subscription" element={
+          <ProtectedRoute>
+            <SubscriptionPlan />
+          </ProtectedRoute>}
+        />
+
+        <Route path='/setting' element={
+          <ProtectedRoute>
+            <Settings Se="Settings" />
+          </ProtectedRoute>}
+        />
+
+        <Route path='/edit' element={
+          <ProtectedRoute>
+            <Edit Se="Edit My Profile" />
+          </ProtectedRoute>}
+        />
+
+        <Route path='/change' element={
+          <ProtectedRoute>
+            <Change Se="Change Password" />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/shortlist" element={
+          <ProtectedRoute>
+            <Shortlist />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/shortlistedby" element={
+          <ProtectedRoute>
+            <ShortlistedBy />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/contacted" element={
+          <ProtectedRoute>
+            <Contacted />
+          </ProtectedRoute>}
+        />
+
+
+        <Route path="/viewed" element={
+          <ProtectedRoute>
+            <ViewedMyProfileActivity />
+          </ProtectedRoute>}
+        />
+
+        <Route path="/chat" element={
+          <ProtectedRoute>
+            <ChatRoomPage socket={socket} />
+          </ProtectedRoute>}
+        />
+        
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/payment2" element={<Payment2 />} />
+        {/* <Route path="/designationSorting" element={<DesignationSortingPage />} />
+        <Route path="/viewedMyProfileSorting" element={<ViewedMyProfile />} /> */}
+
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
-        <Route path="/privacySetting" element={<PrivacySettings/>}/>
-        <Route path="/chat" element={isSocketInitialized && <ChatRoomPage socket={socket} />} />
+        <Route path="/accessDenied" element={<AccessDeniedPage />} />
+        <Route path="/privacySetting" element={<PrivacySettings />} />
       </Routes>
-    </Router>
+    </>
   );
 }
 

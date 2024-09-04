@@ -3,9 +3,11 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {useContext, useState } from "react";
 import IdContext from "../../../context/IdContext";
+import { useAuth } from "../../../CustomApi/UseAuth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const [data, setData] = useState(
     {
       email: "",
@@ -16,13 +18,13 @@ const Login = () => {
   const loginData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-const {setUserId} = useContext(IdContext)
+
 
   const handleLogin = async () => {
     try {
       const response = await axios.post('http://localhost:8003/api/auth/login', data, { withCredentials: true });
       if (response.data.message === "login successful") {
-        console.log("Access token set in context:", response.data.accessToken); 
+        setAuth(response.data.accessToken)
         navigate('/buddysHomePage');
       } else {
         alert('Login failed. Please check your credentials and try again.');
@@ -34,8 +36,6 @@ const {setUserId} = useContext(IdContext)
   };
 
   
-
-  console.log(data);
 
 
   return (

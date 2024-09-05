@@ -39,68 +39,17 @@ import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
-import IdContext from "./context/IdContext.jsx";
-import { io } from 'socket.io-client'
-import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
 import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
 import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
 
 
-
-
-
 function App() {
-  const { matrimonyProfileId } = useContext(IdContext);
-  const { setSocketMessage } = useContext(SocketMessageContext);
   const { auth } = useContext(AuthContext)
   const axiosPrivate = useAxiosPrivate()
   const socket = useRef();
-  const [isSocketInitialized, setIsSocketInitialized] = useState(false);
   console.log("auth", auth);
-
-
-  useEffect(() => {
-    socket.current = io("ws://localhost:8003");
-
-    socket.current.on("connect", () => {
-      console.log("Socket connected:", socket.current.id);
-      socket.current.emit("addUser", matrimonyProfileId);
-    });
-
-    socket.current.on("getUsers", users => {
-      console.log("users from socket", users);
-    });
-
-
-
-    console.log("Socket object in app js:", socket);
-    setIsSocketInitialized(true);
-
-    socket.current.on("getMessages", data => {
-      console.log("Message received:", data);
-      setSocketMessage({
-        senderId: data.senderId,
-        text: data.text,
-        createdAt: data.createdAt
-      });
-
-    });
-
-
-
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-        console.log("Socket disconnected");
-      }
-    };
-  }, [matrimonyProfileId]);
-
-
-
-
 
   useEffect(() => {
 
@@ -143,7 +92,7 @@ function App() {
 
         <Route path="/buddysHomePage" element={
           <ProtectedRoute>
-            <Home socket={socket} />
+            <Home />
           </ProtectedRoute>
         } />
 
@@ -265,7 +214,8 @@ function App() {
 
         <Route path="/chat" element={
           <ProtectedRoute>
-            <ChatRoomPage socket={socket} />
+            <ChatRoomPage/>
+            {/* <ChatRoomPage socket={socket} /> */}
           </ProtectedRoute>}
         />
         

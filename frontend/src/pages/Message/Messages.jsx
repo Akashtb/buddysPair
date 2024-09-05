@@ -77,7 +77,7 @@ const Messages = () => {
         <div className="matches-wrapper">
           <div className="match-item">
             <img src={profileData.profilePic} alt="Match 1" />
-            {unreadMessages > 0 && <div className="unread-message-count">{unreadMessages}</div>}
+            {conversationArray?.length > 0 && <div className="unread-message-count">{conversationArray?.length}</div>}
           </div>
           {conversationArray?.map((message, index) => {
             return (

@@ -8,8 +8,9 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import ArrayOfChat from '../../components/ArrayOfChat/ArrayOfChat';
 import IdContext from '../../context/IdContext'
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate'
+import SocketContext from '../../context/SocketContext';
 
-const ChatRoomPage = ({socket}) => {
+const ChatRoomPage = () => {
 
   
   const [inputMessage, setInputMessage] = useState('');
@@ -21,23 +22,32 @@ const ChatRoomPage = ({socket}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { friendId,conversationArrayId,coversationDetails } = location.state || {}; 
+  const {socket} = useContext(SocketContext)
   const axiosPrivate = useAxiosPrivate()
 
   console.log('Friend ID:', friendId);
-  console.log('Conversation ID:', conversationArrayId);
-  console.log("coversationDetails",coversationDetails);
+  console.log("socket in chat room",socket);
+  
+  // console.log('Conversation ID:', conversationArrayId);
+  // console.log("coversationDetails",coversationDetails);
 
   useEffect(()=>{
+   
     socket.current.on("getMessages", data => {
-        console.log("Message received:", data);
-        setArrivalMessages({
-            senderId:data.senderId,
-            text: data.text, 
-            createdAt:data.createdAt
-        });
-        
-    });
+      console.log("Message received:", data);
+      setArrivalMessages({
+          senderId:data.senderId,
+          text: data.text, 
+          createdAt:data.createdAt
+      });
+      
+  });
+
 },[socket])
+
+console.log("arrived messages",arrivalMessages);
+
+
 
 useEffect(() => {
   if (arrivalMessages) {
@@ -70,7 +80,7 @@ useEffect(() => {
     }
   }, [conversationArrayId]);
 
-  console.log("messages", messages);
+  // console.log("messages", messages);
 
 
 

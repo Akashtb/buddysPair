@@ -5,9 +5,10 @@ import JobSeeker from "../models/Jobseker.js";
 
 
 export const creatEmployee = async (req, res) => {
+  
     try {
       const newEmployee = new Employee({
-        userId:req.params.id,
+        userId:req.user,
         company: req.body.company,
         designation: req.body.designation,
         location: req.body.location,

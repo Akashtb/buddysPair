@@ -9,7 +9,7 @@ import { axiosPrivate } from "../../../../CustomApi/Axios";
 // import { Link } from "react-router-dom";
 
 const Employe = () => {
-  const { registerId } = useContext(IdContext)
+
 
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const Employe = () => {
 
   const submitForm = async()=>{
     try {
-      const response = await axiosPrivate.post(`/api/employer/createEmployer/${registerId}`)
+      const response = await axiosPrivate.post(`/api/employee/createEmployee`,data)
       console.log(response.data)
       if(response.status === 201){
         toast.success("suucefully register")

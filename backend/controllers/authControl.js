@@ -114,13 +114,15 @@ export const Register = async (req, res) => {
 
   } catch (error) {
     console.error('Error during registration:', error.message); // Log the error message
-    res.status(500).json({ message: "Server error", error: error.message });
+    res.status(500).json({ message: "Your network is down", error: error.message });
   }
 };
 
 export const reRegisterProfile = async (req, res) => {
+  console.log("user id in register",req.user);
+  
   try {
-      const {id} = req.params
+      const id = req.user
       const updatedProfile = await User.findByIdAndUpdate(id, {
         age: req.body.age,
         gender: req.body.gender,

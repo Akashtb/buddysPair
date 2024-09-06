@@ -7,7 +7,7 @@ import IdContext from '../../context/IdContext';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
-
+ 
 const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
   console.log("socket in homeProfile",socket);
   

@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthContext.jsx";
 function ProtectedRoute({ children }) {
   const { auth } = useContext(AuthContext);
 
-  if (!auth || Object.keys(auth).length === 0 ) {
+  if (!auth || Object.keys(auth)?.length === 0 ) {
     return <Navigate to="/login" />;
   }
 

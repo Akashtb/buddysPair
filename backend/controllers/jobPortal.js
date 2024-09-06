@@ -23,7 +23,7 @@ export const creatEmployee = async (req, res) => {
 export const createEmployer = async(req,res)=>{
     try {
         const newEmployer = new Employer({
-            
+             
         });
         await newEmployer.save();
         res.status(201).json(newEmployer);
@@ -35,7 +35,7 @@ export const createEmployer = async(req,res)=>{
 export const createJobSeeker = async(req,res)=>{
     try{
         const NewJobSeeker = new JobSeeker({
-            userId:req.params.id,
+            userId:req.user,
             title:req.body.title,
             expertiseLevel:req.body.expertiseLevel
         })

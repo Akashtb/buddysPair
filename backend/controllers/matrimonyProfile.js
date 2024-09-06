@@ -6,11 +6,11 @@ import shortListMatrimonyProfile from "../models/shortList.js";
 import User from '../models/User.js'
 
 export const createProfile = async (req, res) => {
-    const userId = req.params.id;
-
+    console.log("createProfile req.user",req.user);
+    
     try {
 
-        const findUserData = await User.findById(userId);
+        const findUserData = await User.findById(req.user);
         console.log("findUserData", findUserData);
         const preferredGender = findUserData.gender === 'Male' ? 'Female' : 'Male';
         const profileData = {

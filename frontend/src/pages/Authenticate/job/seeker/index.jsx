@@ -3,14 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./seek.css";
-import useAxiosPrivate from "../../../../CustomApi/UseAxiosPrivate";
-import IdContext from "../../../../context/IdContext";
+import { axiosPrivate } from "../../../../CustomApi/Axios";
 
 const JobSeeker = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({ title: "", expertiseLevel: "" });
-  const axiosPrivate = useAxiosPrivate();
-  const { userId } = useContext(IdContext);
+ 
+  
 
   const dataChange = (e) => {
     setData({
@@ -27,7 +26,7 @@ const JobSeeker = () => {
 
     try {
       const response = await axiosPrivate.post(
-        `/api/jobSeeker/createJobSeeker/${userId}`,
+        `/api/jobSeeker/createJobSeeker`,
         data
       );
       if (response.status === 201) {

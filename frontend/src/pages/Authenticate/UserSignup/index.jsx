@@ -20,8 +20,11 @@ const SignUp = () => {
   const [showReg, setReg] = useState([]);
   const navigate = useNavigate();
   const {setRegisterId} = useContext(IdContext)
-  const [gamilOTPVerified,setGmailOTPVerified] = useState(false)
+  const [gmailOTPSent,setGmailOTPSent]=useState(false)
+  const [gmailOTPVerified,setGmailOTPVerified] = useState(false)
+  const [phoneNumberOtpSent,setPhonePhoneNumberOtpSent]=useState(false)
   const [phoneNumberOTPVerified,setPhoneNumberOTPVerified] = useState(false)
+
 
   // const [res, setRes] = useState();
   const [signupData, setSignupData] = useState({
@@ -46,10 +49,14 @@ const SignUp = () => {
   const generateGmailOtp = async () => {
     console.log(signupData.email);
     const email = signupData.email
+    if(!email){
+      toast.error('Please enter your email')
+    }
     try {
       const response = await axios.post('http://localhost:8003/api/auth/generate-otp', { email })
       console.log(response);
       if(response.data.message === "OTP sent successfully"){
+        setGmailOTPSent(true)
         toast.success('OTP sent successfully to your email');
       }else{
         toast.error('Failed to send OTP');
@@ -60,29 +67,41 @@ const SignUp = () => {
   }
 
   const verifyGmailOtp = async () => {
-    const email = signupData.email;
-    const otp = signupData.emailCode;
+    const { email, emailCode: otp } = signupData;
+  
+    if (!otp) {
+      toast.error('Please enter your Gmail OTP');
+      return; 
+    }
+  
+    if (!gmailOTPSent) {
+      toast.error("You didn't generate your email code");
+      return; 
+    }
+  
     try {
-      const response = await axios.post('http://localhost:8003/api/auth/verify-gmail-otp', { email, otp })
-      console.log(response);
+      const response = await axios.post('http://localhost:8003/api/auth/verify-gmail-otp', { email, otp });
+      
       if (response.data.message === 'OTP verified successfully') {
-        setGmailOTPVerified(true)
-        toast.success('OTP verified successfully ');
-      }else{
-        toast.error('Invalid OTP ')
+        setGmailOTPVerified(true);
+        toast.success('OTP verified successfully');
+      } else {
+        toast.error('Invalid OTP');
       }
     } catch (error) {
-      console.log(error);
+      console.error('Error verifying OTP:', error);
+      toast.error('Invalid gmail OTP');
     }
-  }
+  };
+  
 
   const sendOtp = async() => {
     const phoneNumber = `+91${signupData.phno}`;
-
     try {
       const response = await axios.post('http://localhost:8003/api/auth/send-otp', { phoneNumber });
       console.log(response.data);
       if (response.data.message === 'OTP send successfully') {
+        setPhonePhoneNumberOtpSent(true)
         toast.success('OTP sent successfully');
       } else {
         toast.error('Failed to send OTP. Please try again.');
@@ -98,6 +117,14 @@ const SignUp = () => {
     
     const phoneNumber = `+91${signupData.phno}`;
     const otp = signupData.phoneOTP 
+    if(!otp){
+      toast.error('Please enter OTP ')
+      return
+    }
+    if(!phoneNumberOtpSent){
+      toast.error(`You didn't generate your Phone number verification code `)
+      return
+    }
     try {
       const response = await axios.post('http://localhost:8003/api/auth/verify-otp', { phoneNumber, otp });
       console.log(response);
@@ -108,49 +135,60 @@ const SignUp = () => {
         toast.error('Invalid OTP. Please try again.');
       }
     } catch (error) {
-      toast.error('Invalid OTP. Please try again2.');
+      toast.error('Invalid OTP. Please try again.');
       console.error('OTP verification error:', error);
     }
   };
 
   const registration = async () => {
+   
+    if (!gmailOTPVerified) {
+      toast.error("Please verify OTP for your email");
+      return;  
+    }
+  
+    if (!phoneNumberOTPVerified) {
+      toast.error("Please verify OTP from your phone number");
+      return;  
+    }
+  
     try {
+      
       const { emailCode, phoneOTP, ...otherDetails } = signupData;
       console.log(otherDetails);
-  
-      // Send data to the backend for registration
-      const response = await axios.post('http://localhost:8003/api/auth/register', otherDetails,{withCredentials:true});
-      const userId = response.data.user
+    
+      
+      const response = await axios.post('http://localhost:8003/api/auth/register', otherDetails, { withCredentials: true });
+      const userId = response.data.user;
       console.log(response.data);
-  
+    
+      
       if (response.data.message === 'User already exists') {
-        toast.error('Email is taken');
+        toast.error('Email is already taken');
       } else if (response.data.message === 'Passwords do not match') {
         toast.error('Passwords do not match');
       } else if (response.status === 201) {
         toast.success('User registered successfully');
-        setRegisterId(userId)
-        navigate(`/registration/${userId}`); // Redirect to login or another page
+        setRegisterId(userId);  
+        navigate(`/registration/${userId}`);  
       }
     } catch (error) {
-      // Handle AxiosError specifically
+     
       if (error.response) {
-
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log('Response error data:', error.response.data);
-        console.log('Response error status:', error.response.status);
-        console.log('Response error headers:', error.response.headers);
-  
-        // Extract the message from the error response and display it
+       
+        console.error('Response error data:', error.response.data);
+        console.error('Response error status:', error.response.status);
+        console.error('Response error headers:', error.response.headers);
+    
+        
         toast.error(error.response.data.message || 'Registration failed. Please try again.');
       } else if (error.request) {
-        // The request was made but no response was received
-        console.log('Request error data:', error.request);
+        
+        console.error('Request error data:', error.request);
         toast.error('No response from server. Please try again.');
       } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log('Error message:', error.message);
+        
+        console.error('Error message:', error.message);
         toast.error('An unexpected error occurred. Please try again.');
       }
     }

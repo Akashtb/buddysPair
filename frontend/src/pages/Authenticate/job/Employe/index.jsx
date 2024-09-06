@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./employe.css";
 import IdContext from "../../../../context/IdContext";
-import useAxiosPrivate from "../../../../CustomApi/UseAxiosPrivate";
+import { axiosPrivate } from "../../../../CustomApi/Axios";
 
 // import { Link } from "react-router-dom";
 
@@ -18,9 +18,6 @@ const Employe = () => {
     location:"",
     company:""
   });
-  const axiosPrivate = useAxiosPrivate();
-  const{userId}=useContext(IdContext)
-  console.log(userId);
   
 
 

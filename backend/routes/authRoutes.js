@@ -4,7 +4,7 @@ import twilio from 'twilio'
 import dotenv from 'dotenv'
 import jwt from "jsonwebtoken"
 import { Login, Register, generateOTP, getIds, getUserData, logOut, otp_sent, reRegisterProfile, refreshToken, updatePassword, verifyOTP, verify_otp } from "../controllers/authControl.js"
-import {  verifyRegister, verifyToken, verifyUser } from "../utils/verifyToken.js"
+import {  verifyRegister, verifyRegisterToken, verifyToken, verifyUser } from "../utils/verifyToken.js"
 import { createError } from "../utils/error.js"
 
 const router = express.Router()
@@ -22,7 +22,7 @@ router.get('/refreshToken', refreshToken)
 
 router.post('/register', Register)
 
-router.patch('/reRegistration/:id',reRegisterProfile)
+router.patch('/reRegistration/:id',verifyRegisterToken,reRegisterProfile)
 
 router.post('/updatePassword/:id',verifyUser,updatePassword)
 

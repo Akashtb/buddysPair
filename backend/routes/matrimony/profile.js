@@ -1,9 +1,9 @@
 import express from 'express'
 import { acceptRequest, addViewedProfile, cancelSentRequest, cancelShortListTheProfile, createProfile, findConnectionStatus, getProfileByUserID, listOfAccepted, listOfRejection, listOfSentRequest, listOfUserViwedMyProfile, nearbyProfile, professionProfile, qualificationProfile, rejectTheRequest, requestListOfUser, reRegisterProfile, searchProfiles, sendRequest, shortListedList, shortListedListedBy, shortListedListOfAUser, shortListTheProfile, sortedProfile, updateProfile, viewAUser } from '../../controllers/matrimonyProfile.js'
-import { verifyProfile, verifyUser } from '../../utils/verifyToken.js';
+import { verifyProfile, verifyRegisterToken, verifyUser } from '../../utils/verifyToken.js';
 const router = express.Router()
 
-router.post('/createProfile/:id',createProfile)
+router.post('/createProfile',verifyRegisterToken,createProfile)
 router.get('/searchProfiles', searchProfiles);
 router.get('/getProfile/:id',viewAUser);
 router.put('/updatetheProfile/:id',updateProfile)
@@ -15,7 +15,7 @@ router.get('/getProfileByUserID/:id',verifyUser,getProfileByUserID)
 // router.get('/listOfRequests/:profileId',requestListOfUser)
 router.get('/listOfRequests/:id',verifyProfile, requestListOfUser);
 router.put('/viewedOtherProfile/:id',verifyProfile,addViewedProfile)
-router.get('/viewedList/:id',listOfUserViwedMyProfile)
+router.get('/viewedList/:id',verifyProfile,listOfUserViwedMyProfile)
 router.get('/listOfSentRequest/:id',verifyProfile,listOfSentRequest)
 router.get('/listOfAccepted/:id',verifyProfile,listOfAccepted)
 router.get('/listOfRejection/:id',verifyProfile,listOfRejection)

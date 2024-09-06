@@ -43,11 +43,13 @@ import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
 import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
+import IdContext from "./context/IdContext.jsx";
+import { axiosPrivate } from "./CustomApi/Axios.jsx";
 
 
 function App() {
   const { auth } = useContext(AuthContext)
-  const axiosPrivate = useAxiosPrivate()
+  const{matrimonyProfileId} = useContext(IdContext)
   const socket = useRef();
   console.log("auth", auth);
 
@@ -63,8 +65,10 @@ function App() {
       }
     };
 
-    initialRun();
-  }, []);
+    if(matrimonyProfileId){
+      initialRun();
+    }
+  }, [matrimonyProfileId]);
 
 
 

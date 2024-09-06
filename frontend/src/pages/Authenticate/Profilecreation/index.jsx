@@ -4,19 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./profile.css";
-import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
+
 import { useContext } from "react";
 import IdContext from "../../../context/IdContext";
+import { axiosPrivate } from "../../../CustomApi/Axios";
 
 const Profile = () => {
 
-  const { registerId,setRegisterId } = useContext(IdContext)
-
-  console.log("registerId",registerId);
-  
-  const axiosPrivate = useAxiosPrivate();
+  const {setRegisterId } = useContext(IdContext)
   const navigate = useNavigate();
-
   const [reRegistrationData, setreRegistrationData] = useState({
     state: "",
     district: "",
@@ -55,7 +51,7 @@ const Profile = () => {
 
   const profileReRegistraion = async()=>{
     try {
-      const response = await axiosPrivate.post(`/api/matrimony/profile/createProfile/${registerId}`,reRegistrationData)
+      const response = await axiosPrivate.post(`/api/matrimony/profile/createProfile`,reRegistrationData)
       console.log(response.data);
       if(response.status === 201){
         await axiosPrivate.post('/api/auth/logout');

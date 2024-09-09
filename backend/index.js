@@ -85,11 +85,15 @@ const io = new SocketIO(server, {
   }
 });
 
+
+app.set('socketio', io);
+
 let users = [];
 
 
 const addUser = async (profileId, socketId) => {
   const existingUser = users.find(user => user.profileId === profileId);
+  
 
   if (!existingUser) {
     users.push({ profileId, socketId });
@@ -134,7 +138,7 @@ const removeUser = async (socketId) => {
   }
 };
 
-const getUser = (profileId) => {
+export const getUser = (profileId) => {
   return users.find(user => user.profileId === profileId);
 };
 
@@ -142,7 +146,7 @@ io.on("connection", (socket) => {
   console.log("Someone is connected");
 
   socket.on("addUser", profileId => {
-    addUser(profileId, socket.id);
+    addUser(profileId, socket.id); 
     io.emit("getUsers", users);
     console.log("userList", users);
   });

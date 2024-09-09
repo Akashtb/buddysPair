@@ -15,12 +15,13 @@ import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
 import { toast, useToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import SocketContext from '../../context/SocketContext';
 
 const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificationProfileList,setQualificationProfileList,designationProfileList,setDesignationProfileList}) => {
-  console.log(`profile ${profile.firstName} online status`, profile.isOnline);
-  console.log(`nearByProfileList in sortedProfileCard`,nearByProfileList);
-  console.log(`qulificationProfileList in sortedProfileCard`, qulificationProfileList);
-  console.log(`designationProfileList in sortedProfileCard`, designationProfileList);
+  // console.log(`profile ${profile.firstName} online status`, profile.isOnline);
+  console.log(`nearByProfileList in sortedProfileCard`,profile);
+  // console.log(`qulificationProfileList in sortedProfileCard`, qulificationProfileList);
+  // console.log(`designationProfileList in sortedProfileCard`, designationProfileList);
 
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
@@ -31,18 +32,85 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   const [acceptOrReject, setAcceptOrReject] = useState(false)
 
   const navigate = useNavigate()
-
+  const {socket} = useContext(SocketContext)
+ 
   const reDirectToProfile =()=>{
     navigate(`/other/${profile._id}`)
   }
+
+  // console.log("socket in homepage",socket.current);
+    
+  useEffect(() => { 
+    if (socket.current) {
+      socket.current.on('requestReceived', ({ fromUID, toUID, fromUIDFullName }) => {        
+        if (fromUID === profile._id) {
+          toast.info(`${fromUIDFullName} has sent you a request new.`);
+          setConnectionStatus(prev => ({ ...prev, status: 'pending' }));
+        }
+      });
+  
+      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
+        if (fromUID === profile._id) {
+          toast.info(`${fromUIDFullName} has cancel you a request new.`);
+          setConnectionStatus(prev => ({ ...prev, status: 'not_found' }));
+        }
+      });
+
+      socket.current.on('acceptRequest', ({ requestFromId, requestToId, toUIDFullName }) => {
+        if (String(requestToId) === String(profile?._id)) {
+          toast.info(`${toUIDFullName} has accepted your request`);
+          
+          if (Array.isArray(nearByProfileList)) {
+            const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(requestToId));
+            setNearByProfileList([...updatedNearByList]);  
+          }
+          if (Array.isArray(qulificationProfileList)) {
+            const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(requestToId));
+            setQualificationProfileList([...updatedQualificationList]);
+          } 
+          if (Array.isArray(designationProfileList)) {
+            const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(requestToId));
+            setDesignationProfileList([...updatedDesignationList]);
+          }
+        }
+      });
+
+      socket.current.on('rejectRequest',({requestFromId, requestToId, toUIDFullName })=>{
+        if (String(requestToId) === String(profile?._id)) {
+          toast.info(`${toUIDFullName} has reject your request`)
+          if (Array.isArray(nearByProfileList)) {
+            const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(requestToId));
+            setNearByProfileList([...updatedNearByList]);  
+          }
+          if (Array.isArray(qulificationProfileList)) {
+            const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(requestToId));
+            setQualificationProfileList([...updatedQualificationList]);
+          } 
+          if (Array.isArray(designationProfileList)) {
+            const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(requestToId));
+            setDesignationProfileList([...updatedDesignationList]);
+          }
+        }
+      })
+  
+      // Clean up listener on component unmount
+      return () => {
+        socket.current.off('requestReceived');
+        socket.current.off('cancelReceived');
+        socket.current.off('acceptRequest');
+        socket.current.off('rejectRequest');
+      };
+    }
+  }, [socket.current,profile._id,matrimonyProfileId]);
+  
 
 
   useEffect(() => {
     const findConnectionStatus = async () => {
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/connection-status/${matrimonyProfileId}/${profile._id}`);
-        console.log("connectionStatus", response);
-        console.log("acceptOrReject", acceptOrReject);
+        // console.log("connectionStatus", response);
+        // console.log("acceptOrReject", acceptOrReject);
 
         setConnectionStatus(response.data)
       } catch (error) {
@@ -171,12 +239,17 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   const handleReject = async () => {
     try {
       await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, { requestFromId: profile._id })
-      if(nearByProfileList){
-        setNearByProfileList(nearByProfileList.filter(p => p._id !== profile._id));
-      }else if(qulificationProfileList){
-        setQualificationProfileList(qulificationProfileList.filter(p => p._id !== profile._id));
-      }else{
-        setDesignationProfileList(designationProfileList.filter(p => p._id !== profile._id));
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
+        setNearByProfileList([...updatedNearByList]);             
+      } 
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
+        setQualificationProfileList([...updatedQualificationList]);
+      } 
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
+        setDesignationProfileList([...updatedDesignationList]);
       }
       setAcceptOrReject(true)
       SetNoLikeIcon(true)
@@ -192,12 +265,18 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   const handleAccept = async () => {
     try {
       await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, { requestFromId: profile._id })
-      if(nearByProfileList){
-        setNearByProfileList(nearByProfileList.filter(p => p._id !== profile._id));
-      }else if(qulificationProfileList){
-        setQualificationProfileList(qulificationProfileList.filter(p => p._id !== profile._id));
-      }else{
-        setDesignationProfileList(designationProfileList.filter(p => p._id !== profile._id));
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
+        setNearByProfileList([...updatedNearByList]);             
+      } 
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
+        setQualificationProfileList([...updatedQualificationList]);
+        console.log("filter is applied ........");
+      } 
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
+        setDesignationProfileList([...updatedDesignationList]);
       }
       setAcceptOrReject(true)
       SetNoLikeIcon(true)

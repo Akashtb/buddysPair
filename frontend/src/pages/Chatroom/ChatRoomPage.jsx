@@ -14,7 +14,7 @@ const ChatRoomPage = () => {
 
   
   const [inputMessage, setInputMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); 
   const messagesEndRef = useRef(null);
   const [arrivalMessages, setArrivalMessages] = useState(null)
   const [user, setUser] = useState(null)

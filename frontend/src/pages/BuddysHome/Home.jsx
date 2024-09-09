@@ -84,10 +84,10 @@ const Home = ({socket}) => {
             />
           </div>
           <div className={`profileCardContainer2 ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
-            {nearByProfileList.map((nearByProfileList, index) => (
+            {nearByProfileList.map((profile, index) => (
               <ProfileCard 
               key={index} 
-              profile={nearByProfileList} 
+              profile={profile} 
               setNearByProfileList={setNearByProfileList} 
               nearByProfileList={nearByProfileList}/>
             ))}

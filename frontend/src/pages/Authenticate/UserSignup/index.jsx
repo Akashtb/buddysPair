@@ -203,18 +203,18 @@ const SignUp = () => {
         <div className="insert">
 
           <label htmlFor="">
-            First Name <input type="text" name="firstName" onChange={dataChange} />
+            First Name <input type="text" name="firstName" onChange={dataChange} required/>
             <span style={{ color: "red" }}>{showReg}</span>
           </label>
 
           <label htmlFor="">
-            Last Name <input type="text" name="lastName" onChange={dataChange} />
+            Last Name <input type="text" name="lastName" onChange={dataChange} required/>
             <span style={{ color: "red" }}>{showReg}</span>
           </label>
 
           <label htmlFor="">
             Username{" "}
-            <input type="text" name="username" onChange={dataChange} />
+            <input type="text" name="username" onChange={dataChange} required/>
             <span style={{ color: "red" }}>{showReg}</span>
           </label>
 

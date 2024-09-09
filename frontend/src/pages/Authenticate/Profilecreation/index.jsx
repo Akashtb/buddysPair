@@ -80,7 +80,7 @@ const Profile = () => {
               placeholder="About"
               type="text"
               name="aboutMe"
-              onChange={dataChange}
+              onChange={dataChange}  
             ></textarea>
             <br />{" "}
             <select name="martialStatus" onChange={dataChange}>

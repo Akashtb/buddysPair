@@ -588,28 +588,22 @@ export const nearbyProfile = async (req, res) => {
     const profileId = req.params.id;
 
     try {
-        // Fetch the user's profile
         const userProfile = await Profile.findById(profileId);
 
-        // Ensure the user's profile was found
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender } = userProfile.preference;
+        const { gender } = userProfile.preference;
 
-        // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                district,
+                district:userProfile.district,
                 gender,
-                // religion,
-                age: { $gte: fromAge, $lte: toAge },
-                height: { $gte: fromHeight, $lte: toHeight },
                 _id: { $ne: profileId },
             },
         );
+        
 
-        // Find all connections where the user is involved
         const connections = await MatrimonyProfileconnection.find({
             $or: [
                 { fromUID: profileId },
@@ -621,21 +615,18 @@ export const nearbyProfile = async (req, res) => {
         const connectedProfileIds = connections.map(connection =>
             connection.fromUID.toString() === profileId ? connection.toUID.toString() : connection.fromUID.toString()
         );
-
-        // Filter nearby profiles to get only those:
-        // 1. Not found in the connected profile list
-        // 2. Found in the connected profile list with a "pending" status
+     
         const filteredProfiles = nearbyProfiles.filter(profile => {
             const isConnected = connectedProfileIds.includes(profile._id.toString());
 
             if (!isConnected) {
-                return true; // Profile is not connected at all
+                return true; 
             } else {
                 const connection = connections.find(conn =>
                     (conn.fromUID.toString() === profileId && conn.toUID.toString() === profile._id.toString()) ||
                     (conn.toUID.toString() === profileId && conn.fromUID.toString() === profile._id.toString())
                 );
-                return connection.status === 'pending'; // Profile is connected but with pending status
+                return connection.status === 'pending'; 
             }
         });
 
@@ -657,16 +648,13 @@ export const qualificationProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification } = userProfile.preference;
+        const { gender} = userProfile.preference;
 
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                qualification,
+                qualification:userProfile.qualification,
                 gender,
-                // religion,
-                age: { $gte: fromAge, $lte: toAge },
-                height: { $gte: fromHeight, $lte: toHeight },
                 _id: { $ne: profileId },
             },
         );
@@ -719,16 +707,13 @@ export const professionProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { fromAge, toAge, religion, fromHeight, toHeight, gender, profession } = userProfile.preference;
+        const { gender } = userProfile.preference;
 
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                profession,
+                profession:userProfile.profession,
                 gender,
-                // religion,
-                age: { $gte: fromAge, $lte: toAge },
-                height: { $gte: fromHeight, $lte: toHeight },
                 _id: { $ne: profileId },
             },
         );
@@ -851,9 +836,24 @@ export const sortedProfile = async (req, res) => {
     const profileId = req.params.id;
 
     try {
+        const userProfile = await Profile.findById(profileId);
+        console.log(userProfile);
+        
+
+        if (!userProfile) {
+            return res.status(404).json({ message: 'user Profile not found' });
+        }
+        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification,profession } = userProfile.preference;
 
         const nearbyProfiles = await Profile.find(
             {
+                district,
+                qualification,
+                profession,
+                // religion,
+                age: { $gte: fromAge, $lte: toAge },
+                height: { $gte: fromHeight, $lte: toHeight },
+                gender,
                 _id: { $ne: profileId },
             },
         );

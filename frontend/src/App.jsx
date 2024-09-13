@@ -44,14 +44,17 @@ import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
 import IdContext from "./context/IdContext.jsx";
+import SocketContext from "./context/SocketContext.jsx";
+import { toast } from "react-toastify";
 
 
 function App() {
   const { auth } = useContext(AuthContext)
   const{matrimonyProfileId} = useContext(IdContext)
   const axiosPrivate = useAxiosPrivate()
-  const socket = useRef();
-  console.log("auth", auth);
+  const{socket} = useContext(SocketContext)
+
+  console.log("socket", socket);
 
   useEffect(() => {
 
@@ -68,7 +71,35 @@ function App() {
     if(matrimonyProfileId){
       initialRun();
     }
+
+    
+    
   }, [matrimonyProfileId]);
+
+  useEffect(()=>{
+    
+    if(socket?.current){
+      socket.current.on("requestReceived", ({ fromUID, toUID, fromUIDFullName }) => {
+        console.log("requestReceived event fired on socket ");
+        if (toUID === matrimonyProfileId) {
+          toast.info(`${fromUIDFullName} has sent you a new request on context.`);
+        }
+      });
+
+      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
+        if (requestToId === matrimonyProfileId) {
+          toast.info(`${fromUIDFullName} has cancel you a request new.`);
+        }
+      });
+
+      return () => {
+        if(socket.current){
+          socket.current.off('requestReceived');
+          socket.current.off('cancelReceived');
+        }
+      };
+    }
+  },[socket.current,matrimonyProfileId])
 
 
 
@@ -77,7 +108,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={auth && Object.keys(auth).length ? <Home socket={socket} /> : <Front />} />
-        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home socket={socket} />} />
+        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home  />} />
         <Route path="/sign" element={<SignUp />} />
         <Route path="/registration/:id" element={<Registration />} />
         <Route path="/profile" element={<Profile />} />

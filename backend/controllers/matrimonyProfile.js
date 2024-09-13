@@ -237,11 +237,10 @@ export const sendRequest = async (req, res) => {
 
         const io = req.app.get('socketio');
         const user = getUser(toUID);
-        console.log("user", user);
-
         if (user) {
             const socketId = user.socketId;
             io.to(socketId).emit('requestReceived', { fromUID, toUID, fromUIDFullName });
+            console.log(`User with id ${toUID} `);
         } else {
             console.log(`User with id ${toUID} not connected.`);
         } res.status(200).json({ message: "Request sent successfully" });

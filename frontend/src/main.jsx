@@ -19,9 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
          <SocketProvider>
             <Router>
               <App />
+              <ToastContainer />
               </Router>
          </SocketProvider>
-          <ToastContainer />
         </SocketMessageProvider>
       </IdProvider>
     </AuthProvider>

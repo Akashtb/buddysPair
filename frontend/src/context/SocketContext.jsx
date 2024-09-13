@@ -1,6 +1,7 @@
 import React, { createContext, useRef, useEffect, useState, useContext } from 'react';
 import { io } from 'socket.io-client';
 import IdContext from './IdContext';
+import { toast } from 'react-toastify';
 
 const SocketContext = createContext();
 
@@ -38,6 +39,9 @@ export const SocketProvider = ({ children }) => {
 
 
 
+   
+
+   
     return () => {
       if (socket.current) {
         socket.current.disconnect();

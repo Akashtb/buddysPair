@@ -235,6 +235,8 @@ export const sendRequest = async (req, res) => {
         const fromUIDProfile = await Profile.findById(fromUID)
         const fromUIDFullName = `${fromUIDProfile.firstName} ${fromUIDProfile.lastName}`;
 
+        const time = new Date().toISOString();  
+
         const io = req.app.get('socketio');
         const user = getUser(toUID);
         console.log("user", user);
@@ -242,6 +244,7 @@ export const sendRequest = async (req, res) => {
         if (user) {
             const socketId = user.socketId;
             io.to(socketId).emit('requestReceived', { fromUID, toUID, fromUIDFullName });
+            io.to(socketId).emit('requestNotification',{fromUID, toUID, fromUIDFullName,time})
         } else {
             console.log(`User with id ${toUID} not connected.`);
         } res.status(200).json({ message: "Request sent successfully" });
@@ -281,6 +284,7 @@ export const cancelSentRequest = async (req, res) => {
             if (user) {
                 const socketId = user.socketId;
                 io.to(socketId).emit('cancelReceived', { fromUID, requestToId, fromUIDFullName });
+                io.to(socketId).emit('cancelRequestNotification', { fromUID, requestToId, fromUIDFullName });
             } else {
                 console.log(`User with id ${requestToId} not connected.`)
             } res.status(200).json({ message: "Request cancelled successfully" });
@@ -340,12 +344,16 @@ export const acceptRequest = async (req, res) => {
             const toUIDProfile = await Profile.findById(requestToId)
             const toUIDFullName = `${toUIDProfile.firstName} ${toUIDProfile.lastName}`;
 
+            const time = new Date().toISOString();
+
             const io = req.app.get('socketio');
             const user = getUser(requestFromId);
 
             if(user){
                 const socketId = user.socketId;
                 io.to(socketId).emit('acceptRequest', { requestFromId, requestToId, toUIDFullName });
+                io.to(socketId).emit('acceptRequestNotification', { requestFromId, requestToId, toUIDFullName,time });
+
             }else{
                 console.log(`User with id ${requestFromId} not connected.`);
             }return res.status(200).json({ message: "Request accepted successfully" });
@@ -388,12 +396,16 @@ export const rejectTheRequest = async (req, res) => {
             const toUIDProfile = await Profile.findById(requestToId)
             const toUIDFullName = `${toUIDProfile.firstName} ${toUIDProfile.lastName}`;
 
+            const time = new Date().toISOString();
+
             const io = req.app.get('socketio');
             const user = getUser(requestFromId);
 
             if(user){
                 const socketId = user.socketId;
                 io.to(socketId).emit('rejectRequest', { requestFromId, requestToId, toUIDFullName });
+                io.to(socketId).emit('rejectRequestNotification', { requestFromId, requestToId, toUIDFullName,time});
+
             }else{
                 console.log(`User with id ${requestFromId} not connected.`);
             }return res.status(200).json({ message: "Request rejected successfully" });

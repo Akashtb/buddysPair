@@ -10,6 +10,37 @@
    
 }
 
+.notification-subcontainer {
+    max-height: 600px; /* Adjust height based on your needs */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-right: 10px; /* Add some padding to avoid clipping of scrollbar */
+}
+
+/* Style for scrollbar in WebKit browsers (Chrome, Safari) */
+.notification-subcontainer::-webkit-scrollbar {
+    width: 6px; /* Thin scrollbar width */
+}
+
+.notification-subcontainer::-webkit-scrollbar-button {
+    display: none; /* Hides scrollbar arrows */
+}
+
+.notification-subcontainer::-webkit-scrollbar-thumb {
+    background-color: #7B1FA2; /* Color of the scrollbar thumb */
+    border-radius: 10px; /* Rounded edges for a smoother look */
+}
+
+.notification-subcontainer::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Background color of the scrollbar track */
+    border-radius: 10px;
+}
+
+/* Firefox scrollbar styling */
+.notification-subcontainer {
+    scrollbar-width: thin; /* Makes the scrollbar thin */
+    scrollbar-color: #7B1FA2 #f1f1f1; /* Thumb color and track color */
+}
+
 .notification-item {
     margin-bottom: 15px;
     padding: 10px;

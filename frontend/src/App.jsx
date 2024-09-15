@@ -44,12 +44,21 @@ import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
 import IdContext from "./context/IdContext.jsx";
+import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
 
 
 function App() {
   const { auth } = useContext(AuthContext)
   const{matrimonyProfileId} = useContext(IdContext)
   const axiosPrivate = useAxiosPrivate()
+  const {socketMessage, setSocketMessage, receivedRequest, setReceivedRequest,acceptedRequest, setAcceptedRequest,rejectRequest, setRejectedRequest} = useContext(SocketMessageContext)
+  console.log("receivedRequest",receivedRequest);
+  // console.log("acceptedRequest",acceptedRequest);
+  // console.log("rejectRequest",rejectRequest);
+  // console.log("socketMessage",socketMessage);
+  
+
+
   const socket = useRef();
   console.log("auth", auth);
 

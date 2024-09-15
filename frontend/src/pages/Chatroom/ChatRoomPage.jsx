@@ -22,11 +22,12 @@ const ChatRoomPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { friendId,conversationArrayId,coversationDetails } = location.state || {}; 
+  const [currentUser,setCurrentUser]= useState({})
   const {socket} = useContext(SocketContext)
   const axiosPrivate = useAxiosPrivate()
 
-  console.log('Friend ID:', friendId);
-  console.log("socket in chat room",socket);
+  // console.log('Friend ID:', friendId);
+  // console.log("socket in chat room",socket);
   
   // console.log('Conversation ID:', conversationArrayId);
   // console.log("coversationDetails",coversationDetails);
@@ -34,7 +35,7 @@ const ChatRoomPage = () => {
   useEffect(()=>{
    
     socket.current.on("getMessages", data => {
-      console.log("Message received:", data);
+      // console.log("Message received:", data);
       setArrivalMessages({
           senderId:data.senderId,
           text: data.text, 
@@ -45,19 +46,19 @@ const ChatRoomPage = () => {
 
 },[socket])
 
-console.log("arrived messages",arrivalMessages);
+// console.log("arrived messages",arrivalMessages);
 
 
 
 useEffect(() => {
-  if (arrivalMessages) {
-      console.log("arrivalMessages is confirm", arrivalMessages);
-  } else {
-      console.log("No new messages");
-  }
+  // if (arrivalMessages) {
+  //     console.log("arrivalMessages is confirm", arrivalMessages);
+  // } else {
+  //     console.log("No new messages");
+  // }
 
   arrivalMessages && coversationDetails?.members.includes(arrivalMessages.senderId) && setMessages((prev) => [...prev, arrivalMessages]);
-  console.log("message after checking conditions",messages);
+  // console.log("message after checking conditions",messages);
   
 }, [arrivalMessages, coversationDetails]);
 
@@ -66,6 +67,8 @@ useEffect(() => {
   useEffect(() => {
     const getMessages = async () => {
       try {
+        const currentUserProfile = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${matrimonyProfileId}`)
+        setCurrentUser(currentUserProfile.data)
         const profiledata = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${friendId}`)
         setUser(profiledata.data)
         const response = await axios.get(`http://localhost:8003/api/matrimony/messages/${conversationArrayId}`)
@@ -94,28 +97,29 @@ useEffect(() => {
         text:inputMessage,
         conversationId:conversationArrayId
       }
-      console.log("message sent my sender",message);
+      // console.log("message sent my sender",message);
 
       const receiverId = coversationDetails?.members.find(member => member !== matrimonyProfileId);
       if (!receiverId) {
           console.error("Receiver ID is not found");
           return;
       }
-      console.log('Sending message to receiverId:', receiverId);
+      // console.log('Sending message to receiverId:', receiverId);
     
 
-      socket.current.emit("sendMessage", {
+      socket.current.emit("sendMessage", { 
         senderId: matrimonyProfileId,
+        senderName: `${currentUser.firstName} ${currentUser.lastName}`,
         receiverId: receiverId,
         text: inputMessage,
-    });
-    console.log("messages after sending",messages);
+      });
+    // console.log("messages after sending",messages);
 
       try {
         console.log("req body for send message", message);
         const response = await axios.post(`http://localhost:8003/api/matrimony/messages/${matrimonyProfileId}`, message);
         setMessages([...messages, response.data]);
-        console.log('Message sent:', response.data);
+        // console.log('Message sent:', response.data);
         setInputMessage('');
     } catch (error) {
         console.log(error);

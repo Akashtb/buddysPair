@@ -19,7 +19,7 @@ import SocketContext from '../../context/SocketContext';
 
 const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificationProfileList,setQualificationProfileList,designationProfileList,setDesignationProfileList}) => {
   // console.log(`profile ${profile.firstName} online status`, profile.isOnline);
-  console.log(`nearByProfileList in sortedProfileCard`,profile);
+  // console.log(`nearByProfileList in sortedProfileCard`,profile);
   // console.log(`qulificationProfileList in sortedProfileCard`, qulificationProfileList);
   // console.log(`designationProfileList in sortedProfileCard`, designationProfileList);
 
@@ -42,9 +42,10 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
     
   useEffect(() => { 
     if (socket.current) {
-      socket.current.on('requestReceived', ({ fromUID, toUID, fromUIDFullName }) => {        
+      socket.current.on('requestReceived', ({ fromUID, toUID, fromUIDFullName }) => {   
+        console.log("requestReceived event fired");     
         if (fromUID === profile._id) {
-          toast.info(`${fromUIDFullName} has sent you a request new.`);
+          // toast.info(`${fromUIDFullName} has sent you a request new.`);
           setConnectionStatus(prev => ({ ...prev, status: 'pending' }));
         }
       });
@@ -58,7 +59,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
 
       socket.current.on('acceptRequest', ({ requestFromId, requestToId, toUIDFullName }) => {
         if (String(requestToId) === String(profile?._id)) {
-          toast.info(`${toUIDFullName} has accepted your request`);
+          // toast.info(`${toUIDFullName} has accepted your request`);
           
           if (Array.isArray(nearByProfileList)) {
             const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(requestToId));
@@ -77,7 +78,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
 
       socket.current.on('rejectRequest',({requestFromId, requestToId, toUIDFullName })=>{
         if (String(requestToId) === String(profile?._id)) {
-          toast.info(`${toUIDFullName} has reject your request`)
+          // toast.info(`${toUIDFullName} has reject your request`)
           if (Array.isArray(nearByProfileList)) {
             const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(requestToId));
             setNearByProfileList([...updatedNearByList]);  
@@ -101,7 +102,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
         socket.current.off('rejectRequest');
       };
     }
-  }, [socket.current,profile._id,matrimonyProfileId]);
+  }, [socket.current,matrimonyProfileId]);
   
 
 

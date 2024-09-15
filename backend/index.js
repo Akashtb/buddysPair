@@ -151,7 +151,7 @@ io.on("connection", (socket) => {
     console.log("userList", users);
   });
 
-  socket.on("sendMessage", ({ senderId, receiverId, text }) => {
+  socket.on("sendMessage", ({ senderId, receiverId,senderName, text }) => {
     console.log('Received sendMessage event:', { senderId, receiverId, text });
     console.log("Current user list in sendMessage:", users);
     const user = getUser(receiverId);
@@ -160,6 +160,13 @@ io.on("connection", (socket) => {
       console.log(`Sending message from ${senderId} to ${receiverId}: ${text}`);
       io.to(user.socketId).emit("getMessages", {
         senderId,
+        text,
+        createdAt: Date.now(), 
+      });
+      io.to(user.socketId).emit("getMessagesNotification", {
+        senderId,
+        senderName,
+        receiverId,
         text,
         createdAt: Date.now(),
       });

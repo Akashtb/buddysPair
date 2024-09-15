@@ -6,7 +6,7 @@ const BuddyNotification = ({socket}) => {
     return (
         <div className='notification-container'>
             <div className="notification-subcontainer">
-                <BuddyNotifications socket={socket}/>
+                <BuddyNotifications/>
             </div>
         </div>
     );

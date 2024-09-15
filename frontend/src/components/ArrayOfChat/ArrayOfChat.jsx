@@ -1,7 +1,7 @@
 import React from 'react'
 
 function ArrayOfChat({message,own}) {
-    console.log("each message",message);
+    // console.log("each message",message);
     
   return (
     <div>

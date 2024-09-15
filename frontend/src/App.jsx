@@ -77,7 +77,35 @@ function App() {
     if(matrimonyProfileId){
       initialRun();
     }
+
+    
+    
   }, [matrimonyProfileId]);
+
+  useEffect(()=>{
+    
+    if(socket?.current){
+      socket.current.on("requestReceived", ({ fromUID, toUID, fromUIDFullName }) => {
+        console.log("requestReceived event fired on socket ");
+        if (toUID === matrimonyProfileId) {
+          toast.info(`${fromUIDFullName} has sent you a new request on context.`);
+        }
+      });
+
+      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
+        if (requestToId === matrimonyProfileId) {
+          toast.info(`${fromUIDFullName} has cancel you a request new.`);
+        }
+      });
+
+      return () => {
+        if(socket.current){
+          socket.current.off('requestReceived');
+          socket.current.off('cancelReceived');
+        }
+      };
+    }
+  },[socket.current,matrimonyProfileId])
 
 
 
@@ -86,7 +114,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={auth && Object.keys(auth).length ? <Home socket={socket} /> : <Front />} />
-        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home socket={socket} />} />
+        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home  />} />
         <Route path="/sign" element={<SignUp />} />
         <Route path="/registration/:id" element={<Registration />} />
         <Route path="/profile" element={<Profile />} />

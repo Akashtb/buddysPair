@@ -239,8 +239,6 @@ export const sendRequest = async (req, res) => {
 
         const io = req.app.get('socketio');
         const user = getUser(toUID);
-        console.log("user", user);
-
         if (user) {
             const socketId = user.socketId;
             io.to(socketId).emit('requestReceived', { fromUID, toUID, fromUIDFullName });

@@ -15,10 +15,11 @@ import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
 import { toast, useToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import SocketContext from '../../context/SocketContext';
+import SocketContext from '../../context/SocketContext'; 
 
 const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificationProfileList,setQualificationProfileList,designationProfileList,setDesignationProfileList}) => {
   // console.log(`profile ${profile.firstName} online status`, profile.isOnline);
+  // console.log(`nearByProfileList in sortedProfileCard`,profile);
   // console.log(`nearByProfileList in sortedProfileCard`,profile);
   // console.log(`qulificationProfileList in sortedProfileCard`, qulificationProfileList);
   // console.log(`designationProfileList in sortedProfileCard`, designationProfileList);
@@ -52,13 +53,14 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
   
       socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
         if (fromUID === profile._id) {
-          toast.info(`${fromUIDFullName} has cancel you a request new.`);
+          // toast.info(`${fromUIDFullName} has cancel you a request new.`);
           setConnectionStatus(prev => ({ ...prev, status: 'not_found' }));
         }
       });
 
       socket.current.on('acceptRequest', ({ requestFromId, requestToId, toUIDFullName }) => {
         if (String(requestToId) === String(profile?._id)) {
+          // toast.info(`${toUIDFullName} has accepted your request`);
           // toast.info(`${toUIDFullName} has accepted your request`);
           
           if (Array.isArray(nearByProfileList)) {
@@ -78,6 +80,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
 
       socket.current.on('rejectRequest',({requestFromId, requestToId, toUIDFullName })=>{
         if (String(requestToId) === String(profile?._id)) {
+          // toast.info(`${toUIDFullName} has reject your request`)
           // toast.info(`${toUIDFullName} has reject your request`)
           if (Array.isArray(nearByProfileList)) {
             const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(requestToId));

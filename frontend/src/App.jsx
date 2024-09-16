@@ -32,23 +32,25 @@ import ViewedMyProfileActivity from './pages/ViewedMyProfileActivity/ViewedMyPro
 import Contacted from './pages/Contacted/Contacted';
 import ShortlistedBy from './pages/ShortlistedBy/ShortlistedBy';
 import Shortlist from './pages/Shortlist/Shortlist';
-import Settings from './pages/Settings';
+//import Settings from './pages/Settings';
 import Edit from './pages/Edit.jsx';
 import Change from './pages/Change';
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
-
 import IdContext from "./context/IdContext.jsx";
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client'
 import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
-import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
+import EditProfile from "./pages/EditProfile/EditProfile.jsx";
+import SettingsPage from "./pages/SettingsPage/SettingsPage.jsx";
+import PrivacySettings from "./pages/PrivacySetting/PrivacySetting.jsx";
+
 
 
 function App() {
   const { matrimonyProfileId } = useContext(IdContext);
-  const {setSocketMessage } = useContext(SocketMessageContext);
+  const { setSocketMessage } = useContext(SocketMessageContext);
   const socket = useRef();
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
 
@@ -56,7 +58,7 @@ function App() {
     socket.current = io("ws://localhost:8003");
 
     socket.current.on("connect", () => {
-      console.log("Socket connected:", socket.current.id); 
+      console.log("Socket connected:", socket.current.id);
       socket.current.emit("addUser", matrimonyProfileId);
     });
 
@@ -72,12 +74,12 @@ function App() {
     socket.current.on("getMessages", data => {
       console.log("Message received:", data);
       setSocketMessage({
-          senderId:data.senderId,
-          text: data.text, 
-          createdAt:data.createdAt
+        senderId: data.senderId,
+        text: data.text,
+        createdAt: data.createdAt
       });
-      
-  });
+
+    });
 
 
 
@@ -89,9 +91,9 @@ function App() {
     };
   }, [matrimonyProfileId]);
 
-  
 
-  
+
+
   return (
     <Router>
       <Routes>
@@ -108,7 +110,7 @@ function App() {
         <Route path="/job" element={<Job />} />
         <Route path="/confirm" element={<Confirm />} />
         <Route path="/intrest" element={<Intrest />} />
-        <Route path="/buddysHomePage" element={isSocketInitialized && <Home socket={socket}/>} />
+        <Route path="/buddysHomePage" element={isSocketInitialized && <Home socket={socket} />} />
         <Route path="/QualificationSortedPage" element={<QualificationSorting />} />
         <Route path="/educationSortedPage" element={<EducationSort />} />
         <Route path="/qualificationSorting" element={<QualificationSortingPage />} />
@@ -123,17 +125,19 @@ function App() {
         <Route path="/filter" element={<Filter />} />
         <Route path="/preference" element={<PartnerPreference />} />
         <Route path="/subscription" element={<SubscriptionPlan />} />
-        <Route path='/setting' element={<Settings Se="Settings" />} />
-        <Route path='/edit' element={<Edit Se="Edit My Profile" />} />
+      { /* <Route path='' element={<Settings Se="Settings" />} />  
+        <Route path='/edit' element={<Edit Se="Edit My Profile" />} />  */}
         <Route path='/change' element={<Change Se="Change Password" />} />
         <Route path="/shortlist" element={<Shortlist />} />
         <Route path="/shortlistedby" element={<ShortlistedBy />} />
         <Route path="/contacted" element={<Contacted />} />
         <Route path="/viewed" element={<ViewedMyProfileActivity />} />
         <Route path="*" element={<NotFoundPage />} />
-        <Route path="/accessDenied" element={<AccessDeniedPage/>}/>
-        <Route path="/privacySetting" element={<PrivacySettings/>}/>
+        <Route path="/accessDenied" element={<AccessDeniedPage />} />
+        <Route path="/privacySetting" element={<PrivacySettings />} />
         <Route path="/chat" element={isSocketInitialized && <ChatRoomPage socket={socket} />} />
+        <Route path="/editprofile" element={<EditProfile />} />
+        <Route path="/setting" element={<SettingsPage/>} />
       </Routes>
     </Router>
   );

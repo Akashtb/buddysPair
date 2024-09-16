@@ -24,11 +24,6 @@
 
 }
 
-.changePassword {
-    color: #673ab7;
-    text-decoration: none;
-
-}
 
 .infoRow-border {
     display: flex;
@@ -81,7 +76,14 @@
     font-weight: 600;
 }
 
+.firstTextNav{
+    color: #5e065e;
+    cursor: pointer;
+}
 
+.firstTextNav:hover{
+    color:pink ;
+}
 
 @media (max-width: 768px) {
 

@@ -1,8 +1,10 @@
 .anoop20 .side1-7 h1 {
   position: absolute;
-  margin-top: -45%;
+  margin-top: -55%;
   font-family: Aldrich;
-  margin-left: -5%;
+  margin-left: -15%;
+  font-size: 40px;
+  color: rgb(109, 30, 101);
 }
 .anoop20 .side1-7 {
   background-color: rgb(255, 255, 255);

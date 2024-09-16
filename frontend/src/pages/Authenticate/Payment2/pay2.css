@@ -13,6 +13,7 @@
   color: rgb(120, 61, 110);
   padding-bottom: 20px;
   margin: auto;
+  font-size: 35px;
 }
 .anoop21 .p44 {
   margin-left: 20px;
@@ -87,9 +88,11 @@
 @media screen and (min-width: 700px) {
   .anoop21 .side1-8 h1 {
     position: absolute;
-    margin-top: -40%;
+    margin-top: -55%;
     font-family: Aldrich;
-    left: 10%;
+    margin-left: -15%;
+    font-size: 40px;
+    color: rgb(108, 43, 106);
   }
 
   .anoop21 .side1-8 {

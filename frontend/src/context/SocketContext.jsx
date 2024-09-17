@@ -7,6 +7,23 @@ import { SocketMessageContext } from './SocketMessageContext';
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
+
+  const covertToTime = (timestamp) => {
+    const date = new Date(timestamp); 
+    const now = new Date(); 
+    const isToday =
+      date.getDate() === now.getDate() &&
+      date.getMonth() === now.getMonth() &&
+      date.getFullYear() === now.getFullYear();
+      const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    if (isToday) {
+      return `Today ${time}`; 
+    } else {
+      return date.toLocaleString(); 
+    }
+  };
+
+  
   const socket = useRef(null);
   const { matrimonyProfileId } = useContext(IdContext);
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
@@ -37,7 +54,7 @@ export const SocketProvider = ({ children }) => {
             senderId: data.senderId,
             senderName: data.senderName,
             text: data.text,
-            createdAt: data.createdAt,
+            createdAt: covertToTime(data.createdAt)
           }
         ]);
       }
@@ -86,6 +103,7 @@ socket?.current?.on("cancelRequestNotification", ({ fromUID, requestToId, fromUI
         setAcceptedRequest((prev) => [
           ...prev,
           {
+            requestToId,
             to: toUIDFullName,
             time
           }
@@ -99,6 +117,7 @@ socket?.current?.on("cancelRequestNotification", ({ fromUID, requestToId, fromUI
         setRejectedRequest((prev) => [
           ...prev,
           {
+            requestToId,
             to: toUIDFullName,
             time
           }

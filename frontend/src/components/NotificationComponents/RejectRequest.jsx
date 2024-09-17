@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { RxCross2 } from "react-icons/rx";
 import error from '../../assets/buddysHome/error icon.svg';
 import { formatDate } from '../../utils/FormDate';
-function RejectRequest({rejectedUserName,rejectedTime}) {
+import { SocketMessageContext } from '../../context/SocketMessageContext';
+function RejectRequest({rejectedUserName,rejectedTime,requestToId}) {
+  const{rejectRequest, setRejectedRequest} = useContext(SocketMessageContext)
   const formattedTime = formatDate(rejectedTime);
+
+  const removeRejectionNotification = ()=>{
+    const remove = rejectRequest.filter(reject=>reject.requestToId !== requestToId)
+    setRejectedRequest(remove)
+  }
   return (
     <div className="BuddyNotification2">
     <div className="BuddyNotification2Content">
@@ -15,7 +22,7 @@ function RejectRequest({rejectedUserName,rejectedTime}) {
         <div className='time2'>{formattedTime}</div>
       </div>
       <span className="cross2">
-        <RxCross2 />
+        <RxCross2 onClick={removeRejectionNotification}/>
       </span>
     </div>
   </div>

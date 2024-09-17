@@ -50,6 +50,7 @@ const BuddyNotifications = ({ socket }) => {
           {uniqueMessages.length > 0 && uniqueMessages.map((message, index) => (
             <ReceivedMessage
               key={index}
+              senderId={message.senderId}
               senderName={message.senderName}
               text={message.text}
               createdAt={message.createdAt}
@@ -62,13 +63,14 @@ const BuddyNotifications = ({ socket }) => {
               key={index}
               fromUID={request.fromUID}
               RequestedUserName={request.from}
-              requestTime={request.time}
+              requestTime={request.time} 
             />
           ))}
 
           {acceptedRequest.length > 0 && acceptedRequest.map((request, index) => (
             <AcceptRequest
               key={index}
+              requestToId={request.requestToId}
               acceptedUserName={request.to}
               acceptedTime={request.time}
             />
@@ -77,6 +79,7 @@ const BuddyNotifications = ({ socket }) => {
           {rejectRequest.length > 0 && rejectRequest.map((request, index) => (
             <RejectRequest
               key={index}
+              requestToId={request.requestToId}
               rejectedUserName={request.to}
               rejectedTime={request.time}
             />

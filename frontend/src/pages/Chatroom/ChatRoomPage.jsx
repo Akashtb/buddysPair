@@ -9,6 +9,7 @@ import ArrayOfChat from '../../components/ArrayOfChat/ArrayOfChat';
 import IdContext from '../../context/IdContext'
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate'
 import SocketContext from '../../context/SocketContext';
+import { SocketMessageContext } from '../../context/SocketMessageContext';
 
 const ChatRoomPage = () => {
 
@@ -21,6 +22,7 @@ const ChatRoomPage = () => {
   const { matrimonyProfileId } = useContext(IdContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const {socketMessage, setSocketMessage} = useContext(SocketMessageContext)
   const { friendId,conversationArrayId,coversationDetails } = location.state || {}; 
   const [currentUser,setCurrentUser]= useState({})
   const {socket} = useContext(SocketContext)
@@ -136,6 +138,11 @@ useEffect(() => {
   useEffect(() => {
     // Scroll to the bottom of the messages container
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const removeCurrentUserMsgNoti = () =>{
+      const msg = socketMessage.filter(msg=>msg.senderId!==friendId)
+      setSocketMessage(msg)
+    }
+    removeCurrentUserMsgNoti()
   }, [messages]);
 
   return (

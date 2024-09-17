@@ -46,6 +46,101 @@ const Profile = () => {
   console.log(reRegistrationData);
 
   const profileReRegistraion = async () => {
+    const { state, district,city,profession,qualification,religion,motherTongue,aboutMe,height,weight,bodyType,martialStatus,familyType,diabilities,caste,patnerExpectation,fatherName,numberOfMarriedSibilings,numberOfSibilings,fatherOccupation,motherName,motherOccupation,address} = reRegistrationData
+
+    if (!state) {
+      toast.error("Please fill the state");
+      return;
+    }
+    if (!district) {
+      toast.error("Please fill the district");
+      return;
+    }
+    if (!city) {
+      toast.error("Please fill the city");
+      return;
+    }
+    // if (!profession) {
+    //   toast.error("Please fill the profession");
+    //   return;
+    // }
+    if (!qualification) {
+      toast.error("Please fill the qualification");
+      return;
+    }
+    // if (!religion) {
+    //   toast.error("Please select a religion");
+    //   return;
+    // }
+    if (!motherTongue) {
+      toast.error("Please fill the mother tongue");
+      return;
+    }
+    if (!aboutMe) {
+      toast.error("Please fill the about me section");
+      return;
+    }
+    if (!height) {
+      toast.error("Please enter height");
+      return;
+    }
+    if (!weight) {
+      toast.error("Please enter weight");
+      return;
+    }
+    if (!bodyType) {
+      toast.error("Please select a body type");
+      return;
+    }
+    if (!martialStatus) {
+      toast.error("Please select marital status");
+      return;
+    }
+    if (!familyType) {
+      toast.error("Please select family type");
+      return;
+    }
+    if (!diabilities) {
+      toast.error("Please mention if there are any disabilities");
+      return;
+    }
+    if (!caste) {
+      toast.error("Please fill the caste");
+      return;
+    }
+    if (!patnerExpectation) {
+      toast.error("Please fill the partner expectation");
+      return;
+    }
+    if (!fatherName) {
+      toast.error("Please enter the father's name");
+      return;
+    }
+    if (!numberOfMarriedSibilings) {
+      toast.error("Please enter the number of married siblings");
+      return;
+    }
+    if (!numberOfSibilings) {
+      toast.error("Please enter the number of siblings");
+      return;
+    }
+    if (!fatherOccupation) {
+      toast.error("Please enter the father's occupation");
+      return;
+    }
+    if (!motherName) {
+      toast.error("Please enter the mother's name");
+      return;
+    }
+    if (!motherOccupation) {
+      toast.error("Please enter the mother's occupation");
+      return;
+    }
+    if (!address) {
+      toast.error("Please enter the address");
+      return;
+    }
+  
     try {
       const response = await axiosPrivate.post(
         `/api/matrimony/profile/createProfile`,

@@ -154,6 +154,52 @@ const Registration = () => {
   };
 
   const registerProfile = async () => {
+    const {age,gender,dateOfBirth,hobbies,interest,smoking,drinking,propic,multipleimg,reel} = profileData;
+    if (!age) {
+      toast.error("Please fill the age");
+      return; // Stop further execution if validation fails
+    }
+
+    if (!gender) {
+      toast.error("Please fill the gender");
+      return; // Stop further execution if validation fails
+    }
+    if (!dateOfBirth) {
+      toast.error("Please fill the dateOfBirth");
+      return; // Stop further execution if validation fails
+    }
+    if (!hobbies) {
+      toast.error("Please fill the hobbies");
+      return; // Stop further execution if validation fails
+    }
+    if (!interest) {
+      toast.error("Please fill the interest");
+      return; // Stop further execution if validation fails
+    }
+    if (!smoking) {
+      toast.error("Please fill the smoking");
+      return; // Stop further execution if validation fails
+    }
+    if (!drinking) {
+      toast.error("Please fill the firstname");
+      return; // Stop further execution if validation fails
+    }
+
+    if (!propic) {
+      toast.error("Please fill the firstname");
+      return; // Stop further execution if validation fails
+    }
+
+    if (!multipleimg) {
+      toast.error("Please fill the firstname");
+      return; // Stop further execution if validation fails
+    }
+
+    // if (!reel) {
+    //   toast.error("Please fill the firstname");
+    //   return; // Stop further execution if validation fails
+    // }
+
     try {
       const response = await axiosPrivate.patch(
         `/api/auth/reRegistration/${id}`,

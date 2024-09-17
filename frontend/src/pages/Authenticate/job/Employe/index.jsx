@@ -27,6 +27,24 @@ const Employe = () => {
   };
 
   const submitForm = async()=>{
+
+    const { designation,location,company} = data
+
+    if(!designation){
+      toast.error("Please fill the designation");
+      return;
+    }
+
+    if(!location){
+      toast.error("Please fill the location");
+      return;
+    }
+
+    if(!company){
+      toast.error("Please fill the company");
+      return;
+    }
+
     try {
       const response = await axiosPrivate.post(`/api/employee/createEmployee`,data)
       console.log(response.data)

@@ -1,0 +1,200 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: white;
+}
+
+.settings-content {
+    display: flex;
+    flex: 1;
+}
+
+.settings-main {
+    margin-top: 80px;
+    /* Account for the fixed header */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 20px 20px 20px 20px;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    min-height:80vh;
+    margin-left: 80px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.user-avatar {
+    margin-right: 20px;
+}
+
+.profilePic-setting{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; 
+    object-fit: cover;
+}
+.user-details {
+    flex: 1;
+    font-size: 28px;
+}
+
+.user-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.user-status {
+    font-size: 14px;
+    color: gray;
+}
+
+.qr-code {
+    position: absolute;
+    right: 20px;
+}
+
+
+
+.settings-options {
+    margin-top: 20px;
+}
+
+.setting-option {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.setting-option:hover {
+    background-color: #f0f0f0;
+}
+.icon-qr{
+    font-size: 54px;
+}
+.icon-setting {
+    font-size: 52px; /* Increase font-size to make the icon larger */
+    color: #080808;
+    margin-right: 15px;   
+    display: inline-block;
+    border-radius: 50px;
+    background-color: #e1e8ea;
+    padding: 15px; /* Adjust padding so the icon remains visible */
+}
+
+.option-details {
+    flex: 1;
+}
+
+.option-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.option-description {
+    font-size: 14px;
+    color: gray;
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .settings-content {
+        flex-direction: column;
+    }
+    .settings-main {
+        margin-left: 0;
+    }
+    
+    .profilePic-setting {
+        width: 50px;
+        height: 50px;
+    }
+
+    .user-details {
+        font-size: 24px;
+    }
+
+    .user-name {
+        font-size: 16px;
+    }
+
+    .user-status {
+        font-size: 12px;
+    }
+
+    .icon-setting {
+        font-size: 44px;
+        padding: 12px;
+    }
+
+    .icon-qr {
+        font-size: 44px;
+    }
+
+    .footer {
+        font-size: 14px;
+        padding: 15px;
+    }
+}
+
+/* For mobile screens (480px and below) */
+@media (max-width: 480px) {
+  
+
+    .profilePic-setting {
+        width: 40px;
+        height: 40px;
+    }
+
+    .user-details {
+        font-size: 20px;
+    }
+
+    .user-name {
+        font-size: 14px;
+    }
+
+    .user-status {
+        font-size: 10px;
+    }
+
+    .icon-setting {
+        font-size: 36px;
+        padding: 8px;
+    }
+
+    .icon-qr {
+        font-size: 36px;
+    }
+
+    .option-title {
+        font-size: 14px;
+    }
+
+    .option-description {
+        font-size: 12px;
+    }
+
+    .footer {
+        font-size: 12px;
+        padding: 10px;
+    }
+}

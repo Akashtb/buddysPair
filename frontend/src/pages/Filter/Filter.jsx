@@ -21,7 +21,6 @@ const Filter = () => {
 
     const [sortSubSelection, setSortSubSelection] = useState({});
     const [filterSubSelection, setFilterSubSelection] = useState({});
-
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showProfileOptions, setShowProfileOptions] = useState(false);
     const [visibleSubSelection, setVisibleSubSelection] = useState(null);

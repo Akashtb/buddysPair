@@ -25,11 +25,18 @@
  color: white;
 
 }
+.preference-header h1 {
+  margin: 0;
+  text-align: center;
+  flex: 1; 
 
+
+}
 .preference-header h2 {
   margin: 0;
   text-align: center;
   flex: 1;
+ 
 }
 
 .profilePicContainer {
@@ -46,7 +53,7 @@
 
 .preference-section {
   margin-top: 80px; /* Account for the fixed header */
-  padding: 20px;
+  padding: 20px 50px 20px 50px;
   margin-left: 80px;
   background-color: #fff;
   border-radius: 20px 20px 20px 20px;

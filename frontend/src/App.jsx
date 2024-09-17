@@ -32,31 +32,30 @@ import ViewedMyProfileActivity from './pages/ViewedMyProfileActivity/ViewedMyPro
 import Contacted from './pages/Contacted/Contacted';
 import ShortlistedBy from './pages/ShortlistedBy/ShortlistedBy';
 import Shortlist from './pages/Shortlist/Shortlist';
-import Settings from './pages/Settings';
 import Edit from './pages/Edit.jsx';
 import Change from './pages/Change';
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
-import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
 import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
 import IdContext from "./context/IdContext.jsx";
 import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
-
-
+import SettingsPage from "./pages/SettingsPage/SettingsPage.jsx";
+import EditProfile from "./pages/EditProfile/EditProfile.jsx";
+import PrivacySettings from "./pages/PrivacySetting/PrivacySetting.jsx"
 function App() {
   const { auth } = useContext(AuthContext)
-  const{matrimonyProfileId} = useContext(IdContext)
+  const { matrimonyProfileId } = useContext(IdContext)
   const axiosPrivate = useAxiosPrivate()
-  const {socketMessage, setSocketMessage, receivedRequest, setReceivedRequest,acceptedRequest, setAcceptedRequest,rejectRequest, setRejectedRequest} = useContext(SocketMessageContext)
-  console.log("receivedRequest",receivedRequest);
+  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest } = useContext(SocketMessageContext)
+  console.log("receivedRequest", receivedRequest);
   // console.log("acceptedRequest",acceptedRequest);
   // console.log("rejectRequest",rejectRequest);
   // console.log("socketMessage",socketMessage);
-  
+
 
 
   const socket = useRef();
@@ -74,17 +73,17 @@ function App() {
       }
     };
 
-    if(matrimonyProfileId){
+    if (matrimonyProfileId) {
       initialRun();
     }
 
-    
-    
+
+
   }, [matrimonyProfileId]);
 
-  useEffect(()=>{
-    
-    if(socket?.current){
+  useEffect(() => {
+
+    if (socket?.current) {
       socket.current.on("requestReceived", ({ fromUID, toUID, fromUIDFullName }) => {
         console.log("requestReceived event fired on socket ");
         if (toUID === matrimonyProfileId) {
@@ -92,20 +91,22 @@ function App() {
         }
       });
 
-      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
+      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {
         if (requestToId === matrimonyProfileId) {
           toast.info(`${fromUIDFullName} has cancel you a request new.`);
         }
       });
 
       return () => {
-        if(socket.current){
+        if (socket.current) {
           socket.current.off('requestReceived');
           socket.current.off('cancelReceived');
         }
       };
     }
-  },[socket.current,matrimonyProfileId])
+  }, [socket.current, matrimonyProfileId])
+
+
 
 
 
@@ -114,7 +115,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={auth && Object.keys(auth).length ? <Home socket={socket} /> : <Front />} />
-        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home  />} />
+        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home />} />
         <Route path="/sign" element={<SignUp />} />
         <Route path="/registration/:id" element={<Registration />} />
         <Route path="/profile" element={<Profile />} />
@@ -210,11 +211,11 @@ function App() {
           </ProtectedRoute>}
         />
 
-        <Route path='/setting' element={
+        {/* <Route path='/setting' element={
           <ProtectedRoute>
             <Settings Se="Settings" />
           </ProtectedRoute>}
-        />
+        /> */}
 
         <Route path='/edit' element={
           <ProtectedRoute>
@@ -255,11 +256,33 @@ function App() {
 
         <Route path="/chat" element={
           <ProtectedRoute>
-            <ChatRoomPage/>
+            <ChatRoomPage />
             {/* <ChatRoomPage socket={socket} /> */}
           </ProtectedRoute>}
         />
-        
+
+        <Route path="/setting" element={
+          <ProtectedRoute>
+            <SettingsPage />
+            {/* <ChatRoomPage socket={socket} /> */}
+          </ProtectedRoute>}
+        />
+
+        <Route path="/editprofile" element={
+          <ProtectedRoute>
+            <EditProfile />
+            {/* <ChatRoomPage socket={socket} /> */}
+          </ProtectedRoute>}
+        />
+
+        <Route path="/privacySetting" element={
+          <ProtectedRoute>
+            <PrivacySettings />
+            {/* <ChatRoomPage socket={socket} /> */}
+          </ProtectedRoute>}
+        />
+
+
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment2" element={<Payment2 />} />
         {/* <Route path="/designationSorting" element={<DesignationSortingPage />} />
@@ -267,7 +290,6 @@ function App() {
 
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/accessDenied" element={<AccessDeniedPage />} />
-        <Route path="/privacySetting" element={<PrivacySettings />} />
       </Routes>
     </>
   );

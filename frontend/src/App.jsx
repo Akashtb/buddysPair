@@ -50,8 +50,8 @@ function App() {
   const { auth } = useContext(AuthContext)
   const { matrimonyProfileId } = useContext(IdContext)
   const axiosPrivate = useAxiosPrivate()
-  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest } = useContext(SocketMessageContext)
-  console.log("receivedRequest", receivedRequest);
+  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest,cancelRequest } = useContext(SocketMessageContext)
+  console.log("cancelRequest", cancelRequest);
   // console.log("acceptedRequest",acceptedRequest);
   // console.log("rejectRequest",rejectRequest);
   // console.log("socketMessage",socketMessage);

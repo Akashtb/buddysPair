@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
   const socket = useRef(null);
   const { matrimonyProfileId } = useContext(IdContext);
   const [isSocketInitialized, setIsSocketInitialized] = useState(false);
-  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest } = useContext(SocketMessageContext)
+  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest, setCancelRequest } = useContext(SocketMessageContext)
   useEffect(() => {
     socket.current = io("ws://localhost:8003");
 
@@ -43,29 +43,45 @@ export const SocketProvider = ({ children }) => {
       }
     });
 
-    socket.current.on('requestNotification', ({ fromUID, toUID, fromUIDFullName, time }) => {
-      console.log("requestReceived event fired on socket ");
+ // Handle request notification
+socket?.current?.on('requestNotification', ({ fromUID, toUID, fromUIDFullName, time }) => {
+  console.log("requestReceived event fired on socket ");
+  
+  if (String(toUID) === matrimonyProfileId) {
+    setReceivedRequest((prev) => {
+      const updatedReceviedRequest = [...prev, { fromUID, from: fromUIDFullName, time }];
+      
+      // Filter out canceled requests from receivedRequest
+      setCancelRequest((cancelRequests) => 
+        cancelRequests.filter(cancel => !updatedReceviedRequest.some(request => request.fromUID === cancel.fromUID))
+      );
 
-      if (String(toUID) === matrimonyProfileId) {
-        // toast.info(`${fromUIDFullName} has sent you a new request on context.`);
-        setReceivedRequest((prev) => [
-          ...prev,
-          {
-            fromUID,
-            from: fromUIDFullName,
-            time
-          }
-        ])
-      }
+      return updatedReceviedRequest;
     });
+  }
+});
 
-    socket.current.on("cancelRequestNotification", ({ fromUID, requestToId, fromUIDFullName }) => {
-      if (requestToId === matrimonyProfileId) {
-        // toast.info(`${fromUIDFullName} has sent you a cancel request.`);   
-      }
+// Handle cancel request notification
+socket?.current?.on("cancelRequestNotification", ({ fromUID, requestToId, fromUIDFullName, time }) => {
+  if (String(requestToId) === String(matrimonyProfileId)) {
+    setCancelRequest((prev) => {
+      const updatedCancelRequest = [...prev, { fromUID, from: fromUIDFullName, time }];
+      
+      // Filter out the canceled request from the receivedRequest
+      setReceivedRequest((receivedRequests) => 
+        receivedRequests.filter(request => !updatedCancelRequest.some(cancel => cancel.fromUID === request.fromUID))
+      );
+
+      return updatedCancelRequest;
     });
+  }
+});
 
-    socket.current.on("acceptRequestNotification", ({ requestFromId, requestToId, toUIDFullName,time }) => {
+
+
+
+
+    socket.current.on("acceptRequestNotification", ({ requestFromId, requestToId, toUIDFullName, time }) => {
       if (String(requestFromId) === String(matrimonyProfileId)) {
         setAcceptedRequest((prev) => [
           ...prev,
@@ -78,7 +94,7 @@ export const SocketProvider = ({ children }) => {
       }
     });
 
-    socket.current.on("rejectRequestNotification", ({ requestFromId, requestToId, toUIDFullName,time }) => {
+    socket.current.on("rejectRequestNotification", ({ requestFromId, requestToId, toUIDFullName, time }) => {
       if (String(requestFromId) === String(matrimonyProfileId)) {
         setRejectedRequest((prev) => [
           ...prev,
@@ -93,7 +109,7 @@ export const SocketProvider = ({ children }) => {
 
 
 
-   
+
     return () => {
       if (socket.current) {
         socket.current.off("requestReceived");

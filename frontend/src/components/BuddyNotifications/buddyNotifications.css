@@ -66,6 +66,12 @@
     display: flex;
     align-items: center;
   }
+
+  .no-notifications{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   
   .tick {
     margin-right: 5px;

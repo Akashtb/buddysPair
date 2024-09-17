@@ -276,7 +276,7 @@ export const cancelSentRequest = async (req, res) => {
             const fromUIDProfile = await Profile.findById(fromUID)
             const fromUIDFullName = `${fromUIDProfile.firstName} ${fromUIDProfile.lastName}`;
 
-            const io = req.app.get('socketio');
+            const io = req.app.get('socketio'); 
             const user = getUser(requestToId);
 
             if (user) {

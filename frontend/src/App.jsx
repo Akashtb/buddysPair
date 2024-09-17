@@ -39,7 +39,6 @@ import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
 import { useContext, useEffect, useRef, useState } from "react";
-import PrivacySettings from "./pages/privacysetting/Privacy.jsx";
 import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
@@ -267,7 +266,6 @@ function App() {
 
         <Route path="*" element={<NotFoundPage />} />
         <Route path="/accessDenied" element={<AccessDeniedPage />} />
-        <Route path="/privacySetting" element={<PrivacySettings />} />
       </Routes>
     </>
   );

@@ -10,28 +10,31 @@ const Other = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
+  const [color1, setColor1] = useState("white");
+  const [color2, setColor2] = useState("none");
   const [data, setData] = useState([]);
   const [pro, setPro] = useState("");
   const [halo, sethalo] = useState(false);
-  const axiosPrivate = useAxiosPrivate()
+  const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
 
-
   const Getprofile = async () => {
-    const response = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${id}`)
+    const response = await axiosPrivate.get(
+      `/api/matrimony/profile/getProfile/${id}`
+    );
     setData(response.data);
   };
 
-  const profileisViewed =async()=>{
-    const response = await axiosPrivate.put(`/api/matrimony/profile/viewedOtherProfile/${matrimonyProfileId}`,{otherProfileId:id})
-    console.log("profile is viwed ",response.data);
-    
-  }
-  
-  
+  const profileisViewed = async () => {
+    const response = await axiosPrivate.put(
+      `/api/matrimony/profile/viewedOtherProfile/${matrimonyProfileId}`,
+      { otherProfileId: id }
+    );
+    console.log("profile is viwed ", response.data);
+  };
 
   useEffect(() => {
-    Getprofile(),profileisViewed()
+    Getprofile(), profileisViewed();
   }, [id]);
   const Chatbtn = () => {
     navigate(`/chat/${pro}`);
@@ -47,13 +50,11 @@ const Other = () => {
     navigate(`/mypro/${pro}`);
   };
 
-  const formattedDate = new Date(data.dateOfBirth).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-});
-
-
+  const formattedDate = new Date(data.dateOfBirth).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
 
   const handleNavigation = (path) => {
     navigate(path);
@@ -63,29 +64,38 @@ const Other = () => {
     navigate(-1); // Go back to the previous page
   };
 
+  const ColorChange = () => {
+    setColor1("white");
+    setColor2(" rgb(234, 186, 246)");
+  };
+  const ColorChange2 = () => {
+    setColor1(" rgb(234, 186, 246)");
+    setColor2("white");
+  };
+
   return (
     <div className="anoop19">
       <div className="side1-6">
         <h1>Matrimony</h1>
-        <h3 onClick={() => handleNavigation('/buddysHomePage')}>
-        <i className="fa-solid fa-house"></i> Home
-      </h3>
+        <h3 onClick={() => handleNavigation("/buddysHomePage")}>
+          <i className="fa-solid fa-house"></i> Home
+        </h3>
 
-      <h3 onClick={() => handleNavigation('/message')}>
-        <i className="fa-brands fa-facebook-messenger"></i> Message
-      </h3>
+        <h3 onClick={() => handleNavigation("/message")}>
+          <i className="fa-brands fa-facebook-messenger"></i> Message
+        </h3>
 
-      <h3 onClick={() => handleNavigation('/favorites')}>
-        <i className="fa-solid fa-star"></i> Favorites
-      </h3>
+        <h3 onClick={() => handleNavigation("/favorites")}>
+          <i className="fa-solid fa-star"></i> Favorites
+        </h3>
 
-      <h3 onClick={() => handleNavigation('/notifications')}>
-        <i className="fa-solid fa-bell"></i> Notifications
-      </h3>
+        <h3 onClick={() => handleNavigation("/notifications")}>
+          <i className="fa-solid fa-bell"></i> Notifications
+        </h3>
 
-      <h3 onClick={() => handleNavigation('/settings')}>
-        <i className="fa-solid fa-gear"></i> Settings
-      </h3>
+        <h3 onClick={() => handleNavigation("/settings")}>
+          <i className="fa-solid fa-gear"></i> Settings
+        </h3>
 
         <h3 className="pro1-6">
           <i class="fa-solid fa-user"></i> Profile
@@ -93,27 +103,28 @@ const Other = () => {
       </div>
       <div className="header4">
         <i class="fa-solid fa-angle-left" onClick={handleBack}></i>
+
         <div className="image6">
-          {/* <img className="img4" src="\profile2.jpeg" alt="" /> */}
-          <img
-            className="arrow"
-            src="../../../src/assets/Authentication/Tag.svg"
-            alt=""
-          />
-          <img
+          {/* <img className="img4" src="\profile2.jpeg" alt="" />///////// */}
+
+          {/* <img
             className="scroll"
             src="../../../src/assets/Authentication/Scroll.svg"
             alt=""
-          />
+          /> */}
           <img
             className="img4"
-            src={data?.profilePic}
+            src="../../../src/assets/Authentication/profile1.jpeg"
             alt=""
           />
+          {/* <img className="img4" src={data?.profilePic} alt="" /> */}
           <div className="botImg">
             <br />
             <div className="name12">
-              <h2> {data?.firstName} {data?.lastName},</h2>
+              <h2>
+                {" "}
+                {data?.firstName} {data?.lastName},
+              </h2>
               <h2> {data?.age}</h2>
             </div>
             <h3>Location : {data.address}</h3>
@@ -122,19 +133,47 @@ const Other = () => {
               alt=""
             />
           </div>
+          <div className="extra">
+            <div className="view2">
+              <img
+                className="viewimg"
+                src="https://th.bing.com/th/id/OIGP.TmXbZ0WBVGvkkhJpqZeI?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"
+                alt=""
+              />
+              <h3>View gallery</h3>
+            </div>
+          </div>
         </div>
+        <img
+          className="arrow"
+          src="../../../src/assets/Authentication/Tag.svg"
+          alt=""
+        />
 
         {/* <button className="btn4">Logout</button> */}
       </div>
       <div className="links">
         <div className="links2">
-          <a id="ou" href="#sec1">
-            About
-          </a>
+          <div className="links2">
+            <a
+              id="ou"
+              href="#sec1"
+              tabIndex="1"
+              onClick={ColorChange}
+              style={{ backgroundColor: color1 }}
+            >
+              About
+            </a>
 
-          <a id="ther" href="#sec2">
-            contact info
-          </a>
+            <a
+              id="ther"
+              href="#sec2"
+              onClick={ColorChange2}
+              style={{ backgroundColor: color2 }}
+            >
+              contact info
+            </a>
+          </div>
         </div>
       </div>
 
@@ -154,13 +193,15 @@ const Other = () => {
             <div className="about">
               <h2>About</h2>
               <h3 className="ab"> {data.aboutMe}</h3>
-              <h3>username : {data?.firstName} {data?.lastName}</h3>
+              <h3>
+                username : {data?.firstName} {data?.lastName}
+              </h3>
             </div>
             <div className="habbits">
               <h2>Habbits</h2>
-              <h3>Drinking : {data.drinking ? 'Yes' : 'No'}</h3>
-              <h3>Smoking :{data.smoking ? 'Yes' : 'No'}</h3>
-              <h3>Hobbies :{data.hobbies?.join(', ')}</h3>
+              <h3>Drinking : {data.drinking ? "Yes" : "No"}</h3>
+              <h3>Smoking :{data.smoking ? "Yes" : "No"}</h3>
+              <h3>Hobbies :{data.hobbies?.join(", ")}</h3>
             </div>
 
             <div className="personaldet">

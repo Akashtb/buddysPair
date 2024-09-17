@@ -1,12 +1,63 @@
+.anoop16 .proimg2::-webkit-scrollbar {
+  /* width: 10px; */
+  height: 0;
+  /* width: 50px; */
+}
+
+.anoop16 .proimg2 {
+  background-color: rgb(255, 255, 255);
+  /* padding: 30px; */
+  display: flex;
+  width: 200px;
+  overflow: hidden;
+  gap: 5px;
+  overflow-x: scroll;
+  border-radius: 5px;
+}
+.anoop16 .close5 .fa-solid {
+  color: red;
+  background-color: none;
+  font-size: 14px;
+}
+.anoop16 .close5 {
+  display: flex;
+  background-color: #b2d2ef;
+  height: 23px;
+  align-items: center;
+  padding-right: 10px;
+  gap: 5px;
+  padding-left: 5px;
+  border-radius: 5px;
+}
+.anoop16 .proimg {
+  background-color: #facfcf;
+  padding: 1px 10px 1px 10px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.anoop16 .proimg:hover {
+  background-color: #e7e7e7;
+}
+.anoop16 .proimg .fa-solid {
+  /* background-color: #000000; */
+  font-size: 15px;
+  padding: 0;
+  color: rgb(255, 137, 137);
+}
 .anoop16 .koo button {
   background-color: white;
   padding: 0;
   border: none;
 }
 .anoop16 .koo i {
-  font-size: 24px;
+  font-size: 22px;
   padding: 0;
   padding-top: 2px;
+  /* color: red; */
+  background-color: none;
+  /* color: #d284ff; */
 }
 
 .anoop16 .koo {
@@ -23,6 +74,8 @@
   color: #818080;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
+  overflow: hidden;
+  /* gap: 10px; */
 }
 
 .anoop16 .box {
@@ -55,11 +108,23 @@
   padding: 10px 40px 20px 40px;
   background-color: white;
 }
+.anoop16 .card1_1_1 select {
+  width: 250px;
+  border: 2px solid rgb(207, 203, 203);
+  height: 30px;
+  border-radius: 5px;
+  color: rgb(159, 157, 157);
+  padding-left: 10px;
+}
+.anoop16 .date12 {
+  color: rgb(164, 163, 163);
+}
 .anoop16 .card1_1_1 input {
   width: 250px;
   border: 2px solid rgb(207, 203, 203);
   height: 30px;
   border-radius: 5px;
+  background-color: white;
 }
 .anoop16 .card1_1_1 {
   /* border: 1px solid black; */
@@ -105,6 +170,12 @@
   /* background-color: #d3e7e7; */
 }
 
+.anoop16 .part2 h1 {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: rgb(161, 159, 159);
+  font-size: 16px;
+}
 .anoop16 .regbtn {
   width: 200px;
   position: absolute;
@@ -169,6 +240,10 @@
     margin-top: -20px;
     /* padding: 0; */
   }
+
+  .anoop16 .card1_1_1 select {
+    width: 240px;
+  }
   .anoop16 .part1 {
     padding: 0;
     padding-top: 30px;
@@ -183,6 +258,7 @@
   .anoop16 .part2 input {
     width: 240px;
   }
+
   .anoop16 .koo {
     width: 240px;
     height: 30px;

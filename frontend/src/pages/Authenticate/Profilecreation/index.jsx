@@ -10,8 +10,7 @@ import IdContext from "../../../context/IdContext";
 import { axiosPrivate } from "../../../CustomApi/Axios";
 
 const Profile = () => {
-
-  const {setRegisterId } = useContext(IdContext)
+  const { setRegisterId } = useContext(IdContext);
   const navigate = useNavigate();
   const [reRegistrationData, setreRegistrationData] = useState({
     state: "",
@@ -46,27 +45,27 @@ const Profile = () => {
   };
   console.log(reRegistrationData);
 
- 
-
-
-  const profileReRegistraion = async()=>{
+  const profileReRegistraion = async () => {
     try {
-      const response = await axiosPrivate.post(`/api/matrimony/profile/createProfile`,reRegistrationData)
+      const response = await axiosPrivate.post(
+        `/api/matrimony/profile/createProfile`,
+        reRegistrationData
+      );
       console.log(response.data);
-      if(response.status === 201){
-        await axiosPrivate.post('/api/auth/logout');
-        localStorage.removeItem('registerId');
-        setRegisterId(null)
+      if (response.status === 201) {
+        await axiosPrivate.post("/api/auth/logout");
+        localStorage.removeItem("registerId");
+        setRegisterId(null);
         toast.success("Profile created successfully");
-        navigate('/login')
-      }else{
+        navigate("/login");
+      } else {
         toast.error("Failed to create profile");
       }
     } catch (error) {
       toast.error("An error occurred while creating the profile");
       console.error(error);
     }
-  }
+  };
 
   return (
     <div className="anoop15">
@@ -80,7 +79,7 @@ const Profile = () => {
               placeholder="About"
               type="text"
               name="aboutMe"
-              onChange={dataChange}  
+              onChange={dataChange}
             ></textarea>
             <br />{" "}
             <select name="martialStatus" onChange={dataChange}>
@@ -89,7 +88,6 @@ const Profile = () => {
               <option value="unmarried">Unmarried</option>
             </select>
             <br />
-
             {/* <label htmlFor="">Horriscope</label> */}
             <input
               placeholder="Family Type"
@@ -139,6 +137,13 @@ const Profile = () => {
             />
             <br />
             <input
+              placeholder="Number of Siblings Married"
+              type="number"
+              name="numberOfMarriedSibilings"
+              onChange={dataChange}
+            />{" "}
+            <br />
+            <input
               placeholder="Address"
               type="text"
               name="address"
@@ -155,14 +160,6 @@ const Profile = () => {
           </div>
           <br />
           <div className="card66">
-            <input
-              placeholder="Number of Siblings Married"
-              type="number"
-              name="numberOfMarriedSibilings"
-              onChange={dataChange}
-            />{" "}
-            <br />
-
             {/* <label htmlFor="">Annual income</label> */}
             <input
               placeholder="Height"
@@ -179,7 +176,6 @@ const Profile = () => {
               onChange={dataChange}
             />
             <br />
-
             <input
               placeholder="State"
               type="text"
@@ -187,12 +183,29 @@ const Profile = () => {
               onChange={dataChange}
             />
             <br />
-            <input
+            <select
               placeholder="District"
               type="text"
               name="district"
               onChange={dataChange}
-            />
+              id=""
+            >
+              <option value="">District</option>
+              <option value="Alappuzha">Alappuzha</option>
+              <option value="Ernakulam">Ernakulam</option>
+              <option value="Idukki">Idukki</option>
+              <option value="Kannur">Kannur</option>
+              <option value="Kasargod">Kasargod</option>
+              <option value="Kollam">Kollam</option>
+              <option value="Kottayam">Kottayam</option>
+              <option value="Kozhikode">Kozhikode</option>
+              <option value="Malappuram">Malappuram</option>
+              <option value="Palakkad">Palakkad</option>
+              <option value="Pathanamthitta">Pathanamthitta</option>
+              <option value="Thiruvananthapuram">Thiruvananthapuram</option>
+              <option value="Thrissur">Thrissur</option>
+              <option value="Wayanad">Wayanad</option>
+            </select>
             <br />
             <input
               placeholder="City"
@@ -201,19 +214,31 @@ const Profile = () => {
               onChange={dataChange}
             />
             <br />
-            <input
-              placeholder="profession"
+            <select
+              placeholder="Profession"
               type="text"
               name="profession"
               onChange={dataChange}
-            />
+              id=""
+            >
+              <option value="">Profession</option>
+              <option value="">IT</option>
+              <option value="">Accountant</option>
+            </select>
             <br />
-            <input
+            <select
               placeholder="qualification"
               type="text"
               name="qualification"
               onChange={dataChange}
-            />
+              id=""
+            >
+              <option value="">Qualification</option>
+              <option value="High School">High School</option>
+              <option value="Bachelors">Bachelors</option>
+              <option value="Masters">Masters</option>
+              <option value="Doctorate">Doctorate</option>
+            </select>
             <br />
             {/* <label htmlFor="">Future plans</label> */}
             <input
@@ -223,8 +248,6 @@ const Profile = () => {
               onChange={dataChange}
             />
             <br />
-
-
             {/* <label htmlFor="">Father Occupation</label> */}
             <input
               placeholder="Disabilities"
@@ -234,12 +257,19 @@ const Profile = () => {
             />
             <br />
             {/* <label htmlFor="">Mother Name</label> */}
-            <input
+            <select
               placeholder="Religion"
               type="text"
               name="religion"
               onChange={dataChange}
-            />
+              id=""
+            >
+              <option value="">Religion</option>
+              <option value="">Christian</option>
+              <option value="">Islam</option>
+              <option value="">Hindu</option>
+              <option value="">Other</option>
+            </select>
             <br />
             {/* <label  htmlFor="">Mother Occupation</label> */}
             <input
@@ -259,12 +289,10 @@ const Profile = () => {
             <br />
           </div>
         </div>
-        <button className="sub" onClick={profileReRegistraion} >
+        <button className="sub" onClick={profileReRegistraion}>
           Next
         </button>
       </div>
-
-
 
       <footer></footer>
     </div>

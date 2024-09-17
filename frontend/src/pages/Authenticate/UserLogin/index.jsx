@@ -1,42 +1,40 @@
 import "./login.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import {useContext, useState } from "react";
+import { useContext, useState } from "react";
 import IdContext from "../../../context/IdContext";
 import { useAuth } from "../../../CustomApi/UseAuth";
 
 const Login = () => {
   const navigate = useNavigate();
   const { setAuth } = useAuth();
-  const [data, setData] = useState(
-    {
-      email: "",
-      password: ""
-    }
-  );
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
 
   const loginData = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8003/api/auth/login', data, { withCredentials: true });
+      const response = await axios.post(
+        "http://localhost:8003/api/auth/login",
+        data,
+        { withCredentials: true }
+      );
       if (response.data.message === "login successful") {
-        setAuth(response.data.accessToken)
-        navigate('/buddysHomePage');
+        setAuth(response.data.accessToken);
+        navigate("/buddysHomePage");
       } else {
-        alert('Login failed. Please check your credentials and try again.');
+        alert("Login failed. Please check your credentials and try again.");
       }
     } catch (error) {
-      alert('Login failed.');
-      console.error('Login error:', error);
+      alert("Login failed.");
+      console.error("Login error:", error);
     }
   };
-
-  
-
 
   return (
     <div className="anoop2">

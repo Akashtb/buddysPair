@@ -140,8 +140,67 @@ const SignUp = () => {
     }
   };
 
+  // const validateForm = () => {
+  //   const {
+  //     firstName,
+  //     lastName,
+  //     username,
+  //     email,
+  //     password,
+  //     confirmPassword,
+  //     phno,
+  //   } = signupData;
+
+  //   if (!firstName || !lastName || !username || !email || !password || !confirmPassword || !phno) {
+  //     toast.error("Please fill in all required fields");
+  //     return false;
+  //   }
+
+  //   if (password !== confirmPassword) {
+  //     toast.error("Passwords do not match");
+  //     return false;
+  //   }
+
+  //   return true;
+  // };
+
   const registration = async () => {
-   
+    const { firstName, lastName, username, email, password, confirmPassword, phno } = signupData;
+    if (!firstName) {
+      toast.error("Please fill the firstname");
+      return; // Stop further execution if validation fails
+    }
+    
+    if (!lastName) {
+      toast.error("Please fill the lastname");
+      return;
+    }
+  
+    if (!username) {
+      toast.error("Please fill the username");
+      return;
+    }
+  
+    if (!email) {
+      toast.error("Please fill the email");
+      return;
+    }
+  
+    if (!password) {
+      toast.error("Please fill the password");
+      return;
+    }
+  
+    if (!confirmPassword) {
+      toast.error("Please fill the confirm password");
+      return;
+    }
+  
+    if (!phno) {
+      toast.error("Please fill the phone number");
+      return;
+    }
+
     if (!gmailOTPVerified) {
       toast.error("Please verify OTP for your email");
       return;  

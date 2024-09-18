@@ -46,7 +46,31 @@ const Profile = () => {
   console.log(reRegistrationData);
 
   const profileReRegistraion = async () => {
-    const { state, district,city,profession,qualification,religion,motherTongue,aboutMe,height,weight,bodyType,martialStatus,familyType,diabilities,caste,patnerExpectation,fatherName,numberOfMarriedSibilings,numberOfSibilings,fatherOccupation,motherName,motherOccupation,address} = reRegistrationData
+    const {
+      state,
+      district,
+      city,
+      profession,
+      qualification,
+      religion,
+      motherTongue,
+      aboutMe,
+      height,
+      weight,
+      bodyType,
+      martialStatus,
+      familyType,
+      diabilities,
+      caste,
+      patnerExpectation,
+      fatherName,
+      numberOfMarriedSibilings,
+      numberOfSibilings,
+      fatherOccupation,
+      motherName,
+      motherOccupation,
+      address,
+    } = reRegistrationData;
 
     if (!state) {
       toast.error("Please fill the state");
@@ -140,7 +164,7 @@ const Profile = () => {
       toast.error("Please enter the address");
       return;
     }
-  
+
     try {
       const response = await axiosPrivate.post(
         `/api/matrimony/profile/createProfile`,

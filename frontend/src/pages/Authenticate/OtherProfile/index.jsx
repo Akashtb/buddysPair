@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 // import { getId } from "../../../src/utils/index.js";
 import "./other.css";
@@ -62,6 +63,10 @@ const Other = () => {
 
   const handleBack = () => {
     navigate(-1); // Go back to the previous page
+  };
+
+  const onGallery = () => {
+    navigate(`/gallery/${pro._id}`);
   };
 
   const ColorChange = () => {
@@ -136,6 +141,7 @@ const Other = () => {
           <div className="extra">
             <div className="view2">
               <img
+                onClick={onGallery}
                 className="viewimg"
                 src="https://th.bing.com/th/id/OIGP.TmXbZ0WBVGvkkhJpqZeI?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"
                 alt=""
@@ -263,28 +269,32 @@ const Other = () => {
       </div>
       <div className="components">
         {/* <h1>halo</h1> */}
-        <img
+        {/* <motion whileTap={{ scale: 1.2 }}>
+          
+          <i id="one" onClick={Hombtn} class="fa-solid fa-circle-xmark"></i>
+        </motion> */}
+        <motion.i
+          whileHover={{ scale: 1.2, color: "orange" }}
+          id="one"
           onClick={Hombtn}
-          className="img122"
-          src="../../../src/assets/Authentication/Button.jpg"
-          alt=""
-        />
-        <img
-          className="img122"
-          src="../../../src/assets/Authentication/Button1.jpg"
-          alt=""
-        />
-        <img
-          className="img122"
-          src="../../../src/assets/Authentication/Button2.jpg"
-          alt=""
-        />
-        <img
+          class="fa-solid fa-circle-xmark"
+        ></motion.i>
+        <motion.i
+          whileHover={{ scale: 1.2, backgroundColor: "rgb(227, 60, 160)" }}
+          id="two"
+          class="fa-solid fa-heart"
+        ></motion.i>
+        <motion.i
+          whileHover={{ scale: 1.2, backgroundColor: "rgb(86, 74, 180)" }}
+          id="three"
+          class="fa-solid fa-star"
+        ></motion.i>
+        <motion.i
+          whileHover={{ scale: 1.2, backgroundColor: "rgb(230, 135, 97)" }}
+          id="four"
           onClick={() => Chat(data._id)}
-          className="msg12"
-          src="../../../src/assets/Authentication/Message.jpg"
-          alt=""
-        />
+          class="fa-solid fa-comment"
+        ></motion.i>
       </div>
       {/* <footer>
         <h4>Haaai</h4>

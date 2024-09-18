@@ -71,7 +71,7 @@ const Home = ({socket}) => {
       </div>
 
       <div className='DesktopViewContainer'>
-        <div className='sideBarContainer'>
+        <div className={`sideBarContainer ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
           <BuddyHomeSideBar />
         </div>
         <div className="buddyHomecontent">
@@ -94,7 +94,7 @@ const Home = ({socket}) => {
           </div>
         </div>
       </div>
-      <div className='DummyPageContainerFooter'>
+      <div className={`DummyPageContainerFooter ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
         <BuddyHomeFooter showProfileOptions={showProfileOptions} />
       </div>
     </div>

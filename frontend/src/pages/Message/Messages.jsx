@@ -7,7 +7,6 @@ import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfil
 import Message from '../../components/Message/Message';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
-import axios from 'axios';
 import RecentConversation from '../../components/recentConversation/RecentConversation';
 
 const Messages = () => {
@@ -47,7 +46,7 @@ const Messages = () => {
         setProfileData(profiledata.data)
       } catch (error) {
         console.error('Failed to fetch conversations:', error);
-      }
+      } 
     };
 
     if (matrimonyProfileId) {

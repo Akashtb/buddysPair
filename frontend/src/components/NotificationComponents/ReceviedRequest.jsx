@@ -3,18 +3,27 @@ import tick from '../../assets/buddysHome/success icon.svg';
 import { RxCross2 } from "react-icons/rx";
 import { formatDate } from '../../utils/FormDate';
 import { SocketMessageContext } from '../../context/SocketMessageContext';
+import { useNavigate } from 'react-router-dom';
 
 function ReceviedRequest({RequestedUserName,requestTime,fromUID}) {
     const {setReceivedRequest,receivedRequest} = useContext(SocketMessageContext)
-   
+    const navigate = useNavigate()
     const formattedTime = formatDate(requestTime);
-    const handleRemoveRequest = () => {
+
+
+    const handleRemoveRequest = (e) => {
+        e.stopPropagation();
+        setReceivedRequest([]);
+    };
+
+    const navigateToRecevied=()=>{
+        navigate(`/received`);
         const updatedRequests = receivedRequest.filter(request => request.fromUID !== fromUID);
         setReceivedRequest(updatedRequests);
-    };
+    }
  
   return (
-    <div className="BuddyNotification2">
+    <div className="BuddyNotification2" onClick={navigateToRecevied}>
     <div className="BuddyNotification2Content">
         <div className='TickAndMessageContainer'>
             <div className="TickAndMessage">

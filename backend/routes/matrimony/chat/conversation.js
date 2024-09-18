@@ -71,6 +71,20 @@ router.get('/getCurrentUserConversation/:id',verifyProfile,async(req,res)=>{
     }
 })
 
+router.get('/getConversation/:id', verifyProfile, async (req, res) => {
+    const otherUserId = req.query.friendId; 
+    try {
+        const conversation = await ConversationMembers.findOne({
+            members: { $in: [req.params.id, otherUserId] }
+        });
+        console.log(conversation);
+        
+        res.status(200).json(conversation);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+});
+
 router.get('/getContactedProfile/:id', async (req, res) => {
     const id = req.params.id;
     try {

@@ -1,13 +1,30 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import './buddyNotifications.css';
 import ReceivedMessage from '../NotificationComponents/ReceivedMessage';
 import ReceviedRequest from '../NotificationComponents/ReceviedRequest';
 import AcceptRequest from '../NotificationComponents/AcceptRequest';
 import RejectRequest from '../NotificationComponents/RejectRequest';
 import { SocketMessageContext } from '../../context/SocketMessageContext';
+import IdContext from '../../context/IdContext';
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 
 const BuddyNotifications = ({ socket }) => {
   const { socketMessage, receivedRequest, acceptedRequest, rejectRequest } = useContext(SocketMessageContext);
+  //   const getConversationsArray = async () => {
+  //     try {
+  //       const response = await axiosPrivate.get(`/api/matrimony/conversation/getCurrentUserConversation/${matrimonyProfileId}`)
+  //       setConversationArray(response.data)
+  //     } catch (error) {
+  //       console.error('Failed to fetch conversations:', error);
+  //     } 
+  //   };
+
+  //   if (matrimonyProfileId) {
+  //     getConversationsArray();
+  //   }
+  // }, [matrimonyProfileId]);
+  // console.log(conversationArray);
+
 
   const uniqueMessages = useMemo(() => {
     const senderData = socketMessage.reduce((acc, message) => {
@@ -21,6 +38,8 @@ const BuddyNotifications = ({ socket }) => {
     }, {});
     return Object.values(senderData);
   }, [socketMessage]);
+
+
 
   const filteredRequests = useMemo(() => {
     const latestRequests = receivedRequest.reduce((acc, request) => {

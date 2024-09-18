@@ -166,7 +166,7 @@ function App() {
           <ProtectedRoute>
             <SentPage />
           </ProtectedRoute>}
-        />
+        /> 
 
         <Route path="/accept" element={
           <ProtectedRoute>

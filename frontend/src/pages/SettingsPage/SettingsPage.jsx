@@ -65,12 +65,13 @@ function SettingsPage() {
             </div>
 
             <div className="main">
-                <header className="activity-header">
-                    <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
-                    <h1 className="title">Settings</h1>
-                    <div className="profilePicContainer" onClick={toggleProfileOptions}>
-                    </div>
-                </header>
+            <div className="activity-header">
+          <header className="messages-header">
+            <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
+            <h1 className="title">Settings</h1>
+            
+          </header>
+        </div>
 
 
 

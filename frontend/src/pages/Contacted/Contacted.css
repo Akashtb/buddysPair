@@ -7,11 +7,16 @@
 .accept-icon{
     color: green;
     font-weight: 800;
-    font-size: 14px;
-
+    font-size: 28px;
+}
+.accept-icon :hover{
+    color: rgb(87, 109, 87);
 }
 .remove-icon{
     color:red;
     font-weight: 800;
-    font-size: 14px;
+    font-size: 28px;
+}
+.remove-icon :hover{
+    color:rgb(242, 179, 179);
 }

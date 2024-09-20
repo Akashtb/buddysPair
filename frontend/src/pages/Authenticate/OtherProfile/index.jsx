@@ -112,12 +112,12 @@ const Other = () => {
             src="../../../src/assets/Authentication/Scroll.svg"
             alt=""
           /> */}
-          <img
+        {/*  <img
             className="img4"
             src="../../../src/assets/Authentication/profile1.jpeg"
             alt=""
-          />
-          {/* <img className="img4" src={data?.profilePic} alt="" /> */}
+          />*/}
+           <img className="img4" src={data?.profilePic} alt="" /> 
           <div className="botImg">
             <br />
             <div className="name12">

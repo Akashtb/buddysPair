@@ -24,7 +24,11 @@ const Filter = () => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showProfileOptions, setShowProfileOptions] = useState(false);
     const [visibleSubSelection, setVisibleSubSelection] = useState(null);
-
+    const keralaDistricts = [
+        'Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasargod',
+       'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad',
+       'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad'
+     ];
     const toggleProfileOptions = () => {
         setIsSidebarOpen(!isSidebarOpen);
         setShowProfileOptions(!showProfileOptions);
@@ -153,13 +157,19 @@ const Filter = () => {
                                                         <option value="all">All</option>
                                                         <option value="male">Male</option>
                                                         <option value="female">Female</option>
+                                                        <option value="other">Other</option>
                                                     </>
                                                 )}
                                                 {key === 'location' && (
                                                     <>
-                                                        <option value="nearby">Nearby</option>
-                                                        <option value="city">In My City</option>
-                                                        <option value="country">In My Country</option>
+                                                        <label>Locations</label>
+            <option value="">All</option>
+              {keralaDistricts.map(district => (
+                <option key={district} value={district}>
+                  {district}
+                </option>
+              ))}
+        
                                                     </>
                                                 )}
                                                 {key === 'interestsHobbies' && (

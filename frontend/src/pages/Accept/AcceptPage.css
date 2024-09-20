@@ -8,7 +8,7 @@
 }
 
 .leftsidebar { 
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   bottom: 0;
@@ -41,7 +41,7 @@
 .user-list {
   margin-top: 80px; /* Account for the fixed header */
   padding-top: 20px;
-  margin-left: 80px;
+  margin-left: 0px;
   background-color: #fff;
   border-radius: 20px 20px 20px 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
@@ -61,12 +61,22 @@
 
 .call-icon {
   color: red;
-  font-size: 14px;
+  font-size: 28px;
+  padding-right: 30px;
+  cursor: pointer;
 }
+.call-icon :hover{
+color:  rgb(202, 113, 174);
 
+}
 .video-icon {
   color: grey;
-  font-size: 14px;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+.video-icon :hover{
+color:rgb(202, 113, 174);
 }
 
 .profilePic {

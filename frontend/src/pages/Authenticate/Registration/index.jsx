@@ -60,7 +60,7 @@ const Registration = () => {
       toast.error("Failed to upload file");
       return null;
     }
-  };
+  };  
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB in bytes
 

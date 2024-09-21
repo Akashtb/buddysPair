@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import "./profile.css";
+import "./profile.css"; 
 
 import { useContext } from "react";
 import IdContext from "../../../context/IdContext";
@@ -60,18 +60,18 @@ const Profile = () => {
       toast.error("Please fill the city");
       return;
     }
-    // if (!profession) {
-    //   toast.error("Please fill the profession");
-    //   return;
-    // }
+    if (!profession) {
+      toast.error("Please fill the profession");
+      return;
+    }
     if (!qualification) {
       toast.error("Please fill the qualification");
       return;
     }
-    // if (!religion) {
-    //   toast.error("Please select a religion");
-    //   return;
-    // }
+    if (!religion) {
+      toast.error("Please select a religion");
+      return;
+    }
     if (!motherTongue) {
       toast.error("Please fill the mother tongue");
       return;
@@ -317,8 +317,8 @@ const Profile = () => {
               id=""
             >
               <option value="">Profession</option>
-              <option value="">IT</option>
-              <option value="">Accountant</option>
+              <option value="IT">IT</option>
+              <option value="Accountant">Accountant</option>
             </select>
             <br />
             <select
@@ -360,10 +360,10 @@ const Profile = () => {
               id=""
             >
               <option value="">Religion</option>
-              <option value="">Christian</option>
-              <option value="">Islam</option>
-              <option value="">Hindu</option>
-              <option value="">Other</option>
+              <option value="Christian">Christian</option>
+              <option value="Islam">Islam</option>
+              <option value="Hindu">Hindu</option>
+              <option value="Other">Other</option>
             </select>
             <br />
             {/* <label  htmlFor="">Mother Occupation</label> */}

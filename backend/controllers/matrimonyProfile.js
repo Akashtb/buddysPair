@@ -18,6 +18,7 @@ export const createProfile = async (req, res) => {
             userId: findUserData._id,
             firstName: findUserData.firstName,
             lastName: findUserData.lastName,
+            userName: findUserData.username,
             phoneNumber: findUserData.phno,
             email: findUserData.email,
             profilePic: findUserData.profilePic,
@@ -65,6 +66,8 @@ export const createProfile = async (req, res) => {
         };
 
         const newProfile = new Profile(profileData);
+        console.log(newProfile);
+
         await newProfile.save();
 
         res.status(201).json({ message: "Profile created successfully", profile: newProfile });
@@ -235,14 +238,14 @@ export const sendRequest = async (req, res) => {
         const fromUIDProfile = await Profile.findById(fromUID)
         const fromUIDFullName = `${fromUIDProfile.firstName} ${fromUIDProfile.lastName}`;
 
-        const time = new Date().toISOString();  
+        const time = new Date().toISOString();
 
         const io = req.app.get('socketio');
         const user = getUser(toUID);
         if (user) {
             const socketId = user.socketId;
             io.to(socketId).emit('requestReceived', { fromUID, toUID, fromUIDFullName });
-            io.to(socketId).emit('requestNotification',{fromUID, toUID, fromUIDFullName,time})
+            io.to(socketId).emit('requestNotification', { fromUID, toUID, fromUIDFullName, time })
         } else {
             console.log(`User with id ${toUID} not connected.`);
         } res.status(200).json({ message: "Request sent successfully" });
@@ -276,7 +279,7 @@ export const cancelSentRequest = async (req, res) => {
             const fromUIDProfile = await Profile.findById(fromUID)
             const fromUIDFullName = `${fromUIDProfile.firstName} ${fromUIDProfile.lastName}`;
 
-            const io = req.app.get('socketio'); 
+            const io = req.app.get('socketio');
             const user = getUser(requestToId);
 
             if (user) {
@@ -347,14 +350,14 @@ export const acceptRequest = async (req, res) => {
             const io = req.app.get('socketio');
             const user = getUser(requestFromId);
 
-            if(user){
+            if (user) {
                 const socketId = user.socketId;
                 io.to(socketId).emit('acceptRequest', { requestFromId, requestToId, toUIDFullName });
-                io.to(socketId).emit('acceptRequestNotification', { requestFromId, requestToId, toUIDFullName,time });
+                io.to(socketId).emit('acceptRequestNotification', { requestFromId, requestToId, toUIDFullName, time });
 
-            }else{
+            } else {
                 console.log(`User with id ${requestFromId} not connected.`);
-            }return res.status(200).json({ message: "Request accepted successfully" });
+            } return res.status(200).json({ message: "Request accepted successfully" });
 
         } else {
             return res.status(400).json({ message: "Connection request is already accepted or rejected" });
@@ -399,14 +402,14 @@ export const rejectTheRequest = async (req, res) => {
             const io = req.app.get('socketio');
             const user = getUser(requestFromId);
 
-            if(user){
+            if (user) {
                 const socketId = user.socketId;
                 io.to(socketId).emit('rejectRequest', { requestFromId, requestToId, toUIDFullName });
-                io.to(socketId).emit('rejectRequestNotification', { requestFromId, requestToId, toUIDFullName,time});
+                io.to(socketId).emit('rejectRequestNotification', { requestFromId, requestToId, toUIDFullName, time });
 
-            }else{
+            } else {
                 console.log(`User with id ${requestFromId} not connected.`);
-            }return res.status(200).json({ message: "Request rejected successfully" });
+            } return res.status(200).json({ message: "Request rejected successfully" });
 
         } else {
             return res.status(400).json({ message: "Connection request is already accepted or rejected" });
@@ -607,12 +610,12 @@ export const nearbyProfile = async (req, res) => {
 
         const nearbyProfiles = await Profile.find(
             {
-                district:userProfile.district,
+                district: userProfile.district,
                 gender,
                 _id: { $ne: profileId },
             },
         );
-        
+
 
         const connections = await MatrimonyProfileconnection.find({
             $or: [
@@ -625,18 +628,18 @@ export const nearbyProfile = async (req, res) => {
         const connectedProfileIds = connections.map(connection =>
             connection.fromUID.toString() === profileId ? connection.toUID.toString() : connection.fromUID.toString()
         );
-     
+
         const filteredProfiles = nearbyProfiles.filter(profile => {
             const isConnected = connectedProfileIds.includes(profile._id.toString());
 
             if (!isConnected) {
-                return true; 
+                return true;
             } else {
                 const connection = connections.find(conn =>
                     (conn.fromUID.toString() === profileId && conn.toUID.toString() === profile._id.toString()) ||
                     (conn.toUID.toString() === profileId && conn.fromUID.toString() === profile._id.toString())
                 );
-                return connection.status === 'pending'; 
+                return connection.status === 'pending';
             }
         });
 
@@ -658,12 +661,12 @@ export const qualificationProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { gender} = userProfile.preference;
+        const { gender } = userProfile.preference;
 
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                qualification:userProfile.qualification,
+                qualification: userProfile.qualification,
                 gender,
                 _id: { $ne: profileId },
             },
@@ -722,7 +725,7 @@ export const professionProfile = async (req, res) => {
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                profession:userProfile.profession,
+                profession: userProfile.profession,
                 gender,
                 _id: { $ne: profileId },
             },
@@ -848,19 +851,19 @@ export const sortedProfile = async (req, res) => {
     try {
         const userProfile = await Profile.findById(profileId);
         console.log(userProfile);
-        
+
 
         if (!userProfile) {
             return res.status(404).json({ message: 'user Profile not found' });
         }
-        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification,profession } = userProfile.preference;
+        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification, profession } = userProfile.preference;
 
         const nearbyProfiles = await Profile.find(
             {
                 district,
                 qualification,
                 profession,
-                // religion,
+                religion,
                 age: { $gte: fromAge, $lte: toAge },
                 height: { $gte: fromHeight, $lte: toHeight },
                 gender,
@@ -899,3 +902,203 @@ export const sortedProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+
+export const filterUpdate = async (req, res) => {
+    const profileId = req.params.id;
+
+    try {
+        const { gender, age, district, interestsHobbies, newestMembers, lastActive, religion } = req.body;
+
+
+        const updatedFilter = await Profile.findByIdAndUpdate(profileId, {
+            filter: {
+                gender,
+                age: {
+                    min: age.min,
+                    max: age.max,
+                },
+                district,
+                interestsHobbies,
+                newestMembers,
+                lastActive,
+                religion,
+            }
+        }, { new: true });
+
+        res.status(200).json({ message: 'Filter updated successfully', filter: updatedFilter.filter });
+    } catch (error) {
+        console.error('Error updating filter:', error);
+        res.status(500).json({ error: 'Failed to apply filter' });
+    }
+}
+
+
+
+export const updateProfilePreference = async (req, res) => {
+    const profileId = req.params.id; // Get the profile ID from URL params
+    const preference = req.body; // Get preferences from request body
+
+    try {
+        // Find and update the profile with new preferences
+        const updatedProfile = await Profile.findByIdAndUpdate(
+            profileId,
+            { preference },  // Update the preference field
+            { new: true, runValidators: true } // Return the updated document
+        );
+
+        // Check if profile exists
+        if (!updatedProfile) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
+
+        res.status(200).json({
+            message: "Preferences updated successfully",
+            updatedProfile,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error updating preferences",
+            error: error.message,
+        });
+    }
+};
+
+
+export const getFilteredProfiles = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const userProfile = await Profile.findById(id);
+        if (!userProfile) {
+            return res.status(404).json({ message: 'Profile not found' });
+        }
+
+        const {
+            gender,
+            age: { min: minAge, max: maxAge },
+            district,
+            // newestMembers,
+            lastActive,
+            religion
+        } = userProfile.filter;
+
+        const query = {
+            _id: { $ne: id }
+        };
+
+        // Apply gender filter
+
+
+        if (gender === 'all') {
+            query.gender = { $in: ['Male', 'Female'] };
+        } else if (gender && gender !== 'all') {
+            query.gender = gender;
+        }
+
+        // Apply district filter
+
+
+        if (district === 'all') {
+            query.district = {
+                $in: ['Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasargod',
+                    'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad',
+                    'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad']
+            };
+        } else if (district && district !== 'all') {
+            query.district = district;
+        }
+
+        // Apply religion filter
+
+        if (religion === 'all') {
+            query.religion = {
+                $in: ['Christian', 'Islam', 'Hindu', 'Other']
+            };
+        } else if (religion && religion !== 'all') {
+            query.religion = religion;
+        }
+
+
+        const today = new Date();
+
+        // // Newest Members - 'thisWeek'
+        // if (newestMembers === 'thisWeek') {
+        //     const oneWeekAgo = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - 7, 0, 0, 0, 0));
+        //     query.createdAt = { $gte: oneWeekAgo }; 
+        // }
+
+        // // Newest Members - 'thisMonth'
+        // if (newestMembers === 'thisMonth') {
+        //     const startOfMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1, 0, 0, 0, 0)); 
+        //     query.createdAt = { $gte: startOfMonth };
+        // }
+
+        // // Newest Members - 'all' (no filter)
+        // if (newestMembers === 'all') {
+        // }
+
+
+
+        // sorting acctive members
+        if (lastActive === 'today') {
+            today.setHours(0, 0, 0, 0);
+            query.lastLogin = { $gte: today };
+        }
+
+        if (lastActive === 'thisWeek') {
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(today.getDate() - 7);
+            oneWeekAgo.setHours(0, 0, 0, 0);
+            query.lastLogin = { $gte: oneWeekAgo };
+        }
+
+        if (lastActive === 'thisMonth') {
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            query.lastLogin = { $gte: startOfMonth };
+        }
+
+        // Apply age filters
+
+        if (minAge) query.age = { $gte: Number(minAge) };
+        if (maxAge) query.age = { ...query.age, $lte: Number(maxAge) };
+
+        // Find nearby profiles
+        const nearbyProfiles = await Profile.find(query);
+
+        // Get connections for the current user
+        const profileId = id; // The current user's profile ID
+        const connections = await MatrimonyProfileconnection.find({
+            $or: [
+                { fromUID: profileId },
+                { toUID: profileId }
+            ]
+        });
+
+        const connectedProfileIds = connections.map(connection =>
+            connection.fromUID.toString() === profileId ? connection.toUID.toString() : connection.fromUID.toString()
+        );
+
+        // Filter profiles based on connection status
+        const filteredProfiles = nearbyProfiles.filter(profile => {
+            const isConnected = connectedProfileIds.includes(profile._id.toString());
+
+            if (!isConnected) {
+                return true; // Profile is not connected at all
+            } else {
+                const connection = connections.find(conn =>
+                    (conn.fromUID.toString() === profileId && conn.toUID.toString() === profile._id.toString()) ||
+                    (conn.toUID.toString() === profileId && conn.fromUID.toString() === profile._id.toString())
+                );
+                return connection.status === 'pending'; // Profile is connected but with pending status
+            }
+        });
+
+        // Return the filtered profiles
+        res.status(200).json(filteredProfiles);
+    } catch (error) {
+        console.error('Error fetching filtered profiles:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+

@@ -1,5 +1,5 @@
 import express from 'express'
-import { acceptRequest, addViewedProfile, cancelSentRequest, cancelShortListTheProfile, createProfile, findConnectionStatus, getProfileByUserID, listOfAccepted, listOfRejection, listOfSentRequest, listOfUserViwedMyProfile, nearbyProfile, professionProfile, qualificationProfile, rejectTheRequest, requestListOfUser, reRegisterProfile, searchProfiles, sendRequest, shortListedList, shortListedListedBy, shortListedListOfAUser, shortListTheProfile, sortedProfile, updateProfile, viewAUser } from '../../controllers/matrimonyProfile.js'
+import { acceptRequest, addViewedProfile, cancelSentRequest, cancelShortListTheProfile, createProfile, filterUpdate, findConnectionStatus, getFilteredProfiles, getProfileByUserID, listOfAccepted, listOfRejection, listOfSentRequest, listOfUserViwedMyProfile, nearbyProfile, professionProfile, qualificationProfile, rejectTheRequest, requestListOfUser, reRegisterProfile, searchProfiles, sendRequest, shortListedList, shortListedListedBy, shortListedListOfAUser, shortListTheProfile, sortedProfile, updateProfile, updateProfilePreference, viewAUser } from '../../controllers/matrimonyProfile.js'
 import { verifyProfile, verifyRegisterToken, verifyUser } from '../../utils/verifyToken.js';
 const router = express.Router()
 
@@ -29,6 +29,9 @@ router.delete('/cancelshortListTheProfile/:id/:otherProfile',verifyProfile,cance
 router.get('/shortListedList/:id',verifyProfile,shortListedList);
 router.get('/shortListedListOfAUser/:id/:Otherid',verifyProfile,shortListedListOfAUser);
 router.get('/shortListedBy/:id',verifyProfile,shortListedListedBy);
+router.put('/savePreferences/:id',verifyProfile,updateProfilePreference)
+router.put('/updateFilter/:id',verifyProfile,filterUpdate)
+router.get('/filter/:id',getFilteredProfiles)
 
 
 

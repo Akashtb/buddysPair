@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Header from '../../components/NotifyHeader/Header';
 import { SiTicktick } from 'react-icons/si';
 import './Filter.css';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
+import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
+import IdContext from '../../context/IdContext';
+import { useNavigate } from 'react-router-dom';
 
 const Filter = () => {
+    const navigate = useNavigate()
     const [sortSelection, setSortSelection] = useState({
         newestMembers: false,
         lastActive: false,
@@ -14,17 +18,37 @@ const Filter = () => {
 
     const [filterSelection, setFilterSelection] = useState({
         gender: false,
-        location: false,
+        district: false,
         interestsHobbies: false,
         religion: false,
     });
 
-    const [sortSubSelection, setSortSubSelection] = useState({});
-    const [filterSubSelection, setFilterSubSelection] = useState({});
+    const [sortSubSelection, setSortSubSelection] = useState({
+        newestMembers: "all",
+        lastActive: "today",
+        age: { min: 18, max: 35 }
+    });
+    const [filterSubSelection, setFilterSubSelection] = useState({
+        gender: "all",
+        district: "all",
+        interestsHobbies:"sports",
+        religion:"all"
+    });
+
+    const axiosPrivate = useAxiosPrivate()
+    const { matrimonyProfileId } = useContext(IdContext);
+
+
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [showProfileOptions, setShowProfileOptions] = useState(false);
     const [visibleSubSelection, setVisibleSubSelection] = useState(null);
 
+
+    const keralaDistricts = [
+        'Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasargod',
+        'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad',
+        'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad'
+    ];
     const toggleProfileOptions = () => {
         setIsSidebarOpen(!isSidebarOpen);
         setShowProfileOptions(!showProfileOptions);
@@ -60,10 +84,30 @@ const Filter = () => {
         }));
     };
 
+    const handleApply = async () => {
+        const appliedFilters = {
+            gender: filterSubSelection.gender,
+            age: sortSubSelection.age,
+            district: filterSubSelection.district,
+            interestsHobbies: filterSubSelection.interestsHobbies,
+            newestMembers: sortSubSelection.newestMembers,
+            lastActive: sortSubSelection.lastActive,
+            religion: filterSubSelection.religion,
+        };
+    
+        console.log('Applied Filters:', appliedFilters);
+    
+        try {
+            const response = await axiosPrivate.put(`/api/matrimony/profile/updateFilter/${matrimonyProfileId}`, appliedFilters);
+            navigate('/locationSorting', { state: { message: "Filter" } });
+        } catch (error) {
+            console.error('Error applying filter:', error);
+        }
+    };
     console.log(sortSelection);
-    
+
     console.log(filterSelection);
-    
+
 
     return (
         <div className="activitycontainer">
@@ -72,10 +116,10 @@ const Filter = () => {
             </div>
             <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
                 <div className="activity-header">
-                    <Header 
-                        title="Filter" 
-                        profilePic="assets/Images/propic1.jpg" 
-                        onProfilePicClick={toggleProfileOptions} 
+                    <Header
+                        title="Filter"
+                        profilePic="assets/Images/propic1.jpg"
+                        onProfilePicClick={toggleProfileOptions}
                     />
                 </div>
                 <div className="filter-content">
@@ -85,9 +129,9 @@ const Filter = () => {
                             {Object.keys(sortSelection).map((key) => (
                                 <li key={key}>
                                     <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                                    <SiTicktick 
-                                        onClick={() => handleSortClick(key)} 
-                                        className="tick-icon" 
+                                    <SiTicktick
+                                        onClick={() => handleSortClick(key)}
+                                        className="tick-icon"
                                     />
                                     {visibleSubSelection === key && key === 'age' && (
                                         <div className="filter-subselection">
@@ -107,8 +151,8 @@ const Filter = () => {
                                     )}
                                     {visibleSubSelection === key && key !== 'age' && (
                                         <div className="filter-subselection">
-                                            <select 
-                                                value={sortSubSelection[key] || ''} 
+                                            <select
+                                                value={sortSubSelection[key] || ''}
                                                 onChange={(e) => handleSortSubSelection(key, e.target.value)}
                                             >
                                                 {key === 'newestMembers' && (
@@ -138,28 +182,33 @@ const Filter = () => {
                             {Object.keys(filterSelection).map((key) => (
                                 <li key={key}>
                                     <span>{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</span>
-                                    <SiTicktick 
-                                        onClick={() => handleFilterClick(key)} 
-                                        className="tick-icon" 
+                                    <SiTicktick
+                                        onClick={() => handleFilterClick(key)}
+                                        className="tick-icon"
                                     />
                                     {visibleSubSelection === key && (
                                         <div className="filter-subselection">
-                                            <select 
-                                                value={filterSubSelection[key] || ''} 
+                                            <select
+                                                value={filterSubSelection[key] || ''}
                                                 onChange={(e) => handleFilterSubSelection(key, e.target.value)}
                                             >
                                                 {key === 'gender' && (
                                                     <>
                                                         <option value="all">All</option>
-                                                        <option value="male">Male</option>
-                                                        <option value="female">Female</option>
+                                                        <option value="Male">Male</option>
+                                                        <option value="Female">Female</option>
                                                     </>
                                                 )}
-                                                {key === 'location' && (
+                                                {key === 'district' && (
                                                     <>
-                                                        <option value="nearby">Nearby</option>
-                                                        <option value="city">In My City</option>
-                                                        <option value="country">In My Country</option>
+                                                        <label>Locations</label>
+                                                        <option value="all">All</option>
+                                                        {keralaDistricts.map(district => (
+                                                            <option key={district} value={district}>
+                                                                {district}
+                                                            </option>
+                                                        ))}
+
                                                     </>
                                                 )}
                                                 {key === 'interestsHobbies' && (
@@ -173,10 +222,10 @@ const Filter = () => {
                                                 {key === 'religion' && (
                                                     <>
                                                         <option value="all">All</option>
-                                                        <option value="christianity">Christianity</option>
-                                                        <option value="islam">Islam</option>
-                                                        <option value="hinduism">Hinduism</option>
-                                                        <option value="other">Other</option>
+                                                        <option value="Christian">Christianity</option>
+                                                        <option value="Islam">Islam</option>
+                                                        <option value="Hindu">Hinduism</option>
+                                                        <option value="Other">Other</option>
                                                     </>
                                                 )}
                                             </select>
@@ -187,7 +236,7 @@ const Filter = () => {
                         </ul>
                         <div className="filter-footer">
                             <button className="cancel-button">Cancel</button>
-                            <button className="apply-button">Apply</button>
+                            <button className="apply-button" onClick={handleApply}>Apply</button>
                         </div>
                     </div>
                 </div>

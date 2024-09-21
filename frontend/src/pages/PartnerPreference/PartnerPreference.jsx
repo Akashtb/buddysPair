@@ -85,7 +85,7 @@ const PartnerPreference = () => {
 
       if (response.status === 200) {
         toast.success("Preferences saved successfully");
-        navigate('/locationSorting'); // Use navigate to programmatically navigate
+        navigate('/locationSorting',{ state: { message: "Prefrence" } }); // Use navigate to programmatically navigate
       } else {
         toast.error("Failed to save preferences");
       }

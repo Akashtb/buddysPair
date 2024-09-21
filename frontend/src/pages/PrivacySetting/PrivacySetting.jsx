@@ -71,7 +71,7 @@ const PrivacySettings = () => {
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
       <div className="preference-header">
       <span className='search'><CiSearch /></span>
-        <h2>Privacy & Settings</h2>
+        <h1 className="title">Privacy & Settings</h1>
         <div className="profilePicContainer" onClick={toggleProfileOptions}>
         <img src={profilePic || "assets/Images/defaultProfilePic.jpg"} alt="Profile" className="profilePic" />
         </div>

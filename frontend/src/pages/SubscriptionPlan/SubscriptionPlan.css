@@ -8,7 +8,7 @@
 }
 
 .leftsidebar {
-  flex: 0 0 130px; /* Fixed width for left sidebar */
+  flex: 0 0 80px; /* Fixed width for left sidebar */
 }
 .activity-header {
   position: fixed;
@@ -29,18 +29,14 @@
 .subscription-content {
   margin-top: 80px; /* to account for fixed header */
   padding-top: 20px;
-  margin-left:160px;
-  margin-right: 80px;
   background-color: #000000;
   border-radius: 20px 20px 20px 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
   color: #ffffff;
   flex: 1;
   display: flex;
-  justify-content: center;
-  
+  justify-content: center;  
 }
-
 
 .sub-icon-tick {
   margin-right: 20px;

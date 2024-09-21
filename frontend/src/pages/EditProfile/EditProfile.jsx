@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { MdOutlineKeyboardArrowLeft , MdEdit} from 'react-icons/md';
 import './EditProfile.css';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import IdContext from '../../context/IdContext';
 import { axiosPrivate } from '../../CustomApi/Axios';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const EditProfile = () => {
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
     const { matrimonyProfileId } = useContext(IdContext);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [showProfileOptions, setShowProfileOptions] = useState(false);
     const [profileData, setProfileData] = useState({
         firstName: '',
         lastName: '',
@@ -22,62 +22,54 @@ const EditProfile = () => {
         photos: [],
         video: []
     });
-    const [profilePic, setProfilePic] = useState('');
+    const [profilePic, setProfilePic] = useState('assets/Images/defaultProfilePic.jpg');
     const [selectedImages, setSelectedImages] = useState([]);
     const [selectedReels, setSelectedReels] = useState([]);
+    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-    const toggleProfileOptions = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-        setShowProfileOptions(!showProfileOptions);
-    };
+   
 
-    const handleBack = () => {
-        navigate(-1); // Go back to the previous page
-    };
+    const handleBack = () => navigate(-1);
 
     useEffect(() => {
         const getProfile = async () => {
             try {
                 const { data } = await axiosPrivate.get(`/api/matrimony/profile/getProfile/${matrimonyProfileId}`);
-
                 if (data) {
                     setProfileData(data);
-                    setProfilePic(data.profilePic || "assets/Images/defaultProfilePic.jpg");
-                } else {
-                    console.error("Profile data is empty");
+                    setProfilePic(data.profilePic || 'assets/Images/defaultProfilePic.jpg');
                 }
             } catch (error) {
-                toast.error("Error fetching profile");
+                toast.error('Error fetching profile');
                 console.error('Error fetching profile:', error);
             }
         };
-
         getProfile();
     }, [matrimonyProfileId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Handle profile updates
             await axiosPrivate.put(`/api/matrimony/profile/updatetheProfile/${matrimonyProfileId}`, profileData);
-    
-            // Handle file uploads
-            const formData = new FormData();
-            selectedImages.forEach(image => formData.append('images', image));
-            selectedReels.forEach(reel => formData.append('reels', reel));
-    
-            // Only make this request if there are files to upload
-            if (selectedImages.length || selectedReels.length) {
-                await axiosPrivate.post('/api/matrimony/profile/uploadFiles', formData);
+
+            const imageUrls = await Promise.all(selectedImages.map(file => uploadToCloudinary(file)));
+            const reelUrls = await Promise.all(selectedReels.map(file => uploadToCloudinary(file)));
+
+            if (imageUrls.length || reelUrls.length) {
+                await axios.post('https://api.cloudinary.com/v1_1/dwtoizfsv/image/upload', {
+                    images: imageUrls,
+                    reels: reelUrls
+                });
             }
-    
-            alert('Profile updated successfully');
-            navigate('/buddysHomePage'); // Navigate to a profile page or other desired location
+
+            toast.success('Profile updated successfully');
+
         } catch (error) {
             console.error('Error updating profile:', error);
+            toast.error('Error updating profile');
         }
     };
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProfileData({
@@ -86,38 +78,74 @@ const EditProfile = () => {
         });
     };
 
-    const handleFileChange = (e, type) => {
-        const files = Array.from(e.target.files);
-    
-        if (type === 'images') {
-            if (profileData.photos.length + files.length > 5) {
-                toast.error("You can only upload a maximum of 5 images.");
-                return;
-            }
-            setSelectedImages([...selectedImages, ...files]);
-            setProfileData({
-                ...profileData,
-                photos: [...profileData.photos, ...files.map(file => URL.createObjectURL(file))]
-            });
-        } else if (type === 'reels') {
-            if (profileData.video.length + files.length > 5) {
-                toast.error("You can only upload a maximum of 5 reels.");
-                return;
-            }
-            setSelectedReels([...selectedReels, ...files]);
-            setProfileData({
-                ...profileData,
-                video: [...profileData.video, ...files.map(file => URL.createObjectURL(file))]
-            });
+    const uploadToCloudinary = async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'upload'); // Replace with your Cloudinary preset
+
+        try {
+            const response = await axios.post('https://api.cloudinary.com/v1_1/dwtoizfsv/image/upload', formData);
+            return response.data.secure_url;
+        } catch (error) {
+            console.error('Error uploading to Cloudinary', error);
+            toast.error('Failed to upload file');
+            return null;
         }
     };
-    
+
+    const handleFileChange = async (e) => {
+        const { files, name } = e.target;
+        let fileUrls = [];
+
+        const validateFileSize = (file) => file.size <= MAX_FILE_SIZE;
+
+        const validFiles = Array.from(files).filter(validateFileSize);
+        if (files.length !== validFiles.length) {
+            toast.error('Some files are too large and will not be uploaded.');
+        }
+
+        fileUrls = await Promise.all(validFiles.map(uploadToCloudinary));
+
+        if (name === 'multipleimg') {
+            if (validFiles.length + profileData.photos.length > 5) {
+                toast.error('You can only upload up to 5 images');
+                return;
+            }
+            setProfileData((prevData) => ({
+                ...prevData,
+                photos: [...prevData.photos, ...fileUrls]
+            }));
+        } else if (name === 'reel') {
+            if (validFiles.length + profileData.video.length > 5) {
+                toast.error('You can only upload up to 5 videos');
+                return;
+            }
+            setProfileData((prevData) => ({
+                ...prevData,
+                video: [...prevData.video, ...fileUrls]
+            }));
+        }
+    };
+
+     // New handler for profile picture change
+     const handleProfilePicChange = async (e) => {
+        const file = e.target.files[0];
+        if (file && file.size <= MAX_FILE_SIZE) {
+            const newProfilePicUrl = await uploadToCloudinary(file);
+            if (newProfilePicUrl) {
+                setProfilePic(newProfilePicUrl);
+                setProfileData({ ...profileData, profilePic: newProfilePicUrl });
+            }
+        } else {
+            toast.error('Profile picture is too large. Please choose a file smaller than 10MB.');
+        }
+    };
+
     const removeImage = (index) => {
         setProfileData({
             ...profileData,
             photos: profileData.photos.filter((_, i) => i !== index)
         });
-        setSelectedImages(selectedImages.filter((_, i) => i !== index));
     };
 
     const removeReel = (index) => {
@@ -125,35 +153,45 @@ const EditProfile = () => {
             ...profileData,
             video: profileData.video.filter((_, i) => i !== index)
         });
-        setSelectedReels(selectedReels.filter((_, i) => i !== index));
     };
 
-    const onClick = () => {
-        navigate('/change')
-    };
+    const onClick = () => navigate('/change');
 
     return (
         <div className="activitycontainer">
             <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
-                <LeftSideBar/>
+                <LeftSideBar />
             </div>
             <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
                 <div className="activity-header">
                     <header className="messages-header">
-                        <span className="back-arrow" onClick={handleBack}><MdOutlineKeyboardArrowLeft /></span>
+                        <span className="back-arrow" onClick={handleBack}>
+                            <MdOutlineKeyboardArrowLeft />
+                        </span>
                         <h1 className="title">Edit My Profile</h1>
-                        <div className="profilePicContainer" onClick={toggleProfileOptions}>
-                            <img src={profilePic || "assets/Images/defaultProfilePic.jpg"} alt="Profile" className="profilePic" />
-                        </div>
+                        
                     </header>
                 </div>
 
                 <section className="edit-profile-container">
                     <div className="user-info">
-                        <img src={profilePic || "assets/Images/defaultProfilePic.jpg"} alt="Profile" className="user-image" />
+                        <div className="profile-pic-container">
+                            <img src={profilePic} alt="Profile" className="user-image" />
+                            <label htmlFor="profile-pic-upload" className="edit-icon">
+                                <MdEdit />
+                            </label>
+                            <input
+                                type="file"
+                                id="profile-pic-upload"
+                                accept="image/*"
+                                name="profilePic"
+                                onChange={handleProfilePicChange}
+                                style={{ display: 'none' }}
+                            />
+                        </div>
                         <div className="user-details">
                             <h2>{profileData.firstName} {profileData.lastName}</h2>
-                            <p>{profileData.bio || 'No bio available'}</p>
+                            <p>{profileData.aboutMe || 'No bio available'}</p>
                         </div>
                     </div>
                     <p className="info-text">All your account information can be accessed and edited here but your mail will still remain un-edited.</p>
@@ -185,6 +223,7 @@ const EditProfile = () => {
                             value={profileData.email}
                             placeholder="Email"
                             onChange={handleChange}
+                            disabled
                         />
                         <input
                             type="tel"
@@ -193,66 +232,59 @@ const EditProfile = () => {
                             placeholder="Phone Number"
                             onChange={handleChange}
                         />
-                        <textarea
-                            name="bio"
-                            value={profileData.bio}
-                            placeholder="Bio"
-                            onChange={handleChange}
-                        ></textarea>
-
+                          <div className="form-group">        
+                            <input
+                            type="text"
+                                name="bio"
+                                value={profileData.aboutMe}  // Make sure this is bound to profileData.bio
+                                placeholder="Bio"
+                                onChange={handleChange}  // Ensure onChange is handled properly
+                            ></input>
+                        </div>
                         <div className="image-upload-section">
                             <div className="image-title">Images</div>
                             <div className="image-previews">
-                                {profileData.photos && profileData.photos.map((photo, index) => (
+                                {profileData.photos.map((photo, index) => (
                                     <div className="image-preview-container" key={index}>
                                         <img src={photo} alt={`Upload ${index}`} className="image-preview" />
-                                        <button 
-                                            type="button" 
-                                            className="close-button" 
-                                            onClick={() => removeImage(index)}
-                                        >
-                                            &times;
-                                        </button>
+                                        <button type="button" className="close-button" onClick={() => removeImage(index)}>&times;</button>
                                     </div>
                                 ))}
                                 <label htmlFor="image-upload" className="upload-icon">+</label>
                                 <input
                                     type="file"
                                     id="image-upload"
+                                    accept="image/*"
                                     multiple
-                                    onChange={(e) => handleFileChange(e, 'images')}
+                                    name="multipleimg"
+                                    onChange={handleFileChange}
                                     style={{ display: 'none' }}
                                 />
                             </div>
 
                             <div className="reel-title">Reels</div>
                             <div className="reel-previews">
-                                {profileData.video && profileData.video.map((video, index) => (
+                                {profileData.video.map((video, index) => (
                                     <div className="reel-preview-container" key={index}>
-                                        <video src={video} alt={`Reel ${index}`} className="reel-preview" controls />
-                                        <button 
-                                            type="button" 
-                                            className="close-button" 
-                                            onClick={() => removeReel(index)}
-                                        >
-                                            &times;
-                                        </button>
+                                        <video src={video} className="reel-preview" controls />
+                                        <button type="button" className="close-button" onClick={() => removeReel(index)}>&times;</button>
                                     </div>
                                 ))}
                                 <label htmlFor="reel-upload" className="upload-icon">+</label>
                                 <input
                                     type="file"
                                     id="reel-upload"
-                                    multiple
                                     accept="video/*"
-                                    onChange={(e) => handleFileChange(e, 'reels')}
+                                    multiple
+                                    name="reel"
+                                    onChange={handleFileChange}
                                     style={{ display: 'none' }}
                                 />
                             </div>
                             <span className="firstTextNav" onClick={onClick}>Change password</span>
                         </div>
 
-                        <button type="submit" className="update-button">Update</button>
+                        <button type="submit" className="submit-btn">Save</button>
                     </form>
                 </section>
             </div>

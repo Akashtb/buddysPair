@@ -6,6 +6,7 @@ import axios from "axios";
 import "./other.css";
 import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
 import IdContext from "../../../context/IdContext";
+import { FaCommentSlash } from "react-icons/fa";
 
 const Other = () => {
   const navigate = useNavigate();
@@ -15,7 +16,14 @@ const Other = () => {
   const [color2, setColor2] = useState("none");
   const [data, setData] = useState([]);
   const [pro, setPro] = useState("");
-  const [halo, sethalo] = useState(false);
+  // const [halo, sethalo] = useState(false);
+  const [heart, setHeart] = useState(false);
+  const [heart2, setHeart2] = useState(false);
+  const [broken, setBroken] = useState(false);
+  const [star, setStar] = useState(false);
+  const [ban, setBan] = useState(false);
+  const [choice, setChoice] = useState(false);
+  // const [count, setCount] = useState(0);
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
 
@@ -35,21 +43,27 @@ const Other = () => {
   };
 
   useEffect(() => {
+    // setChoice(true);
+    // setBroken(true);
+    // setHeart(true);
+    // setHeart2(true);
+    // setStar(true);
+    // setBan(true);
     Getprofile(), profileisViewed();
   }, [id]);
-  const Chatbtn = () => {
-    navigate(`/chat/${pro}`);
-    // console.log("proooooooo", pro);
-  };
+  // const Chatbtn = () => {
+  //   navigate(`/chat/${pro}`);
+  //   // console.log("proooooooo", pro);
+  // };
   const Chat = (_id) => {
     navigate(`/chat/${_id}`);
   };
   const Hombtn = () => {
     navigate(`/landing/${getId()}`);
   };
-  const proBtn = () => {
-    navigate(`/mypro/${pro}`);
-  };
+  // const proBtn = () => {
+  //   navigate(`/mypro/${pro}`);
+  // };
 
   const formattedDate = new Date(data.dateOfBirth).toLocaleDateString("en-US", {
     year: "numeric",
@@ -66,7 +80,7 @@ const Other = () => {
   };
 
   const onGallery = () => {
-    navigate(`/gallery/${pro._id}`);
+    navigate(`/gallery/${data._id}`);
   };
 
   const ColorChange = () => {
@@ -76,6 +90,66 @@ const Other = () => {
   const ColorChange2 = () => {
     setColor1(" rgb(234, 186, 246)");
     setColor2("white");
+  };
+
+  const OnStar = () => {
+    setStar(!star);
+    if (star) {
+      console.log("eject");
+    } else {
+      console.log("sort");
+    }
+  };
+
+  const OnHeart = () => {
+    setHeart2(!heart2);
+    if (heart2) {
+      console.log("request cancelled");
+    } else {
+      console.log("request send");
+    }
+  };
+
+  const Accept = (key) => {
+    if (key == 1) {
+      console.log("accept");
+      // setChoice(false);
+      // setHeart(true);
+      // setBan(false);
+    } else {
+      console.log("decline");
+      // setChoice(false);
+      // setHeart(false);
+      // setBan(true);
+    }
+  };
+
+  const renderIcons = () => {
+    const { status, fromUID } = connectionStatus;
+
+    if (status === "pending" && fromUID === matrimonyProfileId) {
+      return <>{(setHeart(false), setStar(false), setBan(true))};</>;
+    }
+
+    if (status === "accepted" && fromUID === matrimonyProfileId) {
+      return <>{(setHeart(true), setBan(false))}</>;
+    }
+
+    if (status === "rejected" && fromUID === matrimonyProfileId) {
+      return <>{(setBroken(true), setBan(true))}</>;
+    }
+
+    if (status === "pending" && fromUID !== matrimonyProfileId) {
+      return <>{setChoice(true)}</>;
+    }
+
+    if (status === "accepted" && fromUID !== matrimonyProfileId) {
+      return <>{(setChoice(false), setHeart(true), setBan(false))}</>;
+    }
+
+    if (status === "rejected" && fromUID !== matrimonyProfileId) {
+      return <>{(setHeart(false), setBan(true))}</>;
+    }
   };
 
   return (
@@ -279,22 +353,52 @@ const Other = () => {
           onClick={Hombtn}
           class="fa-solid fa-circle-xmark"
         ></motion.i>
+
+        {choice ? (
+          <>
+            <p id="p1" onClick={() => Accept(1)} style={{ cursor: "pointer" }}>
+              Accept
+            </p>
+            <p id="p2" onClick={() => Accept(2)} style={{ cursor: "pointer" }}>
+              Reject
+            </p>
+          </>
+        ) : broken ? (
+          <motion.i
+            id="two-two"
+            // whileHover={{ scale: 1.2 }}
+            class="fa-solid fa-heart-crack"
+          ></motion.i>
+        ) : (
+          <motion.i
+            onClick={OnHeart}
+            whileHover={{ scale: 1.2 }}
+            id={heart ? "two-one" : heart2 ? "two-three" : "two"}
+            class="fa-solid fa-heart"
+          ></motion.i>
+        )}
+
         <motion.i
-          whileHover={{ scale: 1.2, backgroundColor: "rgb(227, 60, 160)" }}
-          id="two"
-          class="fa-solid fa-heart"
-        ></motion.i>
-        <motion.i
-          whileHover={{ scale: 1.2, backgroundColor: "rgb(86, 74, 180)" }}
-          id="three"
+          onClick={OnStar}
+          whileHover={{ scale: 1.2 }}
+          id={star ? "three-one" : "three"}
           class="fa-solid fa-star"
         ></motion.i>
-        <motion.i
-          whileHover={{ scale: 1.2, backgroundColor: "rgb(230, 135, 97)" }}
-          id="four"
-          onClick={() => Chat(data._id)}
-          class="fa-solid fa-comment"
-        ></motion.i>
+
+        {choice ? (
+          ""
+        ) : ban ? (
+          <span id="four-two">
+            <FaCommentSlash />
+          </span>
+        ) : (
+          <motion.i
+            whileHover={{ scale: 1.2, backgroundColor: "rgb(250, 185, 137)" }}
+            id="four"
+            onClick={() => Chat(data._id)}
+            class="fa-solid fa-comment"
+          ></motion.i>
+        )}
       </div>
       {/* <footer>
         <h4>Haaai</h4>

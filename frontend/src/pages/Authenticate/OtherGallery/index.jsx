@@ -22,7 +22,7 @@ const Gallery = () => {
   };
 
   const back25 = () => {
-    window.location.href = `/other`;
+    window.location.href = `/other/${data._id}`;
   };
 
   const Zoom = (z) => {

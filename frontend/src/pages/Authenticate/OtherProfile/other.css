@@ -263,55 +263,173 @@ h2 {
   background-color: rgb(205, 21, 251);
   /* background-color: rgb(159, 65, 183); */
 }
-#one {
+.anoop19 #one {
   /* font-size: px; */
   background-color: rgb(255, 255, 255);
   color: rgb(253, 155, 117);
 }
-#two {
+
+.anoop19 #two {
   padding: 11px;
   font-size: 18px;
   border-radius: 50%;
-  background-color: rgb(232, 112, 184);
+  background-color: rgb(255, 200, 233);
   /* background-color: rgb(227, 60, 160); */
 }
-#three {
+.anoop19 #two:hover {
+  background-color: rgb(251, 182, 226);
+}
+.anoop19 #two-two {
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(212, 176, 198);
+}
+.anoop19 #two-three {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(251, 83, 187);
+}
+.anoop19 #two-one {
+  background-color: rgb(253, 206, 214);
+  color: rgb(255, 6, 159);
+  font-size: 18px;
+  padding: 11px;
+  border-radius: 50%;
+}
+.anoop19 #two-one:hover {
+  background-color: rgb(249, 231, 244);
+}
+.anoop19 #three {
   padding: 11px;
   font-size: 18px;
   border-radius: 50%;
   background-color: rgb(133, 102, 196);
   /* background-color: rgb(186, 174, 210); */
 }
-#four {
+.anoop19 #three:hover {
+  background-color: rgb(105, 105, 231);
+}
+.anoop19 #three-one {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(172, 172, 236);
+  color: rgb(255, 218, 118);
+}
+.anoop19 #three-one:hover {
+  background-color: rgb(195, 195, 244);
+  color: rgb(255, 211, 88);
+}
+.anoop19 #four {
   padding: 11px;
   font-size: 18px;
   border-radius: 50%;
   background-color: rgb(253, 159, 175);
 }
+.anoop19 #four-two {
+  background-color: rgb(211, 194, 167);
+  font-size: 24px;
+  padding: 9px;
+  border-radius: 50%;
+  color: white;
+}
+
+.anoop19 #p1 {
+  background-color: rgb(107, 217, 140);
+  padding: 5px;
+  border-radius: 10px;
+  color: white;
+}
+.anoop19 #p2 {
+  background-color: rgb(234, 97, 111);
+  padding: 5px;
+  border-radius: 10px;
+  color: white;
+}
 
 @media screen and (min-width: 1030px) {
-  #one {
+  .anoop19 #p1 {
+    background-color: rgb(107, 217, 140);
+    padding: 11px;
+    border-radius: 10px;
+    color: white;
+  }
+  .anoop19 #p2 {
+    background-color: rgb(234, 97, 111);
+    padding: 11px;
+    border-radius: 10px;
+    color: white;
+  }
+  .anoop19 #one {
     /* font-size: px; */
     font-size: 50px;
     background-color: rgb(255, 255, 255);
     color: rgb(230, 177, 156);
   }
-  #two {
+  .anoop19 #two {
     padding: 11px;
     font-size: 30px;
     border-radius: 50%;
-    background-color: rgb(232, 112, 184);
+    background-color: rgb(255, 200, 233);
   }
-  #three {
+  .anoop19 #two:hover {
+    background-color: rgb(255, 186, 230);
+  }
+  .anoop19 #two-two {
+    padding: 11px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(212, 176, 198);
+  }
+  .anoop19 #two-three {
+    padding: 11px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(251, 83, 187);
+  }
+  .anoop19 #two-one {
+    background-color: rgb(253, 206, 214);
+    color: rgb(255, 6, 159);
+    font-size: 30px;
+    padding: 11px;
+    border-radius: 50%;
+  }
+  .anoop19 #two-one:hover {
+    background-color: rgb(249, 231, 244);
+  }
+  .anoop19 #three {
     padding: 11px 10px 11px 10px;
     font-size: 30px;
     border-radius: 50%;
   }
-  #four {
+  .anoop19 #three:hover {
+    background-color: rgb(105, 105, 231);
+  }
+  .anoop19 #three-one {
+    padding: 11px 10px 11px 10px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(172, 172, 236);
+    color: rgb(255, 218, 118);
+  }
+  .anoop19 #three-one:hover {
+    background-color: rgb(195, 195, 244);
+    color: rgb(255, 211, 88);
+  }
+  .anoop19 #four {
     padding: 11px;
     font-size: 30px;
     border-radius: 50%;
     background-color: rgb(251, 187, 198);
+  }
+  .anoop19 #four-two {
+    background-color: rgb(211, 194, 167);
+    font-size: 35px;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
   }
 
   .anoop19 {

@@ -1,5 +1,5 @@
 import express from 'express'
-import { acceptRequest, addViewedProfile, cancelSentRequest, cancelShortListTheProfile, createProfile, filterUpdate, findConnectionStatus, getFilteredProfiles, getProfileByUserID, listOfAccepted, listOfRejection, listOfSentRequest, listOfUserViwedMyProfile, nearbyProfile, professionProfile, qualificationProfile, rejectTheRequest, requestListOfUser, reRegisterProfile, searchProfiles, sendRequest, shortListedList, shortListedListedBy, shortListedListOfAUser, shortListTheProfile, sortedProfile, updateProfile, updateProfilePreference, viewAUser } from '../../controllers/matrimonyProfile.js'
+import { acceptRequest, addViewedProfile, blockUser, cancelSentRequest, cancelShortListTheProfile, createProfile, filterUpdate, findConnectionStatus, getFilteredProfiles, getProfileByUserID, listOfAccepted, listOfRejection, listOfSentRequest, listOfUserViwedMyProfile, nearbyProfile, professionProfile, qualificationProfile, rejectTheRequest, requestListOfUser, reRegisterProfile, searchProfiles, sendRequest, shortListedList, shortListedListedBy, shortListedListOfAUser, shortListTheProfile, sortedProfile, updateProfile, updateProfilePreference, viewAUser } from '../../controllers/matrimonyProfile.js'
 import { verifyProfile, verifyRegisterToken, verifyUser } from '../../utils/verifyToken.js';
 const router = express.Router()
 
@@ -7,9 +7,10 @@ router.post('/createProfile',verifyRegisterToken,createProfile)
 router.get('/searchProfiles', searchProfiles);
 router.get('/getProfile/:id',viewAUser);
 router.put('/updatetheProfile/:id',updateProfile)
-router.post('/sendRequest/:id',verifyProfile,sendRequest)
-router.post('/acceptRequest/:id',verifyProfile,acceptRequest) 
-router.post('/rejectTheRequest/:id',verifyProfile,rejectTheRequest) 
+router.post('/sendRequest/:id',sendRequest)
+router.post('/acceptRequest/:id',acceptRequest) 
+router.post('/rejectTheRequest/:id',rejectTheRequest) 
+router.post('/block/:id',blockUser) 
 router.delete('/cancelTheRequest/:id',verifyProfile,cancelSentRequest)
 router.get('/getProfileByUserID/:id',verifyUser,getProfileByUserID)
 // router.get('/listOfRequests/:profileId',requestListOfUser)

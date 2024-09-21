@@ -96,10 +96,30 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           }
         }
       })
+
+      socket.current.on('blocked',({userId, userFullName, otherUserId})=>{
+        console.log("blocked is called",userFullName);
+        
+        if (String(userId) === String(profile?._id)) {
+          if (Array.isArray(nearByProfileList)) {
+            const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(userId));
+            setNearByProfileList([...updatedNearByList]);  
+          }
+          if (Array.isArray(qulificationProfileList)) {
+            const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(userId));
+            setQualificationProfileList([...updatedQualificationList]);
+          } 
+          if (Array.isArray(designationProfileList)) {
+            const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(userId));
+            setDesignationProfileList([...updatedDesignationList]);
+          }
+        }
+      })
   
       // Clean up listener on component unmount
       return () => {
         socket.current.off('requestReceived');
+        socket.current.off('blocked');
         socket.current.off('cancelReceived');
         socket.current.off('acceptRequest');
         socket.current.off('rejectRequest');
@@ -291,6 +311,30 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
     }
   };
 
+
+  const handleBlock = async () => {
+    try {
+      await axiosPrivate.post(`/api/matrimony/profile/block/${matrimonyProfileId}`, { otherUserId: profile._id })
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
+        setNearByProfileList([...updatedNearByList]);             
+      } 
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
+        setQualificationProfileList([...updatedQualificationList]);
+      } 
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
+        setDesignationProfileList([...updatedDesignationList]);
+      }
+      setAcceptOrReject(true)
+      SetNoLikeIcon(true)
+      toast.success("You have blocked the request successfully")
+    } catch (error) {
+      console.error('Error accepting request:', error);
+      toast.error("User might cancel the request to check. Please Refresh the page.");
+    }
+  }
   useEffect(() => {
     const { status, fromUID } = connectionStatus;
 
@@ -313,7 +357,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3' onClick={handleRequestClick}>
             {isSentRequest ? <MdOutlineCancelScheduleSend /> : <AiOutlineUsergroupAdd />}
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
         </>
       );
     }
@@ -327,7 +371,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3'>
             <LuMessageCircle />
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
         </>
       );
     }
@@ -359,7 +403,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
             {acceptOrReject === 'accept' && <LuMessageCircle onClick={handleInfoFRejected}/>}
             {acceptOrReject === 'reject' && <RiUserForbidLine onClick={handleInfoFRejected}/>} */}
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
         </>
       )
     }
@@ -373,7 +417,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3'>
             <LuMessageCircle />
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
         </>
       )
     }
@@ -400,7 +444,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3' onClick={handleRequestClick}>
             {isSentRequest ? <MdOutlineCancelScheduleSend /> : <AiOutlineUsergroupAdd />}
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
         </>
       );
     }

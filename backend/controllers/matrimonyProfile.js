@@ -3,6 +3,7 @@ import { getUser } from "../index.js";
 import MatrimonyProfileconnection from "../models/ConnectedProfile.js";
 import ConversationMembers from "../models/conversation.js";
 import Profile from "../models/MatrimonyProfile.js";
+import MessageOfUser from "../models/Message.js";
 import shortListMatrimonyProfile from "../models/shortList.js";
 import User from '../models/User.js'
 
@@ -419,6 +420,131 @@ export const rejectTheRequest = async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 };
+
+
+
+export const blockUser = async (req, res) => {
+    const userId = req.params.id;
+    const { otherUserId } = req.body;
+
+    try {
+        // Search for an existing connection
+        let connection = await MatrimonyProfileconnection.findOne({
+            $or: [
+                { fromUID: userId, toUID: otherUserId },
+                { fromUID: otherUserId, toUID: userId }
+            ]
+        });
+
+        if (connection) {
+            if (connection.status === "rejected") {
+                return res.status(400).json({ message: "You have already rejected this user" });
+            } else if (connection.status === "blocked") {
+                return res.status(400).json({ message: "User is already blocked" });
+            }
+
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+
+            if (connection.status === "pending") {
+                connection.status = "blocked";
+                await connection.save();
+
+                // Remove any shortlisting
+                await shortListMatrimonyProfile.deleteMany({
+                    $or: [
+                        { fromUID: userId, toUID: otherUserId },
+                        { fromUID: otherUserId, toUID: userId }
+                    ]
+                });
+
+                // Emit block event
+                if (user) {
+                    const socketId = user.socketId;
+                    io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
+                } else {
+                    console.log(`User with id ${otherUserId} not connected.`);
+                }
+
+                return res.status(200).json({ message: "User blocked successfully in pending status, and shortlists removed", connection });
+            }
+
+            if (connection.status === "accepted") {
+                connection.status = "blocked";
+                await connection.save();
+
+                // Remove shortlisting
+                await shortListMatrimonyProfile.deleteMany({
+                    $or: [
+                        { fromUID: userId, toUID: otherUserId },
+                        { fromUID: otherUserId, toUID: userId }
+                    ]
+                });
+
+                // Delete conversation and messages
+                const conversation = await ConversationMembers.findOne({
+                    members: { $all: [userId, otherUserId] }
+                });
+                if (conversation) {
+                    await ConversationMembers.deleteOne({ _id: conversation._id });
+                    await MessageOfUser.deleteMany({ conversationId: conversation._id });
+                }
+
+                // Emit block event
+                if (user) {
+                    const socketId = user.socketId;
+                    io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
+                    console.log(userFullName);
+                    
+                } else {
+                    console.log(`User with id ${otherUserId} not connected.`);
+                }
+
+                return res.status(200).json({ message: "User blocked successfully in accepted status, conversation removed", connection });
+            }
+        } else {
+            // If connection doesn't exist, create a new blocked connection
+            connection = new MatrimonyProfileconnection({
+                fromUID: userId,
+                toUID: otherUserId,
+                status: "blocked",
+            });
+
+            await connection.save();
+
+            // Remove any shortlisting
+            await shortListMatrimonyProfile.deleteMany({
+                $or: [
+                    { fromUID: userId, toUID: otherUserId },
+                    { fromUID: otherUserId, toUID: userId }
+                ]
+            });
+
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+
+            // Emit block event
+            if (user) {
+                const socketId = user.socketId;
+                io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
+            } else {
+                console.log(`User with id ${otherUserId} not connected.`);
+            }
+
+            return res.status(201).json({ message: "New connection created, user blocked, and shortlists removed", connection });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred", error });
+    }
+};
+
+  
+
+
 
 export const shortListTheProfile = async (req, res) => {
     const profileId = req.params.id;

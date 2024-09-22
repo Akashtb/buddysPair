@@ -7,12 +7,14 @@ import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
+import { toast } from 'react-toastify';
 
 const SentPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
   const [sentProfiles, setSentProfiles] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
 
   const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -24,14 +26,14 @@ const SentPage = () => {
 
   useEffect(() => {
     const fetchSentRequests = async () => {
-      setLoading(true); // Start loading
+      setLoading(true);
+      setError(null); // Reset error state
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/listOfSentRequest/${matrimonyProfileId}`);
         const requestList = response.data;
 
         if (requestList.length === 0) {
           setSentProfiles([]);
-          setLoading(false); // End loading
           return;
         }
 
@@ -43,9 +45,9 @@ const SentPage = () => {
         const profiles = profilesResponses.map(res => res.data);
         setSentProfiles(profiles);
       } catch (error) {
-        console.error('Error fetching sent requests or profiles:', error);
+        setError('Error fetching sent requests or profiles.'); // Set error message
       } finally {
-        setLoading(false); // End loading
+        setLoading(false);
       }
     };
 
@@ -61,13 +63,14 @@ const SentPage = () => {
     return acc;
   }, {});
 
-  const cancelTheRequest = async toUId => {
+  const cancelTheRequest = async (toUId) => {
     try {
       const response = await axiosPrivate.delete(`/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}`, {
         params: { requestToId: toUId }
       });
       if (response.status === 200) {
         setSentProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== toUId));
+        toast.success("successfully cancel the request")
       }
     } catch (error) {
       console.error('Error cancelling the request:', error);
@@ -89,11 +92,15 @@ const SentPage = () => {
         </div>
 
         <div className="user-list">
-          {loading ? ( // Show spinner while loading
+          {loading ? (
             <div className="loading-spinner">
               <div className="spinner"></div>
             </div>
-          ) : sentProfiles.length === 0 ? ( // No profiles found
+          ) : error ? (
+            <div className="error-message">
+              <p>{error}</p>
+            </div>
+          ) : sentProfiles.length === 0 ? (
             <div className="no-data-message">
               <p>No sent requests found.</p>
             </div>
@@ -103,11 +110,9 @@ const SentPage = () => {
                 <h2 className="letter-heading">{letter}</h2>
                 {groupedUsers[letter].map(user => (
                   <UserCard
-                    key={user.id}
+                    key={user._id} // Use _id as the key
                     user={user}
-                    actions={[
-                      { className: 'remove-icon', icon: <ImCross />, onClick: () => cancelTheRequest(user._id) }
-                    ]}
+                    actions={[{ className: 'remove-icon', icon: <ImCross />, onClick: () => cancelTheRequest(user._id) }]}
                   />
                 ))}
               </div>

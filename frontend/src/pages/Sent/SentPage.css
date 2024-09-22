@@ -15,7 +15,7 @@
   
   .spinner {
     border: 8px solid #f3f3f3;
-    border-top: 8px solid #007bff;
+    border-top: 8px solid #4B164C;
     border-radius: 50%;
     width: 80px;
     height: 80px;
@@ -31,7 +31,7 @@
   /* Style for the no data message */
   .no-data-message {
     text-align: center;
-    color: #007bff;
+    color: #cc6353;
     font-size: 18px;
     margin-top: 20px;
   }

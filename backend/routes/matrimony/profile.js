@@ -11,7 +11,7 @@ router.post('/sendRequest/:id',verifyProfile,sendRequest)
 router.post('/acceptRequest/:id',verifyProfile,acceptRequest) 
 router.post('/rejectTheRequest/:id',verifyProfile,rejectTheRequest) 
 router.post('/block/:id',verifyProfile,blockUser)
-router.post('/unblock/:id',unblockUser)  
+router.post('/unblock/:id',verifyProfile,unblockUser)  
 router.get('/listOfBlocked/:id', listBlockedUsers);
 router.post('/unfriend/:id',verifyProfile,unfriend) 
 router.delete('/cancelTheRequest/:id',verifyProfile,cancelSentRequest)

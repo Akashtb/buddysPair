@@ -76,6 +76,7 @@ const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
         <button onClick={() => navigate('/accept')}>Accept Request</button>
         <button onClick={() => navigate('/reject')}>Reject</button>
         <button onClick={() => navigate('/received')}>Received</button>
+        <button onClick={() => navigate('/block')}>Block</button>
         <button onClick={() => navigate('/shortlistedby')}>Shortlisted By</button>
         <button onClick={() => navigate('/shortlist')}>Shortlist</button>
         <button onClick={() => navigate('/contacted')}>Contacted</button>

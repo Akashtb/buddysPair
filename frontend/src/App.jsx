@@ -46,6 +46,7 @@ import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.jsx";
 import EditProfile from "./pages/EditProfile/EditProfile.jsx";
 import PrivacySettings from "./pages/PrivacySetting/PrivacySetting.jsx"
+import Block from "./pages/Block/Block.jsx";
 function App() {
   const { auth } = useContext(AuthContext)
   const { matrimonyProfileId } = useContext(IdContext)
@@ -179,6 +180,13 @@ function App() {
             <RejectPage />
           </ProtectedRoute>}
         />
+
+<Route path="/block" element={
+          <ProtectedRoute>
+            <Block />
+          </ProtectedRoute>}
+        />
+
 
         <Route path="/received" element={
           <ProtectedRoute>

@@ -13,7 +13,6 @@ import { SocketMessageContext } from '../../context/SocketMessageContext';
 
 const ChatRoomPage = () => {
 
-  
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState([]); 
   const messagesEndRef = useRef(null);

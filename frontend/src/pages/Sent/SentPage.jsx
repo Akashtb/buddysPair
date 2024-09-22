@@ -113,7 +113,7 @@ const SentPage = () => {
         </div>
       )}
     </div>
-  );
+  ); 
 };
 
 export default SentPage;

@@ -51,7 +51,7 @@ function App() {
   const { auth } = useContext(AuthContext)
   const { matrimonyProfileId } = useContext(IdContext)
   const axiosPrivate = useAxiosPrivate()
-  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest,cancelRequest } = useContext(SocketMessageContext)
+  const { socketMessage, setSocketMessage, receivedRequest, setReceivedRequest, acceptedRequest, setAcceptedRequest, rejectRequest, setRejectedRequest, cancelRequest } = useContext(SocketMessageContext)
   console.log("cancelRequest", cancelRequest);
   // console.log("acceptedRequest",acceptedRequest);
   // console.log("rejectRequest",rejectRequest);
@@ -167,7 +167,7 @@ function App() {
           <ProtectedRoute>
             <SentPage />
           </ProtectedRoute>}
-        /> 
+        />
 
         <Route path="/accept" element={
           <ProtectedRoute>
@@ -181,7 +181,7 @@ function App() {
           </ProtectedRoute>}
         />
 
-<Route path="/block" element={
+        <Route path="/block" element={
           <ProtectedRoute>
             <Block />
           </ProtectedRoute>}

@@ -31,7 +31,7 @@ const BuddyHomeSideBar = () => {
           <span className='BuddyHomeSideBarSubContainerIcon'><FaStar /></span>
           <label className='BuddyHomeSideBarSubContainerDesc'>Favourites</label>
         </div>
-        <div className="BuddyHomeSideBarSubContainerIconAndDesc"  onClick={()=>onClick=RedirectedHomePage('/locationSorting')}>
+        <div className="BuddyHomeSideBarSubContainerIconAndDesc"  onClick={()=>onClick=RedirectedHomePage('/filter')}>
           <span className='BuddyHomeSideBarSubContainerIcon'><BsSearchHeartFill/></span>
           <label className='BuddyHomeSideBarSubContainerDesc'>Search</label>
         </div>

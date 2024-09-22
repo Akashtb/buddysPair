@@ -53,7 +53,9 @@ const Messages = () => {
       getConversationsArray();
     }
   }, [matrimonyProfileId]);
-  console.log(conversationArray);
+ 
+
+
 
 
 
@@ -80,7 +82,7 @@ const Messages = () => {
           </div>
           {conversationArray?.map((message, index) => {
             return (
-                <RecentConversation key={index} message={message}/>
+                <RecentConversation key={index} message={message} conversationArray={conversationArray} setConversationArray={setConversationArray}/>
             );
           })}
         </div>

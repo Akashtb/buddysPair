@@ -1,7 +1,5 @@
 import express from 'express'
-import ConversationMembers from '../../../models/conversation.js'
-import mongoose from 'mongoose';
-import MatrimonyProfileconnection from '../../../models/ConnectedProfile.js';
+import ConversationMembers from '../../../models/Conversation.js'
 import { verifyProfile } from '../../../utils/verifyToken.js';
 import Profile from '../../../models/MatrimonyProfile.js';
 
@@ -73,15 +71,13 @@ router.get('/recentConversation/:id', verifyProfile, async (req, res) => {
                 const otherProfileId = conversation.members.filter((member) => member != req.params.id);
                 const profile = await Profile.findById(otherProfileId[0]);
 
-                // Attach the conversation ID to the profile
                 return {
-                    ...profile._doc, // spread profile fields
-                    conversationId: conversation._id // attach conversation ID
+                    ...profile._doc,
+                    conversationId: conversation._id 
                 };
             })
         );
 
-        // Sort profiles by creation date (newest first) and take the first 10
         const newestProfiles = contactedProfiles
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .slice(0, 10);

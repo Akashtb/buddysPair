@@ -1,7 +1,7 @@
 
 import { getUser } from "../index.js";
 import MatrimonyProfileconnection from "../models/ConnectedProfile.js";
-import ConversationMembers from "../models/conversation.js";
+import ConversationMembers from "../models/Conversation.js";
 import Profile from "../models/MatrimonyProfile.js";
 import MessageOfUser from "../models/Message.js";
 import shortListMatrimonyProfile from "../models/shortList.js";
@@ -541,6 +541,51 @@ export const blockUser = async (req, res) => {
         res.status(500).json({ message: "An error occurred", error });
     }
 };
+
+
+export const unfriend = async (req, res) => {
+    const userId = req.params.id;
+    const { otherUserId } = req.body;
+
+    if (!userId || !otherUserId) {
+        return res.status(400).json({ message: "Both user IDs are required." });
+    }
+
+    try {
+        const deletedConnection = await MatrimonyProfileconnection.findOneAndDelete({
+            $or: [
+                { fromUID: userId, toUID: otherUserId },
+                { fromUID: otherUserId, toUID: userId }
+            ]
+        });
+
+        if (deletedConnection) {
+            const conversation = await ConversationMembers.findOne({
+                members: { $all: [userId, otherUserId] }
+            });
+
+            if (conversation) {
+                await ConversationMembers.deleteOne({ _id: conversation._id });
+                await MessageOfUser.deleteMany({ conversationId: conversation._id });
+            }
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+            if (user) {
+                const socketId = user.socketId;
+                io.to(socketId).emit('unfriend', { userId, userFullName, otherUserId });
+            } else {
+                console.log(`User with id ${otherUserId} not connected.`);
+            }res.status(200).json({ message: 'User unfriended successfully' });
+        } else {
+            res.status(404).json({ message: 'Connection not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error unfriending user', error });
+    }
+};
+
 
   
 

@@ -130,7 +130,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
 
 
   useEffect(() => {
-    const findConnectionStatus = async () => {
+    const findConnectionStatus = async () => { 
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/connection-status/${matrimonyProfileId}/${profile._id}`);
         // console.log("connectionStatus", response);

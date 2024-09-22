@@ -54,21 +54,19 @@ function App() {
 
     const initialRun = async () => {
       try {
-        const response = await axiosPrivate.get('/api/auth/getIds');
-        console.log("for initialRun", response.data);
-
+         await axiosPrivate.get('/api/auth/getIds');
       } catch (error) {
-        console.error(error);
+       
       }
     };
 
-    if (matrimonyProfileId) {
+    
       initialRun();
-    }
 
 
 
-  }, [matrimonyProfileId]);
+
+  }, []);
 
 
 

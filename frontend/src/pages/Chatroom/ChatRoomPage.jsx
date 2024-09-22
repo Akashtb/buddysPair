@@ -119,7 +119,7 @@ useEffect(() => {
 
       try {
         console.log("req body for send message", message);
-        const response = await axios.post(`http://localhost:8003/api/matrimony/messages/${matrimonyProfileId}`, message);
+        const response = await axiosPrivate.post(`http://localhost:8003/api/matrimony/messages/${matrimonyProfileId}`, message);
         setMessages([...messages, response.data]);
         // console.log('Message sent:', response.data);
         setInputMessage('');

@@ -17,6 +17,7 @@ const SentPage = () => {
     setIsSidebarOpen(!isSidebarOpen);
     setShowProfileOptions(!showProfileOptions);
   };
+  
 
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId} = useContext(IdContext);

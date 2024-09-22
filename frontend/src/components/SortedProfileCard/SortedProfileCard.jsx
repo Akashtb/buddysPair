@@ -7,6 +7,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { IoHeartDislikeOutline } from "react-icons/io5";
 import { FaRegEye } from "react-icons/fa6";
 import { RiUserForbidLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { PiUserCheckLight } from "react-icons/pi";
 import { FiUserCheck } from "react-icons/fi";
 import { LuUserX } from "react-icons/lu";
@@ -357,7 +358,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3' onClick={handleRequestClick}>
             {isSentRequest ? <MdOutlineCancelScheduleSend /> : <AiOutlineUsergroupAdd />}
           </span>
-          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><RxCross2 /></span>
         </>
       );
     }
@@ -371,7 +372,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3'>
             <LuMessageCircle />
           </span>
-          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><RxCross2 /></span>
         </>
       );
     }
@@ -385,7 +386,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3' onClick={handleInfoRejected}>
             <RiUserForbidLine />
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3'><RxCross2 /></span>
         </>
       );
     }
@@ -403,7 +404,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
             {acceptOrReject === 'accept' && <LuMessageCircle onClick={handleInfoFRejected}/>}
             {acceptOrReject === 'reject' && <RiUserForbidLine onClick={handleInfoFRejected}/>} */}
           </span>
-          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><RxCross2 /></span>
         </>
       )
     }
@@ -417,7 +418,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3'>
             <LuMessageCircle />
           </span>
-          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><RxCross2 /></span>
         </>
       )
     }
@@ -431,7 +432,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3' onClick={handleInfoFRejected}>
             <RiUserForbidLine />
           </span>
-          <span className='profileCardIcon3'><FaRegEye /></span>
+          <span className='profileCardIcon3'><RxCross2 /></span>
         </>
       )
     }
@@ -444,7 +445,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           <span className='profileCardIcon3' onClick={handleRequestClick}>
             {isSentRequest ? <MdOutlineCancelScheduleSend /> : <AiOutlineUsergroupAdd />}
           </span>
-          <span className='profileCardIcon3' onClick={handleBlock}><FaRegEye /></span>
+          <span className='profileCardIcon3' onClick={handleBlock}><RxCross2 /></span>
         </>
       );
     }

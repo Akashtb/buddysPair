@@ -1,4 +1,5 @@
 
+import mongoose from 'mongoose';
 import { getUser } from "../index.js";
 import MatrimonyProfileconnection from "../models/ConnectedProfile.js";
 import ConversationMembers from "../models/Conversation.js";
@@ -424,11 +425,10 @@ export const rejectTheRequest = async (req, res) => {
 
 
 export const blockUser = async (req, res) => {
-    const userId = req.params.id;
-    const { otherUserId } = req.body;
+    const userId = req.params.id; 
+    const { otherUserId } = req.body; 
 
     try {
-        // Search for an existing connection
         let connection = await MatrimonyProfileconnection.findOne({
             $or: [
                 { fromUID: userId, toUID: otherUserId },
@@ -450,9 +450,9 @@ export const blockUser = async (req, res) => {
 
             if (connection.status === "pending") {
                 connection.status = "blocked";
+                connection.blockedBy = userId;  
                 await connection.save();
 
-                // Remove any shortlisting
                 await shortListMatrimonyProfile.deleteMany({
                     $or: [
                         { fromUID: userId, toUID: otherUserId },
@@ -460,7 +460,6 @@ export const blockUser = async (req, res) => {
                     ]
                 });
 
-                // Emit block event
                 if (user) {
                     const socketId = user.socketId;
                     io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
@@ -473,9 +472,9 @@ export const blockUser = async (req, res) => {
 
             if (connection.status === "accepted") {
                 connection.status = "blocked";
+                connection.blockedBy = userId;  
                 await connection.save();
 
-                // Remove shortlisting
                 await shortListMatrimonyProfile.deleteMany({
                     $or: [
                         { fromUID: userId, toUID: otherUserId },
@@ -483,7 +482,6 @@ export const blockUser = async (req, res) => {
                     ]
                 });
 
-                // Delete conversation and messages
                 const conversation = await ConversationMembers.findOne({
                     members: { $all: [userId, otherUserId] }
                 });
@@ -492,12 +490,10 @@ export const blockUser = async (req, res) => {
                     await MessageOfUser.deleteMany({ conversationId: conversation._id });
                 }
 
-                // Emit block event
                 if (user) {
                     const socketId = user.socketId;
                     io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
                     console.log(userFullName);
-                    
                 } else {
                     console.log(`User with id ${otherUserId} not connected.`);
                 }
@@ -505,16 +501,15 @@ export const blockUser = async (req, res) => {
                 return res.status(200).json({ message: "User blocked successfully in accepted status, conversation removed", connection });
             }
         } else {
-            // If connection doesn't exist, create a new blocked connection
             connection = new MatrimonyProfileconnection({
                 fromUID: userId,
                 toUID: otherUserId,
                 status: "blocked",
+                blockedBy: userId  
             });
 
             await connection.save();
 
-            // Remove any shortlisting
             await shortListMatrimonyProfile.deleteMany({
                 $or: [
                     { fromUID: userId, toUID: otherUserId },
@@ -527,7 +522,6 @@ export const blockUser = async (req, res) => {
             const io = req.app.get('socketio');
             const user = getUser(otherUserId);
 
-            // Emit block event
             if (user) {
                 const socketId = user.socketId;
                 io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
@@ -543,6 +537,78 @@ export const blockUser = async (req, res) => {
 };
 
 
+export const unblockUser = async (req, res) => {
+    const userId = req.params.id; 
+    const { otherUserId } = req.body; 
+
+    console.log("userId", userId);
+    console.log("otherUserId", otherUserId);
+
+    try {
+        let connection = await MatrimonyProfileconnection.findOne({
+            $or: [
+                { fromUID: userId, toUID: otherUserId },
+                { fromUID: otherUserId, toUID: userId }
+            ]
+        });
+
+        console.log("connection", connection);
+
+        if (connection && connection.status === "blocked" && connection.blockedBy.equals(userId)) {
+            await MatrimonyProfileconnection.deleteOne({ _id: connection._id });
+
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+
+            if (user) {
+                const socketId = user.socketId;
+                io.to(socketId).emit('unblocked', { userId, userFullName, otherUserId });
+            } else {
+                console.log(`User with id ${otherUserId} not connected.`);
+            }
+
+            return res.status(200).json({ message: "User unblocked and connection deleted successfully" });
+        } else {
+            return res.status(404).json({ message: "You are not the one who blocked the user" });
+        }
+    } catch (error) {
+        console.error("Error during unblock:", error); // Log full error details
+        return res.status(500).json({ message: "An error occurred while unblocking the user", error: error.message || error });
+    }
+};
+
+
+
+export const listBlockedUsers = async (req, res) => {
+    const userId = req.params.id; 
+
+    try {
+        const blockedConnections = await MatrimonyProfileconnection.find({
+            $and: [
+                { blockedBy: userId },
+                { status: "blocked" }
+            ]
+        })
+        .populate('fromUID', 'firstName lastName email age district profilePic') 
+        .populate('toUID', 'firstName lastName email age district profilePic');  
+
+        const blockedUsers = blockedConnections.map(connection => {
+            return connection.fromUID._id.toString() === userId
+                ? connection.toUID
+                : connection.fromUID;
+        });
+
+        res.status(200).json({ message: "Blocked users retrieved successfully", blockedUsers });
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving blocked users", error });
+    }
+};
+
+
+
+
 export const unfriend = async (req, res) => {
     const userId = req.params.id;
     const { otherUserId } = req.body;
@@ -554,8 +620,8 @@ export const unfriend = async (req, res) => {
     try {
         const deletedConnection = await MatrimonyProfileconnection.findOneAndDelete({
             $or: [
-                { fromUID: userId, toUID: otherUserId },
-                { fromUID: otherUserId, toUID: userId }
+                { fromUID: userId, toUID: otherUserId, status: "accepted" },
+                { fromUID: otherUserId, toUID: userId, status: "accepted" }
             ]
         });
 
@@ -579,7 +645,7 @@ export const unfriend = async (req, res) => {
                 console.log(`User with id ${otherUserId} not connected.`);
             }res.status(200).json({ message: 'User unfriended successfully' });
         } else {
-            res.status(404).json({ message: 'Connection not found' });
+            res.status(404).json({ message: 'Your are not a friend' });
         }
     } catch (error) {
         res.status(500).json({ message: 'Error unfriending user', error });

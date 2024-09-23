@@ -15,7 +15,9 @@
   flex-grow: 1;
   overflow-y: auto;
   padding-bottom: 10px;
+  overflow-x: hidden; /* Ensure no horizontal scrollbars */
 }
+
 
 
 .message {
@@ -52,7 +54,10 @@
   border-radius: 20px;
   max-width: 60%;
   background-color: #DD88CF;
+  word-break: break-word; /* Ensure long strings break */
+  overflow-wrap: break-word; /* Additional support for older browsers */
 }
+
 
 .message.sent .message-cont {
   background-color: #4B164C;
@@ -122,6 +127,9 @@ color: green;
   .container {
     flex-direction: column;
   }
+  .message-cont {
+    max-width: 80%; /* Adjust for smaller screens */
+  }
   .chatroom {
     padding: 10px;
     margin-left: 0;
@@ -153,6 +161,9 @@ color: green;
   .chatroom {
     padding: 10px;
     margin-left: 0;
+  }
+  .message-cont {
+    max-width: 90%; /* Further adjustment for smaller screens */
   }
 
   .profile-icon {

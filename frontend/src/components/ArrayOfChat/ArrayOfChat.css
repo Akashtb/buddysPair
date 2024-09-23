@@ -1,0 +1,37 @@
+.message {
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px;
+  }
+  
+  .message.sent {
+    justify-content: flex-end; /* Align sent messages to the right */
+  }
+  
+  .message-cont {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 10px;
+    position: relative;
+    max-width: 60%;
+  }
+  
+  .message-time {
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .own-time {
+    text-align: right;
+    color:  #DD88CF; /* Color for sender's time */
+  }
+  
+  .received-time {
+    text-align: right;
+    color: #4B164C; /* Color for receiver's time */
+  }
+  
+  .message.received .message-cont {
+    background-color:  #DD88CF; /* Custom background for received messages */
+  }
+  

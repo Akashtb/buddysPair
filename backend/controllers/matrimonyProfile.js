@@ -1,8 +1,10 @@
 
+import mongoose from 'mongoose';
 import { getUser } from "../index.js";
 import MatrimonyProfileconnection from "../models/ConnectedProfile.js";
-import ConversationMembers from "../models/conversation.js";
+import ConversationMembers from "../models/Conversation.js";
 import Profile from "../models/MatrimonyProfile.js";
+import MessageOfUser from "../models/Message.js";
 import shortListMatrimonyProfile from "../models/shortList.js";
 import User from '../models/User.js'
 
@@ -18,6 +20,7 @@ export const createProfile = async (req, res) => {
             userId: findUserData._id,
             firstName: findUserData.firstName,
             lastName: findUserData.lastName,
+            userName: findUserData.username,
             phoneNumber: findUserData.phno,
             email: findUserData.email,
             profilePic: findUserData.profilePic,
@@ -65,6 +68,8 @@ export const createProfile = async (req, res) => {
         };
 
         const newProfile = new Profile(profileData);
+        console.log(newProfile);
+
         await newProfile.save();
 
         res.status(201).json({ message: "Profile created successfully", profile: newProfile });
@@ -235,14 +240,14 @@ export const sendRequest = async (req, res) => {
         const fromUIDProfile = await Profile.findById(fromUID)
         const fromUIDFullName = `${fromUIDProfile.firstName} ${fromUIDProfile.lastName}`;
 
-        const time = new Date().toISOString();  
+        const time = new Date().toISOString();
 
         const io = req.app.get('socketio');
         const user = getUser(toUID);
         if (user) {
             const socketId = user.socketId;
             io.to(socketId).emit('requestReceived', { fromUID, toUID, fromUIDFullName });
-            io.to(socketId).emit('requestNotification',{fromUID, toUID, fromUIDFullName,time})
+            io.to(socketId).emit('requestNotification', { fromUID, toUID, fromUIDFullName, time })
         } else {
             console.log(`User with id ${toUID} not connected.`);
         } res.status(200).json({ message: "Request sent successfully" });
@@ -276,7 +281,7 @@ export const cancelSentRequest = async (req, res) => {
             const fromUIDProfile = await Profile.findById(fromUID)
             const fromUIDFullName = `${fromUIDProfile.firstName} ${fromUIDProfile.lastName}`;
 
-            const io = req.app.get('socketio'); 
+            const io = req.app.get('socketio');
             const user = getUser(requestToId);
 
             if (user) {
@@ -288,7 +293,7 @@ export const cancelSentRequest = async (req, res) => {
             } res.status(200).json({ message: "Request cancelled successfully" });
 
         } else {
-            res.status(404).json({ message: "Request not found" });
+            res.status(404).json({ message: "Failed to cancel the request, either your request have accepted or rejected." });
         }
     } catch (error) {
         console.log(error);
@@ -315,7 +320,7 @@ export const acceptRequest = async (req, res) => {
         console.log("findConnectionRequest", findConnectionRequest);
 
         if (!findConnectionRequest) {
-            return res.status(404).json({ message: "Connection request not found" });
+            return res.status(404).json({ message: "Connection not found , user might have cancel the request" });
         }
 
         if (findConnectionRequest.status === "pending") {
@@ -347,14 +352,14 @@ export const acceptRequest = async (req, res) => {
             const io = req.app.get('socketio');
             const user = getUser(requestFromId);
 
-            if(user){
+            if (user) {
                 const socketId = user.socketId;
                 io.to(socketId).emit('acceptRequest', { requestFromId, requestToId, toUIDFullName });
-                io.to(socketId).emit('acceptRequestNotification', { requestFromId, requestToId, toUIDFullName,time });
+                io.to(socketId).emit('acceptRequestNotification', { requestFromId, requestToId, toUIDFullName, time });
 
-            }else{
+            } else {
                 console.log(`User with id ${requestFromId} not connected.`);
-            }return res.status(200).json({ message: "Request accepted successfully" });
+            } return res.status(200).json({ message: "Request accepted successfully" });
 
         } else {
             return res.status(400).json({ message: "Connection request is already accepted or rejected" });
@@ -375,7 +380,7 @@ export const rejectTheRequest = async (req, res) => {
         const findConnectionRequest = await MatrimonyProfileconnection.findOne({ fromUID: requestFromId, toUID: requestToId });
 
         if (!findConnectionRequest) {
-            return res.status(404).json({ message: "Connection request not found" });
+            return res.status(404).json({  message: "Connection not found , user might have cancel the request"  });
         }
 
         if (findConnectionRequest.status === "pending") {
@@ -399,14 +404,14 @@ export const rejectTheRequest = async (req, res) => {
             const io = req.app.get('socketio');
             const user = getUser(requestFromId);
 
-            if(user){
+            if (user) {
                 const socketId = user.socketId;
                 io.to(socketId).emit('rejectRequest', { requestFromId, requestToId, toUIDFullName });
-                io.to(socketId).emit('rejectRequestNotification', { requestFromId, requestToId, toUIDFullName,time});
+                io.to(socketId).emit('rejectRequestNotification', { requestFromId, requestToId, toUIDFullName, time });
 
-            }else{
+            } else {
                 console.log(`User with id ${requestFromId} not connected.`);
-            }return res.status(200).json({ message: "Request rejected successfully" });
+            } return res.status(200).json({ message: "Request rejected successfully" });
 
         } else {
             return res.status(400).json({ message: "Connection request is already accepted or rejected" });
@@ -416,6 +421,241 @@ export const rejectTheRequest = async (req, res) => {
         return res.status(500).json({ message: "Server error" });
     }
 };
+
+
+
+export const blockUser = async (req, res) => {
+    const userId = req.params.id; 
+    const { otherUserId } = req.body; 
+
+    try {
+        let connection = await MatrimonyProfileconnection.findOne({
+            $or: [
+                { fromUID: userId, toUID: otherUserId },
+                { fromUID: otherUserId, toUID: userId }
+            ]
+        });
+
+        if (connection) {
+            if (connection.status === "rejected") {
+                return res.status(400).json({ message: "You have already rejected this user" });
+            } else if (connection.status === "blocked") {
+                return res.status(400).json({ message: "Sorry your are already get blocked by this user" });
+            }
+
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+
+            if (connection.status === "pending") {
+                connection.status = "blocked";
+                connection.blockedBy = userId;  
+                await connection.save();
+
+                await shortListMatrimonyProfile.deleteMany({
+                    $or: [
+                        { fromUID: userId, toUID: otherUserId },
+                        { fromUID: otherUserId, toUID: userId }
+                    ]
+                });
+
+                if (user) {
+                    const socketId = user.socketId;
+                    io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
+                } else {
+                    console.log(`User with id ${otherUserId} not connected.`);
+                }
+
+                return res.status(200).json({ message: "User blocked successfully in pending status, and shortlists removed", connection });
+            }
+
+            if (connection.status === "accepted") {
+                connection.status = "blocked";
+                connection.blockedBy = userId;  
+                await connection.save();
+
+                await shortListMatrimonyProfile.deleteMany({
+                    $or: [
+                        { fromUID: userId, toUID: otherUserId },
+                        { fromUID: otherUserId, toUID: userId }
+                    ]
+                });
+
+                const conversation = await ConversationMembers.findOne({
+                    members: { $all: [userId, otherUserId] }
+                });
+                if (conversation) {
+                    await ConversationMembers.deleteOne({ _id: conversation._id });
+                    await MessageOfUser.deleteMany({ conversationId: conversation._id });
+                }
+
+                if (user) {
+                    const socketId = user.socketId;
+                    io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
+                    console.log(userFullName);
+                } else {
+                    console.log(`User with id ${otherUserId} not connected.`);
+                }
+
+                return res.status(200).json({ message: "User blocked successfully in accepted status, conversation removed", connection });
+            }
+        } else {
+            connection = new MatrimonyProfileconnection({
+                fromUID: userId,
+                toUID: otherUserId,
+                status: "blocked",
+                blockedBy: userId  
+            });
+
+            await connection.save();
+
+            await shortListMatrimonyProfile.deleteMany({
+                $or: [
+                    { fromUID: userId, toUID: otherUserId },
+                    { fromUID: otherUserId, toUID: userId }
+                ]
+            });
+
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+
+            if (user) {
+                const socketId = user.socketId;
+                io.to(socketId).emit('blocked', { userId, userFullName, otherUserId });
+            } else {
+                console.log(`User with id ${otherUserId} not connected.`);
+            }
+
+            return res.status(201).json({ message: "New connection created, user blocked, and shortlists removed", connection });
+        }
+    } catch (error) {
+        res.status(500).json({ message: "An error occurred", error });
+    }
+};
+
+
+export const unblockUser = async (req, res) => {
+    const userId = req.params.id; 
+    const { otherUserId } = req.body; 
+
+    console.log("userId", userId);
+    console.log("otherUserId", otherUserId);
+
+    try {
+        let connection = await MatrimonyProfileconnection.findOne({
+            $or: [
+                { fromUID: userId, toUID: otherUserId },
+                { fromUID: otherUserId, toUID: userId }
+            ]
+        });
+
+        console.log("connection", connection);
+
+        if (connection && connection.status === "blocked" && connection.blockedBy.equals(userId)) {
+            await MatrimonyProfileconnection.deleteOne({ _id: connection._id });
+
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+
+            if (user) {
+                const socketId = user.socketId;
+                io.to(socketId).emit('unblocked', { userId, userFullName, otherUserId });
+            } else {
+                console.log(`User with id ${otherUserId} not connected.`);
+            }
+
+            return res.status(200).json({ message: "User unblocked and connection deleted successfully" });
+        } else {
+            return res.status(404).json({ message: "You are not the one who blocked the user" });
+        }
+    } catch (error) {
+        console.error("Error during unblock:", error); // Log full error details
+        return res.status(500).json({ message: "An error occurred while unblocking the user", error: error.message || error });
+    }
+};
+
+
+
+export const listBlockedUsers = async (req, res) => {
+    const userId = req.params.id; 
+
+    try {
+        const blockedConnections = await MatrimonyProfileconnection.find({
+            $and: [
+                { blockedBy: userId },
+                { status: "blocked" }
+            ]
+        })
+        .populate('fromUID', 'firstName lastName email age district profilePic') 
+        .populate('toUID', 'firstName lastName email age district profilePic');  
+
+        const blockedUsers = blockedConnections.map(connection => {
+            return connection.fromUID._id.toString() === userId
+                ? connection.toUID
+                : connection.fromUID;
+        });
+
+        res.status(200).json({ message: "Blocked users retrieved successfully", blockedUsers });
+    } catch (error) {
+        res.status(500).json({ message: "Error retrieving blocked users", error });
+    }
+};
+
+
+
+
+export const unfriend = async (req, res) => {
+    const userId = req.params.id;
+    const { otherUserId } = req.body;
+
+    if (!userId || !otherUserId) {
+        return res.status(400).json({ message: "Both user IDs are required." });
+    }
+
+    try {
+        const deletedConnection = await MatrimonyProfileconnection.findOneAndDelete({
+            $or: [
+                { fromUID: userId, toUID: otherUserId, status: "accepted" },
+                { fromUID: otherUserId, toUID: userId, status: "accepted" }
+            ]
+        });
+
+        if (deletedConnection) {
+            const conversation = await ConversationMembers.findOne({
+                members: { $all: [userId, otherUserId] }
+            });
+
+            if (conversation) {
+                await ConversationMembers.deleteOne({ _id: conversation._id });
+                await MessageOfUser.deleteMany({ conversationId: conversation._id });
+            }
+            const userProfile = await Profile.findById(userId);
+            const userFullName = `${userProfile.firstName} ${userProfile.lastName}`;
+            const io = req.app.get('socketio');
+            const user = getUser(otherUserId);
+            if (user) {
+                const socketId = user.socketId;
+                io.to(socketId).emit('unfriend', { userId, userFullName, otherUserId });
+            } else {
+                console.log(`User with id ${otherUserId} not connected.`);
+            }res.status(200).json({ message: 'User unfriended successfully' });
+        } else {
+            res.status(404).json({ message: 'Your are not a friend' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error unfriending user', error });
+    }
+};
+
+
+  
+
+
 
 export const shortListTheProfile = async (req, res) => {
     const profileId = req.params.id;
@@ -572,25 +812,30 @@ export const listOfRejection = async (req, res) => {
 export const findConnectionStatus = async (req, res) => {
     const FromId = req.params.id;
     const toId = req.params.otherUser;
-
+  
     try {
-        const connection = await MatrimonyProfileconnection.find({
-            $or: [
-                { fromUID: FromId, toUID: toId },
-                { fromUID: toId, toUID: FromId }
-            ]
+      const connection = await MatrimonyProfileconnection.find({
+        $or: [
+          { fromUID: FromId, toUID: toId },
+          { fromUID: toId, toUID: FromId }
+        ]
+      });
+  
+      if (connection.length > 0) {
+        res.json({
+          fromUID: connection[0].fromUID,
+          toUID: connection[0].toUID,
+          status: connection[0].status,
+          blockedBy: connection[0].blockedBy 
         });
-
-        if (connection.length > 0) {
-            // console.log("status connection", connection[0].fromUID);
-            res.json({ fromUID: connection[0].fromUID, toUID: connection[0].toUID, status: connection[0].status });
-        } else {
-            res.json({ status: 'not_found' });
-        }
+      } else {
+        res.json({ status: 'not_found' });
+      }
     } catch (err) {
-        res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Internal server error' });
     }
-}
+  };
+  
 
 
 
@@ -607,12 +852,12 @@ export const nearbyProfile = async (req, res) => {
 
         const nearbyProfiles = await Profile.find(
             {
-                district:userProfile.district,
+                district: userProfile.district,
                 gender,
                 _id: { $ne: profileId },
             },
         );
-        
+
 
         const connections = await MatrimonyProfileconnection.find({
             $or: [
@@ -625,18 +870,18 @@ export const nearbyProfile = async (req, res) => {
         const connectedProfileIds = connections.map(connection =>
             connection.fromUID.toString() === profileId ? connection.toUID.toString() : connection.fromUID.toString()
         );
-     
+
         const filteredProfiles = nearbyProfiles.filter(profile => {
             const isConnected = connectedProfileIds.includes(profile._id.toString());
 
             if (!isConnected) {
-                return true; 
+                return true;
             } else {
                 const connection = connections.find(conn =>
                     (conn.fromUID.toString() === profileId && conn.toUID.toString() === profile._id.toString()) ||
                     (conn.toUID.toString() === profileId && conn.fromUID.toString() === profile._id.toString())
                 );
-                return connection.status === 'pending'; 
+                return connection.status === 'pending';
             }
         });
 
@@ -658,12 +903,12 @@ export const qualificationProfile = async (req, res) => {
         if (!userProfile) {
             return res.status(404).json({ message: 'Profile not found' });
         }
-        const { gender} = userProfile.preference;
+        const { gender } = userProfile.preference;
 
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                qualification:userProfile.qualification,
+                qualification: userProfile.qualification,
                 gender,
                 _id: { $ne: profileId },
             },
@@ -722,7 +967,7 @@ export const professionProfile = async (req, res) => {
         // Find all profiles in the same district, excluding the user's own profile
         const nearbyProfiles = await Profile.find(
             {
-                profession:userProfile.profession,
+                profession: userProfile.profession,
                 gender,
                 _id: { $ne: profileId },
             },
@@ -848,19 +1093,19 @@ export const sortedProfile = async (req, res) => {
     try {
         const userProfile = await Profile.findById(profileId);
         console.log(userProfile);
-        
+
 
         if (!userProfile) {
             return res.status(404).json({ message: 'user Profile not found' });
         }
-        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification,profession } = userProfile.preference;
+        const { district, fromAge, toAge, religion, fromHeight, toHeight, gender, qualification, profession } = userProfile.preference;
 
         const nearbyProfiles = await Profile.find(
             {
                 district,
                 qualification,
                 profession,
-                // religion,
+                religion,
                 age: { $gte: fromAge, $lte: toAge },
                 height: { $gte: fromHeight, $lte: toHeight },
                 gender,
@@ -899,3 +1144,203 @@ export const sortedProfile = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+
+export const filterUpdate = async (req, res) => {
+    const profileId = req.params.id;
+
+    try {
+        const { gender, age, district, interestsHobbies, newestMembers, lastActive, religion } = req.body;
+
+
+        const updatedFilter = await Profile.findByIdAndUpdate(profileId, {
+            filter: {
+                gender,
+                age: {
+                    min: age.min,
+                    max: age.max,
+                },
+                district,
+                interestsHobbies,
+                newestMembers,
+                lastActive,
+                religion,
+            }
+        }, { new: true });
+
+        res.status(200).json({ message: 'Filter updated successfully', filter: updatedFilter.filter });
+    } catch (error) {
+        console.error('Error updating filter:', error);
+        res.status(500).json({ error: 'Failed to apply filter' });
+    }
+}
+
+
+
+export const updateProfilePreference = async (req, res) => {
+    const profileId = req.params.id; // Get the profile ID from URL params
+    const preference = req.body; // Get preferences from request body
+
+    try {
+        // Find and update the profile with new preferences
+        const updatedProfile = await Profile.findByIdAndUpdate(
+            profileId,
+            { preference },  // Update the preference field
+            { new: true, runValidators: true } // Return the updated document
+        );
+
+        // Check if profile exists
+        if (!updatedProfile) {
+            return res.status(404).json({ message: "Profile not found" });
+        }
+
+        res.status(200).json({
+            message: "Preferences updated successfully",
+            updatedProfile,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error updating preferences",
+            error: error.message,
+        });
+    }
+};
+
+
+export const getFilteredProfiles = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const userProfile = await Profile.findById(id);
+        if (!userProfile) {
+            return res.status(404).json({ message: 'Profile not found' });
+        }
+
+        const {
+            gender,
+            age: { min: minAge, max: maxAge },
+            district,
+            // newestMembers,
+            lastActive,
+            religion
+        } = userProfile.filter;
+
+        const query = {
+            _id: { $ne: id }
+        };
+
+        // Apply gender filter
+
+
+        if (gender === 'all') {
+            query.gender = { $in: ['Male', 'Female'] };
+        } else if (gender && gender !== 'all') {
+            query.gender = gender;
+        }
+
+        // Apply district filter
+
+
+        if (district === 'all') {
+            query.district = {
+                $in: ['Alappuzha', 'Ernakulam', 'Idukki', 'Kannur', 'Kasargod',
+                    'Kollam', 'Kottayam', 'Kozhikode', 'Malappuram', 'Palakkad',
+                    'Pathanamthitta', 'Thiruvananthapuram', 'Thrissur', 'Wayanad']
+            };
+        } else if (district && district !== 'all') {
+            query.district = district;
+        }
+
+        // Apply religion filter
+
+        if (religion === 'all') {
+            query.religion = {
+                $in: ['Christian', 'Islam', 'Hindu', 'Other']
+            };
+        } else if (religion && religion !== 'all') {
+            query.religion = religion;
+        }
+
+
+        const today = new Date();
+
+        // // Newest Members - 'thisWeek'
+        // if (newestMembers === 'thisWeek') {
+        //     const oneWeekAgo = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate() - 7, 0, 0, 0, 0));
+        //     query.createdAt = { $gte: oneWeekAgo }; 
+        // }
+
+        // // Newest Members - 'thisMonth'
+        // if (newestMembers === 'thisMonth') {
+        //     const startOfMonth = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), 1, 0, 0, 0, 0)); 
+        //     query.createdAt = { $gte: startOfMonth };
+        // }
+
+        // // Newest Members - 'all' (no filter)
+        // if (newestMembers === 'all') {
+        // }
+
+
+
+        // sorting acctive members
+        if (lastActive === 'today') {
+            today.setHours(0, 0, 0, 0);
+            query.lastLogin = { $gte: today };
+        }
+
+        if (lastActive === 'thisWeek') {
+            const oneWeekAgo = new Date();
+            oneWeekAgo.setDate(today.getDate() - 7);
+            oneWeekAgo.setHours(0, 0, 0, 0);
+            query.lastLogin = { $gte: oneWeekAgo };
+        }
+
+        if (lastActive === 'thisMonth') {
+            const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            query.lastLogin = { $gte: startOfMonth };
+        }
+
+        // Apply age filters
+
+        if (minAge) query.age = { $gte: Number(minAge) };
+        if (maxAge) query.age = { ...query.age, $lte: Number(maxAge) };
+
+        // Find nearby profiles
+        const nearbyProfiles = await Profile.find(query);
+
+        // Get connections for the current user
+        const profileId = id; // The current user's profile ID
+        const connections = await MatrimonyProfileconnection.find({
+            $or: [
+                { fromUID: profileId },
+                { toUID: profileId }
+            ]
+        });
+
+        const connectedProfileIds = connections.map(connection =>
+            connection.fromUID.toString() === profileId ? connection.toUID.toString() : connection.fromUID.toString()
+        );
+
+        // Filter profiles based on connection status
+        const filteredProfiles = nearbyProfiles.filter(profile => {
+            const isConnected = connectedProfileIds.includes(profile._id.toString());
+
+            if (!isConnected) {
+                return true; // Profile is not connected at all
+            } else {
+                const connection = connections.find(conn =>
+                    (conn.fromUID.toString() === profileId && conn.toUID.toString() === profile._id.toString()) ||
+                    (conn.toUID.toString() === profileId && conn.fromUID.toString() === profile._id.toString())
+                );
+                return connection.status === 'pending'; // Profile is connected but with pending status
+            }
+        });
+
+        // Return the filtered profiles
+        res.status(200).json(filteredProfiles);
+    } catch (error) {
+        console.error('Error fetching filtered profiles:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+

@@ -1,10 +1,11 @@
 import express from 'express'
 import MessageOfUser from '../../../models/Message.js'
-import ConversationMembers from '../../../models/conversation.js'
+import ConversationMembers from '../../../models/Conversation.js'
+import { verifyProfile, verifyToken } from '../../../utils/verifyToken.js'
 
 const router = express.Router()
 
-router.post('/:id',async(req,res)=>{
+router.post('/:id',verifyProfile,async(req,res)=>{
     const newMessage = new MessageOfUser({
         sender:req.params.id,
         text:req.body.text,

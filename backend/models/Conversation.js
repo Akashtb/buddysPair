@@ -5,12 +5,13 @@ const ConversationSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: "Profile",
     },
-    isContacted:{
-        type:Boolean,
-        default:false
+    isContacted: {
+        type: Boolean,
+        default: false
     }
-},{timestamps:true}
-)
+}, { timestamps: true });
 
-const ConversationMembers = mongoose.model("ConversationUsers",ConversationSchema);
-export default ConversationMembers
+// Check if the model is already compiled, and if so, reuse it
+const ConversationMembers = mongoose.models.ConversationUsers || mongoose.model("ConversationUsers", ConversationSchema);
+
+export default ConversationMembers;

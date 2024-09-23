@@ -18,7 +18,8 @@ const Gallery = () => {
     const response = await axiosPrivate.get(
       `/api/matrimony/profile/getProfile/${id}`
     );
-    setData(response.data.multipleimg);
+    setData(response.data.photos);
+    console.log("hyy ghalo", response);
   };
 
   const back25 = () => {

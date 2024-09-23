@@ -62,33 +62,56 @@ const ReceivedPage = () => {
       const response = await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, {
         requestFromId: fromUID
       });
+  
       if (response.status === 200) {
         setReceivedProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== fromUID));
-        toast.success("Successfully accepted the user")
+        toast.success("Successfully accepted the user");
       } else {
         console.error('Failed to accept the request. Status:', response.status);
+        toast.error("Failed to accept the request. Please try again.");
       }
     } catch (error) {
-      console.error("Error accepting the request:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to accept the request.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
+  
 
   const rejectTheRequest = async (fromUID) => {
     try {
       const response = await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, {
         requestFromId: fromUID
       });
+  
       if (response.status === 200) {
         setReceivedProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== fromUID));
-        toast.success("Successfully rejected the user")
-
+        toast.success("Successfully rejected the user");
       } else {
         console.error('Failed to reject the request. Status:', response.status);
+        toast.error("Failed to reject the request. Please try again.");
       }
     } catch (error) {
-      console.error("Error rejecting the request:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to reject the request.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
+  
 
   return (
     <div className="activitycontainer">

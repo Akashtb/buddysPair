@@ -178,7 +178,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
           setIsLiked(false);
         } catch (error) {
           console.error('Error unshortlisting profile:', error);
-          toast.error("Failed to unshortlist the profile. Please try again later.");
+          toast.error("Failed to unshortlist the profile. Please refresh the page try again later.");
         }
       } else {
 
@@ -263,79 +263,119 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
 
   const handleReject = async () => {
     try {
-      await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, { requestFromId: profile._id })
+      await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, { requestFromId: profile._id });
+  
       if (Array.isArray(nearByProfileList)) {
         const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
         setNearByProfileList([...updatedNearByList]);             
       } 
+  
       if (Array.isArray(qulificationProfileList)) {
         const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
         setQualificationProfileList([...updatedQualificationList]);
       } 
+  
       if (Array.isArray(designationProfileList)) {
         const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
         setDesignationProfileList([...updatedDesignationList]);
       }
-      setAcceptOrReject(true)
-      SetNoLikeIcon(true)
-      toast.success("You have rejected the request successfully")
+  
+      setAcceptOrReject(true);
+      SetNoLikeIcon(true);
+      toast.success("You have rejected the request successfully.");
+      
     } catch (error) {
-      console.error('Error accepting request:', error);
-      toast.error("User might cancel the request to check. Please Refresh the page.");
+      if (error.response) {
+        toast.error(error.response.data.message || "Failed to reject the request. Please try again.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network connection and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
-  }
+  };
+  
 
 
 
   const handleAccept = async () => {
     try {
-      await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, { requestFromId: profile._id })
+      await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, { requestFromId: profile._id });
+  
       if (Array.isArray(nearByProfileList)) {
         const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
         setNearByProfileList([...updatedNearByList]);             
       } 
+  
       if (Array.isArray(qulificationProfileList)) {
         const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
         setQualificationProfileList([...updatedQualificationList]);
-        console.log("filter is applied ........");
+        console.log("Filter is applied ........");
       } 
+  
       if (Array.isArray(designationProfileList)) {
         const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
         setDesignationProfileList([...updatedDesignationList]);
       }
-      setAcceptOrReject(true)
-      SetNoLikeIcon(true)
-      toast.success("You have accepted the request successfully")
+  
+      setAcceptOrReject(true);
+      SetNoLikeIcon(true);
+      toast.success("You have accepted the request successfully.");
+      
     } catch (error) {
-      console.error('Error accepting request:', error);
-      toast.error("User might cancel the request to check. Please Refresh the page.");
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to accept the request. Please try again.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network connection and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
+  
 
 
   const handleBlock = async () => {
     try {
-      await axiosPrivate.post(`/api/matrimony/profile/block/${matrimonyProfileId}`, { otherUserId: profile._id })
+      await axiosPrivate.post(`/api/matrimony/profile/block/${matrimonyProfileId}`, { otherUserId: profile._id });
+  
       if (Array.isArray(nearByProfileList)) {
         const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
-        setNearByProfileList([...updatedNearByList]);             
-      } 
+        setNearByProfileList([...updatedNearByList]);
+      }
+  
       if (Array.isArray(qulificationProfileList)) {
         const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
         setQualificationProfileList([...updatedQualificationList]);
-      } 
+      }
+  
       if (Array.isArray(designationProfileList)) {
         const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
         setDesignationProfileList([...updatedDesignationList]);
       }
-      setAcceptOrReject(true)
-      SetNoLikeIcon(true)
-      toast.success("You have blocked the request successfully")
+  
+      setAcceptOrReject(true);
+      SetNoLikeIcon(true);
+      toast.success("You have blocked the request successfully.");
     } catch (error) {
-      console.error('Error accepting request:', error);
-      toast.error("User might cancel the request to check. Please Refresh the page.");
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to block the request. Please try again.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network connection and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
-  }
+  };
+  
   useEffect(() => {
     const { status, fromUID } = connectionStatus;
 

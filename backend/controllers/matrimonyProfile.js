@@ -293,7 +293,7 @@ export const cancelSentRequest = async (req, res) => {
             } res.status(200).json({ message: "Request cancelled successfully" });
 
         } else {
-            res.status(404).json({ message: "Request not found" });
+            res.status(404).json({ message: "Failed to cancel the request, either your request have accepted or rejected." });
         }
     } catch (error) {
         console.log(error);
@@ -320,7 +320,7 @@ export const acceptRequest = async (req, res) => {
         console.log("findConnectionRequest", findConnectionRequest);
 
         if (!findConnectionRequest) {
-            return res.status(404).json({ message: "Connection request not found" });
+            return res.status(404).json({ message: "Connection not found , user might have cancel the request" });
         }
 
         if (findConnectionRequest.status === "pending") {
@@ -380,7 +380,7 @@ export const rejectTheRequest = async (req, res) => {
         const findConnectionRequest = await MatrimonyProfileconnection.findOne({ fromUID: requestFromId, toUID: requestToId });
 
         if (!findConnectionRequest) {
-            return res.status(404).json({ message: "Connection request not found" });
+            return res.status(404).json({  message: "Connection not found , user might have cancel the request"  });
         }
 
         if (findConnectionRequest.status === "pending") {
@@ -440,7 +440,7 @@ export const blockUser = async (req, res) => {
             if (connection.status === "rejected") {
                 return res.status(400).json({ message: "You have already rejected this user" });
             } else if (connection.status === "blocked") {
-                return res.status(400).json({ message: "User is already blocked" });
+                return res.status(400).json({ message: "Sorry your are already get blocked by this user" });
             }
 
             const userProfile = await Profile.findById(userId);
@@ -812,25 +812,30 @@ export const listOfRejection = async (req, res) => {
 export const findConnectionStatus = async (req, res) => {
     const FromId = req.params.id;
     const toId = req.params.otherUser;
-
+  
     try {
-        const connection = await MatrimonyProfileconnection.find({
-            $or: [
-                { fromUID: FromId, toUID: toId },
-                { fromUID: toId, toUID: FromId }
-            ]
+      const connection = await MatrimonyProfileconnection.find({
+        $or: [
+          { fromUID: FromId, toUID: toId },
+          { fromUID: toId, toUID: FromId }
+        ]
+      });
+  
+      if (connection.length > 0) {
+        res.json({
+          fromUID: connection[0].fromUID,
+          toUID: connection[0].toUID,
+          status: connection[0].status,
+          blockedBy: connection[0].blockedBy 
         });
-
-        if (connection.length > 0) {
-            // console.log("status connection", connection[0].fromUID);
-            res.json({ fromUID: connection[0].fromUID, toUID: connection[0].toUID, status: connection[0].status });
-        } else {
-            res.json({ status: 'not_found' });
-        }
+      } else {
+        res.json({ status: 'not_found' });
+      }
     } catch (err) {
-        res.status(500).json({ error: 'Internal server error' });
+      res.status(500).json({ error: 'Internal server error' });
     }
-}
+  };
+  
 
 
 

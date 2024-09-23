@@ -68,14 +68,25 @@ const SentPage = () => {
       const response = await axiosPrivate.delete(`/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}`, {
         params: { requestToId: toUId }
       });
+  
       if (response.status === 200) {
         setSentProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== toUId));
-        toast.success("successfully cancel the request")
+        toast.success("Successfully canceled the request.");
       }
     } catch (error) {
-      console.error('Error cancelling the request:', error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to cancel the request, either you have accepted or it was rejected.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from server. Please try again later.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An error occurred. Please try again.");
+      }
     }
   };
+  
 
   return (
     <div className="activitycontainer">

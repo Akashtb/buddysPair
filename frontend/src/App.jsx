@@ -48,20 +48,30 @@ import PrivacySettings from "./pages/PrivacySetting/PrivacySetting.jsx"
 import Block from "./pages/Block/Block.jsx";
 function App() {
   const { auth } = useContext(AuthContext)
-  const { matrimonyProfileId } = useContext(IdContext)
+  const { matrimonyProfileId,setMatrimonyProfileId,setUserId,userId } = useContext(IdContext)
   const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
-
     const initialRun = async () => {
       try {
-         await axiosPrivate.get('/api/auth/getIds');
+        const response = await axiosPrivate.get('/api/auth/getIds');
+        const { matrimonyId, userId } = response.data;
+  
+        if (matrimonyId && userId) {
+          setMatrimonyProfileId(matrimonyId);
+          setUserId(userId);
+        } else {
+          console.log('Either matrimonyProfileId or userId is missing in the response');
+          setMatrimonyProfileId(matrimonyId || '');
+          setUserId(userId || ''); 
+        }
       } catch (error) {
-       
+        console.error('Error fetching IDs:', error);
       }
     };
-      initialRun();
-  }, []);
+  
+    initialRun();
+  }, [setMatrimonyProfileId, setUserId, axiosPrivate]);
 
 
 

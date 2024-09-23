@@ -1,10 +1,16 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import axios from "axios";
 // import { getId } from "../../../src/utils/index.js";
 import "./other.css";
 import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
 import IdContext from "../../../context/IdContext";
+import { FaCommentSlash } from "react-icons/fa";
+import { BiRefresh } from "react-icons/bi";
+import { toast, useToastContainer } from "react-toastify";
+// import { text } from "stream/consumers";
+// const [isSentRequest, setIsSentRequest] = useState(false);
 
 const Other = () => {
   const navigate = useNavigate();
@@ -14,7 +20,18 @@ const Other = () => {
   const [color2, setColor2] = useState("none");
   const [data, setData] = useState([]);
   const [pro, setPro] = useState("");
-  const [halo, sethalo] = useState(false);
+  // const [halo, sethalo] = useState(false);
+  const [heart, setHeart] = useState(false);
+  const [heart2, setHeart2] = useState(false);
+  const [broken, setBroken] = useState(false);
+  const [star, setStar] = useState(false);
+  const [ban, setBan] = useState(false);
+  const [choice, setChoice] = useState(false);
+  const [block, setBlock] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+  // const [connectionStatus, setConnectionStatus] = useState({});
+  // const [connection, setConnection] = useState({});
+  // const [count, setCount] = useState(0);
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
 
@@ -33,22 +50,28 @@ const Other = () => {
     console.log("profile is viwed ", response.data);
   };
 
-  useEffect(() => {
-    Getprofile(), profileisViewed();
-  }, [id]);
-  const Chatbtn = () => {
-    navigate(`/chat/${pro}`);
-    // console.log("proooooooo", pro);
-  };
+  // useEffect(() => {
+  // setChoice(true);
+  // setBroken(true);
+  // setHeart(true);
+  // setHeart2(true);
+  // setStar(true);
+  // setBan(true);
+  // Getprofile(), profileisViewed();
+  // }, [id]);
+  // const Chatbtn = () => {
+  //   navigate(`/chat/${pro}`);
+  //   // console.log("proooooooo", pro);
+  // };
   const Chat = (_id) => {
     navigate(`/chat/${_id}`);
   };
   const Hombtn = () => {
-    navigate(`/landing/${getId()}`);
+    navigate(`/landing/${id}`);
   };
-  const proBtn = () => {
-    navigate(`/mypro/${pro}`);
-  };
+  // const proBtn = () => {
+  //   navigate(`/mypro/${pro}`);
+  // };
 
   const formattedDate = new Date(data.dateOfBirth).toLocaleDateString("en-US", {
     year: "numeric",
@@ -64,6 +87,10 @@ const Other = () => {
     navigate(-1); // Go back to the previous page
   };
 
+  const onGallery = () => {
+    navigate(`/gallery/${data._id}`);
+  };
+
   const ColorChange = () => {
     setColor1("white");
     setColor2(" rgb(234, 186, 246)");
@@ -72,6 +99,456 @@ const Other = () => {
     setColor1(" rgb(234, 186, 246)");
     setColor2("white");
   };
+
+  // const OnStar = () => {
+  //   setStar(!star);
+  //   if (star) {
+  //     console.log("eject");
+  //   } else {
+  //     console.log("sort");
+  //   }
+  // };
+
+  const OnStar = async () => {
+    try {
+      if (star) {
+        // Unshortlist the profile
+        try {
+          await axiosPrivate.delete(
+            `/api/matrimony/profile/cancelshortListTheProfile/${matrimonyProfileId}/${id}`
+          );
+          toast.success("you have sort out the user from the shorlist");
+          // setIsLiked(false);
+          setStar(false);
+        } catch (error) {
+          console.error("Error unshortlisting profile:", error);
+          toast.error(
+            "Failed to unshortlist the profile. Please try again later."
+          );
+        }
+      } else {
+        try {
+          await axiosPrivate.post(
+            `/api/matrimony/profile/shortListTheProfile/${matrimonyProfileId}`,
+            {
+              profileId: id,
+            }
+          );
+          toast.success("you have shortlist the user");
+          // setIsLiked(true);
+          setStar(true);
+        } catch (error) {
+          console.error("Error shortlisting profile:", error);
+
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
+            if (
+              error.response.data.message ===
+              "You have already received a request from this user or you have sent request to this user"
+            ) {
+              toast.error("You have already made a connection request.");
+              setStar(true);
+            } else {
+              toast.error(error.response.data.message);
+            }
+          } else {
+            toast.error(
+              "Failed to shortlist the profile. Please try again later."
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Unexpected error in handleLikeClick:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
+  };
+
+  const OnHeart = async () => {
+    try {
+      //unfriend
+      if (heart) {
+        try {
+          await axiosPrivate.post(
+            `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
+            { otherUserId: id }
+          );
+          if (Array.isArray(nearByProfileList)) {
+            const updatedNearByList = nearByProfileList.filter(
+              (p) => String(p._id) !== String(id)
+            );
+            setNearByProfileList([...updatedNearByList]);
+          }
+          if (Array.isArray(qulificationProfileList)) {
+            const updatedQualificationList = qulificationProfileList.filter(
+              (p) => String(p._id) !== String(id)
+            );
+            setQualificationProfileList([...updatedQualificationList]);
+          }
+          if (Array.isArray(designationProfileList)) {
+            const updatedDesignationList = designationProfileList.filter(
+              (p) => String(p._id) !== String(id)
+            );
+            setDesignationProfileList([...updatedDesignationList]);
+          }
+          // setAcceptOrReject(true);
+          // SetNoLikeIcon(true);
+          setHeart(false);
+          toast.success("You have remove the friend successfully");
+        } catch (error) {
+          console.error("Error accepting request:", error);
+          toast.error(
+            "User might remove the friend to check. Please Refresh the page."
+          );
+        }
+
+        ///////
+        // setHeart(false);
+      } else if (heart2) {
+        // cancel request
+        try {
+          await axiosPrivate.delete(
+            `/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}?requestToId=${id}`
+          );
+          toast.success("you have successfully cancel the send request");
+          // findConnectionStatus();
+          setHeart2(false);
+        } catch (error) {
+          console.error("Error unshortlisting profile:", error);
+          toast.error(
+            "Failed to cancel the request either you have accept or get reject"
+          );
+        }
+      } else {
+        try {
+          await axiosPrivate.post(
+            `/api/matrimony/profile/sendRequest/${matrimonyProfileId}`,
+            {
+              toUID: id,
+            }
+          );
+          toast.success("you have send Request successfully");
+          // findConnectionStatus();
+          setRefresh(!refresh);
+          setHeart2(true);
+          // setIsLiked(false);
+        } catch (error) {
+          console.error("Error shortlisting profile:", error);
+
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
+            if (
+              error.response.data.message ===
+              "You have already received a request from this user"
+            ) {
+              toast.error(
+                "You have already received a request from this user, please refresh the page"
+              );
+            } else {
+              toast.error(error.response.data.message);
+            }
+          } else {
+            toast.error(
+              "Failed to shortlist the profile. Please try again later."
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Unexpected error in handleLikeClick:", error);
+      toast.error("An unexpected error occurred. Please try again later.");
+    }
+
+    ///////////
+    // setHeart2(!heart2);
+    // if (heart2) {
+    //   console.log("request cancelled");
+    // } else {
+    //   console.log("request send");
+    // }
+  };
+
+  const Reject = async () => {
+    // const handleReject = async () => {
+    try {
+      await axiosPrivate.post(
+        `/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`,
+        { requestFromId: id }
+      );
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setNearByProfileList([...updatedNearByList]);
+      }
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setQualificationProfileList([...updatedQualificationList]);
+      }
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setDesignationProfileList([...updatedDesignationList]);
+      }
+      // setAcceptOrReject(true);
+      // SetNoLikeIcon(true);
+      setChoice(false);
+      setHeart(false);
+      setBan(true);
+      toast.success("You have rejected the request successfully");
+    } catch (error) {
+      console.error("Error accepting request:", error);
+      toast.error(
+        "User might cancel the request to check. Please Refresh the page."
+      );
+    }
+    // };
+
+    ////////////
+    // if (key == 1) {
+    //   console.log("accept");
+    //   // setChoice(false);
+    //   // setHeart(true);
+    //   // setBan(false);
+    // } else {
+    //   console.log("decline");
+    //   // setChoice(false);
+    //   // setHeart(false);
+    //   // setBan(true);
+    // }
+  };
+
+  const Accept = async () => {
+    try {
+      await axiosPrivate.post(
+        `/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`,
+        { requestFromId: id }
+      );
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setNearByProfileList([...updatedNearByList]);
+      }
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setQualificationProfileList([...updatedQualificationList]);
+        console.log("filter is applied ........");
+      }
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setDesignationProfileList([...updatedDesignationList]);
+      }
+      // setAcceptOrReject(true);
+      // SetNoLikeIcon(true);
+      setChoice(false);
+      setHeart(true);
+      setBan(false);
+      toast.success("You have accepted the request successfully");
+    } catch (error) {
+      console.error("Error accepting request:", error);
+      toast.error(
+        "User might cancel the request to check. Please Refresh the page."
+      );
+    }
+  };
+
+  // const findConnectionStatus = async () => {
+
+  // };
+
+  const handleBlock = async () => {
+    try {
+      await axiosPrivate.post(
+        `/api/matrimony/profile/block/${matrimonyProfileId}`,
+        { otherUserId: id }
+      );
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setNearByProfileList([...updatedNearByList]);
+      }
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setQualificationProfileList([...updatedQualificationList]);
+      }
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setDesignationProfileList([...updatedDesignationList]);
+      }
+      // setAcceptOrReject(true);
+      // SetNoLikeIcon(true);
+      setBlock(true);
+      setChoice(false);
+      setBan(true);
+      toast.success("You have blocked the request successfully");
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(
+          error.response.data.message ||
+            "Failed to block the request. Please try again."
+        );
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error(
+          "No response from the server. Please check your network connection and try again."
+        );
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
+  /////////////////////
+  // const handleBlock = async () => {
+  //   try {
+  //     await axiosPrivate.post(`/api/matrimony/profile/block/${matrimonyProfileId}`, { otherUserId: profile._id });
+
+  //     if (Array.isArray(nearByProfileList)) {
+  //       const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
+  //       setNearByProfileList([...updatedNearByList]);
+  //     }
+
+  //     if (Array.isArray(qulificationProfileList)) {
+  //       const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
+  //       setQualificationProfileList([...updatedQualificationList]);
+  //     }
+
+  //     if (Array.isArray(designationProfileList)) {
+  //       const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
+  //       setDesignationProfileList([...updatedDesignationList]);
+  //     }
+
+  //     setAcceptOrReject(true);
+  //     SetNoLikeIcon(true);
+  //     toast.success("You have blocked the request successfully.");
+  //   } catch (error) {
+  //     if (error.response) {
+  //       console.error("Error response:", error.response.data);
+  //       toast.error(error.response.data.message || "Failed to block the request. Please try again.");
+  //     } else if (error.request) {
+  //       console.error("No response received:", error.request);
+  //       toast.error("No response from the server. Please check your network connection and try again.");
+  //     } else {
+  //       console.error("Error setting up the request:", error.message);
+  //       toast.error("An unexpected error occurred. Please try again.");
+  //     }
+  //   }
+  // };
+  ////////////////
+
+  const Unfriend = async () => {
+    try {
+      await axiosPrivate.post(
+        `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
+        { otherUserId: id }
+      );
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setNearByProfileList([...updatedNearByList]);
+      }
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setQualificationProfileList([...updatedQualificationList]);
+      }
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(
+          (p) => String(p._id) !== String(id)
+        );
+        setDesignationProfileList([...updatedDesignationList]);
+      }
+      // setAcceptOrReject(true);
+      // SetNoLikeIcon(true);
+
+      toast.success("You have remove the friend successfully");
+    } catch (error) {
+      console.error("Error accepting request:", error);
+      toast.error(
+        "User might remove the friend to check. Please Refresh the page."
+      );
+    }
+  };
+
+  const findConnectionStatus = async () => {
+    try {
+      const response = await axiosPrivate.get(
+        `/api/matrimony/profile/connection-status/${matrimonyProfileId}/${id}`
+      );
+
+      console.log("my connection", response.data);
+      const { status, fromUID } = response.data;
+
+      //My Profile
+      if (status === "blockedBy" && fromUID === matrimonyProfileId) {
+        return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
+      }
+
+      if (status === "pending" && fromUID === matrimonyProfileId) {
+        return <>{(setHeart(false), setStar(false), setBan(true))};</>;
+      }
+
+      if (status === "accepted" && fromUID === matrimonyProfileId) {
+        return <>{(setHeart(true), setBan(false))}</>;
+      }
+
+      if (status === "rejected" && fromUID === matrimonyProfileId) {
+        return <>{(setBroken(true), setBan(true))}</>;
+      }
+
+      // Other Profile
+      if (status === "blockedBy" && fromUID !== matrimonyProfileId) {
+        return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
+      }
+
+      if (status === "pending" && fromUID !== matrimonyProfileId) {
+        return <>{setChoice(true)}</>;
+      }
+
+      if (status === "accepted" && fromUID !== matrimonyProfileId) {
+        return <>{(setChoice(false), setHeart(true), setBan(false))}</>;
+      }
+
+      if (status === "rejected" && fromUID !== matrimonyProfileId) {
+        return <>{(setHeart(false), setBan(true))}</>;
+      }
+    } catch (error) {
+      console.error("Error fetching connection status:", error);
+    }
+  };
+
+  useEffect(() => {
+    // setChoice(true);
+    // setBan(true);
+    findConnectionStatus(refresh);
+    Getprofile(), profileisViewed();
+  }, [axiosPrivate, matrimonyProfileId, id]);
+
+  // renderIcons(connectionStatus);
+  // console.log("hgsahyydgugyggggggyyyyyyyyug", connectionStatus);
 
   return (
     <div className="anoop19">
@@ -136,6 +613,7 @@ const Other = () => {
           <div className="extra">
             <div className="view2">
               <img
+                onClick={onGallery}
                 className="viewimg"
                 src="https://th.bing.com/th/id/OIGP.TmXbZ0WBVGvkkhJpqZeI?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"
                 alt=""
@@ -263,29 +741,90 @@ const Other = () => {
       </div>
       <div className="components">
         {/* <h1>halo</h1> */}
-        <img
+        {/* <motion whileTap={{ scale: 1.2 }}>
+          
+          <i id="one" onClick={Hombtn} class="fa-solid fa-circle-xmark"></i>
+        </motion> */}
+        <motion.i
+          whileHover={{ scale: 1.2, color: "orange" }}
+          id="one"
           onClick={Hombtn}
-          className="img122"
-          src="../../../src/assets/Authentication/Button.jpg"
-          alt=""
-        />
-        <img
-          className="img122"
-          src="../../../src/assets/Authentication/Button1.jpg"
-          alt=""
-        />
-        <img
-          className="img122"
-          src="../../../src/assets/Authentication/Button2.jpg"
-          alt=""
-        />
-        <img
-          onClick={() => Chat(data._id)}
-          className="msg12"
-          src="../../../src/assets/Authentication/Message.jpg"
-          alt=""
-        />
+          class="fa-solid fa-circle-xmark"
+        ></motion.i>
+
+        {block ? (
+          <motion.i
+            onClick={handleBlock}
+            id="p3"
+            whileHover={{ scale: 1.2 }}
+            class="fa-solid fa-user-large-slash"
+          ></motion.i>
+        ) : choice ? (
+          <>
+            {/* <p id="p1" onClick={() => Accept(1)} style={{ cursor: "pointer" }}>
+              Accept
+            </p> */}
+            <motion.i
+              whileHover={{ scale: 1.2 }}
+              id="p1"
+              onClick={Reject}
+              class="fa-solid fa-user-xmark"
+            ></motion.i>
+            {/* <p id="p2" onClick={() => Reject(2)} style={{ cursor: "pointer" }}>
+              Reject
+            </p> */}
+            <motion.i
+              whileHover={{ scale: 1.2 }}
+              id="p2"
+              onClick={Accept}
+              class="fa-solid fa-user-check"
+            ></motion.i>
+            <motion.i
+              onClick={handleBlock}
+              id="p3"
+              whileHover={{ scale: 1.2 }}
+              class="fa-solid fa-user-large-slash"
+            ></motion.i>
+          </>
+        ) : broken ? (
+          <motion.i
+            id="two-two"
+            // whileHover={{ scale: 1.2 }}
+            class="fa-solid fa-heart-crack"
+          ></motion.i>
+        ) : (
+          <motion.i
+            onClick={OnHeart}
+            whileHover={{ scale: 1.2 }}
+            id={heart ? "two-one" : heart2 ? "two-three" : "two"}
+            class="fa-solid fa-heart"
+          ></motion.i>
+        )}
+
+        <motion.i
+          onClick={OnStar}
+          whileHover={{ scale: 1.2 }}
+          id={star ? "three-one" : "three"}
+          class="fa-solid fa-star"
+        ></motion.i>
+
+        {choice ? (
+          // <i class="fa-solid fa-user-large-slash"></i>
+          ""
+        ) : ban ? (
+          <span id="four-two">
+            <FaCommentSlash />
+          </span>
+        ) : (
+          <motion.i
+            whileHover={{ scale: 1.2, backgroundColor: "rgb(250, 185, 137)" }}
+            id="four"
+            onClick={() => Chat(data._id)}
+            class="fa-solid fa-comment"
+          ></motion.i>
+        )}
       </div>
+      {/* {renderIcons()} */}
       {/* <footer>
         <h4>Haaai</h4>
       </footer> */}

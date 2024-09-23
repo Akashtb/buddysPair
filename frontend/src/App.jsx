@@ -7,33 +7,34 @@ import Job from "./pages/Authenticate/job/index.jsx";
 import JobSeeker from "./pages/Authenticate/job/seeker/index.jsx";
 import Employe from "./pages/Authenticate/job/Employe/index.jsx";
 import Other from "./pages/Authenticate/OtherProfile/index.jsx";
+import Gallery from "./pages/Authenticate/OtherGallery/index.jsx";
 import Payment from "./pages/Authenticate/Payment/index.jsx";
 import Payment2 from "./pages/Authenticate/Payment2/index.jsx";
 import Profile from "./pages/Authenticate/Profilecreation/index.jsx";
 import Registration from "./pages/Authenticate/Registration/index.jsx";
 import Login from "./pages/Authenticate/UserLogin/index.jsx";
 import SignUp from "./pages/Authenticate/UserSignup/index.jsx";
-import Home from './pages/BuddysHome/Home';
-import QualificationSorting from './pages/Qualification/QualificationSorting';
-import EducationSort from './pages/EducationSort/EducationSort';
-import QualificationSortingPage from './pages/SortingPages/QualificationSorting/QualificationSortingPage';
-import LocationSortingPage from './pages/SortingPages/LocationSorting/LocationSortingPage';
-import DesignationSortingPage from './pages/SortingPages/DesignationSorting/DesignationSortingPage';
-import ViewedMyProfile from './pages/SortingPages/ViewMyProfile/ViewedMyProfile';
-import Messages from './pages/Message/Messages';
-import SentPage from './pages/Sent/SentPage';
-import AcceptPage from './pages/Accept/AcceptPage';
-import RejectPage from './pages/Reject/RejectPage';
-import ReceivedPage from './pages/Recieved/ReceivedPage';
-import Filter from './pages/Filter/Filter';
-import PartnerPreference from './pages/PartnerPreference/PartnerPreference';
-import SubscriptionPlan from './pages/SubscriptionPlan/SubscriptionPlan';
-import ViewedMyProfileActivity from './pages/ViewedMyProfileActivity/ViewedMyProfileActivity';
-import Contacted from './pages/Contacted/Contacted';
-import ShortlistedBy from './pages/ShortlistedBy/ShortlistedBy';
-import Shortlist from './pages/Shortlist/Shortlist';
-import Edit from './pages/Edit.jsx';
-import Change from './pages/Change';
+import Home from "./pages/BuddysHome/Home";
+import QualificationSorting from "./pages/Qualification/QualificationSorting";
+import EducationSort from "./pages/EducationSort/EducationSort";
+import QualificationSortingPage from "./pages/SortingPages/QualificationSorting/QualificationSortingPage";
+import LocationSortingPage from "./pages/SortingPages/LocationSorting/LocationSortingPage";
+import DesignationSortingPage from "./pages/SortingPages/DesignationSorting/DesignationSortingPage";
+import ViewedMyProfile from "./pages/SortingPages/ViewMyProfile/ViewedMyProfile";
+import Messages from "./pages/Message/Messages";
+import SentPage from "./pages/Sent/SentPage";
+import AcceptPage from "./pages/Accept/AcceptPage";
+import RejectPage from "./pages/Reject/RejectPage";
+import ReceivedPage from "./pages/Recieved/ReceivedPage";
+import Filter from "./pages/Filter/Filter";
+import PartnerPreference from "./pages/PartnerPreference/PartnerPreference";
+import SubscriptionPlan from "./pages/SubscriptionPlan/SubscriptionPlan";
+import ViewedMyProfileActivity from "./pages/ViewedMyProfileActivity/ViewedMyProfileActivity";
+import Contacted from "./pages/Contacted/Contacted";
+import ShortlistedBy from "./pages/ShortlistedBy/ShortlistedBy";
+import Shortlist from "./pages/Shortlist/Shortlist";
+import Edit from "./pages/Edit.jsx";
+import Change from "./pages/Change";
 import NotFoundPage from "./pages/pagenotfound/NotFoundPage.jsx";
 import AccessDeniedPage from "./pages/accessDenied/AccessDenied.jsx";
 import ChatRoomPage from "./pages/Chatroom/ChatRoomPage.jsx";
@@ -92,60 +93,85 @@ function App() {
         <Route path="/intrest" element={<Intrest />} />
         <Route path="/job/employe" element={<Employe />} />
         <Route path="/job/seeker" element={<JobSeeker />} />
+        <Route path="/other/:id" element={<Other />} />
+        <Route path="/gallery/:id" element={<Gallery />} />
 
-
-        <Route path="/other/:id" element={
+        {/* <Route path="/other/:id" element={
           <ProtectedRoute>
             <Other />
           </ProtectedRoute>}
+        /> */}
+
+        <Route
+          path="/buddysHomePage"
+          element={
+            <ProtectedRoute>
+              <Home />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/buddysHomePage" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/QualificationSortedPage" element={
-          <ProtectedRoute>
-            <QualificationSorting />
-          </ProtectedRoute>}
+        <Route
+          path="/QualificationSortedPage"
+          element={
+            <ProtectedRoute>
+              <QualificationSorting />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/educationSortedPage" element={
-          <ProtectedRoute>
-            <EducationSort />
-          </ProtectedRoute>}
+        <Route
+          path="/educationSortedPage"
+          element={
+            <ProtectedRoute>
+              <EducationSort />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/qualificationSorting" element={
-          <ProtectedRoute>
-            <QualificationSortingPage />
-          </ProtectedRoute>}
+        <Route
+          path="/qualificationSorting"
+          element={
+            <ProtectedRoute>
+              <QualificationSortingPage />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/locationSorting" element={
-          <ProtectedRoute>
-            <LocationSortingPage />
-          </ProtectedRoute>}
+        <Route
+          path="/locationSorting"
+          element={
+            <ProtectedRoute>
+              <LocationSortingPage />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/sent" element={
-          <ProtectedRoute>
-            <SentPage />
-          </ProtectedRoute>}
+        <Route
+          path="/sent"
+          element={
+            <ProtectedRoute>
+              <SentPage />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/accept" element={
-          <ProtectedRoute>
-            <AcceptPage />
-          </ProtectedRoute>}
+        <Route
+          path="/accept"
+          element={
+            <ProtectedRoute>
+              <AcceptPage />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/reject" element={
-          <ProtectedRoute>
-            <RejectPage />
-          </ProtectedRoute>}
+        <Route
+          path="/reject"
+          element={
+            <ProtectedRoute>
+              <RejectPage />
+            </ProtectedRoute>
+          }
         />
 
         <Route path="/block" element={
@@ -168,22 +194,31 @@ function App() {
           </ProtectedRoute>}
         />
 
-        <Route path="/filter" element={
-          <ProtectedRoute>
-            <Filter />
-          </ProtectedRoute>}
+        <Route
+          path="/filter"
+          element={
+            <ProtectedRoute>
+              <Filter />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/preference" element={
-          <ProtectedRoute>
-            <PartnerPreference />
-          </ProtectedRoute>}
+        <Route
+          path="/preference"
+          element={
+            <ProtectedRoute>
+              <PartnerPreference />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/subscription" element={
-          <ProtectedRoute>
-            <SubscriptionPlan />
-          </ProtectedRoute>}
+        <Route
+          path="/subscription"
+          element={
+            <ProtectedRoute>
+              <SubscriptionPlan />
+            </ProtectedRoute>
+          }
         />
 
         {/* <Route path='/setting' element={
@@ -192,71 +227,99 @@ function App() {
           </ProtectedRoute>}
         /> */}
 
-        <Route path='/edit' element={
-          <ProtectedRoute>
-            <Edit Se="Edit My Profile" />
-          </ProtectedRoute>}
+        <Route
+          path="/edit"
+          element={
+            <ProtectedRoute>
+              <Edit Se="Edit My Profile" />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path='/change' element={
-          <ProtectedRoute>
-            <Change Se="Change Password" />
-          </ProtectedRoute>}
+        <Route
+          path="/change"
+          element={
+            <ProtectedRoute>
+              <Change Se="Change Password" />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/shortlist" element={
-          <ProtectedRoute>
-            <Shortlist />
-          </ProtectedRoute>}
+        <Route
+          path="/shortlist"
+          element={
+            <ProtectedRoute>
+              <Shortlist />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/shortlistedby" element={
-          <ProtectedRoute>
-            <ShortlistedBy />
-          </ProtectedRoute>}
+        <Route
+          path="/shortlistedby"
+          element={
+            <ProtectedRoute>
+              <ShortlistedBy />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/contacted" element={
-          <ProtectedRoute>
-            <Contacted />
-          </ProtectedRoute>}
+        <Route
+          path="/contacted"
+          element={
+            <ProtectedRoute>
+              <Contacted />
+            </ProtectedRoute>
+          }
         />
 
-
-        <Route path="/viewed" element={
-          <ProtectedRoute>
-            <ViewedMyProfileActivity />
-          </ProtectedRoute>}
+        <Route
+          path="/viewed"
+          element={
+            <ProtectedRoute>
+              <ViewedMyProfileActivity />
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/chat" element={
-          <ProtectedRoute>
-            <ChatRoomPage />
-            {/* <ChatRoomPage socket={socket} /> */}
-          </ProtectedRoute>}
+        <Route
+          path="/chat"
+          element={
+            <ProtectedRoute>
+              <ChatRoomPage />
+              {/* <ChatRoomPage socket={socket} /> */}
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/setting" element={
-          <ProtectedRoute>
-            <SettingsPage />
-            {/* <ChatRoomPage socket={socket} /> */}
-          </ProtectedRoute>}
+        <Route
+          path="/setting"
+          element={
+            <ProtectedRoute>
+              <SettingsPage />
+              {/* <ChatRoomPage socket={socket} /> */}
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/editprofile" element={
-          <ProtectedRoute>
-            <EditProfile />
-            {/* <ChatRoomPage socket={socket} /> */}
-          </ProtectedRoute>}
+        <Route
+          path="/editprofile"
+          element={
+            <ProtectedRoute>
+              <EditProfile />
+              {/* <ChatRoomPage socket={socket} /> */}
+            </ProtectedRoute>
+          }
         />
 
-        <Route path="/privacySetting" element={
-          <ProtectedRoute>
-            <PrivacySettings />
-            {/* <ChatRoomPage socket={socket} /> */}
-          </ProtectedRoute>}
+        <Route
+          path="/privacySetting"
+          element={
+            <ProtectedRoute>
+              <PrivacySettings />
+              {/* <ChatRoomPage socket={socket} /> */}
+            </ProtectedRoute>
+          }
         />
-
 
         <Route path="/payment" element={<Payment />} />
         <Route path="/payment2" element={<Payment2 />} />

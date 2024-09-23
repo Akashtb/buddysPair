@@ -154,7 +154,18 @@ const Registration = () => {
   };
 
   const registerProfile = async () => {
-    const {age,gender,dateOfBirth,hobbies,interest,smoking,drinking,propic,multipleimg,reel} = profileData;
+    const {
+      age,
+      gender,
+      dateOfBirth,
+      hobbies,
+      interest,
+      smoking,
+      drinking,
+      propic,
+      multipleimg,
+      reel,
+    } = profileData;
     if (!age) {
       toast.error("Please fill the age");
       return; // Stop further execution if validation fails
@@ -315,6 +326,7 @@ const Registration = () => {
                   name="interest"
                   value={profileData.interest}
                   onChange={dataChange}
+                  // multiple
                 >
                   <option value="">Interest</option>
                   <option value="Music">Music</option>

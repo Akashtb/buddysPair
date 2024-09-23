@@ -14,12 +14,15 @@
   margin-left: 85%;
 }
 .anoop19 .arrow {
-  margin: 40px;
+  /* position: absolute; */
+  width: 80px;
+
   position: absolute;
-  width: 15%;
-  /* background-color: antiquewhite; */
-  margin-top: 5%;
-  margin-left: 85%;
+  /* bottom: 670px; */
+  top: 20px;
+  right: 10px;
+
+  background-color: rgba(255, 255, 255, 0);
 }
 
 .anoop19 .header4 .fa-solid {
@@ -34,7 +37,7 @@
 .anoop19 .image6 {
   /* width: fit-content; */
   width: 100%;
-  height: 62vh;
+  height: 40cap;
   overflow-y: scroll;
   overflow-x: hidden;
   display: flex;
@@ -54,7 +57,7 @@ h2 {
 }
 .anoop19 .img4 {
   /* width: 100%; */
-  height: 62vh;
+  height: 40cap;
 }
 .anoop19 .image6 .extra {
   /* background-color: azure; */
@@ -147,7 +150,7 @@ h2 {
 }
 .anoop19 .links {
   position: relative;
-  margin-top: -20px;
+  margin-top: -1cap;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 15px 0px 35px 0px;
@@ -229,6 +232,7 @@ h2 {
 
 .anoop19 .components {
   left: 9%;
+
   background-color: white;
   /* position: absolute; */
   /* position: sticky; */
@@ -236,7 +240,7 @@ h2 {
   bottom: 10px;
 
   display: flex;
-  gap: 20px;
+  gap: 5%;
   width: 80%;
   /* height: 10%; */
   overflow: hidden;
@@ -244,7 +248,8 @@ h2 {
   justify-content: center;
   border-radius: 40px;
   /* padding-left: 20px; */
-  padding: 10px;
+  /* padding: 10px; */
+  padding: 10px 20px 10px 20px;
   box-shadow: 2px 2px 20px rgb(255, 198, 217);
   /* margin-top: 170%; */
 }
@@ -254,8 +259,193 @@ h2 {
 .anoop19 .msg12 {
   width: 19%;
 }
+.anoop19 .components i {
+  color: white;
+  font-size: 40px;
+  background-color: rgb(205, 21, 251);
+  /* background-color: rgb(159, 65, 183); */
+}
+.anoop19 #one {
+  /* font-size: px; */
+  background-color: rgb(255, 255, 255);
+  color: rgb(253, 155, 117);
+}
+
+.anoop19 #two {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(255, 200, 233);
+  /* background-color: rgb(227, 60, 160); */
+}
+.anoop19 #two:hover {
+  background-color: rgb(251, 182, 226);
+}
+.anoop19 #two-two {
+  padding: 12px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(212, 176, 198);
+}
+.anoop19 #two-three {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(251, 83, 187);
+}
+.anoop19 #two-one {
+  background-color: rgb(253, 206, 214);
+  color: rgb(255, 6, 159);
+  font-size: 18px;
+  padding: 11px;
+  border-radius: 50%;
+}
+.anoop19 #two-one:hover {
+  background-color: rgb(249, 231, 244);
+}
+.anoop19 #three {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(133, 102, 196);
+  /* background-color: rgb(186, 174, 210); */
+}
+.anoop19 #three:hover {
+  background-color: rgb(105, 105, 231);
+}
+.anoop19 #three-one {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(172, 172, 236);
+  color: rgb(255, 218, 118);
+}
+.anoop19 #three-one:hover {
+  background-color: rgb(195, 195, 244);
+  color: rgb(255, 211, 88);
+}
+.anoop19 #four {
+  padding: 11px;
+  font-size: 18px;
+  border-radius: 50%;
+  background-color: rgb(253, 159, 175);
+}
+.anoop19 #four-two {
+  background-color: rgb(211, 194, 167);
+  font-size: 24px;
+  padding: 9px;
+  border-radius: 50%;
+  color: white;
+}
+
+.anoop19 #p1 {
+  background-color: rgb(240, 119, 131);
+  padding: 11px 9px 11px 10px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+}
+.anoop19 #p2 {
+  background-color: rgb(126, 214, 153);
+  padding: 11px 9px 11px 10px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+}
+.anoop19 #p3 {
+  background-color: rgb(124, 181, 234);
+  padding: 11px 9px 11px 10px;
+  border-radius: 50%;
+  color: white;
+  font-size: 20px;
+}
 
 @media screen and (min-width: 1030px) {
+  .anoop19 #p1 {
+    padding: 15px 13px 15px 14px;
+    border-radius: 50%;
+    color: white;
+  }
+  .anoop19 #p2 {
+    padding: 15px 13px 15px 14px;
+    border-radius: 50%;
+    color: white;
+  }
+  .anoop19 #p3 {
+    padding: 15px 13px 15px 14px;
+    border-radius: 50%;
+    color: white;
+  }
+  .anoop19 #one {
+    /* font-size: px; */
+    font-size: 50px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(230, 177, 156);
+  }
+  .anoop19 #two {
+    padding: 11px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(255, 200, 233);
+  }
+  .anoop19 #two:hover {
+    background-color: rgb(255, 186, 230);
+  }
+  .anoop19 #two-two {
+    padding: 11px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(212, 176, 198);
+  }
+  .anoop19 #two-three {
+    padding: 11px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(251, 83, 187);
+  }
+  .anoop19 #two-one {
+    background-color: rgb(253, 206, 214);
+    color: rgb(255, 6, 159);
+    font-size: 30px;
+    padding: 11px;
+    border-radius: 50%;
+  }
+  .anoop19 #two-one:hover {
+    background-color: rgb(249, 231, 244);
+  }
+  .anoop19 #three {
+    padding: 11px 10px 11px 10px;
+    font-size: 30px;
+    border-radius: 50%;
+  }
+  .anoop19 #three:hover {
+    background-color: rgb(105, 105, 231);
+  }
+  .anoop19 #three-one {
+    padding: 11px 10px 11px 10px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(172, 172, 236);
+    color: rgb(255, 218, 118);
+  }
+  .anoop19 #three-one:hover {
+    background-color: rgb(195, 195, 244);
+    color: rgb(255, 211, 88);
+  }
+  .anoop19 #four {
+    padding: 11px;
+    font-size: 30px;
+    border-radius: 50%;
+    background-color: rgb(251, 187, 198);
+  }
+  .anoop19 #four-two {
+    background-color: rgb(211, 194, 167);
+    font-size: 35px;
+    padding: 10px;
+    border-radius: 50%;
+    color: white;
+  }
+
   .anoop19 {
     /* background-color: antiquewhite; */
     padding-bottom: 50px;
@@ -272,12 +462,11 @@ h2 {
   }
 
   .anoop19 ::-webkit-scrollbar-track {
-    background: transparent;
+    /* background: red; */
   }
 
   .anoop19 ::-webkit-scrollbar-thumb {
-    background: transparent;
-    border: none;
+    background-color: aqua;
   }
   .anoop19 .links2 a:hover {
     background-color: aliceblue;
@@ -311,7 +500,7 @@ h2 {
     /* margin: auto; */
     margin-left: 29%;
     box-shadow: 1px -6px 10px rgb(217, 216, 216);
-    margin-top: -90px;
+    margin-top: -40px;
   }
   .anoop19 .links2 {
     background-color: rgb(231, 173, 236);
@@ -370,13 +559,14 @@ h2 {
     /* background-color: aqua; */
     /* position: relative; */
     position: sticky;
-    bottom: 700px;
+    bottom: 680px;
+    margin-left: 320px;
   }
   .anoop19 .components {
     width: 35%;
     margin: auto 30.5%;
     border-radius: 50px;
-    gap: 10%;
+    gap: 7%;
     padding: 1% 2% 1% 2%;
   }
   .anoop19 .header4 {
@@ -420,7 +610,8 @@ h2 {
     padding-top: 50px;
     width: 56%;
     height: 600px;
-
+    /* margin-top: 10px; */
+    background-color: rgb(255, 255, 255);
     overflow-y: scroll;
     overflow-x: hidden;
     /* background-color: rgb(80, 39, 39); */

@@ -403,6 +403,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
       );
     }
 
+
     if (status === "accepted" && fromUID === matrimonyProfileId) {
       return (
         <>
@@ -431,6 +432,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
       );
     }
 
+
     if (status === "pending" && fromUID !== matrimonyProfileId) {
       return (
         <>
@@ -449,6 +451,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
       )
     }
 
+
     if (status === "accepted" && fromUID !== matrimonyProfileId) {
       return (
         <>
@@ -462,6 +465,7 @@ const ProfileCard = ({ profile,nearByProfileList,setNearByProfileList,qulificati
         </>
       )
     }
+
 
     if (status === "rejected" && fromUID !== matrimonyProfileId) {
       return (

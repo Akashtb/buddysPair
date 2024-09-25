@@ -100,15 +100,15 @@ const Block = () => {
             ))
           )}
         </div>
+
+        {showProfileOptions && (
+          <div className="profileOptionsContainer">
+            <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
+          </div>
+        )}
       </div>
-      {showProfileOptions && (
-        <div className="profileOptionsContainer">
-          <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
-        </div>
-      )}
     </div>
   );
 };
-
 
 export default Block;

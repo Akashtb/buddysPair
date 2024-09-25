@@ -49,6 +49,9 @@
 .chat-call :hover{
   color: red;
 }
+.chat-call :hover{
+  color: red;
+}
 .message-cont {
   padding: 10px 15px;
   border-radius: 20px;
@@ -91,6 +94,9 @@
 .pin-icon :hover{
   color: #a5a1a1;
 }
+.pin-icon :hover{
+  color: #a5a1a1;
+}
 .mic-icon {
   position: absolute;
   right: 55px;
@@ -98,6 +104,9 @@
   color: #363cec;
   z-index: 2;
   cursor: pointer;
+}
+.mic-icon :hover{
+  color: #9c9fea;
 }
 .mic-icon :hover{
   color: #9c9fea;
@@ -116,7 +125,10 @@
 }
 .send-button :hover{
 color: green;
+.send-button :hover{
+color: green;
 
+}
 }
 .send-button svg {
   font-size: 20px;

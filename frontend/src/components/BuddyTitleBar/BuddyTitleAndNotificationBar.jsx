@@ -7,14 +7,15 @@ import BuddyHomeProfile from '../BuddysHomeProfile/BuddyHomeProfile';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import IdContext from '../../context/IdContext';
+import { SocketMessageContext } from '../../context/SocketMessageContext';
 
-const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, showProfileOptions, toggleProfileOptions, showMenu, toggleMenu, socket }) => {
-    console.log("socket in BuddyTitleAndNotificationBar", socket);
-
+const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, showProfileOptions, toggleProfileOptions, showMenu, toggleMenu }) => {
 
     const navigate = useNavigate();
     const [profileDetails, setProfileDetails] = useState({});
     const { matrimonyProfileId } = useContext(IdContext);
+    const { socketMessage, receivedRequest, acceptedRequest, rejectRequest } = useContext(SocketMessageContext)
+
 
     const RedirectedHomePage = () => {
         navigate('/buddysHomePage');
@@ -28,6 +29,8 @@ const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, 
         fetchProfileDetails();
     }, [matrimonyProfileId]);
 
+    const showDot = socketMessage.length > 0 || receivedRequest.length > 0 || acceptedRequest.length > 0 || rejectRequest.length > 0;
+
     return (
         <div className='BuddyPairHomeHeaderTitleAndNotificationContainer'>
             <div className="BuddyPairHomeHeaderTitleAndNotification">
@@ -37,18 +40,18 @@ const BuddyTitleAndNotificationBar = ({ showNotifications, toggleNotifications, 
                     </div>
                     <h1 className={`BuddyPairHomeHeaderTitle ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`} onClick={RedirectedHomePage}>Buddy Pair</h1>
                 </div>
-                <div className={`profileAndNotification ${showNotifications || showProfileOptions || showMenu ? 'blur-background' : ''}`}>
+                <div className={`profileAndNotification ${showProfileOptions || showMenu ? 'blur-background' : ''}`}>
                     <div className="BuddyPairHomeHeaderNotificationIcon" onClick={toggleNotifications}>
                         <IoIosNotificationsOutline />
-                        <span className='BuddyPairHomeHeaderNotificationIconDot'></span>
+                        {showDot && <span className='BuddyPairHomeHeaderNotificationIconDot'></span>}
                     </div>
-                    <div className="HeadingprofilePicContainer" onClick={toggleProfileOptions}>
+                    <div className={`HeadingprofilePicContainer ${showNotifications || showMenu ? 'blur-background' : ''}`} onClick={toggleProfileOptions}>
                         <img src={profileDetails?.profilePic} alt="" className='HeadingProfilePic' />
                     </div>
                 </div>
             </div>
-            {showNotifications && <BuddyNotification socket={socket} />} {/* Render the notification component */}
-            {showProfileOptions && <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} socket={socket} />}
+            {showNotifications && <BuddyNotification />} {/* Render the notification component */}
+            {showProfileOptions && <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />}
             {showMenu && (
                 <div className="menuOverlay">
                     <ul className="menuList">

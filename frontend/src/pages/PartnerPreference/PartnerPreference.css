@@ -54,7 +54,6 @@
 .preference-section {
   margin-top: 80px; /* Account for the fixed header */
   padding: 20px 50px 20px 50px;
-  margin-left: 80px;
   background-color: #fff;
   border-radius: 20px 20px 20px 20px;
   box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);

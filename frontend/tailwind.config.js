@@ -8,7 +8,7 @@ module.exports = {
         '2xl-custom': '3rem',  // Larger custom rounding size
       },
       colors: {
-        'custom-purple': '#762277da',
+        'custom-purple': '#4B164C',
       },
     },
   },

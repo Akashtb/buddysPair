@@ -1,151 +1,113 @@
 .buddyHomeProfile {
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 80%;
-    max-width: 300px;
-    height: 95%;
-    background-color: #4B164C; /* Adjust color and opacity */
-    color: white;
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    padding: 20px;
-    box-sizing: border-box;
-  }
-  
-  .buddyHomeProfileHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 80%;
+  max-width: 300px;
+  height: 95%;
+  background-color: #4B164C;
+  color: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
 
-  .HeadingprofilePicContainer{
-    position: relative;
-  }
+.buddyHomeProfileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  .onlineDot{
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: rgb(132, 227, 132);
-    position: absolute;
-    top: 0;
-    right: 2px;
-  }
-  
-  
-  .buddyHomeProfileInfo {
-    flex-grow: 1;
-    margin-left: 10px;
-  }
-  
-  .buddyHomeProfileInfo h2 {
-    margin: 0;
-    font-size: 1.2em;
-  }
-  
-  .buddyHomeProfileInfo span {
-    display: block;
-  }
-  
-  .onlineStatus {
-    color: limegreen;
-  }
-  
-  .closeButton {
-    font-size: 1.5em;
-    cursor: pointer;
-  }
-  
-  .buddyHomeProfileOptions {
-    margin-top: 20px;
-  }
-  
-  .buddyHomeProfileOptions button {
-    display: block;
-    width: 100%;
-    background: none;
-    border: none;
-    color: white;
-    text-align: left;
-    padding: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  
-  .buddyHomeProfileOptions button:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
-  
-  .logoutButton {
-    display: flex;
-    align-items: center;
-    width: 90%;
-    margin-top: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    padding-top: 10px;
-  }
+.HeadingprofilePicContainer {
+  position: relative;
+}
 
-  @media(max-width:1025px){
-    .buddyHomeProfile {
-      height: 98%;
-    }
-  }
+.onlineDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgb(132, 227, 132);
+  position: absolute;
+  top: 0;
+  right: 2px;
+}
 
-  @media(max-width:768px){
-    .buddyHomeProfile {
-      height: 65%;
-    }
-  }
+.buddyHomeProfileInfo {
+  flex-grow: 1;
+  margin-left: 10px;
+}
 
-  @media(max-width:540px){
-    .buddyHomeProfile {
-      height: 85%;
-    }
-  }
+.buddyHomeProfileInfo h2 {
+  margin: 0;
+  font-size: 1.2em;
+  word-wrap: break-word; /* Ensure long names wrap */
+}
 
-  @media(max-width:431px){
-    .buddyHomeProfile {
+.buddyHomeProfileInfo span {
+  display: block;
+}
+
+.onlineStatus {
+  color: limegreen;
+}
+
+.closeButton {
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.buddyHomeProfileOptions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.buddyHomeProfileOptions button {
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.buddyHomeProfileOptions button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  padding-top: 10px;
+}
+
+@media(max-width:1025px){
+  .buddyHomeProfile {
+      height: 90%;
+  }
+}
+
+@media(max-width:768px){
+  .buddyHomeProfile {
       height: 70%;
-    }
   }
+}
 
-  @media(max-width:415px){
-    .buddyHomeProfile {
-      height: 70%;
-    }
-  }
-
-
-
-  @media(max-width:400px){
-    .buddyHomeProfile {
+@media(max-width:540px){
+  .buddyHomeProfile {
       height: 85%;
-    }
+      padding: 15px; /* Adjust padding */
   }
-  @media(max-width:391px){
-    .buddyHomeProfile {
-      height: 75%;
-    }
-   
-  }
+}
 
-  @media(max-width:380px){
-    .buddyHomeProfile {
-      height: 88%;
-    }
-   
+@media(max-width:400px){
+  .buddyHomeProfile {
+      height: 90%;
   }
-
-  @media(max-width:360px){
-    .buddyHomeProfile {
-      height: 83%;
-    }
-  }
-
-  @media(max-width:360px){
-    .buddyHomeProfile {
-      height: 75%;
-    }
-  }
-  
+}

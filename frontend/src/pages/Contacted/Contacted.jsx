@@ -1,22 +1,21 @@
-
 import Header from '../../components/NotifyHeader/Header';
 import UserCard from '../../components/NotifyUserCard/UserCard';
 import './Contacted.css';
-import { TiTick } from 'react-icons/ti';
-import { RxCross2 } from 'react-icons/rx';
 import { useContext, useEffect, useState } from 'react';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 import IdContext from '../../context/IdContext';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'; // Import your loading spinner
 
 const Contacted = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
-  const axiosPrivate = useAxiosPrivate();
-  const { matrimonyProfileId} = useContext(IdContext);
-  const[contactedProfiles,setContactedProfiles] = useState([])
+  const [contactedProfiles, setContactedProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const axiosPrivate = useAxiosPrivate();
+  const { matrimonyProfileId } = useContext(IdContext);
 
   const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -25,68 +24,72 @@ const Contacted = () => {
 
   useEffect(() => {
     const fetchContactedProfiles = async () => {
+      setLoading(true);
       try {
         const response = await axiosPrivate.get(`/api/matrimony/conversation/getContactedProfile/${matrimonyProfileId}`);
         setContactedProfiles(response.data);
       } catch (error) {
-        console.error("Error fetching sent requests or profiles:", error);
+        console.error("Error fetching contacted profiles:", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchContactedProfiles();
   }, [axiosPrivate, matrimonyProfileId]);
 
-  console.log("contactedProfiles",contactedProfiles);
-  
-
-    // Sort users alphabetically and group by the first letter
-    const groupedUsers = contactedProfiles.reduce((acc, user) => {
-      const firstLetter = user.firstName[0].toUpperCase();
-      if (!acc[firstLetter]) {
-        acc[firstLetter] = [];
-      }
-      acc[firstLetter].push(user);
-      return acc;
-    }, {});
+  const groupedUsers = contactedProfiles.reduce((acc, user) => {
+    const firstLetter = user.firstName[0].toUpperCase();
+    if (!acc[firstLetter]) {
+      acc[firstLetter] = [];
+    }
+    acc[firstLetter].push(user);
+    return acc;
+  }, {});
 
   return (
     <div className="activitycontainer">
-  <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
    
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
-      <div className="activity-header">
+        <div className="activity-header">
           <Header 
             title="Contacted" 
             profilePic="assets/Images/propic1.jpg" 
             onProfilePicClick={toggleProfileOptions} 
           />
         </div>
-      <div className="user-list">
-      {Object.keys(groupedUsers).sort().map(letter => (
-            <div key={letter}>
-              <h2 className="letter-heading">{letter}</h2>
-              {groupedUsers[letter].map(user => (
-          <UserCard
-            key={user.id}
-            user={user}
-            actions={[ 
-              // { className: 'accept-icon', icon: <TiTick />},
-              // { className: 'remove-icon', icon:<RxCross2 />},
-            ]}
-          />
-        ))}
+        <div className="user-list">
+          {loading ? (
+            <LoadingSpinner />
+          ) : contactedProfiles.length === 0 ? (
+            <div className="no-data-message">
+              <p>No contacted profiles found.</p>
+            </div>
+          ) : (
+            Object.keys(groupedUsers).sort().map(letter => (
+              <div key={letter}>
+                <h2 className="letter-heading">{letter}</h2>
+                {groupedUsers[letter].map(user => (
+                  <UserCard
+                    key={user.id}
+                    user={user}
+                    actions={[]}
+                  />
+                ))}
+              </div>
+            ))
+          )}
         </div>
-      ))}
       </div>
-    </div>
-    {showProfileOptions && (
+      {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
         </div>
       )}
-</div>
-);
+    </div>
+  );
 };
-  
+
 export default Contacted;

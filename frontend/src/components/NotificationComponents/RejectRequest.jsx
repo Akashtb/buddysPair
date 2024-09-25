@@ -7,12 +7,18 @@ function RejectRequest({rejectedUserName,rejectedTime,requestToId}) {
   const{rejectRequest, setRejectedRequest} = useContext(SocketMessageContext)
   const formattedTime = formatDate(rejectedTime);
 
-  const removeRejectionNotification = ()=>{
+  const removeRejectionNotification = (e)=>{
+    e.stopPropagation();
     const remove = rejectRequest.filter(reject=>reject.requestToId !== requestToId)
     setRejectedRequest(remove)
   }
+
+  const navigateToReject=()=>{
+    navigate(`/reject`);
+    setReceivedRequest([]);
+}
   return (
-    <div className="BuddyNotification2">
+    <div className="BuddyNotification2"onClick={navigateToReject}>
     <div className="BuddyNotification2Content">
       <div className='TickAndMessageContainer'>
         <div className="TickAndMessage">

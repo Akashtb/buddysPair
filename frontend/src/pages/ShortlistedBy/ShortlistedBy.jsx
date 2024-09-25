@@ -1,31 +1,25 @@
-
 import Header from '../../components/NotifyHeader/Header';
 import UserCard from '../../components/NotifyUserCard/UserCard';
 import './ShortlistedBy.css';
-import { TiTick } from 'react-icons/ti';
-import { RxCross2 } from 'react-icons/rx';
 import { useContext, useEffect, useState } from 'react';
 import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'; // Import the spinner
 
 const ShortlistedBy = () => {
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
-
-  const toggleProfileOptions = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    setShowProfileOptions(!showProfileOptions);
-  };
+  const [shortListedByProfiles, setShortListedByProfiles] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
 
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
-  const [shortListedByProfiles, setShortListedByProfiles] = useState([]);
 
   useEffect(() => {
-    const fetchShortedListedByRequests = async () => {
+    const fetchShortlistedByRequests = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/shortListedBy/${matrimonyProfileId}`);
         const requestList = response.data;
@@ -35,19 +29,17 @@ const ShortlistedBy = () => {
         );
 
         const profilesResponses = await Promise.all(profilesPromises);
-
         const profiles = profilesResponses.map(res => res.data);
         setShortListedByProfiles(profiles);
       } catch (error) {
-        console.error("Error fetching sent requests or profiles:", error);
+        console.error("Error fetching shortlisted profiles:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
-    fetchShortedListedByRequests();
+
+    fetchShortlistedByRequests();
   }, [axiosPrivate, matrimonyProfileId]);
-
-  console.log(shortListedByProfiles);
-  
-
 
   const groupedUsers = shortListedByProfiles.reduce((acc, user) => {
     const firstLetter = user.firstName[0].toUpperCase();
@@ -58,45 +50,59 @@ const ShortlistedBy = () => {
     return acc;
   }, {});
 
+  const toggleProfileOptions = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+    setShowProfileOptions(!showProfileOptions);
+  };
+
   return (
     <div className="activitycontainer">
-  <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
-   
+
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
         <div className="activity-header">
-          <Header 
-            title="Shorlisted By" 
-            profilePic="assets/Images/propic1.jpg" 
-            onProfilePicClick={toggleProfileOptions} 
+          <Header
+            title="Shortlisted By"
+            profilePic="assets/Images/propic1.jpg"
+            onProfilePicClick={toggleProfileOptions}
           />
         </div>
-      <div className="user-list">
-      {Object.keys(groupedUsers).sort().map(letter => (
-            <div key={letter}>
-              <h2 className="letter-heading">{letter}</h2>
-              {groupedUsers[letter].map(user => (
-          <UserCard
-            key={user.id}
-            user={user}
-            actions={[
-              // { className: 'accept-icon', icon: <TiTick />},
-              // { className: 'remove-icon', icon:<RxCross2 />},
-            ]}
-          />
-        ))}
+
+        <div className="user-list">
+          {loading ? (
+            <LoadingSpinner /> // Show spinner while loading
+          ) : shortListedByProfiles.length === 0 ? (
+            <div className="no-data-message">
+              <p>No shortlisted profiles found.</p>
+            </div>
+          ) : (
+            Object.keys(groupedUsers).sort().map(letter => (
+              <div key={letter}>
+                <h2 className="letter-heading">{letter}</h2>
+                {groupedUsers[letter].map(user => (
+                  <UserCard
+                    key={user._id} // Ensure you use the correct key
+                    user={user}
+                    actions={[
+                      // Add action icons here if needed
+                    ]}
+                  />
+                ))}
+              </div>
+            ))
+          )}
         </div>
-      ))}
-    </div>
-  </div>
-    {showProfileOptions && (
+      </div>
+
+      {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
         </div>
       )}
-</div>
-);
+    </div>
+  );
 };
-  
+
 export default ShortlistedBy;

@@ -19,7 +19,7 @@ function Message({ message }) {
       const friendId = message.members.find((m) => m !== matrimonyProfileId);
       setOtherUserProfileId(friendId);
     }
-  }, [message, matrimonyProfileId]);
+  }, [message, matrimonyProfileId]); 
   // console.log(otherUserProfileId);
 
   useEffect(() => {

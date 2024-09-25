@@ -2,104 +2,66 @@
   display: none;
 }
 .anoop19 {
-  /* background-color: rgb(244, 177, 89); */
   display: flex;
   flex-direction: column;
 }
+
+.anoop19 .header4 {
+  background-color: rgb(255, 255, 255);
+}
+.anoop19 .header4 .fa-solid {
+  position: sticky;
+  background-color: aliceblue;
+  margin: 10px;
+  top: 5px;
+  padding: 10px 13px 10px 13px;
+  border-radius: 50%;
+}
+.anoop19 .arrow {
+  width: 80px;
+  position: sticky;
+  /* float: right; */
+  left: 260px;
+  /* left: 300px; */
+  /* margin-left: 73%; */
+  top: 5px;
+  /* margin-top: 2px; */
+}
+.anoop19 .image6 {
+  display: flex;
+  flex-direction: column;
+  margin-top: -43px;
+  /* background-color: aliceblue; */
+}
+.anoop19 .img4 {
+  border-radius: 10px;
+  margin-top: -45px;
+}
+
 .anoop19 .scroll {
   width: 2%;
-  /* background-color: aqua; */
+
   position: absolute;
   margin-top: 50%;
   margin-left: 85%;
 }
-.anoop19 .arrow {
-  /* position: absolute; */
-  width: 80px;
 
-  position: absolute;
-  /* bottom: 670px; */
-  top: 20px;
-  right: 10px;
-
-  background-color: rgba(255, 255, 255, 0);
-}
-
-.anoop19 .header4 .fa-solid {
-  position: absolute;
-  background-color: rgba(184, 184, 184, 0.264);
-  padding: 10px 15px 10px 15px;
-  border-radius: 50%;
-  color: white;
-  margin: 5%;
-}
-
-.anoop19 .image6 {
-  /* width: fit-content; */
-  width: 100%;
-  height: 40cap;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 100px; */
-  background-color: rgb(124, 111, 111);
-  /* padding: 10px; */
-  /* overflow-x: scroll; */
-  /* margin-top: -400px; */
-}
-
-.anoop19 .image6 h3,
-h2 {
-  font-family: Aldrich;
-  /* background-color: antiquewhite; */
-}
-.anoop19 .img4 {
-  /* width: 100%; */
-  height: 40cap;
-}
-.anoop19 .image6 .extra {
-  /* background-color: azure; */
-  background-image: url("https://th.bing.com/th/id/OIG3.vkqqPTs5lEVatDrMaoaA?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn");
-  width: 100%;
-  /* width: 100px; */
-  text-align: center;
-  /* padding: 100px 40px 100px 40px; */
-  /* height: 30%; */
-  /* filter: blur(10px); */
-}
-.anoop19 .viewimg {
-  width: 40%;
-}
-.anoop19 .view2 h3 {
-  color: white;
-}
-.anoop19 .image6 .extra .view2 {
-  /* position: abs; */
-  width: 100%;
-  backdrop-filter: blur(20px);
-  padding: 150px 0px 150px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  /* padding-left: 20%; */
-}
 .anoop19 .botImg img {
   width: 130px;
 }
 .anoop19 .botImg {
   width: 100%;
+  /* position: relative; */
 
   /* background-color: rgba(240, 255, 255, 0.188); */
   /* text-align: center; */
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   gap: 15px;
   align-items: center;
   padding-bottom: 25px;
-  margin-top: -188px;
+  margin-top: -193px;
   background-image: linear-gradient(
     to bottom,
     rgba(108, 0, 144, 0),
@@ -123,13 +85,7 @@ h2 {
 .anoop19 .context4 {
   /* background-color: rgb(162, 185, 114); */
   width: 100%;
-  /* display: flex; */
-  /* background-color: white; */
-  /* width: 100%; */
-  /* overflow: hidden; */
-  /* overflow-x: scroll; */
 
-  /* border-radius: 20px; */
   box-sizing: border-box;
   padding: 10px;
   margin-top: -20px;
@@ -150,7 +106,7 @@ h2 {
 }
 .anoop19 .links {
   position: relative;
-  margin-top: -1cap;
+  margin-top: -2cap;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   padding: 15px 0px 35px 0px;
@@ -198,6 +154,15 @@ h2 {
   position: relative;
   width: 100%;
   /* background-color: rgb(240, 225, 206); */
+}
+.anoop19 .swap .s1 .gallery-btn {
+  position: relative;
+  /* width: 100px; */
+  margin-left: 2%;
+  background-color: rgb(167, 136, 211);
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
 }
 .anoop19 .swap .s2 {
   padding-top: 20px;
@@ -296,8 +261,8 @@ h2 {
 .anoop19 #two-one {
   background-color: rgb(253, 206, 214);
   color: rgb(255, 6, 159);
-  font-size: 18px;
-  padding: 11px;
+  font-size: 23px;
+  padding: 9px;
   border-radius: 50%;
 }
 .anoop19 #two-one:hover {
@@ -314,19 +279,19 @@ h2 {
   background-color: rgb(105, 105, 231);
 }
 .anoop19 #three-one {
-  padding: 11px;
-  font-size: 18px;
+  padding: 9px 8px 9px 8px;
+  font-size: 23px;
   border-radius: 50%;
-  background-color: rgb(172, 172, 236);
-  color: rgb(255, 218, 118);
+  background-color: rgb(148, 141, 213);
+  color: rgb(255, 222, 7);
 }
 .anoop19 #three-one:hover {
   background-color: rgb(195, 195, 244);
   color: rgb(255, 211, 88);
 }
 .anoop19 #four {
-  padding: 11px;
-  font-size: 18px;
+  padding: 9px;
+  font-size: 23px;
   border-radius: 50%;
   background-color: rgb(253, 159, 175);
 }
@@ -446,6 +411,26 @@ h2 {
     color: white;
   }
 
+  .anoop19 .arrow {
+    width: 80px;
+    position: sticky;
+    margin-left: 80%;
+  }
+  .anoop19 .header4 {
+    margin-left: 14%;
+  }
+  .anoop19 .image6 {
+    margin: auto;
+    /* margin-left: ; */
+    width: fit-content;
+    height: 600px;
+    margin-top: 30px;
+    background-color: rgb(255, 255, 255);
+  }
+  .anoop19 .img4 {
+    /* width: auto; */
+    height: 600px;
+  }
   .anoop19 {
     /* background-color: antiquewhite; */
     padding-bottom: 50px;
@@ -499,8 +484,8 @@ h2 {
     padding-bottom: 40px;
     /* margin: auto; */
     margin-left: 29%;
-    box-shadow: 1px -6px 10px rgb(217, 216, 216);
-    margin-top: -40px;
+    box-shadow: 1px -6px 10px rgba(217, 216, 216, 0.896);
+    margin-top: -20px;
   }
   .anoop19 .links2 {
     background-color: rgb(231, 173, 236);
@@ -554,14 +539,7 @@ h2 {
     padding-top: 250px;
     margin-left: 30%;
   }
-  .anoop19 .arrow {
-    width: 17%;
-    /* background-color: aqua; */
-    /* position: relative; */
-    position: sticky;
-    bottom: 680px;
-    margin-left: 320px;
-  }
+
   .anoop19 .components {
     width: 35%;
     margin: auto 30.5%;
@@ -569,41 +547,7 @@ h2 {
     gap: 7%;
     padding: 1% 2% 1% 2%;
   }
-  .anoop19 .header4 {
-    margin: auto;
-    padding-top: 20px;
-    padding-left: 14%;
-    width: min-content;
-    background-color: rgb(255, 255, 255);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* padding-bottom: 0; */
-  }
 
-  .anoop19 .image6 .extra .view2 {
-    /* position: abs; */
-    width: 100%;
-    backdrop-filter: blur(20px);
-    height: 70vh;
-    /* padding: 150px 0px 150px 0px; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    /* padding-left: 20%; */
-  }
-  .anoop19 .img4 {
-    height: 70vh;
-    /* margin-top: -90px; */
-  }
-  .anoop19 .image6 {
-    /* margin-top: -20px; */
-    width: max-content;
-    height: 70vh;
-    /* width: 42%; */
-    /* box-shadow: 3px 1px 12px rgb(179, 177, 177); */
-  }
   .anoop19 .context4 {
     /* height: 1000px; */
     margin-left: 29%;

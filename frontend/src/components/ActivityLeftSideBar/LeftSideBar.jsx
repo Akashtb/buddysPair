@@ -15,7 +15,7 @@ const RedirectedHomePage = ()=>{
   return (
     <div className='LeftSideBarContainer'>
       <div className='icons'>
-        <span className="Icon"><CiSearch onClick={() => navigate('/locationSorting')}/></span>
+        <span className="Icon"><CiSearch onClick={() => navigate('/filter')}/></span>
         <span className="Icon"><FaHeart onClick={() => navigate('/sent')}/></span>
         <span className="HomeIcon"><AiFillHome onClick={() => navigate('/buddysHomePage')}/></span>
         <span className="Icon"><FaRegStar onClick={() => navigate('/shortlist')}/></span>

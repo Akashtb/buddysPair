@@ -70,12 +70,13 @@ const BuddyHomeProfile = ({ toggleProfileOptions,socket }) => {
         </div>
       </div>
       <div className="buddyHomeProfileOptions">
-        <button >My Profile</button>
+        <button onClick={() => navigate('/editProfile')}>My Profile</button>
         <button onClick={() => navigate('/sent')}>Sent Request</button>
         <button onClick={() => navigate('/viewed')}>Viewed My Profile</button>
         <button onClick={() => navigate('/accept')}>Accept Request</button>
         <button onClick={() => navigate('/reject')}>Reject</button>
         <button onClick={() => navigate('/received')}>Received</button>
+        <button onClick={() => navigate('/block')}>Block</button>
         <button onClick={() => navigate('/shortlistedby')}>Shortlisted By</button>
         <button onClick={() => navigate('/shortlist')}>Shortlist</button>
         <button onClick={() => navigate('/contacted')}>Contacted</button>

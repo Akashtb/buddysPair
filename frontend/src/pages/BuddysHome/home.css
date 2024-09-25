@@ -10,6 +10,29 @@
     gap: 1px;
   }
 
+  .custom-loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
+  }
+  
+  /* Spinner style */
+  .custom-spinner {
+    border: 8px solid #f3f3f3; /* Light grey background */
+    border-top: 8px solid #4B164C; /* Blue spinner color */
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+  }
+  
+  /* Spinner animation */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
   .BuddyHomeFooter{
     position: absolute;
     bottom: 30px;
@@ -58,6 +81,12 @@
     top: 0;
 }
 
+.sideBarContainer.blur-background{
+    filter: blur(5px); /* Apply blur effect when notifications are visible */
+    transition: filter 0.3s ease;
+}
+
+
 .HomeNavbarContainer{
     position: sticky;
     top: 0;
@@ -91,6 +120,11 @@
     position: sticky;
     bottom: 50px;
     display: none;
+}
+
+.DummyPageContainerFooter.blur-background{
+    filter: blur(5px); /* Apply blur effect when notifications are visible */
+    transition: filter 0.3s ease;
 }
 
 @media(max-width:1280px){

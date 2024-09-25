@@ -43,99 +43,48 @@ import AuthContext from "./context/AuthContext.jsx";
 import useAxiosPrivate from "./CustomApi/UseAxiosPrivate.jsx";
 import ProtectedRoute from "./customRoute/ProtectedRoute.jsx";
 import IdContext from "./context/IdContext.jsx";
-import { SocketMessageContext } from "./context/SocketMessageContext.jsx";
 import SettingsPage from "./pages/SettingsPage/SettingsPage.jsx";
 import EditProfile from "./pages/EditProfile/EditProfile.jsx";
-import PrivacySettings from "./pages/PrivacySetting/PrivacySetting.jsx";
+import PrivacySettings from "./pages/PrivacySetting/PrivacySetting.jsx"
+import Block from "./pages/Block/Block.jsx";
 function App() {
-  const { auth } = useContext(AuthContext);
-  const { matrimonyProfileId } = useContext(IdContext);
-  const axiosPrivate = useAxiosPrivate();
-  const {
-    socketMessage,
-    setSocketMessage,
-    receivedRequest,
-    setReceivedRequest,
-    acceptedRequest,
-    setAcceptedRequest,
-    rejectRequest,
-    setRejectedRequest,
-    cancelRequest,
-  } = useContext(SocketMessageContext);
-  console.log("cancelRequest", cancelRequest);
-  // console.log("acceptedRequest",acceptedRequest);
-  // console.log("rejectRequest",rejectRequest);
-  // console.log("socketMessage",socketMessage);
-
-  const socket = useRef();
-  console.log("auth", auth);
+  const { auth } = useContext(AuthContext)
+  const { matrimonyProfileId,setMatrimonyProfileId,setUserId,userId } = useContext(IdContext)
+  const axiosPrivate = useAxiosPrivate()
 
   useEffect(() => {
     const initialRun = async () => {
       try {
-        const response = await axiosPrivate.get("/api/auth/getIds");
-        console.log("for initialRun", response.data);
+        const response = await axiosPrivate.get('/api/auth/getIds');
+        const { matrimonyId, userId } = response.data;
+  
+        if (matrimonyId && userId) {
+          setMatrimonyProfileId(matrimonyId);
+          setUserId(userId);
+        } else {
+          console.log('Either matrimonyProfileId or userId is missing in the response');
+          setMatrimonyProfileId(matrimonyId || '');
+          setUserId(userId || ''); 
+        }
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching IDs:', error);
       }
     };
+  
+    initialRun();
+  }, [setMatrimonyProfileId, setUserId, axiosPrivate]);
 
-    if (matrimonyProfileId) {
-      initialRun();
-    }
-  }, [matrimonyProfileId]);
 
-  useEffect(() => {
-    if (socket?.current) {
-      socket.current.on(
-        "requestReceived",
-        ({ fromUID, toUID, fromUIDFullName }) => {
-          console.log("requestReceived event fired on socket ");
-          if (toUID === matrimonyProfileId) {
-            toast.info(
-              `${fromUIDFullName} has sent you a new request on context.`
-            );
-          }
-        }
-      );
 
-      socket.current.on(
-        "cancelReceived",
-        ({ fromUID, requestToId, fromUIDFullName }) => {
-          if (requestToId === matrimonyProfileId) {
-            toast.info(`${fromUIDFullName} has cancel you a request new.`);
-          }
-        }
-      );
 
-      return () => {
-        if (socket.current) {
-          socket.current.off("requestReceived");
-          socket.current.off("cancelReceived");
-        }
-      };
-    }
-  }, [socket.current, matrimonyProfileId]);
+
+
 
   return (
     <>
       <Routes>
-        <Route
-          path="/"
-          element={
-            auth && Object.keys(auth).length ? (
-              <Home socket={socket} />
-            ) : (
-              <Front />
-            )
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            !auth || Object.keys(auth).length === 0 ? <Login /> : <Home />
-          }
-        />
+        <Route path="/" element={auth && Object.keys(auth).length ? <Home  /> : <Front />} />
+        <Route path="/login" element={!auth || Object.keys(auth).length === 0 ? <Login /> : <Home />} />
         <Route path="/sign" element={<SignUp />} />
         <Route path="/registration/:id" element={<Registration />} />
         <Route path="/profile" element={<Profile />} />
@@ -225,22 +174,24 @@ function App() {
           }
         />
 
-        <Route
-          path="/received"
-          element={
-            <ProtectedRoute>
-              <ReceivedPage />
-            </ProtectedRoute>
-          }
+        <Route path="/block" element={
+          <ProtectedRoute>
+            <Block />
+          </ProtectedRoute>}
         />
 
-        <Route
-          path="/message"
-          element={
-            <ProtectedRoute>
-              <Messages />
-            </ProtectedRoute>
-          }
+
+        <Route path="/received" element={
+          <ProtectedRoute>
+            <ReceivedPage />
+          </ProtectedRoute>}
+        />
+
+
+        <Route path="/message" element={
+          <ProtectedRoute>
+            <Messages />
+          </ProtectedRoute>}
         />
 
         <Route

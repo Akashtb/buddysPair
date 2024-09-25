@@ -67,10 +67,6 @@
   gap: 10px;
 }
 
-.call-icon, .video-icon {
-  font-size: 10px;
-  cursor: pointer;
-}
 
 /* Media Query for Mobile View (max-width: 768px) */
 @media (max-width: 768px) {

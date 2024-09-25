@@ -229,11 +229,15 @@ const Registration = () => {
     }
   };
 
+  // remove profile pic
   const RemoveProfilePic = () => {
     setProfileData((prevData) => ({ ...prevData, propic: "" }));
 
     return setImgName(""), toast.error("Image removed successfully");
   };
+
+  // remove multiple images
+
   const Remove12 = (re) => {
     console.log("remove item", re);
     const newdta = multiple.findIndex((item) => item.name === re);

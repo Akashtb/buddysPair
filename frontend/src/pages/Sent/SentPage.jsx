@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ImCross } from 'react-icons/im';
 import Header from '../../components/NotifyHeader/Header';
 import UserCard from '../../components/NotifyUserCard/UserCard';
@@ -7,11 +7,14 @@ import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
+import { toast } from 'react-toastify';
 
 const SentPage = () => {
-
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
+  const [sentProfiles, setSentProfiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
 
   const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -19,34 +22,37 @@ const SentPage = () => {
   };
 
   const axiosPrivate = useAxiosPrivate();
-  const { matrimonyProfileId} = useContext(IdContext);
-  const [sentProfiles, setSentProfiles] = useState([]);
-  console.log("matrimonyProfileId",matrimonyProfileId);
-  
+  const { matrimonyProfileId } = useContext(IdContext);
 
   useEffect(() => {
     const fetchSentRequests = async () => {
+      setLoading(true);
+      setError(null); // Reset error state
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/listOfSentRequest/${matrimonyProfileId}`);
         const requestList = response.data;
 
-        const profilesPromises = requestList.map(request => 
+        if (requestList.length === 0) {
+          setSentProfiles([]);
+          return;
+        }
+
+        const profilesPromises = requestList.map(request =>
           axiosPrivate.get(`/api/matrimony/profile/getProfile/${request.toUID}`)
-        ); 
+        );
 
         const profilesResponses = await Promise.all(profilesPromises);
-        
         const profiles = profilesResponses.map(res => res.data);
         setSentProfiles(profiles);
       } catch (error) {
-        console.error("Error fetching sent requests or profiles:", error);
+        setError('Error fetching sent requests or profiles.'); // Set error message
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchSentRequests();
   }, [axiosPrivate, matrimonyProfileId]);
-  console.log('usersList',sentProfiles);
-  
-  
 
   const groupedUsers = sentProfiles.reduce((acc, user) => {
     const firstLetter = user.firstName[0].toUpperCase();
@@ -56,64 +62,82 @@ const SentPage = () => {
     acc[firstLetter].push(user);
     return acc;
   }, {});
-  console.log("groupOfUSer",groupedUsers);
-  
+
   const cancelTheRequest = async (toUId) => {
-    console.log(`Attempting to cancel request for user with ID: ${toUId}`);  
     try {
-        const response = await axiosPrivate.delete(`/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}`, {
-            params: { requestToId: toUId }
-        });
-        console.log('API response:', response);
-        if (response.status === 200) {
-            console.log('Request cancelled successfully');
-            setSentProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== toUId));
-        } else {
-            console.error('Failed to cancel the request. Status:', response.status);
-        }
+      const response = await axiosPrivate.delete(`/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}`, {
+        params: { requestToId: toUId }
+      });
+  
+      if (response.status === 200) {
+        setSentProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== toUId));
+        toast.success("Successfully canceled the request.");
+      }
     } catch (error) {
-        console.error("Error cancelling the request:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to cancel the request, either you have accepted or it was rejected.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from server. Please try again later.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An error occurred. Please try again.");
+      }
     }
-};
+  };
+  
 
   return (
     <div className="activitycontainer">
-        <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
+      <div className={`leftsidebar ${isSidebarOpen ? 'blur' : ''}`}>
         <LeftSideBar />
       </div>
       <div className={`main ${isSidebarOpen ? 'blur' : ''}`}>
-      <div className="activity-header">
+        <div className="activity-header">
           <Header 
             title="Sent" 
             profilePic="assets/Images/propic1.jpg" 
             onProfilePicClick={toggleProfileOptions} 
           />
         </div>
+
         <div className="user-list">
-        {Object.keys(groupedUsers).sort().map(letter => (
-            <div key={letter}>
-              <h2 className="letter-heading">{letter}</h2>
-              {groupedUsers[letter].map(user => (
-            <UserCard
-              key={user.id}
-              user={user}
-              actions={[
-                { className: 'remove-icon', icon: <ImCross/> , onClick: () => cancelTheRequest(user._id)
-                (user._id) },
-              ]}
-            />
-          ))}
-          </div>
-        ))}
+          {loading ? (
+            <div className="loading-spinner">
+              <div className="spinner"></div>
+            </div>
+          ) : error ? (
+            <div className="error-message">
+              <p>{error}</p>
+            </div>
+          ) : sentProfiles.length === 0 ? (
+            <div className="no-data-message">
+              <p>No sent requests found.</p>
+            </div>
+          ) : (
+            Object.keys(groupedUsers).sort().map(letter => (
+              <div key={letter}>
+                <h2 className="letter-heading">{letter}</h2>
+                {groupedUsers[letter].map(user => (
+                  <UserCard
+                    key={user._id} // Use _id as the key
+                    user={user}
+                    actions={[{ className: 'remove-icon', icon: <ImCross />, onClick: () => cancelTheRequest(user._id) }]}
+                  />
+                ))}
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
       {showProfileOptions && (
         <div className="profileOptionsContainer">
           <BuddyHomeProfile toggleProfileOptions={toggleProfileOptions} />
         </div>
       )}
     </div>
-  );
+  ); 
 };
 
 export default SentPage;

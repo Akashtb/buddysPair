@@ -8,10 +8,14 @@ import LeftSideBar from '../../components/ActivityLeftSideBar/LeftSideBar';
 import BuddyHomeProfile from '../../components/BuddysHomeProfile/BuddyHomeProfile';
 import useAxiosPrivate from '../../CustomApi/UseAxiosPrivate';
 import IdContext from '../../context/IdContext';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner'; // Import the spinner
+import { toast } from 'react-toastify';
 
 const ReceivedPage = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showProfileOptions, setShowProfileOptions] = useState(false);
+  const [receivedProfiles, setReceivedProfiles] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
 
   const toggleProfileOptions = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -20,10 +24,10 @@ const ReceivedPage = () => {
 
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
-  const [receivedProfiles, setReceivedProfiles] = useState([]);
 
   useEffect(() => {
     const fetchReceivedRequests = async () => {
+      setLoading(true); // Start loading
       try {
         const response = await axiosPrivate.get(`/api/matrimony/profile/listOfRequests/${matrimonyProfileId}`);
         const requestList = response.data;
@@ -33,17 +37,17 @@ const ReceivedPage = () => {
         );
 
         const profilesResponses = await Promise.all(profilesPromises);
-
         const profiles = profilesResponses.map(res => res.data);
         setReceivedProfiles(profiles);
       } catch (error) {
         console.error("Error fetching sent requests or profiles:", error);
+      } finally {
+        setLoading(false); // Stop loading
       }
     };
     fetchReceivedRequests();
   }, [axiosPrivate, matrimonyProfileId]);
 
-  // Sort users alphabetically and group by the first letter
   const groupedUsers = receivedProfiles.reduce((acc, user) => {
     const firstLetter = user.firstName[0].toUpperCase();
     if (!acc[firstLetter]) {
@@ -54,43 +58,59 @@ const ReceivedPage = () => {
   }, {});
 
   const acceptTheRequest = async (fromUID) => {
-    console.log(`Attempting to accept request from user with ID: ${fromUID}`);  
     try {
       const response = await axiosPrivate.post(`/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`, {
         requestFromId: fromUID
       });
-      console.log('API response:', response);
+  
       if (response.status === 200) {
-        console.log('Request accepted successfully');
-        
         setReceivedProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== fromUID));
+        toast.success("Successfully accepted the user");
       } else {
         console.error('Failed to accept the request. Status:', response.status);
+        toast.error("Failed to accept the request. Please try again.");
       }
     } catch (error) {
-      console.error("Error accepting the request:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to accept the request.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
+  
 
   const rejectTheRequest = async (fromUID) => {
-    console.log(`Attempting to accept request from user with ID: ${fromUID}`);  
     try {
       const response = await axiosPrivate.post(`/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`, {
         requestFromId: fromUID
       });
-      console.log('API response:', response);
+  
       if (response.status === 200) {
-        console.log('Request accepted successfully');
-        
         setReceivedProfiles(prevProfiles => prevProfiles.filter(profile => profile._id !== fromUID));
+        toast.success("Successfully rejected the user");
       } else {
-        console.error('Failed to accept the request. Status:', response.status);
+        console.error('Failed to reject the request. Status:', response.status);
+        toast.error("Failed to reject the request. Please try again.");
       }
     } catch (error) {
-      console.error("Error accepting the request:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(error.response.data.message || "Failed to reject the request.");
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error("No response from the server. Please check your network and try again.");
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
-
   
 
   return (
@@ -108,31 +128,38 @@ const ReceivedPage = () => {
           />
         </div>
         <div className="user-list">
-  {Object.keys(groupedUsers).sort().map(letter => (
-    <div key={letter}>
-      <h2 className="letter-heading">{letter}</h2>
-      {groupedUsers[letter].map(user => (
-        <UserCard
-          key={user._id}  // Ensure you use _id if that's the correct key
-          user={user}
-          actions={[
-            { 
-              className: 'accept-icon', 
-              icon: <TiTick />, 
-              onClick: () => acceptTheRequest(user._id)// Just log a message on click
-            },
-            { 
-              className: 'remove-icon', 
-              icon: <RxCross2 /> ,
-              onClick: () => rejectTheRequest(user._id)
-            },
-          ]}
-        />
-      ))}
-    </div>
-  ))}
-</div>
-
+          {loading ? (
+            <LoadingSpinner /> // Show spinner while loading
+          ) : receivedProfiles.length === 0 ? (
+            <div className="no-data-message">
+              <p>No received requests found.</p>
+            </div>
+          ) : (
+            Object.keys(groupedUsers).sort().map(letter => (
+              <div key={letter}>
+                <h2 className="letter-heading">{letter}</h2>
+                {groupedUsers[letter].map(user => (
+                  <UserCard
+                    key={user._id} // Ensure you use _id if that's the correct key
+                    user={user}
+                    actions={[
+                      { 
+                        className: 'accept-icon', 
+                        icon: <TiTick />, 
+                        onClick: () => acceptTheRequest(user._id)
+                      },
+                      { 
+                        className: 'remove-icon', 
+                        icon: <RxCross2 />,
+                        onClick: () => rejectTheRequest(user._id)
+                      },
+                    ]}
+                  />
+                ))}
+              </div>
+            ))
+          )}
+        </div>
       </div>
       {showProfileOptions && (
         <div className="profileOptionsContainer">

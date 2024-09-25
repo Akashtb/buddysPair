@@ -11,6 +11,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { IoHeartDislikeOutline } from "react-icons/io5";
 import { FaRegEye } from "react-icons/fa6";
 import { RiUserForbidLine } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 import { PiUserCheckLight } from "react-icons/pi";
 import { FiUserCheck } from "react-icons/fi";
 import { LuUserX } from "react-icons/lu";
@@ -133,9 +134,35 @@ const ProfileCard = ({
         }
       );
 
+      socket.current.on("blocked", ({ userId, userFullName, otherUserId }) => {
+        console.log("blocked is called", userFullName);
+
+        if (String(userId) === String(profile?._id)) {
+          if (Array.isArray(nearByProfileList)) {
+            const updatedNearByList = nearByProfileList.filter(
+              (p) => String(p._id) !== String(userId)
+            );
+            setNearByProfileList([...updatedNearByList]);
+          }
+          if (Array.isArray(qulificationProfileList)) {
+            const updatedQualificationList = qulificationProfileList.filter(
+              (p) => String(p._id) !== String(userId)
+            );
+            setQualificationProfileList([...updatedQualificationList]);
+          }
+          if (Array.isArray(designationProfileList)) {
+            const updatedDesignationList = designationProfileList.filter(
+              (p) => String(p._id) !== String(userId)
+            );
+            setDesignationProfileList([...updatedDesignationList]);
+          }
+        }
+      });
+
       // Clean up listener on component unmount
       return () => {
         socket.current.off("requestReceived");
+        socket.current.off("blocked");
         socket.current.off("cancelReceived");
         socket.current.off("acceptRequest");
         socket.current.off("rejectRequest");
@@ -192,7 +219,7 @@ const ProfileCard = ({
         } catch (error) {
           console.error("Error unshortlisting profile:", error);
           toast.error(
-            "Failed to unshortlist the profile. Please try again later."
+            "Failed to unshortlist the profile. Please refresh the page try again later."
           );
         }
       } else {
@@ -310,32 +337,46 @@ const ProfileCard = ({
         `/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`,
         { requestFromId: profile._id }
       );
+
       if (Array.isArray(nearByProfileList)) {
         const updatedNearByList = nearByProfileList.filter(
           (p) => String(p._id) !== String(profile._id)
         );
         setNearByProfileList([...updatedNearByList]);
       }
+
       if (Array.isArray(qulificationProfileList)) {
         const updatedQualificationList = qulificationProfileList.filter(
           (p) => String(p._id) !== String(profile._id)
         );
         setQualificationProfileList([...updatedQualificationList]);
       }
+
       if (Array.isArray(designationProfileList)) {
         const updatedDesignationList = designationProfileList.filter(
           (p) => String(p._id) !== String(profile._id)
         );
         setDesignationProfileList([...updatedDesignationList]);
       }
+
       setAcceptOrReject(true);
       SetNoLikeIcon(true);
-      toast.success("You have rejected the request successfully");
+      toast.success("You have rejected the request successfully.");
     } catch (error) {
-      console.error("Error accepting request:", error);
-      toast.error(
-        "User might cancel the request to check. Please Refresh the page."
-      );
+      if (error.response) {
+        toast.error(
+          error.response.data.message ||
+            "Failed to reject the request. Please try again."
+        );
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error(
+          "No response from the server. Please check your network connection and try again."
+        );
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -345,33 +386,98 @@ const ProfileCard = ({
         `/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`,
         { requestFromId: profile._id }
       );
+
       if (Array.isArray(nearByProfileList)) {
         const updatedNearByList = nearByProfileList.filter(
           (p) => String(p._id) !== String(profile._id)
         );
         setNearByProfileList([...updatedNearByList]);
       }
+
       if (Array.isArray(qulificationProfileList)) {
         const updatedQualificationList = qulificationProfileList.filter(
           (p) => String(p._id) !== String(profile._id)
         );
         setQualificationProfileList([...updatedQualificationList]);
-        console.log("filter is applied ........");
+        console.log("Filter is applied ........");
       }
+
       if (Array.isArray(designationProfileList)) {
         const updatedDesignationList = designationProfileList.filter(
           (p) => String(p._id) !== String(profile._id)
         );
         setDesignationProfileList([...updatedDesignationList]);
       }
+
       setAcceptOrReject(true);
       SetNoLikeIcon(true);
-      toast.success("You have accepted the request successfully");
+      toast.success("You have accepted the request successfully.");
     } catch (error) {
-      console.error("Error accepting request:", error);
-      toast.error(
-        "User might cancel the request to check. Please Refresh the page."
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(
+          error.response.data.message ||
+            "Failed to accept the request. Please try again."
+        );
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error(
+          "No response from the server. Please check your network connection and try again."
+        );
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
+  const handleBlock = async () => {
+    try {
+      await axiosPrivate.post(
+        `/api/matrimony/profile/block/${matrimonyProfileId}`,
+        { otherUserId: profile._id }
       );
+
+      if (Array.isArray(nearByProfileList)) {
+        const updatedNearByList = nearByProfileList.filter(
+          (p) => String(p._id) !== String(profile._id)
+        );
+        setNearByProfileList([...updatedNearByList]);
+      }
+
+      if (Array.isArray(qulificationProfileList)) {
+        const updatedQualificationList = qulificationProfileList.filter(
+          (p) => String(p._id) !== String(profile._id)
+        );
+        setQualificationProfileList([...updatedQualificationList]);
+      }
+
+      if (Array.isArray(designationProfileList)) {
+        const updatedDesignationList = designationProfileList.filter(
+          (p) => String(p._id) !== String(profile._id)
+        );
+        setDesignationProfileList([...updatedDesignationList]);
+      }
+
+      setAcceptOrReject(true);
+      SetNoLikeIcon(true);
+      toast.success("You have blocked the request successfully.");
+    } catch (error) {
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+        toast.error(
+          error.response.data.message ||
+            "Failed to block the request. Please try again."
+        );
+      } else if (error.request) {
+        console.error("No response received:", error.request);
+        toast.error(
+          "No response from the server. Please check your network connection and try again."
+        );
+      } else {
+        console.error("Error setting up the request:", error.message);
+        toast.error("An unexpected error occurred. Please try again.");
+      }
     }
   };
 
@@ -401,13 +507,13 @@ const ProfileCard = ({
               <AiOutlineUsergroupAdd />
             )}
           </span>
-          <span className="profileCardIcon3">
-            <FaRegEye />
+          <span className="profileCardIcon3" onClick={handleBlock}>
+            <RxCross2 />
           </span>
         </>
       );
     }
-    ///
+
     if (status === "accepted" && fromUID === matrimonyProfileId) {
       return (
         <>
@@ -417,13 +523,12 @@ const ProfileCard = ({
           <span className="profileCardIcon3">
             <LuMessageCircle />
           </span>
-          <span className="profileCardIcon3">
-            <FaRegEye />
+          <span className="profileCardIcon3" onClick={handleBlock}>
+            <RxCross2 />
           </span>
         </>
       );
     }
-    ///
 
     if (status === "rejected" && fromUID === matrimonyProfileId) {
       return (
@@ -435,12 +540,12 @@ const ProfileCard = ({
             <RiUserForbidLine />
           </span>
           <span className="profileCardIcon3">
-            <FaRegEye />
+            <RxCross2 />
           </span>
         </>
       );
     }
-    ////
+
     if (status === "pending" && fromUID !== matrimonyProfileId) {
       return (
         <>
@@ -454,13 +559,13 @@ const ProfileCard = ({
             {acceptOrReject === 'accept' && <LuMessageCircle onClick={handleInfoFRejected}/>}
             {acceptOrReject === 'reject' && <RiUserForbidLine onClick={handleInfoFRejected}/>} */}
           </span>
-          <span className="profileCardIcon3">
-            <FaRegEye />
+          <span className="profileCardIcon3" onClick={handleBlock}>
+            <RxCross2 />
           </span>
         </>
       );
     }
-    ///
+
     if (status === "accepted" && fromUID !== matrimonyProfileId) {
       return (
         <>
@@ -470,13 +575,13 @@ const ProfileCard = ({
           <span className="profileCardIcon3">
             <LuMessageCircle />
           </span>
-          <span className="profileCardIcon3">
-            <FaRegEye />
+          <span className="profileCardIcon3" onClick={handleBlock}>
+            <RxCross2 />
           </span>
         </>
       );
     }
-    ///
+
     if (status === "rejected" && fromUID !== matrimonyProfileId) {
       return (
         <>
@@ -487,7 +592,7 @@ const ProfileCard = ({
             <RiUserForbidLine />
           </span>
           <span className="profileCardIcon3">
-            <FaRegEye />
+            <RxCross2 />
           </span>
         </>
       );
@@ -505,8 +610,8 @@ const ProfileCard = ({
               <AiOutlineUsergroupAdd />
             )}
           </span>
-          <span className="profileCardIcon3">
-            <FaRegEye />
+          <span className="profileCardIcon3" onClick={handleBlock}>
+            <RxCross2 />
           </span>
         </>
       );

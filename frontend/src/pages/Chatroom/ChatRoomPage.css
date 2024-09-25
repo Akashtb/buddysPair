@@ -9,7 +9,6 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 20px;
-  margin-left: 80px;
 }
 
 .chat-messages {
@@ -17,6 +16,7 @@
   overflow-y: auto;
   padding-bottom: 10px;
 }
+
 
 .message {
   display: flex;
@@ -44,7 +44,9 @@
   font-size: 24px;
   color: white;
 }
-
+.chat-call :hover{
+  color: red;
+}
 .message-cont {
   padding: 10px 15px;
   border-radius: 20px;
@@ -81,7 +83,9 @@
   z-index: 2;
   cursor: pointer;
 }
-
+.pin-icon :hover{
+  color: #a5a1a1;
+}
 .mic-icon {
   position: absolute;
   right: 55px;
@@ -90,7 +94,9 @@
   z-index: 2;
   cursor: pointer;
 }
-
+.mic-icon :hover{
+  color: #9c9fea;
+}
 .send-button {
   background-color: #4B164C;
   color: white;
@@ -103,7 +109,10 @@
   z-index: 2;
   margin-left: 10px;
 }
+.send-button :hover{
+color: green;
 
+}
 .send-button svg {
   font-size: 20px;
 }

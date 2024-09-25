@@ -7,7 +7,7 @@ import "./other.css";
 import useAxiosPrivate from "../../../CustomApi/UseAxiosPrivate";
 import IdContext from "../../../context/IdContext";
 import { FaCommentSlash } from "react-icons/fa";
-import { BiRefresh } from "react-icons/bi";
+// import { BiRefresh } from "react-icons/bi";
 import { toast, useToastContainer } from "react-toastify";
 // import { text } from "stream/consumers";
 // const [isSentRequest, setIsSentRequest] = useState(false);
@@ -29,8 +29,9 @@ const Other = () => {
   const [choice, setChoice] = useState(false);
   const [block, setBlock] = useState(false);
   const [refresh, setRefresh] = useState(false);
+  const [accept, setAccept] = useState(false);
   // const [connectionStatus, setConnectionStatus] = useState({});
-  // const [connection, setConnection] = useState({});
+  const [connection, setConnection] = useState({});
   // const [count, setCount] = useState(0);
   const axiosPrivate = useAxiosPrivate();
   const { matrimonyProfileId } = useContext(IdContext);
@@ -50,6 +51,18 @@ const Other = () => {
     console.log("profile is viwed ", response.data);
   };
 
+  const shortlist = async () => {
+    const response = await axiosPrivate.get(
+      `/api/matrimony/profile/shortListedList/${matrimonyProfileId}`
+    );
+    console.log("short person", response.data.message);
+    if (response.data.message) {
+      return setStar(false);
+    } else {
+      return setStar(true);
+    }
+  };
+
   // useEffect(() => {
   // setChoice(true);
   // setBroken(true);
@@ -63,11 +76,11 @@ const Other = () => {
   //   navigate(`/chat/${pro}`);
   //   // console.log("proooooooo", pro);
   // };
-  const Chat = (_id) => {
-    navigate(`/chat/${_id}`);
+  const Chat = () => {
+    navigate(`/message`);
   };
   const Hombtn = () => {
-    navigate(`/landing/${id}`);
+    navigate(`/buddysHomePage`);
   };
   // const proBtn = () => {
   //   navigate(`/mypro/${pro}`);
@@ -150,7 +163,7 @@ const Other = () => {
               "You have already received a request from this user or you have sent request to this user"
             ) {
               toast.error("You have already made a connection request.");
-              setStar(true);
+              setStar(false);
             } else {
               toast.error(error.response.data.message);
             }
@@ -176,27 +189,10 @@ const Other = () => {
             `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
             { otherUserId: id }
           );
-          if (Array.isArray(nearByProfileList)) {
-            const updatedNearByList = nearByProfileList.filter(
-              (p) => String(p._id) !== String(id)
-            );
-            setNearByProfileList([...updatedNearByList]);
-          }
-          if (Array.isArray(qulificationProfileList)) {
-            const updatedQualificationList = qulificationProfileList.filter(
-              (p) => String(p._id) !== String(id)
-            );
-            setQualificationProfileList([...updatedQualificationList]);
-          }
-          if (Array.isArray(designationProfileList)) {
-            const updatedDesignationList = designationProfileList.filter(
-              (p) => String(p._id) !== String(id)
-            );
-            setDesignationProfileList([...updatedDesignationList]);
-          }
           // setAcceptOrReject(true);
           // SetNoLikeIcon(true);
           setHeart(false);
+          setRefresh(!refresh);
           toast.success("You have remove the friend successfully");
         } catch (error) {
           console.error("Error accepting request:", error);
@@ -215,6 +211,7 @@ const Other = () => {
           );
           toast.success("you have successfully cancel the send request");
           // findConnectionStatus();
+          setRefresh(!refresh);
           setHeart2(false);
         } catch (error) {
           console.error("Error unshortlisting profile:", error);
@@ -223,6 +220,7 @@ const Other = () => {
           );
         }
       } else {
+        //send request
         try {
           await axiosPrivate.post(
             `/api/matrimony/profile/sendRequest/${matrimonyProfileId}`,
@@ -231,8 +229,8 @@ const Other = () => {
             }
           );
           toast.success("you have send Request successfully");
-          // findConnectionStatus();
-          setRefresh(!refresh);
+          findConnectionStatus();
+          // setRefresh(!refresh);
           setHeart2(true);
           // setIsLiked(false);
         } catch (error) {
@@ -250,6 +248,7 @@ const Other = () => {
               toast.error(
                 "You have already received a request from this user, please refresh the page"
               );
+              setHeart2(true);
             } else {
               toast.error(error.response.data.message);
             }
@@ -281,24 +280,7 @@ const Other = () => {
         `/api/matrimony/profile/rejectTheRequest/${matrimonyProfileId}`,
         { requestFromId: id }
       );
-      if (Array.isArray(nearByProfileList)) {
-        const updatedNearByList = nearByProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setNearByProfileList([...updatedNearByList]);
-      }
-      if (Array.isArray(qulificationProfileList)) {
-        const updatedQualificationList = qulificationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setQualificationProfileList([...updatedQualificationList]);
-      }
-      if (Array.isArray(designationProfileList)) {
-        const updatedDesignationList = designationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setDesignationProfileList([...updatedDesignationList]);
-      }
+
       // setAcceptOrReject(true);
       // SetNoLikeIcon(true);
       setChoice(false);
@@ -333,31 +315,15 @@ const Other = () => {
         `/api/matrimony/profile/acceptRequest/${matrimonyProfileId}`,
         { requestFromId: id }
       );
-      if (Array.isArray(nearByProfileList)) {
-        const updatedNearByList = nearByProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setNearByProfileList([...updatedNearByList]);
-      }
-      if (Array.isArray(qulificationProfileList)) {
-        const updatedQualificationList = qulificationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setQualificationProfileList([...updatedQualificationList]);
-        console.log("filter is applied ........");
-      }
-      if (Array.isArray(designationProfileList)) {
-        const updatedDesignationList = designationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setDesignationProfileList([...updatedDesignationList]);
-      }
+
       // setAcceptOrReject(true);
       // SetNoLikeIcon(true);
       setChoice(false);
       setHeart(true);
       setBan(false);
       toast.success("You have accepted the request successfully");
+      // setRefresh(!refresh);
+      findConnectionStatus();
     } catch (error) {
       console.error("Error accepting request:", error);
       toast.error(
@@ -376,29 +342,13 @@ const Other = () => {
         `/api/matrimony/profile/block/${matrimonyProfileId}`,
         { otherUserId: id }
       );
-      if (Array.isArray(nearByProfileList)) {
-        const updatedNearByList = nearByProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setNearByProfileList([...updatedNearByList]);
-      }
-      if (Array.isArray(qulificationProfileList)) {
-        const updatedQualificationList = qulificationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setQualificationProfileList([...updatedQualificationList]);
-      }
-      if (Array.isArray(designationProfileList)) {
-        const updatedDesignationList = designationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setDesignationProfileList([...updatedDesignationList]);
-      }
+
       // setAcceptOrReject(true);
       // SetNoLikeIcon(true);
-      setBlock(true);
+      // setBlock(true);
       setChoice(false);
       setBan(true);
+      setBlock(true);
       toast.success("You have blocked the request successfully");
     } catch (error) {
       if (error.response) {
@@ -463,24 +413,7 @@ const Other = () => {
         `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
         { otherUserId: id }
       );
-      if (Array.isArray(nearByProfileList)) {
-        const updatedNearByList = nearByProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setNearByProfileList([...updatedNearByList]);
-      }
-      if (Array.isArray(qulificationProfileList)) {
-        const updatedQualificationList = qulificationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setQualificationProfileList([...updatedQualificationList]);
-      }
-      if (Array.isArray(designationProfileList)) {
-        const updatedDesignationList = designationProfileList.filter(
-          (p) => String(p._id) !== String(id)
-        );
-        setDesignationProfileList([...updatedDesignationList]);
-      }
+
       // setAcceptOrReject(true);
       // SetNoLikeIcon(true);
 
@@ -498,53 +431,65 @@ const Other = () => {
       const response = await axiosPrivate.get(
         `/api/matrimony/profile/connection-status/${matrimonyProfileId}/${id}`
       );
+      console.log("halo dear");
 
       console.log("my connection", response.data);
-      const { status, fromUID } = response.data;
-
-      //My Profile
-      if (status === "blockedBy" && fromUID === matrimonyProfileId) {
-        return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
-      }
-
-      if (status === "pending" && fromUID === matrimonyProfileId) {
-        return <>{(setHeart(false), setStar(false), setBan(true))};</>;
-      }
-
-      if (status === "accepted" && fromUID === matrimonyProfileId) {
-        return <>{(setHeart(true), setBan(false))}</>;
-      }
-
-      if (status === "rejected" && fromUID === matrimonyProfileId) {
-        return <>{(setBroken(true), setBan(true))}</>;
-      }
-
-      // Other Profile
-      if (status === "blockedBy" && fromUID !== matrimonyProfileId) {
-        return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
-      }
-
-      if (status === "pending" && fromUID !== matrimonyProfileId) {
-        return <>{setChoice(true)}</>;
-      }
-
-      if (status === "accepted" && fromUID !== matrimonyProfileId) {
-        return <>{(setChoice(false), setHeart(true), setBan(false))}</>;
-      }
-
-      if (status === "rejected" && fromUID !== matrimonyProfileId) {
-        return <>{(setHeart(false), setBan(true))}</>;
-      }
+      setConnection(response.data);
+      render(response.data);
     } catch (error) {
       console.error("Error fetching connection status:", error);
+    }
+  };
+  //My Profile
+  const render = (zz) => {
+    console.log("hi halo", zz);
+    const { status, fromUID, blockedBy } = zz;
+    if (status === "not_found") {
+      return <>{(setHeart(false), setHeart2(false), setBan(true))};</>;
+    }
+    if (status === "blocked" && blockedBy === matrimonyProfileId) {
+      return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
+    }
+
+    if (status === "pending" && fromUID === matrimonyProfileId) {
+      return <>{(setHeart(false), setHeart2(true), setBan(true))};</>;
+    }
+
+    if (status === "accepted" && fromUID === matrimonyProfileId) {
+      return <>{(setHeart(true), setBan(false), setAccept(true))}</>;
+    }
+
+    if (status === "rejected" && fromUID === matrimonyProfileId) {
+      return <>{(setBroken(true), setBan(true))}</>;
+    }
+
+    // Other Profile
+    if (status === "blocked" && blockedBy !== matrimonyProfileId) {
+      return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
+    }
+
+    if (status === "pending" && fromUID !== matrimonyProfileId) {
+      return <>{setChoice(true)}</>;
+    }
+
+    if (status === "accepted" && fromUID !== matrimonyProfileId) {
+      return (
+        <>
+          {(setChoice(false), setHeart(true), setBan(false), setAccept(true))}
+        </>
+      );
+    }
+
+    if (status === "rejected" && fromUID !== matrimonyProfileId) {
+      return <>{(setHeart(false), setBan(true))}</>;
     }
   };
 
   useEffect(() => {
     // setChoice(true);
     // setBan(true);
-    findConnectionStatus(refresh);
-    Getprofile(), profileisViewed();
+    shortlist(), findConnectionStatus(), Getprofile(), profileisViewed();
+    // render();
   }, [axiosPrivate, matrimonyProfileId, id]);
 
   // renderIcons(connectionStatus);
@@ -554,7 +499,10 @@ const Other = () => {
     <div className="anoop19">
       <div className="side1-6">
         <h1>Matrimony</h1>
-        <h3 onClick={() => handleNavigation("/buddysHomePage")}>
+        <h3
+          style={{ cursor: "context-menu" }}
+          onClick={() => handleNavigation("/buddysHomePage")}
+        >
           <i className="fa-solid fa-house"></i> Home
         </h3>
 
@@ -562,7 +510,7 @@ const Other = () => {
           <i className="fa-brands fa-facebook-messenger"></i> Message
         </h3>
 
-        <h3 onClick={() => handleNavigation("/favorites")}>
+        <h3 onClick={() => handleNavigation("/shortlist")}>
           <i className="fa-solid fa-star"></i> Favorites
         </h3>
 
@@ -574,7 +522,7 @@ const Other = () => {
           <i className="fa-solid fa-gear"></i> Settings
         </h3>
 
-        <h3 className="pro1-6">
+        <h3 className="pro1-6" onClick={() => handleNavigation("/editProfile")}>
           <i class="fa-solid fa-user"></i> Profile
         </h3>
       </div>
@@ -582,6 +530,11 @@ const Other = () => {
         <i class="fa-solid fa-angle-left" onClick={handleBack}></i>
 
         <div className="image6">
+          <img
+            className="arrow"
+            src="../../../src/assets/Authentication/Tag.svg"
+            alt=""
+          />
           {/* <img className="img4" src="\profile2.jpeg" alt="" />///////// */}
 
           {/* <img
@@ -589,12 +542,12 @@ const Other = () => {
             src="../../../src/assets/Authentication/Scroll.svg"
             alt=""
           /> */}
-          <img
+          {/*  <img
             className="img4"
             src="../../../src/assets/Authentication/profile1.jpeg"
             alt=""
-          />
-          {/* <img className="img4" src={data?.profilePic} alt="" /> */}
+          />*/}
+          <img className="img4" src={data?.profilePic} alt="" />
           <div className="botImg">
             <br />
             <div className="name12">
@@ -610,23 +563,7 @@ const Other = () => {
               alt=""
             />
           </div>
-          <div className="extra">
-            <div className="view2">
-              <img
-                onClick={onGallery}
-                className="viewimg"
-                src="https://th.bing.com/th/id/OIGP.TmXbZ0WBVGvkkhJpqZeI?w=270&h=270&c=6&r=0&o=5&dpr=1.3&pid=ImgGn"
-                alt=""
-              />
-              <h3>View gallery</h3>
-            </div>
-          </div>
         </div>
-        <img
-          className="arrow"
-          src="../../../src/assets/Authentication/Tag.svg"
-          alt=""
-        />
 
         {/* <button className="btn4">Logout</button> */}
       </div>
@@ -668,6 +605,9 @@ const Other = () => {
 
         <div className="swap">
           <section className="s1" id="sec1" href="#ou">
+            <button className="gallery-btn" onClick={onGallery}>
+              view gallery
+            </button>
             <div className="about">
               <h2>About</h2>
               <h3 className="ab"> {data.aboutMe}</h3>
@@ -753,12 +693,7 @@ const Other = () => {
         ></motion.i>
 
         {block ? (
-          <motion.i
-            onClick={handleBlock}
-            id="p3"
-            whileHover={{ scale: 1.2 }}
-            class="fa-solid fa-user-large-slash"
-          ></motion.i>
+          ""
         ) : choice ? (
           <>
             {/* <p id="p1" onClick={() => Accept(1)} style={{ cursor: "pointer" }}>
@@ -800,13 +735,21 @@ const Other = () => {
             class="fa-solid fa-heart"
           ></motion.i>
         )}
-
-        <motion.i
-          onClick={OnStar}
-          whileHover={{ scale: 1.2 }}
-          id={star ? "three-one" : "three"}
-          class="fa-solid fa-star"
-        ></motion.i>
+        {accept ? (
+          <motion.i
+            onClick={handleBlock}
+            id="p3"
+            whileHover={{ scale: 1.2 }}
+            class="fa-solid fa-user-large-slash"
+          ></motion.i>
+        ) : (
+          <motion.i
+            onClick={OnStar}
+            whileHover={{ scale: 1.2 }}
+            id={star ? "three-one" : "three"}
+            class="fa-solid fa-star"
+          ></motion.i>
+        )}
 
         {choice ? (
           // <i class="fa-solid fa-user-large-slash"></i>

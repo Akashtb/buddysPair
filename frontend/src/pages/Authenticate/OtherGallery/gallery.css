@@ -1,46 +1,35 @@
-.anoop100 .blur {
+.anoop100 .blur2 {
   width: 100%;
   height: 100%;
+  padding: 30px;
+  /* background-color: antiquewhite; */
+  backdrop-filter: blur(20px);
+
   margin: auto;
-  /* margin-left: 35%; */
-  /* height: 700px; */
-  /* width: fit-content; */
-  /* position: absolute;
-  position: sticky; */
+  /* position: relative; */
+  /* filter: blur(20px); */
   position: fixed;
   bottom: 0px;
-  padding-top: 20px;
-  /* background-color: antiquewhite; */
-  /* backdrop-filter: blur(30px); */
-  /* filter: blur(10px); */
-  /* margin-top: -50px; */
-  /* margin: auto; */
-  /* margin-left: 30%; */
-  background-color: rgba(255, 255, 255, 0.34);
-  backdrop-filter: blur(20px);
-  /* position: absolute; */
-  /* top: 50%; */
-  /* left: 50%; */
-  /* transform: translate(-10%, -50%); */
-  /* padding: 20px; */
-  color: rgb(181, 41, 41);
-  text-align: center;
 }
-.anoop100 .blur .jk {
-  /* text-align: center; */
+.anoop100 .jk {
+  /* background-color: rgb(255, 255, 255); */
+  width: fit-content;
+  margin: auto;
 }
-.anoop100 .blur .jk .fa-solid {
+.anoop100 .jk i {
   position: absolute;
-  margin-left: 2%;
-  margin-top: 1%;
-  font-size: 25px;
-  color: rgb(195, 195, 196);
+  background-color: rgba(240, 248, 255, 0.551);
+  padding: 9px 11px 9px 11px;
+  border-radius: 50%;
+  margin: 5px;
 }
-.anoop100 .blur .jk .blur2 {
-  /* backdrop-filter: blur(40px); */
-  height: 700px;
-  /* width: 70%; */
-  /* margin-left: 35%; */
+.anoop100 .blur3 {
+  /* width: 600px; */
+  margin: auto;
+  height: 650px;
+  border-radius: 10px;
+  /* filter: blur(0px);s */
+  /* backdrop-filter: blur(20px); */
 }
 
 .anoop100 .nav26 {
@@ -79,6 +68,7 @@
   border-radius: 20px;
   margin-top: 30px;
 }
+
 .anoop100 .image27 .pics7 {
   /* width: 300px; */
   height: 500px;
@@ -94,8 +84,13 @@
 }
 
 .anoop100 .image27 .pics7 .image25:hover {
+  /* padding: 30px; */
+
+  /* zoom: 90%; */
+  height: 525px;
   /* filter: url("https://anthonyhobday.com/sideprojects/visualtechniques/techniques/blur/blur-as-button-background.png"); */
-  filter: blur(5px);
+  filter: blur(2px);
+  /* backdrop-filter: url("https://res.cloudinary.com/dwtoizfsv/image/upload/v1726748292/nz1wv2nvchutcslew9r9.jpg"); */
 }
 .anoop100 .side1-6 {
   background-color: rgb(255, 255, 255);
@@ -158,27 +153,5 @@
     padding: 10px;
     margin-left: 70%;
     /* background-color: antiquewhite; */
-  }
-
-  .anoop100 .blur {
-    /* display: none; */
-    /* width: 100%; */
-    /* width: 100%; */
-  }
-  .anoop100 .blur .fa-solid {
-    /* margin-top: 20%; */
-    /* margin-left: 12%; */
-  }
-  .anoop100 .blur .jk {
-    margin-top: 20%;
-  }
-
-  .anoop100 .blur .jk .blur2 {
-    /* margin-top: 10%; */
-    width: 90%;
-    height: fit-content;
-    /* margin: 0; */
-    /* margin-left: 10%; */
-    /* margin-top: 20%; */
   }
 }

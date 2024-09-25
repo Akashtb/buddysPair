@@ -9,6 +9,7 @@ import IdContext from "../../../context/IdContext";
 import { FaCommentSlash } from "react-icons/fa";
 // import { BiRefresh } from "react-icons/bi";
 import { toast, useToastContainer } from "react-toastify";
+import SocketContext from "../../../context/SocketContext";
 // import { text } from "stream/consumers";
 // const [isSentRequest, setIsSentRequest] = useState(false);
 
@@ -34,7 +35,66 @@ const Other = () => {
   const [connection, setConnection] = useState({});
   // const [count, setCount] = useState(0);
   const axiosPrivate = useAxiosPrivate();
+  const { socket } = useContext(SocketContext);
   const { matrimonyProfileId } = useContext(IdContext);
+  
+
+  
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("requestReceived", ({ fromUID, toUID, fromUIDFullName }) => {
+          console.log("requestReceived event fired");
+          if (fromUID === id) {
+            setConnection((prev) => ({ ...prev, status: "pending" }));
+          }
+        }
+      );
+
+      socket.current.on("cancelReceived",({ fromUID, requestToId, fromUIDFullName }) => {
+          if (fromUID === id) {
+            console.log("cancelrequestReceived event fired",fromUIDFullName);
+            setConnection((prev) => ({ ...prev, status: "not_found" }));
+          }
+        }
+      );
+
+      socket.current.on(
+        "acceptRequest",
+        ({ requestFromId, requestToId, toUIDFullName }) => {
+          if (String(requestToId) === String(id)) {
+            setConnection((prev) => ({ ...prev, status: "accepted" }));
+          }
+        }
+      );
+
+      socket.current.on(
+        "rejectRequest",
+        ({ requestFromId, requestToId, toUIDFullName }) => {
+          if (String(requestToId) === String(profile?._id)) {
+            setConnection((prev) => ({ ...prev, status: "rejected" }));
+          }
+        }
+      );
+
+      socket.current.on("blocked", ({ userId, userFullName, otherUserId }) => {
+        console.log("blocked is called", userFullName);
+
+        if (String(userId) === String(id)) {
+          setConnection((prev) => ({ ...prev, status: "blocked" }))
+        }
+      });
+
+
+      // Clean up listener on component unmount
+      return () => {
+        socket.current.off("requestReceived");
+        socket.current.off("blocked");
+        socket.current.off("cancelReceived");
+        socket.current.off("acceptRequest");
+        socket.current.off("rejectRequest");
+      };
+    }
+  }, [socket.current, matrimonyProfileId,id]);
 
   const Getprofile = async () => {
     const response = await axiosPrivate.get(
@@ -232,6 +292,7 @@ const Other = () => {
           findConnectionStatus();
           // setRefresh(!refresh);
           setHeart2(true);
+          setStar(false);
           // setIsLiked(false);
         } catch (error) {
           console.error("Error shortlisting profile:", error);
@@ -435,55 +496,57 @@ const Other = () => {
 
       console.log("my connection", response.data);
       setConnection(response.data);
-      render(response.data);
     } catch (error) {
       console.error("Error fetching connection status:", error);
     }
   };
+
+  useEffect(() => {
+    if (connection && Object.keys(connection).length !== 0) {
+      render(connection);
+    }
+  }, [connection]); 
   //My Profile
   const render = (zz) => {
     console.log("hi halo", zz);
     const { status, fromUID, blockedBy } = zz;
-    if (status === "not_found") {
-      return <>{(setHeart(false), setHeart2(false), setBan(true))};</>;
-    }
-    if (status === "blocked" && blockedBy === matrimonyProfileId) {
-      return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
-    }
-
-    if (status === "pending" && fromUID === matrimonyProfileId) {
-      return <>{(setHeart(false), setHeart2(true), setBan(true))};</>;
-    }
-
-    if (status === "accepted" && fromUID === matrimonyProfileId) {
-      return <>{(setHeart(true), setBan(false), setAccept(true))}</>;
-    }
-
-    if (status === "rejected" && fromUID === matrimonyProfileId) {
-      return <>{(setBroken(true), setBan(true))}</>;
-    }
-
-    // Other Profile
-    if (status === "blocked" && blockedBy !== matrimonyProfileId) {
-      return <>{(setBlock(true), setChoice(false), setBan(true))};</>;
-    }
-
-    if (status === "pending" && fromUID !== matrimonyProfileId) {
-      return <>{setChoice(true)}</>;
-    }
-
-    if (status === "accepted" && fromUID !== matrimonyProfileId) {
-      return (
-        <>
-          {(setChoice(false), setHeart(true), setBan(false), setAccept(true))}
-        </>
-      );
-    }
-
-    if (status === "rejected" && fromUID !== matrimonyProfileId) {
-      return <>{(setHeart(false), setBan(true))}</>;
+  
+    if (status === 'not_found') {
+      setHeart(false);
+      setHeart2(false);
+      setBan(true);
+    } else if (status === "blocked" && blockedBy === matrimonyProfileId) {
+      setBlock(true);
+      setChoice(false);
+      setBan(true);
+    } else if (status === "pending" && fromUID === matrimonyProfileId) {
+      setHeart(false);
+      setHeart2(true);
+      setBan(true);
+    } else if (status === "accepted" && fromUID === matrimonyProfileId) {
+      setHeart(true);
+      setBan(false);
+      setAccept(true);
+    } else if (status === "rejected" && fromUID === matrimonyProfileId) {
+      setBroken(true);
+      setBan(true);
+    } else if (status === "blocked" && blockedBy !== matrimonyProfileId) {
+      setBlock(true);
+      setChoice(false);
+      setBan(true);
+    } else if (status === "pending" && fromUID !== matrimonyProfileId) {
+      setChoice(true);
+    } else if (status === "accepted" && fromUID !== matrimonyProfileId) {
+      setChoice(false);
+      setHeart(true);
+      setBan(false);
+      setAccept(true);
+    } else if (status === "rejected" && fromUID !== matrimonyProfileId) {
+      setHeart(false);
+      setBan(true);
     }
   };
+  
 
   useEffect(() => {
     // setChoice(true);
@@ -633,13 +696,13 @@ const Other = () => {
             </div>
             {/* <h3>Proflepic:{data.reg && data.reg.propic}</h3> */}
 
-            <div className="jobss">
+            {/* <div className="jobss">
               <h2>Job Details</h2>
               <br />
               <h3>Company{data.job && data.job.company}</h3>
               <h3>Designation: {data.job && data.job.designation}</h3>
               <h3>Location{data.job && data.job.location}</h3>
-            </div>
+            </div> */}
           </section>
 
           {/* /////////////////// */}

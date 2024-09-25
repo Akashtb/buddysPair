@@ -38,7 +38,7 @@ const Registration = () => {
       const values = Array.from(selectedOptions, (option) => option.value);
       setProfileData((prevData) => ({ ...prevData, [name]: values }));
     } else if (name === "smoking" || name === "drinking") {
-      setProfileData((prevData) => ({ ...prevData, [name]: value === "true" }));
+      setProfileData((prevData) => ({ ...prevData, [name]: value === "true" })); 
     } else {
       setProfileData((prevData) => ({ ...prevData, [name]: value }));
     }
@@ -60,7 +60,7 @@ const Registration = () => {
       toast.error("Failed to upload file");
       return null;
     }
-  };
+  };  
 
   const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB in bytes
 

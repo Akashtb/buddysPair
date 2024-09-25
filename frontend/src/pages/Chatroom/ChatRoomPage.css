@@ -15,7 +15,9 @@
   flex-grow: 1;
   overflow-y: auto;
   padding-bottom: 10px;
+  overflow-x: hidden; /* Ensure no horizontal scrollbars */
 }
+
 
 
 .message {
@@ -47,12 +49,18 @@
 .chat-call :hover{
   color: red;
 }
+.chat-call :hover{
+  color: red;
+}
 .message-cont {
   padding: 10px 15px;
   border-radius: 20px;
   max-width: 60%;
   background-color: #DD88CF;
+  word-break: break-word; /* Ensure long strings break */
+  overflow-wrap: break-word; /* Additional support for older browsers */
 }
+
 
 .message.sent .message-cont {
   background-color: #4B164C;
@@ -86,6 +94,9 @@
 .pin-icon :hover{
   color: #a5a1a1;
 }
+.pin-icon :hover{
+  color: #a5a1a1;
+}
 .mic-icon {
   position: absolute;
   right: 55px;
@@ -93,6 +104,9 @@
   color: #363cec;
   z-index: 2;
   cursor: pointer;
+}
+.mic-icon :hover{
+  color: #9c9fea;
 }
 .mic-icon :hover{
   color: #9c9fea;
@@ -111,7 +125,10 @@
 }
 .send-button :hover{
 color: green;
+.send-button :hover{
+color: green;
 
+}
 }
 .send-button svg {
   font-size: 20px;
@@ -121,6 +138,9 @@ color: green;
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
+  }
+  .message-cont {
+    max-width: 80%; /* Adjust for smaller screens */
   }
   .chatroom {
     padding: 10px;
@@ -153,6 +173,9 @@ color: green;
   .chatroom {
     padding: 10px;
     margin-left: 0;
+  }
+  .message-cont {
+    max-width: 90%; /* Further adjustment for smaller screens */
   }
 
   .profile-icon {

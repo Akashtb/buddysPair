@@ -107,7 +107,6 @@ const Other = () => {
         socket.current.off("cancelReceived");
         socket.current.off("unfriend");
         socket.current.off("unblocked");
-
         socket.current.off("acceptRequest");
         socket.current.off("rejectRequest");
       };

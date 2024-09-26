@@ -131,11 +131,10 @@ socket?.current?.on("cancelRequestNotification", ({ fromUID, requestToId, fromUI
 
     return () => {
       if (socket.current) {
-        socket.current.off("requestReceived");
-        socket.current.off('requestReceived');
-        socket.current.off('cancelReceived');
-        socket.current.off('acceptRequest');
-        socket.current.off('rejectRequest');
+        socket.current.off("requestNotification");
+        socket.current.off('cancelRequestNotification');
+        socket.current.off('acceptRequestNotification');
+        socket.current.off('rejectRequestNotification');
         socket.current.disconnect();
         console.log("Socket disconnected");
       }

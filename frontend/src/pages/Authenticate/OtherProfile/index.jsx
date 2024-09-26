@@ -50,13 +50,28 @@ const Other = () => {
         }
       );
 
-      socket.current.on("cancelReceived",({ fromUID, requestToId, fromUIDFullName }) => {
-          if (fromUID === id) {
-            console.log("cancelrequestReceived event fired",fromUIDFullName);
-            setConnection((prev) => ({ ...prev, status: "not_found" }));
-          }
+      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
+        if (fromUID === id) {
+          console.log("cancel event fired",fromUIDFullName);
+          setConnection((prev) => ({ ...prev, status: 'not_found' }));
         }
-      );
+      });
+
+      socket.current.on("unfriend",({ userId, otherUserId, userFullName }) => {
+        if (userId === id) {
+          console.log("unfriend event fired",userFullName);
+          setConnection((prev) => ({ ...prev, status: "not_found" }));
+        }
+      }
+    );
+
+    socket.current.on("unblocked",({ userId, otherUserId, userFullName }) => {
+      if (userId === id) {
+        console.log("unBlocked event fired",userFullName);
+        setConnection((prev) => ({ ...prev, status: "not_found" }));
+      }
+    }
+  );
 
       socket.current.on(
         "acceptRequest",
@@ -90,6 +105,9 @@ const Other = () => {
         socket.current.off("requestReceived");
         socket.current.off("blocked");
         socket.current.off("cancelReceived");
+        socket.current.off("unfriend");
+        socket.current.off("unblocked");
+
         socket.current.off("acceptRequest");
         socket.current.off("rejectRequest");
       };
@@ -252,7 +270,9 @@ const Other = () => {
           // setAcceptOrReject(true);
           // SetNoLikeIcon(true);
           setHeart(false);
+          setHeart2(false);
           setRefresh(!refresh);
+          setBan(true)
           toast.success("You have remove the friend successfully");
         } catch (error) {
           console.error("Error accepting request:", error);
@@ -553,7 +573,7 @@ const Other = () => {
     // setBan(true);
     shortlist(), findConnectionStatus(), Getprofile(), profileisViewed();
     // render();
-  }, [axiosPrivate, matrimonyProfileId, id]);
+  }, [axiosPrivate, matrimonyProfileId, id,socket]);
 
   // renderIcons(connectionStatus);
   // console.log("hgsahyydgugyggggggyyyyyyyyug", connectionStatus);

@@ -131,9 +131,32 @@
 }
 
 @media screen and (max-width: 1000px) {
+  .anoop100 .blur2 {
+    display: none;
+  }
   .anoop100 .image27 {
     margin: auto;
-    margin-top: 40px;
+    margin-top: 20px;
+    width: 90%;
+  }
+  .anoop100 .image27 .pics7 {
+    /* width: 300px; */
+    height: auto;
+    background-color: rgb(173, 140, 213);
+    border-radius: 7px;
+  }
+  .anoop100 .image27 .pics7 .image25 {
+    /* width: 200px; */
+    height: auto;
+    box-shadow: 5px 5px 8px rgb(110, 96, 121);
+    border-radius: 7px;
+  }
+  .anoop100 .image27 .pics7 .image25:hover {
+    /* width: 200px; */
+    height: auto;
+    box-shadow: 5px 5px 8px rgb(110, 96, 121);
+    border-radius: 7px;
+    filter: blur(0);
   }
   .anoop100 .side1-6 {
     display: none;

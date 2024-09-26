@@ -85,16 +85,16 @@ const Other = () => {
       socket.current.on(
         "rejectRequest",
         ({ requestFromId, requestToId, toUIDFullName }) => {
-          if (String(requestToId) === String(profile?._id)) {
+          if (String(requestToId) === String(id)) {
             setConnection((prev) => ({ ...prev, status: "rejected" }));
           }
         }
       );
 
       socket.current.on("blocked", ({ userId, userFullName, otherUserId }) => {
-        console.log("blocked is called", userFullName);
 
         if (String(userId) === String(id)) {
+          console.log("blocked is called", otherUserId);
           setConnection((prev) => ({ ...prev, status: "blocked" }))
         }
       });

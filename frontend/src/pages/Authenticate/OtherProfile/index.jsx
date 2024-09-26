@@ -10,6 +10,7 @@ import { FaCommentSlash } from "react-icons/fa";
 // import { BiRefresh } from "react-icons/bi";
 import { toast, useToastContainer } from "react-toastify";
 import SocketContext from "../../../context/SocketContext";
+// import { truncateSync } from "fs";
 // import { text } from "stream/consumers";
 // const [isSentRequest, setIsSentRequest] = useState(false);
 
@@ -54,7 +55,24 @@ const Other = () => {
         "cancelReceived",
         ({ fromUID, requestToId, fromUIDFullName }) => {
           if (fromUID === id) {
-            console.log("cancelrequestReceived event fired", fromUIDFullName);
+            console.log("cancel event fired", fromUIDFullName);
+            setConnection((prev) => ({ ...prev, status: "not_found" }));
+          }
+        }
+      );
+
+      socket.current.on("unfriend", ({ userId, otherUserId, userFullName }) => {
+        if (userId === id) {
+          console.log("unfriend event fired", userFullName);
+          setConnection((prev) => ({ ...prev, status: "not_found" }));
+        }
+      });
+
+      socket.current.on(
+        "unblocked",
+        ({ userId, otherUserId, userFullName }) => {
+          if (userId === id) {
+            console.log("unBlocked event fired", userFullName);
             setConnection((prev) => ({ ...prev, status: "not_found" }));
           }
         }
@@ -72,16 +90,15 @@ const Other = () => {
       socket.current.on(
         "rejectRequest",
         ({ requestFromId, requestToId, toUIDFullName }) => {
-          if (String(requestToId) === String(profile?._id)) {
+          if (String(requestToId) === String(id)) {
             setConnection((prev) => ({ ...prev, status: "rejected" }));
           }
         }
       );
 
       socket.current.on("blocked", ({ userId, userFullName, otherUserId }) => {
-        console.log("blocked is called", userFullName);
-
         if (String(userId) === String(id)) {
+          console.log("blocked is called", otherUserId);
           setConnection((prev) => ({ ...prev, status: "blocked" }));
         }
       });
@@ -91,6 +108,8 @@ const Other = () => {
         socket.current.off("requestReceived");
         socket.current.off("blocked");
         socket.current.off("cancelReceived");
+        socket.current.off("unfriend");
+        socket.current.off("unblocked");
         socket.current.off("acceptRequest");
         socket.current.off("rejectRequest");
       };
@@ -250,10 +269,12 @@ const Other = () => {
             `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
             { otherUserId: id }
           );
-          // setAcceptOrReject(true);
-          // SetNoLikeIcon(true);
+
           setHeart(false);
-          // setRefresh(!refresh);
+          setHeart2(false);
+
+          setAccept(false);
+          setBan(true);
           toast.success("You have remove the friend successfully");
         } catch (error) {
           console.error("Error accepting request:", error);
@@ -263,7 +284,7 @@ const Other = () => {
         }
 
         ///////
-        // setHeart(false);
+        setHeart(false);
       } else if (heart2) {
         // cancel request
         try {
@@ -271,8 +292,7 @@ const Other = () => {
             `/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}?requestToId=${id}`
           );
           toast.success("you have successfully cancel the send request");
-          // findConnectionStatus();
-          // setRefresh(!refresh);
+
           setHeart2(false);
         } catch (error) {
           console.error("Error unshortlisting profile:", error);
@@ -290,11 +310,9 @@ const Other = () => {
             }
           );
           toast.success("you have send Request successfully");
-          // findConnectionStatus();
-          // setRefresh(!refresh);
+
           setHeart2(true);
           setStar(false);
-          // setIsLiked(false);
         } catch (error) {
           console.error("Error shortlisting profile:", error);
 
@@ -345,6 +363,7 @@ const Other = () => {
 
       // setAcceptOrReject(true);
       // SetNoLikeIcon(true);
+      // setBroken(true);
       setChoice(false);
       setHeart(false);
       setBan(true);
@@ -448,63 +467,6 @@ const Other = () => {
     }
   };
 
-  /////////////////////
-  // const handleBlock = async () => {
-  //   try {
-  //     await axiosPrivate.post(`/api/matrimony/profile/block/${matrimonyProfileId}`, { otherUserId: profile._id });
-
-  //     if (Array.isArray(nearByProfileList)) {
-  //       const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
-  //       setNearByProfileList([...updatedNearByList]);
-  //     }
-
-  //     if (Array.isArray(qulificationProfileList)) {
-  //       const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
-  //       setQualificationProfileList([...updatedQualificationList]);
-  //     }
-
-  //     if (Array.isArray(designationProfileList)) {
-  //       const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
-  //       setDesignationProfileList([...updatedDesignationList]);
-  //     }
-
-  //     setAcceptOrReject(true);
-  //     SetNoLikeIcon(true);
-  //     toast.success("You have blocked the request successfully.");
-  //   } catch (error) {
-  //     if (error.response) {
-  //       console.error("Error response:", error.response.data);
-  //       toast.error(error.response.data.message || "Failed to block the request. Please try again.");
-  //     } else if (error.request) {
-  //       console.error("No response received:", error.request);
-  //       toast.error("No response from the server. Please check your network connection and try again.");
-  //     } else {
-  //       console.error("Error setting up the request:", error.message);
-  //       toast.error("An unexpected error occurred. Please try again.");
-  //     }
-  //   }
-  // };
-  ////////////////
-
-  const Unfriend = async () => {
-    try {
-      await axiosPrivate.post(
-        `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
-        { otherUserId: id }
-      );
-
-      // setAcceptOrReject(true);
-      // SetNoLikeIcon(true);
-
-      toast.success("You have remove the friend successfully");
-    } catch (error) {
-      console.error("Error accepting request:", error);
-      toast.error(
-        "User might remove the friend to check. Please Refresh the page."
-      );
-    }
-  };
-
   const findConnectionStatus = async () => {
     try {
       const response = await axiosPrivate.get(
@@ -530,6 +492,7 @@ const Other = () => {
     const { status, fromUID, blockedBy } = zz;
 
     if (status === "not_found") {
+      setAccept(false);
       setChoice(false);
       setHeart(false);
       setHeart2(false);
@@ -547,14 +510,19 @@ const Other = () => {
       setBan(false);
       setAccept(true);
     } else if (status === "rejected" && fromUID === matrimonyProfileId) {
+      setHeart(false);
+      console.log("hai its me");
       setBroken(true);
+
       setBan(true);
     } else if (status === "blocked" && blockedBy !== matrimonyProfileId) {
       // setBlock(true);
       setChoice(false);
       setBan(true);
+      setHeart(false);
+      setHeart2(false);
+      setAccept(false);
     } else if (status === "pending" && fromUID !== matrimonyProfileId) {
-      // setHeart2(true);
       setChoice(true);
     } else if (status === "accepted" && fromUID !== matrimonyProfileId) {
       setChoice(false);
@@ -563,6 +531,13 @@ const Other = () => {
       setAccept(true);
     } else if (status === "rejected" && fromUID !== matrimonyProfileId) {
       setHeart(false);
+      console.log("hai its other");
+      setBroken(true);
+
+      setBan(true);
+    } else if (status === "rejected") {
+      console.log("halo its here");
+      setBroken(true);
       setBan(true);
     }
   };
@@ -572,7 +547,7 @@ const Other = () => {
     // setBan(true);
     shortlist(), findConnectionStatus(), Getprofile(), profileisViewed();
     // render();
-  }, [axiosPrivate, matrimonyProfileId, id]);
+  }, [axiosPrivate, matrimonyProfileId, id, socket]);
 
   // renderIcons(connectionStatus);
   // console.log("hgsahyydgugyggggggyyyyyyyyug", connectionStatus);
@@ -767,14 +742,13 @@ const Other = () => {
           
           <i id="one" onClick={Hombtn} class="fa-solid fa-circle-xmark"></i>
         </motion> */}
-        {/* /////////// cross icon////////// */}
         <motion.i
           whileHover={{ scale: 1.2, color: "orange" }}
           id="one"
           onClick={Hombtn}
           class="fa-solid fa-circle-xmark"
         ></motion.i>
-        {/* ///////////Heart , choice icons//////// */}
+
         {block ? (
           <motion.i
             onClick={handleBlock}
@@ -823,7 +797,6 @@ const Other = () => {
             class="fa-solid fa-heart"
           ></motion.i>
         )}
-        {/* /////////   start icon and block ///// */}
         {accept ? (
           <motion.i
             onClick={handleBlock}
@@ -839,7 +812,7 @@ const Other = () => {
             class="fa-solid fa-star"
           ></motion.i>
         )}
-        {/* ///////////// chat icon ///// */}
+
         {choice ? (
           // <i class="fa-solid fa-user-large-slash"></i>
           ""

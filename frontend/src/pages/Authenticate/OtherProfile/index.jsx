@@ -10,6 +10,7 @@ import { FaCommentSlash } from "react-icons/fa";
 // import { BiRefresh } from "react-icons/bi";
 import { toast, useToastContainer } from "react-toastify";
 import SocketContext from "../../../context/SocketContext";
+// import { truncateSync } from "fs";
 // import { text } from "stream/consumers";
 // const [isSentRequest, setIsSentRequest] = useState(false);
 
@@ -37,12 +38,12 @@ const Other = () => {
   const axiosPrivate = useAxiosPrivate();
   const { socket } = useContext(SocketContext);
   const { matrimonyProfileId } = useContext(IdContext);
-  
 
-  
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("requestReceived", ({ fromUID, toUID, fromUIDFullName }) => {
+      socket.current.on(
+        "requestReceived",
+        ({ fromUID, toUID, fromUIDFullName }) => {
           console.log("requestReceived event fired");
           if (fromUID === id) {
             setConnection((prev) => ({ ...prev, status: "pending" }));
@@ -50,28 +51,32 @@ const Other = () => {
         }
       );
 
-      socket.current.on('cancelReceived', ({ fromUID, requestToId, fromUIDFullName }) => {        
-        if (fromUID === id) {
-          console.log("cancel event fired",fromUIDFullName);
-          setConnection((prev) => ({ ...prev, status: 'not_found' }));
+      socket.current.on(
+        "cancelReceived",
+        ({ fromUID, requestToId, fromUIDFullName }) => {
+          if (fromUID === id) {
+            console.log("cancel event fired", fromUIDFullName);
+            setConnection((prev) => ({ ...prev, status: "not_found" }));
+          }
+        }
+      );
+
+      socket.current.on("unfriend", ({ userId, otherUserId, userFullName }) => {
+        if (userId === id) {
+          console.log("unfriend event fired", userFullName);
+          setConnection((prev) => ({ ...prev, status: "not_found" }));
         }
       });
 
-      socket.current.on("unfriend",({ userId, otherUserId, userFullName }) => {
-        if (userId === id) {
-          console.log("unfriend event fired",userFullName);
-          setConnection((prev) => ({ ...prev, status: "not_found" }));
+      socket.current.on(
+        "unblocked",
+        ({ userId, otherUserId, userFullName }) => {
+          if (userId === id) {
+            console.log("unBlocked event fired", userFullName);
+            setConnection((prev) => ({ ...prev, status: "not_found" }));
+          }
         }
-      }
-    );
-
-    socket.current.on("unblocked",({ userId, otherUserId, userFullName }) => {
-      if (userId === id) {
-        console.log("unBlocked event fired",userFullName);
-        setConnection((prev) => ({ ...prev, status: "not_found" }));
-      }
-    }
-  );
+      );
 
       socket.current.on(
         "acceptRequest",
@@ -92,13 +97,11 @@ const Other = () => {
       );
 
       socket.current.on("blocked", ({ userId, userFullName, otherUserId }) => {
-
         if (String(userId) === String(id)) {
           console.log("blocked is called", otherUserId);
-          setConnection((prev) => ({ ...prev, status: "blocked" }))
+          setConnection((prev) => ({ ...prev, status: "blocked" }));
         }
       });
-
 
       // Clean up listener on component unmount
       return () => {
@@ -111,7 +114,7 @@ const Other = () => {
         socket.current.off("rejectRequest");
       };
     }
-  }, [socket.current, matrimonyProfileId,id]);
+  }, [socket.current, matrimonyProfileId, id]);
 
   const Getprofile = async () => {
     const response = await axiosPrivate.get(
@@ -239,7 +242,7 @@ const Other = () => {
               error.response.data.message ===
               "You have already received a request from this user or you have sent request to this user"
             ) {
-              toast.error("You have already made a connection request.");
+              toast.error("You have recevied or sent connection request so you cannot shortlist this user.");
               setStar(false);
             } else {
               toast.error(error.response.data.message);
@@ -266,12 +269,12 @@ const Other = () => {
             `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
             { otherUserId: id }
           );
-          // setAcceptOrReject(true);
-          // SetNoLikeIcon(true);
+
           setHeart(false);
           setHeart2(false);
-          setRefresh(!refresh);
-          setBan(true)
+
+          setAccept(false);
+          setBan(true);
           toast.success("You have remove the friend successfully");
         } catch (error) {
           console.error("Error accepting request:", error);
@@ -281,7 +284,7 @@ const Other = () => {
         }
 
         ///////
-        // setHeart(false);
+        setHeart(false);
       } else if (heart2) {
         // cancel request
         try {
@@ -289,8 +292,7 @@ const Other = () => {
             `/api/matrimony/profile/cancelTheRequest/${matrimonyProfileId}?requestToId=${id}`
           );
           toast.success("you have successfully cancel the send request");
-          // findConnectionStatus();
-          setRefresh(!refresh);
+
           setHeart2(false);
         } catch (error) {
           console.error("Error unshortlisting profile:", error);
@@ -308,11 +310,9 @@ const Other = () => {
             }
           );
           toast.success("you have send Request successfully");
-          findConnectionStatus();
-          // setRefresh(!refresh);
+
           setHeart2(true);
           setStar(false);
-          // setIsLiked(false);
         } catch (error) {
           console.error("Error shortlisting profile:", error);
 
@@ -363,6 +363,7 @@ const Other = () => {
 
       // setAcceptOrReject(true);
       // SetNoLikeIcon(true);
+      // setBroken(true);
       setChoice(false);
       setHeart(false);
       setBan(true);
@@ -417,92 +418,52 @@ const Other = () => {
   // };
 
   const handleBlock = async () => {
-    try {
-      await axiosPrivate.post(
-        `/api/matrimony/profile/block/${matrimonyProfileId}`,
-        { otherUserId: id }
-      );
-
-      // setAcceptOrReject(true);
-      // SetNoLikeIcon(true);
-      // setBlock(true);
-      setChoice(false);
-      setBan(true);
-      setBlock(true);
-      toast.success("You have blocked the request successfully");
-    } catch (error) {
-      if (error.response) {
-        console.error("Error response:", error.response.data);
-        toast.error(
-          error.response.data.message ||
-            "Failed to block the request. Please try again."
+    if (block) {
+      try {
+        await axiosPrivate.post(
+          `/api/matrimony/profile/unblock/${matrimonyProfileId}`,
+          {
+            otherUserId: id,
+          }
         );
-      } else if (error.request) {
-        console.error("No response received:", error.request);
-        toast.error(
-          "No response from the server. Please check your network connection and try again."
-        );
-      } else {
-        console.error("Error setting up the request:", error.message);
-        toast.error("An unexpected error occurred. Please try again.");
+        toast.success("unblock successfully");
+        setBlock(false);
+        setHeart(false);
+      } catch (error) {
+        console.error("Error unblocking the user:", error);
       }
-    }
-  };
+    } else {
+      try {
+        await axiosPrivate.post(
+          `/api/matrimony/profile/block/${matrimonyProfileId}`,
+          { otherUserId: id }
+        );
 
-  /////////////////////
-  // const handleBlock = async () => {
-  //   try {
-  //     await axiosPrivate.post(`/api/matrimony/profile/block/${matrimonyProfileId}`, { otherUserId: profile._id });
-
-  //     if (Array.isArray(nearByProfileList)) {
-  //       const updatedNearByList = nearByProfileList.filter(p => String(p._id) !== String(profile._id));
-  //       setNearByProfileList([...updatedNearByList]);
-  //     }
-
-  //     if (Array.isArray(qulificationProfileList)) {
-  //       const updatedQualificationList = qulificationProfileList.filter(p => String(p._id) !== String(profile._id));
-  //       setQualificationProfileList([...updatedQualificationList]);
-  //     }
-
-  //     if (Array.isArray(designationProfileList)) {
-  //       const updatedDesignationList = designationProfileList.filter(p => String(p._id) !== String(profile._id));
-  //       setDesignationProfileList([...updatedDesignationList]);
-  //     }
-
-  //     setAcceptOrReject(true);
-  //     SetNoLikeIcon(true);
-  //     toast.success("You have blocked the request successfully.");
-  //   } catch (error) {
-  //     if (error.response) {
-  //       console.error("Error response:", error.response.data);
-  //       toast.error(error.response.data.message || "Failed to block the request. Please try again.");
-  //     } else if (error.request) {
-  //       console.error("No response received:", error.request);
-  //       toast.error("No response from the server. Please check your network connection and try again.");
-  //     } else {
-  //       console.error("Error setting up the request:", error.message);
-  //       toast.error("An unexpected error occurred. Please try again.");
-  //     }
-  //   }
-  // };
-  ////////////////
-
-  const Unfriend = async () => {
-    try {
-      await axiosPrivate.post(
-        `/api/matrimony/profile/unfriend/${matrimonyProfileId}`,
-        { otherUserId: id }
-      );
-
-      // setAcceptOrReject(true);
-      // SetNoLikeIcon(true);
-
-      toast.success("You have remove the friend successfully");
-    } catch (error) {
-      console.error("Error accepting request:", error);
-      toast.error(
-        "User might remove the friend to check. Please Refresh the page."
-      );
+        // setAcceptOrReject(true);
+        // SetNoLikeIcon(true);
+        // setBlock(true);
+        setChoice(false);
+        setBan(true);
+        setBlock(true);
+        setAccept(false);
+        toast.success("You have blocked the request successfully");
+      } catch (error) {
+        if (error.response) {
+          console.error("Error response:", error.response.data);
+          toast.error(
+            error.response.data.message ||
+              "Failed to block the request. Please try again."
+          );
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+          toast.error(
+            "No response from the server. Please check your network connection and try again."
+          );
+        } else {
+          console.error("Error setting up the request:", error.message);
+          toast.error("An unexpected error occurred. Please try again.");
+        }
+      }
     }
   };
 
@@ -524,13 +485,15 @@ const Other = () => {
     if (connection && Object.keys(connection).length !== 0) {
       render(connection);
     }
-  }, [connection]); 
+  }, [connection]);
   //My Profile
   const render = (zz) => {
     console.log("hi halo", zz);
     const { status, fromUID, blockedBy } = zz;
-  
-    if (status === 'not_found') {
+
+    if (status === "not_found") {
+      setAccept(false);
+      setChoice(false);
       setHeart(false);
       setHeart2(false);
       setBan(true);
@@ -547,12 +510,18 @@ const Other = () => {
       setBan(false);
       setAccept(true);
     } else if (status === "rejected" && fromUID === matrimonyProfileId) {
+      setHeart(false);
+      console.log("hai its me");
       setBroken(true);
+
       setBan(true);
     } else if (status === "blocked" && blockedBy !== matrimonyProfileId) {
-      setBlock(true);
+      // setBlock(true);
       setChoice(false);
       setBan(true);
+      setHeart(false);
+      setHeart2(false);
+      setAccept(false);
     } else if (status === "pending" && fromUID !== matrimonyProfileId) {
       setChoice(true);
     } else if (status === "accepted" && fromUID !== matrimonyProfileId) {
@@ -562,17 +531,23 @@ const Other = () => {
       setAccept(true);
     } else if (status === "rejected" && fromUID !== matrimonyProfileId) {
       setHeart(false);
+      console.log("hai its other");
+      setBroken(true);
+
+      setBan(true);
+    } else if (status === "rejected") {
+      console.log("halo its here");
+      setBroken(true);
       setBan(true);
     }
   };
-  
 
   useEffect(() => {
     // setChoice(true);
     // setBan(true);
     shortlist(), findConnectionStatus(), Getprofile(), profileisViewed();
     // render();
-  }, [axiosPrivate, matrimonyProfileId, id,socket]);
+  }, [axiosPrivate, matrimonyProfileId, id, socket]);
 
   // renderIcons(connectionStatus);
   // console.log("hgsahyydgugyggggggyyyyyyyyug", connectionStatus);
@@ -775,7 +750,12 @@ const Other = () => {
         ></motion.i>
 
         {block ? (
-          ""
+          <motion.i
+            onClick={handleBlock}
+            id="p3"
+            whileHover={{ scale: 1.2 }}
+            class="fa-solid fa-user-large-slash"
+          ></motion.i>
         ) : choice ? (
           <>
             {/* <p id="p1" onClick={() => Accept(1)} style={{ cursor: "pointer" }}>

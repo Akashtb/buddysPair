@@ -219,8 +219,15 @@ export const sendRequest = async (req, res) => {
         // Check if there is already a request from fromUID to toUID (to avoid duplicate request)
         const existingRequest = await MatrimonyProfileconnection.findOne({ fromUID, toUID });
 
-        if (existingRequest) {
+        if (existingRequest?.status==="blocked") {
+            return res.status(400).json({ message: "You have blocked by this user" });
+        }
+
+        if (existingRequest?.status==="pending") {
             return res.status(400).json({ message: "You have already sent a request" });
+        }
+        if (existingRequest?.status==="accepted") {
+            return res.status(400).json({ message: "You are connected to user" });
         }
 
         // Update the status of any existing shortlist data between the two users (either way) to "requested"
@@ -674,6 +681,21 @@ export const shortListTheProfile = async (req, res) => {
                 { fromUID: otherUserProfileId, toUID: profileId }
             ]
         })
+
+        
+        if (isProfileConnected.length > 0 && isProfileConnected[0].status === "blocked") {
+            const { blockedBy } = isProfileConnected[0];
+            if (blockedBy.toString() === profileId) {
+                return res.status(400).json({ message: "You blocked this user, unblock the user to shortlist" });
+            }
+        }
+
+        if (isProfileConnected.length > 0 && isProfileConnected[0].status === "blocked") {
+            const { blockedBy } = isProfileConnected[0];
+            if (blockedBy.toString() !== profileId) {
+                return res.status(400).json({ message: "You are blocked by this user so you cannot shorlist" });
+            }
+        }
 
         if (isProfileConnected.length > 0) {
             return res.status(400).json({ message: "You have already received a request from this user or you have sent request to this user" })

@@ -242,7 +242,7 @@ const Other = () => {
               error.response.data.message ===
               "You have already received a request from this user or you have sent request to this user"
             ) {
-              toast.error("You have already made a connection request.");
+              toast.error("You have recevied or sent connection request so you cannot shortlist this user.");
               setStar(false);
             } else {
               toast.error(error.response.data.message);

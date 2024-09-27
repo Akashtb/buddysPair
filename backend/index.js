@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 dotenv.config();
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: process.env.CORS,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,

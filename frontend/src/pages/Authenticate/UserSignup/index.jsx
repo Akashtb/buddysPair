@@ -194,10 +194,7 @@ const SignUp = () => {
       return;
     }
   
-    if (!password) {
-      toast.error("Please fill the password");
-      return;
-    }
+
   
     if (!confirmPassword) {
       toast.error("Please fill the confirm password");

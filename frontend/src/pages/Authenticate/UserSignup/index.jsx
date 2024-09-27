@@ -185,6 +185,14 @@ const SignUp = () => {
       toast.error("Please fill the email");
       return;
     }
+
+    if (!password) {
+      toast.error("Please fill the password");
+      return;
+    } else if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
   
     if (!password) {
       toast.error("Please fill the password");
